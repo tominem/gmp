@@ -1,0 +1,183 @@
+.ui-columntoggler .ui-columntoggler-item label{
+	width: 250px !important;
+}
+
+.ui-fileupload-buttonbar .ui-button {
+	background-color: #8E24AA !important;
+}
+
+.panelGridBorder {
+	background: none;
+	border: 0px !important;
+}
+
+.ui-panel .ui-panel-content .ui-grid-row {
+	border-top: 0px !important;
+	border-top-color: inherit;
+}
+
+.MarLeft10 {
+	margin-left: 10px !important;
+}
+
+.MarRight5 {
+	margin-right: 5px;
+}
+
+.MarBottom1 {
+	margin-top: 1px;
+}
+
+.Container15 {
+	float: left;
+	width: 15%;
+}
+
+.Container35 {
+	float: left;
+	width: 33%;
+}
+
+.Container39 {
+	float: left;
+	width: 39%;
+}
+
+.Container41 {
+	float: left;
+	width: 41%;
+}
+
+.Container55-8 {
+	float: left;
+	width: 56.8%;
+}
+
+.Wid95 {
+	width: 95%;
+}
+
+.HardPurple {
+	color: #9c27b0 !important;
+}
+
+.calendarWid95 .ui-inputfield {
+	width: 95% !important;
+}
+
+.responsiveOneMenu.ui-selectonemenu {
+	box-sizing: border-box;
+}
+
+.columnPesqWid {
+	width: 70px;
+}
+
+.ui-dialog-content .ui-messages-info-icon,
+.ui-dialog-content .ui-messages-warn-icon,
+.ui-dialog-content .ui-messages-error-icon,
+.ui-dialog-content .ui-messages-fatal-icon {
+	margin-top: -7px !important;
+}
+
+.ui-grid-col10 {
+	width: 10%;
+}
+
+.ui-grid-col20 {
+	width: 20%;
+}
+
+.ui-grid-col70 {
+	width: 70%;
+}
+
+.ui-grid-col80 {
+	width: 80%;
+}
+
+.ui-grid-col10,.ui-grid-col-20,.ui-grid-col70,.ui-grid-col-80 {
+	box-sizing: border-box;
+	float: left;
+}
+
+.BackgroundBlue {
+	background-color: #90CAF9;
+	opacity: 0.7;
+	color: black !important;
+	font-weight: bold;
+	text-align: center;
+}
+
+.BackgroundGreen {
+	background-color: #69F0AE;
+	opacity: 0.7;
+	color: black !important;
+	font-weight: bold;
+	text-align: center;
+}
+
+.BackgroundYellow {
+	background-color: #FFEB3B;
+	opacity: 0.7;
+	color: black !important;
+	font-weight: bold;
+	text-align: center;
+}
+
+.BackgroundRed {
+	background-color: #F44336;
+	opacity: 0.7;
+	color: black !important;
+	font-weight: bold;
+	text-align: center;
+}
+
+.FieldsetSimple .ui-fieldset-legend {
+	color: #546e7a !important;
+	font-size: 14pt;
+	line-height: 0px;
+	background-color: transparent !important;
+	padding: 5px 10px !important;
+	font-weight: bolder;
+	font-family: roboto_condensedregular;
+}
+
+.PurpleFieldSetBorder.ui-fieldset {
+	border: 2px solid #9C27B0 !important;
+}
+
+.PurpleFieldSetTextColor .ui-fieldset-legend {
+	color: #9C27B0 !important;  
+}
+
+.MarRight5 { margin-right:5px;}
+
+/* Botão pesquisar */
+.ui-fluid .ButtonPesquisar {
+	margin: 0px 0px 0px -41px !important;
+	border-radius: 0px !important;
+	-webkit-border-radius: 0px !important;
+	-moz-border-radius: 0px !important;
+	min-width: 41px !important;
+}
+
+.TextoRiscado{ text-decoration:line-through;}
+
+.ui-datatable-tablewrapper {
+	margin: 0px;
+}
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+.ui-fluid .ui-selectonemenu .ui-selectonemenu-trigger {
+	height: 40px !important;
+}
+
+.MarRight025Em {
+	margin-right: 0.25em !important
+}

@@ -1,0 +1,162 @@
+@media (min-width:700px ) and (max-width:1279px){
+	
+	.AdjustedPanelResolution.ui-panel 		
+	{
+		width: 49% !important;
+		float: left;
+	}		
+}
+@media (min-width: 1279px) and (max-width:1367px){
+	
+	.AdjustedPanelResolution.ui-panel 		
+	{
+		width: 32% !important;
+		float: left;
+	}		
+}
+
+@media (min-width: 1367px) and (max-width:1920px){
+	
+	.AdjustedPanelResolution.ui-panel 		
+	{
+		width: 23.8% !important;
+		float: left;
+	}
+	
+}
+
+@media (min-width: 1920px) and (max-width:2560px){
+
+	.AdjustedPanelResolution.ui-panel 			
+	{
+		width: 19% !important;
+		float: left;
+	}
+	
+}	
+
+@media (min-width: 2560px) and (max-width:5120px){
+
+	.AdjustedPanelResolution.ui-panel 	
+	{
+		width: 16% !important;
+		float: left;
+	}
+	
+}
+
+.HideOnMonitoramento{
+    visibility: hidden;
+}
+
+.ShowOnMonitoramento{
+    visibility: visible;
+}
+
+.FontBoldMonitor { 
+	font-weight:bold !important;
+}
+
+
+.FieldsetRed .ui-fieldset-legend {
+	color: #E53935 !important;
+}
+
+.FieldsetOrange .ui-fieldset-legend {
+	color: #FB8C00 !important;
+}
+
+.FieldsetGreen .ui-fieldset-legend {
+	color: #66BB6A !important;
+}
+
+.FieldsetCyan .ui-fieldset-legend {
+	color: #00ACC1 !important;
+}
+
+.FieldsetGray .ui-fieldset-legend {
+	color: #546e7a !important;
+}
+
+.FieldsetYellow .ui-fieldset-legend {
+	color: #F7D100 !important;
+}
+
+.BackgroundRed {
+	background-color: #E53935 !important;
+	color: white;
+}
+
+.BackgroundOrange {
+	background-color: #FB8C00;
+	color: white;
+}
+
+.BackgroundGreen {
+	background-color: #66BB6A;
+	color: white;
+}
+
+.BackgroundCyan {
+	background-color: #00ACC1;
+	color: white;
+}
+
+.BackgroundGray {
+	background-color: #ECEFF1;
+}
+
+.BackgroundYellow {
+	background-color: #F7D100;
+}
+
+.BorderColorRed {
+	border: 1px;
+	border-style: solid;
+	border-color: #E53935;
+}
+
+.BorderColorOrange {
+	border: 1px;
+	border-style: solid;
+    border-color: #FB8C00;
+}
+
+.BorderColorGreen {
+	border: 1px;
+	border-style: solid;
+    border-color: #66BB6A;
+}
+
+.BorderColorCyan {
+	border: 1px;
+	border-style: solid;
+    border-color: #00ACC1;
+}
+
+.BorderColorGray {
+	border: 1px;
+	border-style: solid;
+    border-color: #ECEFF1;
+}
+
+.BorderColorYellow {
+	border: 1px;
+	border-style: solid;
+    border-color: #F7D100;
+}
+
+.YellowButton {
+  background-color: #F7D100;
+  color: #455A64;
+  font-weight: bold;
+}
+
+.YellowButton.ui-state-hover,
+.YellowButton.ui-state-focus {
+  background-color: #FFF176 !important;
+  color: #455A64;
+  font-weight: bold;
+}
+
+.Container65 { width:65%; float:left;}

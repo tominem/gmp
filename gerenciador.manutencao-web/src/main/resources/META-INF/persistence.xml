@@ -1,35 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-    JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
-    contributors by the @authors tag. See the copyright.txt in the
-    distribution for a full listing of individual contributors.
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-    http://www.apache.org/licenses/LICENSE-2.0
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
--->
 <persistence version="2.1"
-   xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="
-        http://xmlns.jcp.org/xml/ns/persistence
-        http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-   <persistence-unit name="primary">
-      <!-- If you are running in a production environment, add a managed 
-         data source, this example data source is just for development and testing! -->
-      <!-- The datasource is deployed as WEB-INF/gerenciador.manutencao-web-ds.xml, you
-         can find it in the source at src/main/webapp/WEB-INF/gerenciador.manutencao-web-ds.xml -->
-      <jta-data-source>java:jboss/datasources/gerenciador.manutencao-webDS</jta-data-source>
-      <properties>
-         <!-- Properties for Hibernate -->
-         <property name="hibernate.hbm2ddl.auto" value="create-drop" />
-         <property name="hibernate.show_sql" value="false" />
-      </properties>
-   </persistence-unit>
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="primary">
+		<jta-data-source>java:jboss/datasources/GestaoProducaoDS</jta-data-source>
+		<class>br.prati.tim.collaboration.gp.jpa.Alarme</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Arquivo</class>
+		<class>br.prati.tim.collaboration.gp.jpa.CategoriaAlarme</class>
+		<class>br.prati.tim.collaboration.gp.jpa.ConfigEquipamento</class>
+		<class>br.prati.tim.collaboration.gp.jpa.ConfigExportacao</class>
+		<class>br.prati.tim.collaboration.gp.jpa.ConfiguracaoGeral</class>
+		<class>br.prati.tim.collaboration.gp.jpa.DiasTurno</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Documento</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Equipamento</class>
+		<class>br.prati.tim.collaboration.gp.jpa.EquipamentoMaquina</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Etapa</class>
+		<class>br.prati.tim.collaboration.gp.jpa.EtapaMaquinaRota</class>
+		<class>br.prati.tim.collaboration.gp.jpa.EtapaProduto</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Fabricante</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Faca</class>
+		<class>br.prati.tim.collaboration.gp.jpa.FacasProdMaq</class>
+		<class>br.prati.tim.collaboration.gp.jpa.FuncaoConfig</class>
+		<class>br.prati.tim.collaboration.gp.jpa.IoEquipamento</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Linhaproducao</class>
+		<class>br.prati.tim.collaboration.gp.jpa.LogDesafio</class>
+		<class>br.prati.tim.collaboration.gp.jpa.LogEtapa</class>
+		<class>br.prati.tim.collaboration.gp.jpa.LogInspecao</class>
+		<class>br.prati.tim.collaboration.gp.jpa.LogLote</class>
+		<class>br.prati.tim.collaboration.gp.jpa.LogMaquina</class>
+		<class>br.prati.tim.collaboration.gp.jpa.LogServico</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Lote</class>
+		<class>br.prati.tim.collaboration.gp.jpa.LoteInspecao</class>
+		<class>br.prati.tim.collaboration.gp.jpa.LoteMaquina</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Maquina</class>
+		<class>br.prati.tim.collaboration.gp.jpa.MenuConfig</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Meta</class>
+		<class>br.prati.tim.collaboration.gp.jpa.NotaPmMaquina</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Notificacao</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Parada</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Produto</class>
+		<class>br.prati.tim.collaboration.gp.jpa.ProdutoMaquina</class>
+		<class>br.prati.tim.collaboration.gp.jpa.ProdutoSubproduto</class>
+		<class>br.prati.tim.collaboration.gp.jpa.ProgProdutoMaquina</class>
+		<class>br.prati.tim.collaboration.gp.jpa.ProgramacaoMaquina</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Receita</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Rota</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Sala</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Servico</class>
+		<class>br.prati.tim.collaboration.gp.jpa.ServicoMaquina</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Setor</class>
+		<class>br.prati.tim.collaboration.gp.jpa.SubprodTipoInsp</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Subproduto</class>
+		<class>br.prati.tim.collaboration.gp.jpa.TempoMedioServico</class>
+		<class>br.prati.tim.collaboration.gp.jpa.TipoCodigo</class>
+		<class>br.prati.tim.collaboration.gp.jpa.TipoComponente</class>
+		<class>br.prati.tim.collaboration.gp.jpa.TipoComunicacao</class>
+		<class>br.prati.tim.collaboration.gp.jpa.TipoInspecao</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Turno</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Unidade</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Usuario</class>
+		<class>br.prati.tim.collaboration.gp.jpa.ValorConfigEquip</class>
+		<class>br.prati.tim.collaboration.gp.jpa.ValorReceita</class>
+		<class>br.prati.tim.collaboration.gp.jpa.ValoresFuncao</class>
+		<class>br.prati.tim.collaboration.gp.jpa.VariaveisClp</class>
+		<class>br.prati.tim.collaboration.gp.jpa.converters.AcaoConverter</class>
+		<class>br.prati.tim.collaboration.gp.jpa.converters.CategoriaProdutoConverter</class>
+		<class>br.prati.tim.collaboration.gp.jpa.converters.ComponentConverter</class>
+		<class>br.prati.tim.collaboration.gp.jpa.converters.DiasSemanaConverter</class>
+		<class>br.prati.tim.collaboration.gp.jpa.converters.StatusLoteConverter</class>
+		<class>br.prati.tim.collaboration.gp.jpa.converters.StatusMaquinaConverter</class>
+		<class>br.prati.tim.collaboration.gp.jpa.converters.StatusMetaConverter</class>
+		<class>br.prati.tim.collaboration.gp.jpa.converters.StatusRetornoConverter</class>
+		<class>br.prati.tim.collaboration.gp.jpa.converters.TipoAlarmeConverter</class>
+		<class>br.prati.tim.collaboration.gp.jpa.converters.TipoCalculoFatorConverter</class>
+		<class>br.prati.tim.collaboration.gp.jpa.converters.TipoEquipamentoConverter</class>
+		<class>br.prati.tim.collaboration.gp.jpa.converters.TipoIoEquipamentoConverter</class>
+		<class>br.prati.tim.collaboration.gp.jpa.converters.TipoLoteConverter</class>
+		<class>br.prati.tim.collaboration.gp.jpa.converters.TipoLoteFicConverter</class>
+		<class>br.prati.tim.collaboration.gp.jpa.converters.TipoNotificacaoAlarmeConverter</class>
+		<class>br.prati.tim.collaboration.gp.jpa.converters.TipoValorVariaveisClpConverter</class>
+		<properties>
+			<property name="hibernate.dialect" 							value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="hibernate.enable_lazy_load_no_trans" 		value="true" />
+			<property name="hibernate.show_sql" 						value="false" />
+			<property name="hibernate.format_sql" 						value="true" />
+<!-- 			<property name="hibernate.hbm2ddl.auto"           	   		value="update" />  -->
+			<property name="org.hibernate.envers.audit_table_suffix"	value="_aud" />
+			<property name="org.hibernate.envers.default_schema" 		value="audit"/>
+			<property name="org.hibernate.envers.revision_field_name"	value="rev" />
+		</properties>
+	</persistence-unit>
 </persistence>

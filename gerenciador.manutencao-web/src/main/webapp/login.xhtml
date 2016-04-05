@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title>P.C.P - Login</title>
+        <ui:insert name="head" />
+    </h:head>
+
+    <h:body styleClass="loginbodypurple">
+        
+        <div class="Wid90 DispBlock MarAuto MarTopPerc5 TexAlCenter">
+            
+            <div class="Wid40 MarAuto WidAutoOnMobile">
+            
+                <h:graphicImage name	=	"images/logo_yellow.svg" 
+                				library	=	"pcp" 
+                				style	=	"width:40%; max-width:200px;"/>
+                				
+                <div class="EmptyBox30"/>
+				
+				<h:form id	=	"formLogin">
+				
+					<p:growl id			=	"messages" 
+							 autoUpdate	=	"true" />
+					
+					<!-- Login-->
+					<p:panel	id 			= 	"panelLogin"
+								style		=	"border:0px none !important;background:none !important"
+								rendered	=	"#{mbLogin.showLogin}">
+									
+						<div class	=	"Card ShadowEffect">
+						
+							<div class	=	"EmptyBox20" />
+							
+							<div class	=	"Wid100 OvHidden BigTopic Fs30">
+								<i class	=	"fa fa-lock Fs30"/> LOGIN 
+							</div>
+							
+							<div class	=	"EmptyBox20" />
+							
+							<div class	=	"Wid100">
+							
+								<p:inputText placeholder	=	"Crachá"
+											 styleClass		=	"Wid80 TexAlCenter Fs18"
+											 value			=	"#{mbLogin.cracha}" 
+											 onkeypress		=	"return isNumberKey(event)"
+											 converter		=	"javax.faces.Integer"
+											 required		=	"true"
+				               				 requiredMessage=	"Informe o seu crachá"/>
+							</div>
+							
+							<div class	=	"EmptyBox10" />
+							
+							<div class	=	"Wid100">
+							
+								<p:inputText type			=	"password" 
+											 placeholder	=	"Senha"
+											 styleClass		=	"Wid80 TexAlCenter Fs18"
+											 value			=	"#{mbLogin.senha}" 
+											 required		=	"true"
+											 requiredMessage=	"Informe a sua senha"/>
+								
+							</div>
+				
+							<div class	=	"EmptyBox30" />
+				
+							<div class	=	"Wid100">
+								
+								<p:commandButton value			=	"Entrar" 
+										  		 icon			=	"fa fa-sign-in"
+										  		 styleClass		=	"PurpleButton Wid90 Fs18 White RaisedButton" 
+										  		 action			=	"#{mbLogin.autenticar()}"
+										  		 update			=	"formLogin"/>
+							</div>
+							
+							<div class	=	"EmptyBox5" />
+				
+							<div class	=	"Wid100">
+								
+								<p:commandButton value			=	"Esqueceu sua senha?" 
+										  		 styleClass		=	"RedButton Wid90 Fs18 White RaisedButton"
+										  		 icon			=	"fa fa-lock"
+										  		 update			=	"#{mbLogin.panelsLogin}"
+										  		 immediate		=	"true" >
+									
+									<f:setPropertyActionListener value	=	"#{false}" 
+																 target	=	"#{mbLogin.showLogin}" />
+									
+									<f:setPropertyActionListener value	=	"#{true}" 
+																 target	=	"#{mbLogin.showEsqueciSenha}" />
+																		 
+								</p:commandButton>
+								
+							</div>
+											
+							<div class	=	"EmptyBox5" />
+				
+							<div class	=	"Wid100">
+										  
+								<p:commandButton value			=	"Redefinir Senha" 
+										  		 styleClass		=	"OrangeButton Wid90 Fs18 White RaisedButton" 
+										  		 icon			=	"fa fa-refresh"
+										  		 update			=	"#{mbLogin.panelsLogin}" >
+									
+									<f:setPropertyActionListener value	=	"#{false}" 
+																 target	=	"#{mbLogin.showLogin}" />
+									
+									<f:setPropertyActionListener value	=	"#{true}" 
+																 target	=	"#{mbLogin.showRedefinirSenha}" />
+																		 
+								</p:commandButton>
+								
+							</div>
+											
+							<div class	=	"EmptyBox20" />
+							
+						</div>
+						
+					</p:panel>
+					
+					<!-- Esqueci a Senha -->
+					<p:panel	id 			= 	"panelEsqueciSenha"
+								style		=	"border:0px none !important;background:none !important"
+								rendered	=	"#{mbLogin.showEsqueciSenha}">
+					                	
+						<div class	=	"Card ShadowEffect">
+							
+							<div class	=	"EmptyBox20" />
+							
+							<div class	=	"Wid100 OvHidden BigTopic Fs30">
+								<i class	=	"fa fa-support Fs30"/> ESQUECI MINHA SENHA 
+							</div>
+				
+							<div class	=	"EmptyBox20" />
+											
+							<div class	=	"Wid100">
+							
+								<p:inputText placeholder	=	"Crachá"
+											 styleClass		=	"Wid80 TexAlCenter Fs18" 
+											 onkeypress		=	"return isNumberKey(event)"
+											 converter		=	"javax.faces.Integer"
+											 value			=	"#{mbLogin.crachaAjuda}"
+											 required		=	"true"
+				               				 requiredMessage=	"O crachá deve ser informado."/>
+							
+							</div>
+							
+							<div class	=	"EmptyBox30" />
+							
+							<div class	=	"Wid100">
+								
+								<p:commandButton value			=	"Enviar Código de Segurança" 
+										  		 styleClass		=	"PurpleButton Wid90 Fs18 White RaisedButton" 
+										  		 actionListener	=	"#{mbLogin.enviarCodigo()}"
+				               					 update			=	"#{mbLogin.panelsLogin}"/>
+										  
+							</div>
+							
+							<div class	=	"EmptyBox5" />
+							
+							<div class	=	"Wid100">
+												
+								<p:commandButton value			=	"Voltar" 
+										  		 styleClass		=	"PurpleButton Wid45 Fs18 White RaisedButton"
+										  		 update			=	"#{mbLogin.panelsLogin}" 
+										  		 immediate		=	"true">
+									
+									<f:setPropertyActionListener value	=	"#{true}" 
+																 target	=	"#{mbLogin.showLogin}" />
+									
+									<f:setPropertyActionListener value	=	"#{false}" 
+																 target	=	"#{mbLogin.showEsqueciSenha}" />
+																		 
+								</p:commandButton>
+												
+												
+								<p:commandButton value			=	"Já Tenho o Código" 
+										  		 styleClass		=	"PurpleButton Wid45 Fs18 White RaisedButton" 
+										  		 update			=	"#{mbLogin.panelsLogin}" >
+									
+									<f:setPropertyActionListener value	=	"#{false}" 
+																 target	=	"#{mbLogin.showEsqueciSenha}" />
+									
+									<f:setPropertyActionListener value	=	"#{true}" 
+																 target	=	"#{mbLogin.showRedefinirSenhaCodigo}" />
+																		 
+								</p:commandButton>
+										  
+							</div>	
+											
+							<div class	=	"EmptyBox30" />
+							
+						</div>
+					                	
+					</p:panel>
+					
+					<!-- Redefinir Senha -->
+					<p:panel	id 			=	"panelRedefinir"
+								rendered	= 	"#{mbLogin.showRedefinirSenha}"
+								style		=	"border:0px none;background:none">
+						
+						<div class	=	"Card ShadowEffect">
+							
+							<div class	=	"EmptyBox20" />
+							
+							<div class	=	"Wid100 OvHidden BigTopic Fs30">
+								<i class	=	"fa fa-refresh Fs30"/> REDEFINIR SENHA 
+							</div>
+							
+							<div class	=	"EmptyBox20" />
+				                	
+					        <div class	=	"Wid100">
+				           	
+					           	<p:inputText value			=	"#{mbLogin.crachaAjuda}"
+								 			 id				=	"crachaRedefinir"
+					           				 placeholder	=	"Crachá" 
+					           				 onkeypress		=	"return isNumberKey(event)" 
+											 converter		=	"javax.faces.Integer"
+					           				 styleClass		=	"Wid80 TexAlCenter Fs18"
+					           				 required		=	"true"
+					           				 requiredMessage=	"O crachá deve ser informado."/>
+				          	
+				          	</div>
+					        
+					        <div class="EmptyBox10"/>
+					        
+					        <div class	=	"Wid100">
+					        
+						        <p:password value			=	"#{mbLogin.senhaAjuda}"
+						        			id				= 	"senhaRedefnir" 
+						        			placeholder		=	"Senha Atual"
+											styleClass		=	"Wid80 TexAlCenter Fs18"
+											feedback		=	"false"
+											required		=	"true"
+											requiredMessage	=	"A senha atual deve ser informada."/>
+							</div>
+							
+							<div class="EmptyBox10"/>
+					        
+					        <div class	=	"Wid100">
+						    	
+						    	<p:password value			=	"#{mbLogin.novaSenha}"
+						    				id				= 	"novaSenhaRedefnir"
+						    				placeholder		=	"Nova Senha"
+						    				styleClass		=	"Wid80 TexAlCenter Fs18"
+						    				feedback		=	"false"
+						    				required		=	"true"
+						    				validator		=	"senhaValidator"
+						    				requiredMessage	=	"A nova senha deve ser informada."/>
+							</div>
+					        
+					        <div class="EmptyBox10"/>
+					        
+					        <div class	=	"Wid100">
+								
+								<p:password value			=	"#{mbLogin.confirmacaoNovaSenha}"
+						                	id				= 	"confirmacaoSenhaRedefnir"
+						                	placeholder		=	"Confirmar Senha"
+						                	styleClass		=	"Wid80 TexAlCenter Fs18"
+						                	feedback		=	"false"
+						                	required		=	"true"
+						                	requiredMessage	=	"A confirmação da senha deve ser informada."/>
+						    </div>
+					        
+					        <div class="EmptyBox20"/>
+							
+							<div class	=	"Wid100">
+								
+								<p:commandButton value				=	"Redefinir"
+							                	 styleClass			=	"PurpleButton Wid90 Fs18 White RaisedButton"
+							                	 actionListener		=	"#{mbLogin.salvarRedefinicaoSenha()}"
+							                	 update				=	"#{mbLogin.panelsLogin}"/>
+							                	 
+							</div>
+							
+							<div class="EmptyBox10"/>
+							
+							<div class	=	"Wid100">
+					                	
+				               	<p:commandButton value				=	"Voltar"
+				               					 styleClass			=	"PurpleButton Wid90 Fs18 White RaisedButton"
+				               					 update				=	"#{mbLogin.panelsLogin}"
+				               					 immediate			=	"true">
+					                		
+				           			<f:setPropertyActionListener value	=	"#{true}" 
+													 			 target	=	"#{mbLogin.showLogin}" />
+									
+									<f:setPropertyActionListener value	=	"#{false}" 
+													 			 target	=	"#{mbLogin.showRedefinirSenha}" />
+								
+								</p:commandButton>
+								
+							</div>
+					                	
+							<div class="EmptyBox20"/>
+				                	
+						</div>
+				                	
+					</p:panel>
+	               	
+	               	<!-- Redefinir Senha Código -->
+	               	<p:panel	id 			=	"panelRedefinirSenhaCodigo"
+			       			rendered	= 	"#{mbLogin.showRedefinirSenhaCodigo}"
+			       			style		=	"border:0px none;background:none">
+				                			
+			       	<div class	=	"Card ShadowEffect">
+			       	
+				       	<div class	=	"EmptyBox20" />
+							
+						<div class	=	"Wid100 OvHidden BigTopic Fs30">
+							<i class	=	"fa fa-asterisk Fs30"/> REDEFINIR SENHA COM CÓDIGO
+						</div>
+							
+						<div class	=	"EmptyBox20" />
+				               	
+				        <div class	=	"Wid100">	
+				               			
+						       <p:inputText value			=	"#{mbLogin.codigoSeguranca}"
+										 id				=	"codigoSeguranca"
+										 placeholder	=	"Código de Segurança" 
+										 onkeypress		=	"return isNumberKey(event)" 
+										 converter		=	"javax.faces.Integer"
+										 styleClass		=	"Wid80 TexAlCenter Fs18"
+										 required		=	"true"
+										 requiredMessage=	"O código de segurança deve ser informado."/>		
+				               			
+						</div>			
+				               	
+				        <div class="EmptyBox10"/>
+				               	
+						<div class	=	"Wid100">
+				               	
+					        <p:password value			=	"#{mbLogin.novaSenha}"
+					        			id				= 	"novaSenhaRemember" 
+					        			placeholder		=	"Nova Senha" 
+					        			validator		=	"senhaValidator"
+					        			styleClass		=	"Wid80 TexAlCenter Fs18" 
+					        			feedback		=	"false"
+					        			required		=	"true"
+					        			requiredMessage	=	"A nova senha deve ser informada."/>
+				        </div>
+				        
+				        <div class="EmptyBox10"/>
+				        
+				        <div class	=	"Wid100">	
+				               	
+					        <p:password value			=	"#{mbLogin.confirmacaoNovaSenha}"
+					        			id				= 	"confirmarSenhaRemember" 
+					        			placeholder		=	"Confirmar Senha" 
+					        			styleClass		=	"Wid80 TexAlCenter Fs18" 
+					        			feedback		=	"false"
+					        			required		=	"true"
+					        			requiredMessage	=	"A confirmação da senha deve ser informada."/>
+				        
+				        </div>
+				        
+				        <div class="EmptyBox20"/>
+				        
+				        <div class	=	"Wid100">
+				               	
+					        <p:commandButton value				=	"Redefinir Senha"
+					        				 styleClass			=	"PurpleButton Wid90 Fs18 White RaisedButton"
+					        				 actionListener		=	"#{mbLogin.salvarRedefinicaoSenhaCodigo()}"
+					        				 update				=	"#{mbLogin.panelsLogin}"/>
+				        
+				        </div>
+				        
+				        <div class="EmptyBox5"/>
+				        
+				        <div class	=	"Wid100">
+				        
+				        <p:commandButton value				=	"Voltar"
+				        				 styleClass			=	"PurpleButton Wid90 Fs18 White RaisedButton"
+				        				 update				=	"#{mbLogin.panelsLogin}"
+				        				 immediate			=	"true">
+				        	<f:setPropertyActionListener value	=	"#{true}" 
+				        								 target	=	"#{mbLogin.showEsqueciSenha}" />
+				        	<f:setPropertyActionListener value	=	"#{false}" 
+				        								 target	=	"#{mbLogin.showRedefinirSenhaCodigo}" />
+						</p:commandButton>
+				        
+				        </div>	
+				        
+				        <div class="EmptyBox10"/>
+			        
+			        </div>
+			               	
+			   	</p:panel>
+					
+					<p:dialog id			=	"dlg"
+	                		  header		=	"Expiração de Senha" 
+	                		  widgetVar		=	"dlgAlerta"
+	                		  draggable		=	"false"
+	                		  modal			=	"true"
+	                		  closable		=	"false">
+					    	
+					    	<p:outputLabel value			=	"#{mbLogin.msgAlerta}"
+					    				   styleClass		=	"Fs16"/>
+							
+							<div class="EmptyBox30"/>	
+					    	
+					    	<p:commandButton value			=	"OK, prosseguir"
+					    					 ajax			=	"false"
+					    					 immediate		=	"true"
+			                				 action			=	"#{mbLogin.redirect()}"
+			                				 styleClass		=	"Wid50"/>
+					</p:dialog>
+	                
+	                
+	                <p:dialog id			=	"dlgRedefinicao"
+	                		  header		=	"Redefinição de Senha" 
+	                		  widgetVar		=	"dlgRedefinicaoSenha"
+	                		  modal			=	"true" 
+	                		  closable		=	"true">
+					    	
+					    	<p:outputLabel value			=	"#{mbLogin.msgAlerta}"
+					    				   styleClass		=	"Fs16"/>
+							
+							<div class="EmptyBox10"/>	
+					    	
+					    	
+					</p:dialog>
+					
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+					
+					<ui:include src="/componentes/status-dialog/statusdialog.xhtml" />
+					
+				</h:form>
+			
+            </div>
+            
+        </div>
+        
+        <h:outputStylesheet name="css/core-layout.css" 		library="rio-layout" />
+        <h:outputStylesheet name="css/animate.css" 			library="rio-layout" />
+        <h:outputStylesheet name="css/rio-font.css" 		library="rio-layout" />
+        <h:outputStylesheet name="css/ripple-effect.css" 	library="rio-layout" />
+        <h:outputStylesheet name="css/font-awesome.css" 	library="rio-layout" />
+        <h:outputStylesheet name="css/rio-layout.css" 		library="rio-layout" />
+        <h:outputStylesheet name="css/pcp.css" 				library="pcp" />
+        
+    </h:body>
+
+</html>
