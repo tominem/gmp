@@ -1,0 +1,131 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pr="http://primefaces.org/rio"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <div class="Animated05" id="layout-menu-cover">
+        <ul class="layout-menu">
+
+        </ul>
+        
+        <h:form>
+        
+	        <pr:menu>
+				
+			<p:menuitem id		=	"monitoramentoDashboard"  			
+	         			value	=	"Inicio" 				
+	            		icon	=	"icon-home149" 
+	            		outcome	=	"/dashboard/resumo.xhtml" />
+				
+				<p:separator />
+				
+	        	<p:submenu id	=	"sm_menu_cadastros" label	=			"Cadastros" 			icon	=	"fa fa-folder">
+
+	                <p:menuitem id="tipoComponente"		value="Tipo Componente"		icon="fa fa-tag"	outcome="/cadastros/tipocomponente/cadtipocomponente.xhtml"	/>
+	                
+	            </p:submenu>
+	            
+				<!--  
+
+				<p:separator />
+				
+				
+				
+	            <p:submenu id	=	"sm_menu_programacao" label	= "Programações" icon="fa fa-calendar">
+	            	
+	            	
+		            	<c:forEach	items	=	"#{mbGanttController.listarSetores()}" var		=	"setor">
+		            		
+		            		<p:submenu id	=	"setor_#{setor.idSetor}" label	=	"#{setor.descricao}" icon	=	"fa fa-building">
+		            			
+		            			<c:forEach	items	=	"#{mbGanttController.listarMaquinaPorSetor(setor)}" var		=	"maquina">
+									
+			            				<p:menuitem id				=	"maquina_#{maquina.idMaquina}" 			
+			            							value			=	"#{maquina.tag}"
+			            							icon			=	"fa fa-steam"
+			            							actionListener	=	"#{mbGanttController.carregarProgramacao(maquina)}"/>		
+	
+		            			</c:forEach>		
+		            			
+		            		</p:submenu>			
+		            		
+		            	</c:forEach>
+	            	
+	            		<p:menuitem id		=	"exportarProgramacao" 
+	            					value	=	"Exportar Programação" 
+	            					icon	=	"fa fa-share-square" 
+	            					outcome	=	"/programacao/exportarprogramacao.xhtml" />
+	            	
+	            </p:submenu>
+	            
+				
+	            <p:separator />
+	            
+				
+	            <p:submenu id	=	"sm_menu_monitoramento" label	= "Monitoramento" icon="fa icon-screen">
+	            
+	            	<p:menuitem id		=	"monitoramentoProducao" 			
+	            				value	=	"Produção" 				
+	            				icon	=	"fa fa-th" 
+	            				outcome	=	"/monitoramento/producao/monitoramentofiltros.xhtml" />
+
+	            	<p:menuitem id		=	"monitoramentoEtapas" 			
+	            				value	=	"Etapas" 				
+	            				icon	=	"fa icon-timelapse" 
+	            				outcome	=	"/monitoramento/etapa/etapafilter.xhtml" />
+
+	            	
+	            </p:submenu>
+	            
+	            <p:separator />
+	            
+	            <p:submenu id	=	"sm_menu_lancamento" label	= "Lançamento" icon="icon-check51">
+	            	
+	            	<p:menuitem id		=	"lancamentoEtapa" 
+	            				value	=	"Etapas"  
+	            				icon	=	"fa icon-timelapse" 
+	            				outcome	=	"/lancamento/etapa/lancamentoetapa.xhtml" />
+
+	            	<p:menuitem id		=	"lancamentoMeta" 
+	            				value	=	"Metas"  
+	            				icon	=	"fa fa-bullseye" 
+	            				outcome	=	"/lancamento/metas/lancmeta.xhtml" />
+	            </p:submenu>
+	            
+	            
+	            <p:separator />
+	            
+	            <p:submenu id	=	"sm_menu_configuracao" label	= "Configurações" icon="fa icon-settings">
+	            
+	            	<p:menuitem id		=	"config_geral" 				
+	            				value	=	"Geral" 
+	            				icon	=	"fa fa-cogs" 
+	            				outcome	=	"/configuracao/geral/configuracoesgerais.xhtml" />
+	            	
+	            	<p:menuitem id		=	"config_exportacao" 				
+	            				value	=	"Exportação Planilha" 
+	            				icon	=	"fa fa-table" 
+	            				outcome	=	"/configuracao/exportacao/configexportacao.xhtml" />
+	            		            	
+	            </p:submenu>
+	
+	            <p:separator />
+	            
+            	<p:menuitem id		=	"auditoria" 				
+            				value	=	"Auditoria" 
+            				icon	=	"fa fa-eye" 
+            				outcome	=	"/auditoria/auditoria.xhtml" />
+				
+				-->
+	            
+	        </pr:menu>
+			
+        </h:form>
+        
+    </div>
+
+</ui:composition>

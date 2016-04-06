@@ -1,0 +1,106 @@
+<html 	xmlns	="http://www.w3.org/1999/xhtml"
+		xmlns:h	="http://java.sun.com/jsf/html"
+		xmlns:f	="http://java.sun.com/jsf/core"
+		xmlns:p	="http://primefaces.org/ui">
+
+    <h:head>
+
+        <f:facet name="first">
+    		<meta charset	=	"UTF-8" />
+        </f:facet>
+        
+        <title>Pesquisar faca</title>
+    </h:head>
+    
+     
+    <h:body>
+
+	    <style type="text/css">
+	    
+	    	.Wid10{ width:10%;}
+	    	.Wid90{ width:90%;}
+	    
+	    </style>
+
+		
+        <h:form id	=	"formPesquisarfaca">
+			
+			<p:focus context	=	"panelGridBusca" />
+						
+			
+			<h:panelGrid 		columns			=	"2"
+								id				= 	"panelGridBusca" 
+								columnClasses	=	"Wid90, Wid10">
+				
+				<p:outputLabel	for				=	"criterioBusca" 
+								value			=	"Informe o nome para consultar a faca desejada"></p:outputLabel>
+
+				<p:outputLabel 	for				=	"selOneSituacao" 
+								value			=	"Situação">
+				</p:outputLabel>
+				
+				<p:inputText 	id				=	"criterioBusca" 
+								value			=	"#{mbPesquisarFaca.descBusca}"
+								required		=	"false"
+								style			=	"width: 100%">
+					
+					<p:ajax		event			=	"keyup" 
+								update			=	"panelGridTable" 
+								listener		=	"#{mbPesquisarFaca.pesquisar()}">
+					</p:ajax>
+					
+				</p:inputText>
+				
+				<p:selectOneMenu 	id			=	"selOneSituacao" 
+									style		=	"with:100%" 
+									required	=	"true"
+									value		=	"#{mbPesquisarFaca.intSituacao}">
+					
+					<p:ajax 		update 		=	"panelGridTable"
+									listener	=	"#{mbPesquisarFaca.pesquisar()}"
+									immediate	=	"true">
+					</p:ajax>
+					
+					<f:selectItems value	=	"#{mbPesquisarFaca.itemSituacao}" ></f:selectItems>
+									
+				</p:selectOneMenu>
+							
+			</h:panelGrid>
+			
+        	<h:panelGrid id="panelGridTable">
+        		
+        		 <p:dataTable 	var					=	"faca" 
+        		 				value				=	"#{mbPesquisarFaca.objectList}" 
+        		 			  	id					=	"tablePesquisa"
+        		 			  	emptyMessage		=	"Nenhum registro"
+        		 			  	paginator			=	"true"
+        		 			  	rows				=	"10"
+        		 			  	selectionMode		=	"single"
+        		 			  	rowKey				=	"#{faca.idFaca}"
+        		 			  	selection			=	"#{mbPesquisarFaca.objetoSelecionado}"
+        		 			  	paginatorPosition	=	"bottom"
+								scrollable			=	"true"
+	   		 			  		scrollHeight		=	"250"
+        		 			  	>
+	
+					<p:ajax event		=	"rowSelect"
+							listener	=	"#{mbPesquisarFaca.setarObjetoSelecionado()}" 
+					/>
+                	
+                	<p:column headerText	=	"Faca">
+                    	<h:outputText value	=	"#{faca.descricao}" />
+                	</p:column>
+                	
+                	<p:column headerText	=	"Situação" width	=	"60">
+                    	<h:outputText value	=	"#{faca.status ? 'Ativo' : 'Inativo' } " />
+                	</p:column>
+                	
+                </p:dataTable>
+                
+        	</h:panelGrid>
+        		
+        </h:form>
+        
+	</h:body>
+	
+</html>

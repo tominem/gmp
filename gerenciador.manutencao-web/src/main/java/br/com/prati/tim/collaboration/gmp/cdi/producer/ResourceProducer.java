@@ -19,7 +19,7 @@ import javax.persistence.PersistenceContext;
  * private EntityManager em;
  * </pre>
  */
-public class EntityManagerProducer {
+public class ResourceProducer {
 
 	@Produces
 	@PersistenceContext()

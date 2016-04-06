@@ -1,0 +1,80 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		
+		<h:form id	=	"formCadTpComponente" >        
+	       
+	       <p:growl />
+	       
+	       <p:focus context		=	"panelTpComponente" />
+	       
+	        <div class="Container100">
+	          
+	            <div class="ContainerIndent">
+	                
+	                <p:panel styleClass="Card ShadowEffect" id	=	"panelTpComponente">
+	                    
+	                    <div class="Container">
+	                    
+	                    	<div class="ContainerIndent">
+		                    	
+		                    	<div class="Container60 Responsive100">
+		                        
+		                            <div class="BigTopic Fs18">
+										<i class="fa fa-tag"/> Cadastro de Tipo de Componente
+									</div>
+									
+									<div class="Separator"></div>
+									
+									<p:panelGrid 	columns				=	"2" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
+		                            			 	columnClasses		=	"ui-grid-col-2, ui-grid-col-10">
+										
+										<p:outputLabel 	value			=	"Descrição" 		
+														for				=	"descricao"/>
+										
+										<p:inputText 	required		=	"true" 
+														requiredMessage	=	"Descrição requerida"
+														validator		=	"tpComponenteExistenteValidator"
+														value			=	"#{mbTpComponente.cadTipoComponente.descricao}"
+														id				=	"descricao">
+											
+											<f:attribute name =	"descricaoAnterior" value	=	"#{mbTpComponente.cadTipoComponente.descricao}" />
+										
+										</p:inputText>
+										
+										<p:outputLabel 	value			=	"Nome Componente (Técnico)" 		
+														for				=	"nome"/>
+										
+										<p:inputText 	required		=	"true" 
+														requiredMessage	=	"Nome requerido."
+														value			=	"#{mbTpComponente.cadTipoComponente.nomeComponente}"
+														id				=	"nome">
+														
+										</p:inputText>
+										
+		                            </p:panelGrid>
+		                                          
+									
+											                        
+		                    	</div>
+		                 	</div>
+		                    
+	                    	<ui:include src="/cadastros/tipocomponente/cadtpComponentefooter.xhtml" />
+		                    
+	                    </div>
+	                    
+	                </p:panel>
+	                
+	            </div>
+	            
+	        </div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

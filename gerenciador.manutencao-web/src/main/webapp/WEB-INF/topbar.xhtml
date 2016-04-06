@@ -1,0 +1,37 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    
+    
+    <div id="layout-topbar">
+    	<div id="logo" class="Fleft">
+        	<a href="#{request.contextPath}/dashboard/resumo.xhtml"><h:graphicImage name="images/logo_yellow.svg" styleClass="Fleft" library="pcp" /></a>
+            <a id="mobile-menu-button" class="Fright ShowOnMobile ripplelink Unselectable ShadowEffect"><i class="icon-add186"></i></a>
+        </div>
+        
+        <a class="ripplelink WhiteBlue Fright ShowOnMobile" id="show-top-menu"><i class="icon-show8"></i></a>
+        
+        <ul id="top-menu" class="ShowOnDesktop">       
+        	<li>
+	            <a class="ripplelink">
+	            	<i class="icon-change3"/> 
+	            	<span class="Txt">Opções</span>
+	            </a>
+	            <ul>
+	                <li>
+						<p:commandLink styleClass	=	"Unselectable"  
+									   action		=	"#{mbLogin.logout}"
+						   				style		=	"color: #FFFFFF !important; font-size: 16px !important;">
+						<i class="icon-change3 ShowOnMobile"/> Sair
+			 				</p:commandLink>
+					</li>
+            	</ul>
+        	</li>
+        </ul>
+        
+    </div>
+    
+</ui:composition>
