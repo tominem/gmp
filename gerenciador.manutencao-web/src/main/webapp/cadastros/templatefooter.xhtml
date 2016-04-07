@@ -11,15 +11,53 @@
 			<div class="Container75 Responsive100">
 
 				<div class="MarRight025Em MarBottom1 Container15 Responsive50">
-					<ui:insert name="contentNovo">Template</ui:insert>
+					<ui:insert name="contentNovo">
+						
+						<p:commandButton	value				=	"Novo" 		
+											update				=	"#{mbButtons.nomeFormulario}"   
+											process				=	"@this" 
+											actionListener		=	"#{mbButtons.limpar()}" 
+											icon				=	"fa fa-file-o white"
+											styleClass			=	"Wid100 PurpleButton RaisedButton"
+						/>
+						
+					</ui:insert>
 				</div>
 
 				<div class="MarRight025Em MarBottom1 Container15 Responsive50">
-					<ui:insert name="contentSalvar">Template</ui:insert>
+					<ui:insert name="contentSalvar">
+						
+						<p:commandButton	value				=	"Salvar" 
+										 	icon				=	"fa fa-floppy-o white"
+										 	id					=	"salvarUsuario" 	 
+										 	actionListener		=	"#{mbButtons.salvar()}"
+										 	validateClient		=	"true"
+										 	update				=	"#{mbButtons.nomeFormulario}"
+										 	styleClass			=	"Wid100 PurpleButton RaisedButton">
+						</p:commandButton>
+					
+					</ui:insert>
 				</div>
 
 				<div class="MarRight025Em MarBottom1 Container15 Responsive50">
-					<ui:insert name="contentExcluir">Template</ui:insert>
+					<ui:insert name="contentExcluir">
+						
+						<p:commandButton	value				=	"Excluir" 
+						 	icon				=	"fa fa-trash white"
+						 	id					=	"excluir" 	 
+						 	actionListener		=	"#{mbButtons.excluir()}"
+						 	update				=	"formCadTpComponente"
+						 	disabled			=	"#{mbButtons.id == null}"
+						 	immediate			=	"true"
+						 	styleClass			=	"Wid100 PurpleButton RaisedButton">
+			
+							<p:confirm 	header	=	"Confirmação" 
+										message	=	"Tem certeza que deseja excluir? Este processo é irreversível" 
+										icon	=	"ui-icon-alert" />
+							
+							</p:commandButton>
+						
+					</ui:insert>
 				</div>
 
 				<div class="MarRight025Em MarBottom1 Container15 Responsive50">

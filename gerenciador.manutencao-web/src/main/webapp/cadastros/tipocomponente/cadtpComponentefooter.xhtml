@@ -5,52 +5,6 @@
                 xmlns:p		=	"http://primefaces.org/ui"
                 template	=	"/cadastros/templatefooter.xhtml">
 		
-			
-	<ui:define name	=	"contentNovo">
-		
-		<p:commandButton	value				=	"Novo" 		
-							update				=	"formCadTpComponente"   
-							process				=	"@this" 
-							actionListener		=	"#{mbTpComponente.limpar()}" 
-							icon				=	"fa fa-file-o white"
-							styleClass			=	"Wid100 PurpleButton RaisedButton"
-		/>
-				
-	</ui:define>
-
-	<ui:define name	=	"contentSalvar">
-
-		<p:commandButton	value				=	"Salvar" 
-						 	icon				=	"fa fa-floppy-o white"
-						 	id					=	"salvarUsuario" 	 
-						 	actionListener		=	"#{mbTpComponente.salvar()}"
-						 	validateClient		=	"true"
-						 	update				=	"formCadTpComponente"
-						 	styleClass			=	"Wid100 PurpleButton RaisedButton">
-			
-			
-		</p:commandButton>
-	
-	</ui:define>
-
-	<ui:define name	=	"contentExcluir">
-
-		<p:commandButton	value				=	"Excluir" 
-						 	icon				=	"fa fa-trash white"
-						 	id					=	"excluir" 	 
-						 	actionListener		=	"#{mbTpComponente.excluir()}"
-						 	update				=	"formCadTpComponente"
-						 	disabled			=	"#{mbTpComponente.cadTipoComponente.idTipoComponente == null}"
-						 	immediate			=	"true"
-						 	styleClass			=	"Wid100 PurpleButton RaisedButton">
-			
-			<p:confirm 	header	=	"Confirmação" 
-						message	=	"Tem certeza que deseja excluir? Este processo é irreversível" 
-						icon	=	"ui-icon-alert" />
-			
-		</p:commandButton>
-		
-	</ui:define>
 
 	<ui:define name	=	"contentSituacao">
 		<p:commandButton 	icon				=	"#{mbTpComponente.cadTipoComponente.status ? ' fa fa-lock white' 	: 'fa fa-unlock white'}" 

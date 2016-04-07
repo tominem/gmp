@@ -5,6 +5,7 @@ import static com.uaihebert.uaicriteria.UaiCriteriaFactory.createQueryCriteria;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import javax.ejb.Stateless;
@@ -116,15 +117,14 @@ public class CadTipoComponenteEJB extends AbstractJpaDao<TipoComponente>{
 	}
 
 	@Override
-	public boolean validaCadastroExistente(String desc) {
+	public boolean validaCadastroExistente(Map<String, Object> attributes) {
 
-		String lowerCase = desc.toLowerCase();
-
-		return (Long) createMultiSelectCriteria(em, TipoComponente.class)
-				.countAttribute	("idTipoComponente")
-				.orEquals(true, "descricao", lowerCase)
-				.orEquals(true, "nomeComponente", lowerCase)
-				.getMultiSelectResult().get(0) >  0;
+		UaiCriteria<TipoComponente> criteria = createMultiSelectCriteria(em, TipoComponente.class)
+				.countAttribute	("idTipoComponente");
+		
+		attributes.forEach((k,v) -> criteria.orEquals(true, k, v.toString().toLowerCase()));
+		
+		return (Long) criteria.getMultiSelectResult().get(0) > 0;
 	}
 
 }

@@ -139,6 +139,12 @@ public abstract class AbstractJpaDao<T> {
 
 	public abstract T salvar(T object) throws Exception;
 	
-	public abstract boolean validaCadastroExistente(String desc);
+	public boolean validaCadastroExistente(String desc){
+		return true;
+	};
+
+	public boolean validaCadastroExistente(Map<String, Object> attributes) {
+		return true;
+	}
 
 }

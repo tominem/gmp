@@ -4,7 +4,6 @@ import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
@@ -34,8 +33,7 @@ public class TipoCompoenenteExistenteValidator implements Validator, ClientValid
 	@Override
 	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 
-		UIInput uiInputConfirmPassword = (UIInput) component.getAttributes().get("descricaoAnterior");
-		String descricaoAttr = uiInputConfirmPassword.getSubmittedValue().toString();
+		String descricaoAttr = (String) component.getAttributes().get("descricaoAnterior");
 
 		boolean existente = cadTpEquipamentoEjb.validaCadastroExistente(value.toString());
 		

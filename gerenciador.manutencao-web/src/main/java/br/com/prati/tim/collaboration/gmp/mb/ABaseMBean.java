@@ -40,6 +40,17 @@ public abstract class ABaseMBean implements Serializable {
 
 	public abstract void selecionarObjetoPosPesquisa(SelectEvent event);
 
+	/**
+	 * Get id to makes reference to model bean's id in templatefooter.xhtml of CRUDs
+	 * @return
+	 */
+	public abstract Object getId();
+
+	/**
+	 * Get status to makes reference to inactive mode model bean in templatefooter.xhtml of CRUDs
+	 * @return
+	 */
+	public abstract Boolean getStatus();
 	
 	public void showMensagemSucessoSalvar() {
 		UtilsMessage.addInfoMessage("Cadastro salvo com sucesso.");

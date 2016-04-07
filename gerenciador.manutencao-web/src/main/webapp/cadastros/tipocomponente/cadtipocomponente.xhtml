@@ -34,38 +34,36 @@
 		                            				layout				=	"grid" 
 		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
 		                            			 	columnClasses		=	"ui-grid-col-2, ui-grid-col-10">
+		                            			 	
+		                            	<!-- register a PostValidateEvent -->
+										<f:event listener="#{mbTpComponente.validate}" type="postValidate" />
 										
 										<p:outputLabel 	value			=	"Descrição" 		
 														for				=	"descricao"/>
 										
 										<p:inputText 	required		=	"true" 
 														requiredMessage	=	"Descrição requerida"
-														validator		=	"tpComponenteExistenteValidator"
 														value			=	"#{mbTpComponente.cadTipoComponente.descricao}"
-														id				=	"descricao">
-											
-											<f:attribute name =	"descricaoAnterior" value	=	"#{mbTpComponente.cadTipoComponente.descricao}" />
-										
-										</p:inputText>
+														id				=	"descricao" />
 										
 										<p:outputLabel 	value			=	"Nome Componente (Técnico)" 		
-														for				=	"nome"/>
+														for				=	"nomeComponente"/>
 										
 										<p:inputText 	required		=	"true" 
-														requiredMessage	=	"Nome requerido."
+														requiredMessage	=	"Nome do Componente requerido"
 														value			=	"#{mbTpComponente.cadTipoComponente.nomeComponente}"
-														id				=	"nome">
+														id				=	"nomeComponente">
 														
 										</p:inputText>
 										
 		                            </p:panelGrid>
-		                                          
-									
 											                        
 		                    	</div>
 		                 	</div>
 		                    
-	                    	<ui:include src="/cadastros/tipocomponente/cadtpComponentefooter.xhtml" />
+	                    	<ui:include src="/cadastros/tipocomponente/cadtpComponentefooter.xhtml">
+	                    		<ui:param name="mbButtons" value="#{mbTpComponente}" />
+	                    	</ui:include>
 		                    
 	                    </div>
 	                    
