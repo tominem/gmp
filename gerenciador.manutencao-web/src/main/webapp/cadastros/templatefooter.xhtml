@@ -2,7 +2,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
 
 	<f:facet name="footer">
 
@@ -13,13 +14,13 @@
 				<div class="MarRight025Em MarBottom1 Container15 Responsive50">
 					<ui:insert name="contentNovo">
 						
-						<p:commandButton	value				=	"Novo" 		
-											update				=	"#{mbButtons.nomeFormulario}"   
-											process				=	"@this" 
-											actionListener		=	"#{mbButtons.limpar()}" 
-											icon				=	"fa fa-file-o white"
-											styleClass			=	"Wid100 PurpleButton RaisedButton"
-						/>
+						<p:commandButton 	value="Novo" 
+											update="#{nomeFormulario}"
+											process="@this" 
+											actionListener="#{crudBean.limpar()}"
+											icon="fa fa-file-o white"
+											styleClass="Wid100 PurpleButton RaisedButton">
+						</p:commandButton>
 						
 					</ui:insert>
 				</div>
@@ -27,45 +28,76 @@
 				<div class="MarRight025Em MarBottom1 Container15 Responsive50">
 					<ui:insert name="contentSalvar">
 						
-						<p:commandButton	value				=	"Salvar" 
-										 	icon				=	"fa fa-floppy-o white"
-										 	id					=	"salvarUsuario" 	 
-										 	actionListener		=	"#{mbButtons.salvar()}"
-										 	validateClient		=	"true"
-										 	update				=	"#{mbButtons.nomeFormulario}"
-										 	styleClass			=	"Wid100 PurpleButton RaisedButton">
+						<p:commandButton 	value="Salvar" 
+											icon="fa fa-floppy-o white"
+											id="salvarUsuario" 
+											actionListener="#{crudBean.salvar()}"
+											validateClient="true" 
+											update="#{nomeFormulario}"
+											styleClass="Wid100 PurpleButton RaisedButton">
 						</p:commandButton>
-					
+						
 					</ui:insert>
 				</div>
 
 				<div class="MarRight025Em MarBottom1 Container15 Responsive50">
 					<ui:insert name="contentExcluir">
 						
-						<p:commandButton	value				=	"Excluir" 
-						 	icon				=	"fa fa-trash white"
-						 	id					=	"excluir" 	 
-						 	actionListener		=	"#{mbButtons.excluir()}"
-						 	update				=	"formCadTpComponente"
-						 	disabled			=	"#{mbButtons.id == null}"
-						 	immediate			=	"true"
-						 	styleClass			=	"Wid100 PurpleButton RaisedButton">
-			
-							<p:confirm 	header	=	"Confirmação" 
-										message	=	"Tem certeza que deseja excluir? Este processo é irreversível" 
-										icon	=	"ui-icon-alert" />
-							
-							</p:commandButton>
+						<p:commandButton 	value="Excluir" 
+											icon="fa fa-trash white"
+											id="excluir" 
+											actionListener="#{crudBean.excluir()}"
+											update="#{nomeFormulario}"
+											disabled="#{crudBean.cadTipoComponente.idTipoComponente == null}"
+											immediate="true" 
+											styleClass="Wid100 PurpleButton RaisedButton">
+
+							<p:confirm 		header="Confirmação"
+											message="Tem certeza que deseja excluir? Este processo é irreversível"
+											icon="ui-icon-alert">
+							</p:confirm>
+
+						</p:commandButton>
 						
 					</ui:insert>
 				</div>
 
 				<div class="MarRight025Em MarBottom1 Container15 Responsive50">
-					<ui:insert name="contentSituacao">Template</ui:insert>
+					<ui:insert name="contentSituacao">
+					
+						<p:commandButton	icon="#{crudBean.cadTipoComponente.status ? ' fa fa-lock white' 	: 'fa fa-unlock white'}"
+											value="#{crudBean.cadTipoComponente.status ? 'Inativar' 			: 'Ativar'}"
+											disabled="#{crudBean.cadTipoComponente.idTipoComponente == null}"
+											actionListener="#{crudBean.inativarAtivar()}"
+											validateClient="true" 
+											update="#{nomeFormulario}"
+											immediate="true" 
+											styleClass="Wid100 PurpleButton RaisedButton">
+						</p:commandButton>
+						
+					</ui:insert>
 				</div>
 
 				<div class="MarRight025Em MarBottom1 Container15 Responsive100">
-					<ui:insert name="contentPesquisar">Template</ui:insert>
+					<ui:insert name="contentPesquisar">
+						
+						<o:methodParam name="selecionarObjetoPosPesquisa" value="#{crudBean.selecionarObjetoPosPesquisa}"/>
+						
+						<p:commandButton 	value="Pesquisar" 
+											icon="fa fa-search white"
+											immediate="true" 
+											actionListener="#{crudBean.pesquisar()}"
+											update="#{nomeFormulario}" 
+											process="@this"
+											styleClass="Wid100 PurpleButton RaisedButton">
+
+							<p:ajax 		event="dialogReturn"
+											listener="#{selecionarObjetoPosPesquisa}"
+											update="#{nomeFormulario}"/>
+
+						</p:commandButton>
+						
+					</ui:insert>
 				</div>
 			</div>
 

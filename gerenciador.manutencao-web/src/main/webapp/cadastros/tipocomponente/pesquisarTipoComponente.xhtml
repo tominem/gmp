@@ -9,7 +9,7 @@
     		<meta charset	=	"UTF-8" />
         </f:facet>
         
-        <title>Pesquisar faca</title>
+        <title>Pesquisar Tipo Componente</title>
     </h:head>
     
      
@@ -23,7 +23,7 @@
 	    </style>
 
 		
-        <h:form id	=	"formPesquisarfaca">
+        <h:form id	=	"formPesquisarTpComponente">
 			
 			<p:focus context	=	"panelGridBusca" />
 						
@@ -33,20 +33,20 @@
 								columnClasses	=	"Wid90, Wid10">
 				
 				<p:outputLabel	for				=	"criterioBusca" 
-								value			=	"Informe o nome para consultar a faca desejada"></p:outputLabel>
+								value			=	"Informe o nome para consultar o tipo de componente desejado"></p:outputLabel>
 
 				<p:outputLabel 	for				=	"selOneSituacao" 
 								value			=	"Situação">
 				</p:outputLabel>
 				
 				<p:inputText 	id				=	"criterioBusca" 
-								value			=	"#{mbPesquisarFaca.descBusca}"
+								value			=	"#{mbPesquisarTpComponente.descBusca}"
 								required		=	"false"
 								style			=	"width: 100%">
 					
 					<p:ajax		event			=	"keyup" 
 								update			=	"panelGridTable" 
-								listener		=	"#{mbPesquisarFaca.pesquisar()}">
+								listener		=	"#{mbPesquisarTpComponente.pesquisar()}">
 					</p:ajax>
 					
 				</p:inputText>
@@ -54,14 +54,14 @@
 				<p:selectOneMenu 	id			=	"selOneSituacao" 
 									style		=	"with:100%" 
 									required	=	"true"
-									value		=	"#{mbPesquisarFaca.intSituacao}">
+									value		=	"#{mbPesquisarTpComponente.intSituacao}">
 					
 					<p:ajax 		update 		=	"panelGridTable"
-									listener	=	"#{mbPesquisarFaca.pesquisar()}"
+									listener	=	"#{mbPesquisarTpComponente.pesquisar()}"
 									immediate	=	"true">
 					</p:ajax>
 					
-					<f:selectItems value	=	"#{mbPesquisarFaca.itemSituacao}" ></f:selectItems>
+					<f:selectItems value	=	"#{mbPesquisarTpComponente.itemSituacao}" ></f:selectItems>
 									
 				</p:selectOneMenu>
 							
@@ -69,30 +69,34 @@
 			
         	<h:panelGrid id="panelGridTable">
         		
-        		 <p:dataTable 	var					=	"faca" 
-        		 				value				=	"#{mbPesquisarFaca.objectList}" 
+        		 <p:dataTable 	var					=	"tipoComponente" 
+        		 				value				=	"#{mbPesquisarTpComponente.objectList}" 
         		 			  	id					=	"tablePesquisa"
         		 			  	emptyMessage		=	"Nenhum registro"
         		 			  	paginator			=	"true"
         		 			  	rows				=	"10"
         		 			  	selectionMode		=	"single"
-        		 			  	rowKey				=	"#{faca.idFaca}"
-        		 			  	selection			=	"#{mbPesquisarFaca.objetoSelecionado}"
+        		 			  	rowKey				=	"#{tipoComponente.idTipoComponente}"
+        		 			  	selection			=	"#{mbPesquisarTpComponente.objetoSelecionado}"
         		 			  	paginatorPosition	=	"bottom"
 								scrollable			=	"true"
 	   		 			  		scrollHeight		=	"250"
         		 			  	>
 	
 					<p:ajax event		=	"rowSelect"
-							listener	=	"#{mbPesquisarFaca.setarObjetoSelecionado()}" 
+							listener	=	"#{mbPesquisarTpComponente.setarObjetoSelecionado()}"
 					/>
                 	
-                	<p:column headerText	=	"Faca">
-                    	<h:outputText value	=	"#{faca.descricao}" />
+                	<p:column headerText	=	"Descrição">
+                    	<h:outputText value	=	"#{tipoComponente.descricao}" />
+                	</p:column>
+
+                	<p:column headerText	=	"Nome componente">
+                    	<h:outputText value	=	"#{tipoComponente.nomeComponente}" />
                 	</p:column>
                 	
-                	<p:column headerText	=	"Situação" width	=	"60">
-                    	<h:outputText value	=	"#{faca.status ? 'Ativo' : 'Inativo' } " />
+                	<p:column headerText	=	"Situação" 		   width	=	"60">
+                    	<h:outputText value	=	"#{tipoComponente.status ? 'Ativo' : 'Inativo' } " />
                 	</p:column>
                 	
                 </p:dataTable>

@@ -61,8 +61,9 @@
 		                    	</div>
 		                 	</div>
 		                    
-	                    	<ui:include src="/cadastros/tipocomponente/cadtpComponentefooter.xhtml">
-	                    		<ui:param name="mbButtons" value="#{mbTpComponente}" />
+	                    	<ui:include src="/cadastros/templatefooter.xhtml">
+	                    		<ui:param name="nomeFormulario" value="#{mbTpComponente.nomeFormulario}" />
+	                    		<ui:param name="crudBean" value="#{mbTpComponente}" />
 	                    	</ui:include>
 		                    
 	                    </div>

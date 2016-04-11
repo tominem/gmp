@@ -12,35 +12,94 @@ import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
-public abstract class ABaseMBean implements Serializable {
+import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
+
+public abstract class AbstractCrudMB<T extends Serializable> implements Serializable, Searchable<T> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 201119042011L;
+	
+	protected T entityBean;
+	
+	public void setEntityBean(T entityBean) {
+		this.entityBean = entityBean;
+	}
+	
+	public T getEntityBean() {
+		return entityBean;
+	}
 
-	public abstract String getCaminhoDialogPesquisar();
-
+	@Override
+	public String getResourceDialogPath() {
+		return "/cadastros/searchTemplate.xhtml";
+	}
+	
 	/**
+	 * Returns the form name of the view
 	 * 
-	 * Retorna o nome o do formulário da View
 	 * @return 
 	 */
-	public abstract String getNomeFormulario();
-
-	public abstract void initObjects();
+	public abstract String getFormName();
 	
-	public abstract void salvar();
-
-	public abstract void excluir();
-
-	public abstract void inativarAtivar();
-
-	public abstract void limpar();
-
-	public abstract void selecionarObjetoPosPesquisa(SelectEvent event);
-
+	public abstract CrudEJB<T> getCrudEJB();
 	
+	public void initObjects(){
+		clean();
+	};
+
+	public void exclude(){
+		
+		getCrudEJB().exclude(this.entityBean);
+			
+		clean();
+			
+		showMensagemExclusaoSucesso();
+		
+	}
+
+	public abstract void activateOrInactivate();
+
+	public void save(){
+		
+		this.entityBean = getCrudEJB().save(entityBean);
+		
+		clean();
+		
+		showMensagemSucessoSalvar();
+		
+	}
+
+	public void clean(){
+		
+		try {
+			
+			getRequestContext().reset(getFormName());
+			
+			this.entityBean = getEntityClass().newInstance();
+			
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	public abstract Class<T> getEntityClass();
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void selectObjectAfterSearch(SelectEvent event) {
+		Object object = event.getObject();
+
+		if (object != null && object.getClass().getName().equals(getEntityClass().getName())) {
+			this.entityBean = (T) object;
+			showMensagemSucessoConsulta();
+		}
+	}
+
 	public void showMensagemSucessoSalvar() {
 		UtilsMessage.addInfoMessage("Cadastro salvo com sucesso.");
 	}
@@ -81,20 +140,17 @@ public abstract class ABaseMBean implements Serializable {
 		return RequestContext.getCurrentInstance();
 	}
 	
-	/**
-	 * Retorna o caminho relativo do endereço do dialog de pesquisa
-	 */
-    public void pesquisar() {
+    public void search() {
         
-        limpar();
+        clean();
 
         Map<String, Object> options = getParamsDialogPesquisa();
         
-        RequestContext.getCurrentInstance().openDialog(getCaminhoDialogPesquisar(), options, null);
+        RequestContext.getCurrentInstance().openDialog(getResourceDialogPath(), options, null);
         
     }
 
-	public static Map<String, Object> getParamsDialogPesquisa() {
+	public Map<String, Object> getParamsDialogPesquisa() {
 		
 		Map<String,Object> options = new HashMap<String, Object>();
 
@@ -103,6 +159,9 @@ public abstract class ABaseMBean implements Serializable {
         options.put("width", 		780);
         options.put("contentWidth", 738);
         options.put("responsive", 	true);
+        
+        //pass the attribute searchable as a parameter to Dialog
+        options.put("searchable", 	this);
         
 		return options;
 		

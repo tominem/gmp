@@ -197,7 +197,7 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Dependências do GPM PCP -->
+		<!-- Dependências do GPM -->
 		<dependency>
 			<groupId>br.prati.tim.collaboration.mod</groupId>
 			<artifactId>gestao-producao-jpa</artifactId>
@@ -206,9 +206,23 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+		</dependency>
+
+
+		<dependency>
 			<groupId>uaihebert.com</groupId>
 			<artifactId>uaiCriteria</artifactId>
 			<version>4.0.0</version>
+		</dependency>
+
+		<!-- OmniFaces -->
+		<dependency>
+			<groupId>org.omnifaces</groupId>
+			<artifactId>omnifaces</artifactId>
+			<version>2.3</version>
 		</dependency>
 
 		<!-- Primfaces -->
@@ -296,7 +310,7 @@
 			</activation>
 			<build>
 				<plugins>
-				
+
 					<plugin>
 						<artifactId>maven-surefire-plugin</artifactId>
 						<version>${version.surefire.plugin}</version>

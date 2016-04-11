@@ -84,15 +84,6 @@ public abstract class AbstractJpaDao<T> {
 		em.remove(em.merge(item));
 	}
 
-	/**
-	 * Realiza a pesquisa usando LIKE %%,
-	 * 
-	 * @param attributes
-	 *            map onde a chave será o nome do campo a ser incluso na
-	 *            projeção SQL, e o valor, o valor correspondente da projeção a
-	 *            ser pesquisada
-	 * @return
-	 */
 	public List<T> findLikeByAttributes(Map<String, String> attributes) {
 
 		UaiCriteria<T> easyCriteria = UaiCriteriaFactory.createQueryCriteria(em, getEntityClass());
@@ -104,33 +95,11 @@ public abstract class AbstractJpaDao<T> {
 		return easyCriteria.getResultList();
 	}
 
-	/**
-	 * Metodo utilizado para listar cadastros ativos.
-	 * 
-	 * @return
-	 */
 	public abstract List<T> listActives();
 
-	/**
-	 * Método usado para listar cadastros com um LIMIT no SELECT
-	 * 
-	 * @param limit
-	 *            quantidade de registros para serem selecionados no banco de
-	 *            dados
-	 * @param status
-	 *            situação do registro
-	 * @return
-	 */
+	
 	public abstract List<T> getWithLimit(Integer limit, Boolean status);
 
-	/**
-	 * Método usado para listar cadastros do banco de dados com um critério de
-	 * busca
-	 * 
-	 * @param descQuery
-	 * @param status
-	 * @return
-	 */
 	public abstract List<T> getWithQueryLike(String descQuery, Boolean status);
 
 	public abstract T alterarSituacao(T object);

@@ -93,7 +93,7 @@ public class MBTipoComponente extends ABaseMBean {
 
 	@Override
 	public String getCaminhoDialogPesquisar() {
-		return "/cadastros/faca/pesquisarfaca.xhtml";
+		return "/cadastros/tipocomponente/pesquisarTipoComponente.xhtml";
 	}
 
 	@Override
@@ -117,16 +117,12 @@ public class MBTipoComponente extends ABaseMBean {
 		UIInput uiInputDescricao = (UIInput) components.findComponent("descricao");
 		String descricao = uiInputDescricao.getSubmittedValue() != null ? ""
 				: uiInputDescricao.getLocalValue().toString();
-		String uiInputDescricaoId = uiInputDescricao.getClientId();
+		String descricaoId = uiInputDescricao.getClientId();
 
 		// get nome
 		UIInput uiInputNome = (UIInput) components.findComponent("nomeComponente");
 		String nome = uiInputNome.getSubmittedValue() != null ? ""
 				: uiInputNome.getLocalValue().toString();
-		
-		if(descricao == null && nome == null || descricao.isEmpty() && nome.isEmpty()){
-			return;
-		}
 		
 		Map<String, Object> params = putParams(descricao, nome);
 		
@@ -144,7 +140,7 @@ public class MBTipoComponente extends ABaseMBean {
 						+ "com a mesma descrição, nome ou ambos");
 			
 			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-			fc.addMessage(uiInputDescricaoId, msg);
+			fc.addMessage(descricaoId, msg);
 			fc.renderResponse();
 			
 		}
@@ -166,16 +162,6 @@ public class MBTipoComponente extends ABaseMBean {
 
 	public void setCadTipoComponente(TipoComponente cadTipoComponente) {
 		this.cadTipoComponente = cadTipoComponente;
-	}
-
-	@Override
-	public Object getId() {
-		return cadTipoComponente.getIdTipoComponente();
-	}
-
-	@Override
-	public Boolean getStatus() {
-		return cadTipoComponente.getStatus();
 	}
 
 }
