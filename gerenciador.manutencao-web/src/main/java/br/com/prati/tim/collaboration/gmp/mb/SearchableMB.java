@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.PostConstruct;
 import javax.faces.model.SelectItem;
 
 import org.primefaces.context.RequestContext;
+
+import br.com.prati.tim.collaboration.gmp.dao.FilterParam;
+import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
 
 public abstract class SearchableMB<T extends Serializable> implements Serializable {
 
@@ -25,45 +27,40 @@ public abstract class SearchableMB<T extends Serializable> implements Serializab
 	
 	private List<SelectItem>	itemsSituacao;
 	
-	private Searchable<T> 		searchable;
+	public abstract void init();
+	
+	public abstract String getTitle();
+	
+	public abstract String getFormName();
 
-	@SuppressWarnings("unchecked")
-	@PostConstruct
-	private void init() {
-		
-		this.searchable = (Searchable<T>) RequestContext.getCurrentInstance().getAttributes().get("searchable");
-		
-		search();
-		
-	}
+	public abstract String getEntityName();
 
 	public void search() {
 
 		List<T> objectList;
 
 		if (getPattern() == null || getPattern().trim().isEmpty()) {
-			objectList = searchable.getCrudEJB().findAllWithLimit(Optional.of(getStatusSituation()));
+			objectList = getCrudEJB().findAllWithLimit(Optional.ofNullable(getStatusSituation()));
 
 		} else {
 
-			objectList = searchable.getCrudEJB().findLikeOrNotLikeWithLimit(getPattern(), Optional.of(getMaxResults()), Optional.of(getStatusSituation()), searchable.getFilterParams());
+			objectList = getCrudEJB().findLikeOrNotLikeWithLimit(getPattern(), Optional.ofNullable(getMaxResults()), Optional.ofNullable(getStatusSituation()), getFilterParams());
 		}
 
 		setObjectList(objectList);
 
 	}
 
-	/**
-	 * 
-	 * @return O objeto que será retornado o objeto para managed bean que
-	 *         invocou a pesquisa
-	 */
-	public T getObjetoSelecionado() {
+	public abstract CrudEJB<T> getCrudEJB();
+
+	public abstract FilterParam<?>[] getFilterParams();
+
+	public T getObjectSelected() {
 		return objectSelected;
 	}
 
-	public void setObjetoSelecionado(T objetoSelecionado) {
-		this.objectSelected = objetoSelecionado;
+	public void setObjectSelected(T objectSelected) {
+		this.objectSelected = objectSelected;
 	}
 
 	public List<T> getObjectList() {

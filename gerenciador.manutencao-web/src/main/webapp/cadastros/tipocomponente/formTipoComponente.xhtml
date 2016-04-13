@@ -36,14 +36,14 @@
 		                            			 	columnClasses		=	"ui-grid-col-2, ui-grid-col-10">
 		                            			 	
 		                            	<!-- register a PostValidateEvent -->
-										<f:event listener="#{mbTpComponente.validate}" type="postValidate" />
+										<f:event listener="#{tipoComponenteMB.validate}" type="postValidate" />
 										
 										<p:outputLabel 	value			=	"Descrição" 		
 														for				=	"descricao"/>
 										
 										<p:inputText 	required		=	"true" 
 														requiredMessage	=	"Descrição requerida"
-														value			=	"#{mbTpComponente.cadTipoComponente.descricao}"
+														value			=	"#{tipoComponenteMB.entityBean.descricao}"
 														id				=	"descricao" />
 										
 										<p:outputLabel 	value			=	"Nome Componente (Técnico)" 		
@@ -51,7 +51,7 @@
 										
 										<p:inputText 	required		=	"true" 
 														requiredMessage	=	"Nome do Componente requerido"
-														value			=	"#{mbTpComponente.cadTipoComponente.nomeComponente}"
+														value			=	"#{tipoComponenteMB.entityBean.nomeComponente}"
 														id				=	"nomeComponente">
 														
 										</p:inputText>
@@ -62,8 +62,8 @@
 		                 	</div>
 		                    
 	                    	<ui:include src="/cadastros/templatefooter.xhtml">
-	                    		<ui:param name="nomeFormulario" value="#{mbTpComponente.nomeFormulario}" />
-	                    		<ui:param name="crudBean" value="#{mbTpComponente}" />
+	                    		<ui:param name="nomeFormulario" value="#{tipoComponenteMB.formName}" />
+	                    		<ui:param name="crudBean" value="#{tipoComponenteMB}" />
 	                    	</ui:include>
 		                    
 	                    </div>

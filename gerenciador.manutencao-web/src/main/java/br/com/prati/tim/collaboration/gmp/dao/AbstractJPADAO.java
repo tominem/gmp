@@ -15,10 +15,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.exception.ConstraintViolationException;
 
 import com.uaihebert.uaicriteria.UaiCriteria;
 
-public abstract class AbstractJPADAO<T> implements CrudDAO<T>{
+public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 
 	@Inject
 	private EntityManager em;
@@ -40,13 +41,37 @@ public abstract class AbstractJPADAO<T> implements CrudDAO<T>{
 	}
 	
 	@Override
-	public void delete(T item) {
+	public void delete(T item) throws PersistenceException {
 		
-		if (item == null) {
-			throw new PersistenceException("Item may not be null");
+		try {
+			if (item == null) {
+				throw new PersistenceException("Item may not be null");
+			}
+
+			em.remove(em.merge(item));
+			em.flush();
+			
+		} catch (PersistenceException e) {
+			
+			isConstraintViolationException(e);
+			
 		}
-		
-		em.remove(em.merge(item));
+	}
+	
+	/**
+	 * Handle ConstraintViolatioException
+	 * 
+	 * @param e
+	 * @throws PersistenceException
+	 */
+	private void isConstraintViolationException(PersistenceException e) throws PersistenceException{
+		Throwable t = e.getCause();
+		while ((t != null) && !(t instanceof ConstraintViolationException)) {
+		    t = t.getCause();
+		}
+		if (t instanceof ConstraintViolationException) {
+			throw new PersistenceException(t.getCause().getMessage());
+		}
 	}
 
 	@Override
@@ -141,7 +166,9 @@ public abstract class AbstractJPADAO<T> implements CrudDAO<T>{
 				
 		statusValue.ifPresent( sv -> criteria.andEquals(getStatusAttrName(), sv));
 		
-		return criteria.getResultList();
+		List<T> resultList = criteria.getResultList();
+		
+		return resultList;
 	}
 
 	@Override

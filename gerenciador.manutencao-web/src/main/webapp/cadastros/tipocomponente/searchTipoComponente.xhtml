@@ -1,6 +1,8 @@
 <html 	xmlns	="http://www.w3.org/1999/xhtml"
 		xmlns:h	="http://java.sun.com/jsf/html"
 		xmlns:f	="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:c= "http://java.sun.com/jsp/jstl/core"
 		xmlns:p	="http://primefaces.org/ui">
 
     <h:head>
@@ -9,7 +11,7 @@
     		<meta charset	=	"UTF-8" />
         </f:facet>
         
-        <title>Pesquisar Tipo Componente</title>
+        <title>#{searchTipoCompMB.title}</title>
     </h:head>
     
      
@@ -23,30 +25,30 @@
 	    </style>
 
 		
-        <h:form id	=	"formPesquisarTpComponente">
+        <h:form id	=	"#{searchTipoCompMB.formName}">
 			
 			<p:focus context	=	"panelGridBusca" />
 						
 			
 			<h:panelGrid 		columns			=	"2"
-								id				= 	"panelGridBusca" 
+								id				= 	"panelGridBusca"
 								columnClasses	=	"Wid90, Wid10">
 				
 				<p:outputLabel	for				=	"criterioBusca" 
-								value			=	"Informe o nome para consultar o tipo de componente desejado"></p:outputLabel>
+								value			=	"Informe o nome para consultar o #{searchTipoCompMB.entityName} desejado"></p:outputLabel>
 
 				<p:outputLabel 	for				=	"selOneSituacao" 
 								value			=	"Situação">
 				</p:outputLabel>
 				
 				<p:inputText 	id				=	"criterioBusca" 
-								value			=	"#{mbPesquisarTpComponente.descBusca}"
+								value			=	"#{searchTipoCompMB.pattern}"
 								required		=	"false"
 								style			=	"width: 100%">
 					
 					<p:ajax		event			=	"keyup" 
 								update			=	"panelGridTable" 
-								listener		=	"#{mbPesquisarTpComponente.pesquisar()}">
+								listener		=	"#{searchTipoCompMB.search()}">
 					</p:ajax>
 					
 				</p:inputText>
@@ -54,14 +56,14 @@
 				<p:selectOneMenu 	id			=	"selOneSituacao" 
 									style		=	"with:100%" 
 									required	=	"true"
-									value		=	"#{mbPesquisarTpComponente.intSituacao}">
+									value		=	"#{searchTipoCompMB.intSituacao}">
 					
 					<p:ajax 		update 		=	"panelGridTable"
-									listener	=	"#{mbPesquisarTpComponente.pesquisar()}"
+									listener	=	"#{searchTipoCompMB.search()}"
 									immediate	=	"true">
 					</p:ajax>
 					
-					<f:selectItems value	=	"#{mbPesquisarTpComponente.itemSituacao}" ></f:selectItems>
+					<f:selectItems value	=	"#{searchTipoCompMB.itemSituacao}" ></f:selectItems>
 									
 				</p:selectOneMenu>
 							
@@ -69,35 +71,31 @@
 			
         	<h:panelGrid id="panelGridTable">
         		
-        		 <p:dataTable 	var					=	"tipoComponente" 
-        		 				value				=	"#{mbPesquisarTpComponente.objectList}" 
+        		 <p:dataTable 	var					=	"item" 
+        		 				value				=	"#{searchTipoCompMB.objectList}" 
         		 			  	id					=	"tablePesquisa"
         		 			  	emptyMessage		=	"Nenhum registro"
         		 			  	paginator			=	"true"
         		 			  	rows				=	"10"
         		 			  	selectionMode		=	"single"
-        		 			  	rowKey				=	"#{tipoComponente.idTipoComponente}"
-        		 			  	selection			=	"#{mbPesquisarTpComponente.objetoSelecionado}"
+        		 			  	rowKey				=	"#{item.idTipoComponente}"
+        		 			  	selection			=	"#{searchTipoCompMB.objectSelected}"
         		 			  	paginatorPosition	=	"bottom"
 								scrollable			=	"true"
 	   		 			  		scrollHeight		=	"250"
         		 			  	>
 	
 					<p:ajax event		=	"rowSelect"
-							listener	=	"#{mbPesquisarTpComponente.setarObjetoSelecionado()}"
+							listener	=	"#{searchTipoCompMB.setSelectedObject()}"
 					/>
-                	
-                	<p:column headerText	=	"Descrição">
-                    	<h:outputText value	=	"#{tipoComponente.descricao}" />
-                	</p:column>
-
-                	<p:column headerText	=	"Nome componente">
-                    	<h:outputText value	=	"#{tipoComponente.nomeComponente}" />
-                	</p:column>
-                	
-                	<p:column headerText	=	"Situação" 		   width	=	"60">
-                    	<h:outputText value	=	"#{tipoComponente.status ? 'Ativo' : 'Inativo' } " />
-                	</p:column>
+					
+					<c:forEach var="filter" items="#{searchTipoCompMB.filterParams}">
+					
+	                	<p:column headerText	=	"#{filter.name}">
+	                    	<h:outputText value	=	"#{item[filter.fieldName]}" />
+	                	</p:column>
+	                	
+					</c:forEach>
                 	
                 </p:dataTable>
                 

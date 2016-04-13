@@ -5,6 +5,7 @@ import static br.com.prati.tim.collaboration.gmp.dao.FilterOrder.ASC;
 
 import java.io.Serializable;
 
+import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -17,7 +18,7 @@ import br.prati.tim.collaboration.gp.jpa.TipoComponente;
 
 @Named("tipoComponenteMB")
 @ViewScoped
-public class TipoComponenteCrudMB extends AbstractCrudMB<TipoComponente> implements Serializable{
+public class TipoComponenteCrudMB extends AbstractCrudMB<TipoComponente, Long> implements Serializable{
 
 	/**
 	 * 
@@ -27,6 +28,12 @@ public class TipoComponenteCrudMB extends AbstractCrudMB<TipoComponente> impleme
 	@Inject
 	private TipoComponenteEJB ejb;
 
+//	@Override
+//	@PostConstruct
+//	public void initObjects() {
+//		clean();
+//	}
+	
 	@Override
 	public FilterParam<?>[] getFilterParams() {
 		return new FilterParam<?>[]{
@@ -41,21 +48,85 @@ public class TipoComponenteCrudMB extends AbstractCrudMB<TipoComponente> impleme
 	public String getFormName() {
 		return "formCadTpComponente";
 	}
-
+	
 	@Override
-	public CrudEJB<TipoComponente> getCrudEJB() {
-		return null;
+	public String getSearchMB() {
+		return "tipoComponenteSearch";
 	}
 
 	@Override
-	public void activateOrInactivate() {
-		// TODO Auto-generated method stub
-		
+	public CrudEJB<TipoComponente> getCrudEJB() {
+		return ejb;
 	}
 
 	@Override
 	public Class<TipoComponente> getEntityClass() {
 		return TipoComponente.class;
+	}
+
+	@Override
+	public Long getEntityId() {
+		return entityBean.getIdTipoComponente();
+	}
+	
+	@Override
+	public void setEntityId(Long entityId) {
+		entityBean.setIdTipoComponente(entityId);
+	}
+	
+	@Override
+	public void validate(ComponentSystemEvent event) {
+		
+//		FacesContext fc = FacesContext.getCurrentInstance();
+//
+//		UIComponent components = event.getComponent();
+//
+//		// get descricao
+//		UIInput uiInputDescricao = (UIInput) components.findComponent("descricao");
+//		String descricao = uiInputDescricao.getSubmittedValue() != null ? ""
+//				: uiInputDescricao.getLocalValue().toString();
+//		String descricaoId = uiInputDescricao.getClientId();
+//
+//		// get nome
+//		UIInput uiInputNome = (UIInput) components.findComponent("nomeComponente");
+//		String nome = uiInputNome.getSubmittedValue() != null ? ""
+//				: uiInputNome.getLocalValue().toString();
+//		
+//		Map<String, Object> params = putParams(descricao, nome);
+//		
+//		//validate if object is present in db
+//		boolean exists = getCrudEJB().validaCadastroExistente(params);
+//		
+//		if (exists) {
+//			
+//			//invalidate inputs
+//			uiInputDescricao.setValid(false);
+//			uiInputNome.setValid(false);
+//			
+//			//add validation message
+//			FacesMessage msg = new FacesMessage("Tipo Componente já está cadastrado, "
+//						+ "com a mesma descrição, nome ou ambos");
+//			
+//			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+//			fc.addMessage(descricaoId, msg);
+//			fc.renderResponse();
+//			
+//		}
+	}
+
+	@Override
+	public Boolean getEntityStatus() {
+		return entityBean.getStatus();
+	}
+
+	@Override
+	public void setEntityStatus(Boolean status) {
+		entityBean.setStatus(status);
+	}
+
+	@Override
+	public String getResourceDialogPath() {
+		return "/cadastros/tipocomponente/searchTipoComponente.xhtml";
 	}
 
 }

@@ -5,16 +5,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
 import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
 
-public abstract class AbstractCrudMB<T extends Serializable> implements Serializable, Searchable<T> {
+/**
+ * Crud Bean Base to conventional crud Form
+ * 
+ * @author ewerton.costa
+ *
+ * @param <T> type of entityBean in Form
+ * @param <P> type of id from entityBean in form
+ */
+public abstract class AbstractCrudMB<T extends Serializable, P extends Serializable> implements Serializable, Searchable<T> {
 
 	/**
 	 * 
@@ -22,6 +32,8 @@ public abstract class AbstractCrudMB<T extends Serializable> implements Serializ
 	private static final long serialVersionUID = 201119042011L;
 	
 	protected T entityBean;
+	
+	protected P entityId;
 	
 	public void setEntityBean(T entityBean) {
 		this.entityBean = entityBean;
@@ -31,10 +43,15 @@ public abstract class AbstractCrudMB<T extends Serializable> implements Serializ
 		return entityBean;
 	}
 
-	@Override
-	public String getResourceDialogPath() {
-		return "/cadastros/searchTemplate.xhtml";
-	}
+	public abstract String getResourceDialogPath();
+	
+	public abstract P getEntityId();
+	
+	public abstract void setEntityId(P entityId);
+	
+	public abstract Boolean getEntityStatus();
+
+	public abstract void setEntityStatus(Boolean status);
 	
 	/**
 	 * Returns the form name of the view
@@ -45,21 +62,43 @@ public abstract class AbstractCrudMB<T extends Serializable> implements Serializ
 	
 	public abstract CrudEJB<T> getCrudEJB();
 	
-	public void initObjects(){
+	public abstract String getSearchMB();
+	
+	public abstract void validate(ComponentSystemEvent event);
+	
+	@PostConstruct
+	public void initObjects() {
 		clean();
-	};
+	}
 
 	public void exclude(){
-		
-		getCrudEJB().exclude(this.entityBean);
 			
-		clean();
+		try {
 			
-		showMensagemExclusaoSucesso();
+			excludePerform();
+			
+		} catch (Exception e) {
+			
+			addErrorMessage(
+					"Não foi possível excluir " + getEntityBean().getClass().getSimpleName()
+					+ e.getMessage().substring(e.getMessage().indexOf("Detalhe:")));
+			
+		}
 		
 	}
 
-	public abstract void activateOrInactivate();
+	private void excludePerform() throws Exception {
+		getCrudEJB().exclude(this.entityBean);
+
+		clean();
+
+		showMensagemExclusaoSucesso();
+	}
+
+	public void activateOrInactivate(){
+		entityBean = getCrudEJB().activateOrInactivate(getEntityBean());
+		showMensagemAlterarSituacaoSucesso();
+	};
 
 	public void save(){
 		
@@ -154,14 +193,11 @@ public abstract class AbstractCrudMB<T extends Serializable> implements Serializ
 		
 		Map<String,Object> options = new HashMap<String, Object>();
 
-        options.put("modal",        true);
-        options.put("resizable",    false);
-        options.put("width", 		780);
-        options.put("contentWidth", 738);
-        options.put("responsive", 	true);
-        
-        //pass the attribute searchable as a parameter to Dialog
-        options.put("searchable", 	this);
+        options.put("modal"			,  	true);
+        options.put("resizable"		,  	false);
+        options.put("width"			,	780);
+        options.put("contentWidth"	, 	738);
+        options.put("responsive"	, 	true);
         
 		return options;
 		

@@ -5,7 +5,7 @@ import br.prati.tim.collaboration.gp.jpa.TipoComponente;
 
 public class TipoComponenteDAOImpl extends AbstractJPADAO<TipoComponente> implements TipoComponenteDAO{
 
-	public TipoComponenteDAOImpl(Class<TipoComponente> clazz) {
+	public TipoComponenteDAOImpl() {
 		super(TipoComponente.class);
 	}
 

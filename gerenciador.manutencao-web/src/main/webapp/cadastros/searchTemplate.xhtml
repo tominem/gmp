@@ -1,0 +1,107 @@
+<html 	xmlns	="http://www.w3.org/1999/xhtml"
+		xmlns:h	="http://java.sun.com/jsf/html"
+		xmlns:f	="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p	="http://primefaces.org/ui">
+
+    <h:head>
+
+        <f:facet name="first">
+    		<meta charset	=	"UTF-8" />
+        </f:facet>
+        
+        <title>#{searchMB.title}</title>
+    </h:head>
+    
+     
+    <h:body>
+
+	    <style type="text/css">
+	    
+	    	.Wid10{ width:10%;}
+	    	.Wid90{ width:90%;}
+	    
+	    </style>
+
+		
+        <h:form id	=	"searchMB.form">
+			
+			<p:focus context	=	"panelGridBusca" />
+						
+			
+			<h:panelGrid 		columns			=	"2"
+								id				= 	"panelGridBusca" 
+								columnClasses	=	"Wid90, Wid10">
+				
+				<p:outputLabel	for				=	"criterioBusca" 
+								value			=	"Informe o nome para consultar o #{searchMB.entityName} desejado"></p:outputLabel>
+
+				<p:outputLabel 	for				=	"selOneSituacao" 
+								value			=	"Situação">
+				</p:outputLabel>
+				
+				<p:inputText 	id				=	"criterioBusca" 
+								value			=	"#{searchMB.pattern}"
+								required		=	"false"
+								style			=	"width: 100%">
+					
+					<p:ajax		event			=	"keyup" 
+								update			=	"panelGridTable" 
+								listener		=	"#{searchMB.search()}">
+					</p:ajax>
+					
+				</p:inputText>
+				
+				<p:selectOneMenu 	id			=	"selOneSituacao" 
+									style		=	"with:100%" 
+									required	=	"true"
+									value		=	"#{searchMB.intSituacao}">
+					
+					<p:ajax 		update 		=	"panelGridTable"
+									listener	=	"#{searchMB.search()}"
+									immediate	=	"true">
+					</p:ajax>
+					
+					<f:selectItems value	=	"#{searchMB.itemSituacao}" ></f:selectItems>
+									
+				</p:selectOneMenu>
+							
+			</h:panelGrid>
+			
+        	<h:panelGrid id="panelGridTable">
+        		
+        		 <p:dataTable 	var					=	"item" 
+        		 				value				=	"#{searchMB.objectList}" 
+        		 			  	id					=	"tablePesquisa"
+        		 			  	emptyMessage		=	"Nenhum registro"
+        		 			  	paginator			=	"true"
+        		 			  	rows				=	"10"
+        		 			  	selectionMode		=	"single"
+        		 			  	rowKey				=	"#{searchMB.entityId}"
+        		 			  	selection			=	"#{searchMB.objectSelected}"
+        		 			  	paginatorPosition	=	"bottom"
+								scrollable			=	"true"
+	   		 			  		scrollHeight		=	"250"
+        		 			  	>
+	
+					<p:ajax event		=	"rowSelect"
+							listener	=	"#{searchMB.setSelectedObject()}"
+					/>
+					
+					<ui:repeat var="filter" value="#{searchMB.filters}">
+					
+	                	<p:column headerText	=	"#{filter.name}">
+	                    	<h:outputText value	=	"#{item[filter.fieldName]}" />
+	                	</p:column>
+	                	
+					</ui:repeat>
+                	
+                </p:dataTable>
+                
+        	</h:panelGrid>
+        		
+        </h:form>
+        
+	</h:body>
+	
+</html>

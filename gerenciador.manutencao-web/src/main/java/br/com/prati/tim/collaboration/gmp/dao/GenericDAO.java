@@ -1,10 +1,10 @@
 package br.com.prati.tim.collaboration.gmp.dao;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 
 /**
  * Generic interface 
@@ -26,7 +26,7 @@ public interface GenericDAO<T> {
 
 	T findById(Long id);
 
-	void delete(T item);
+	void delete(T item) throws PersistenceException;
 	
 	List<T> findAllWithLimit(Optional<Boolean> status);
 
@@ -61,4 +61,9 @@ public interface GenericDAO<T> {
 	 */
 	List<T> findLikeOrNotLikeWithLimit(String pattern, Optional<Integer> limit, Optional<Boolean> active, FilterParam<?> ... filterParams);
 
+	String getStatusAttrName();
+
+	void setStatusAttrName(String statusAttrName);
+	
+	T activeOrInactive(T object);
 }

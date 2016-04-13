@@ -17,7 +17,7 @@
 						<p:commandButton 	value="Novo" 
 											update="#{nomeFormulario}"
 											process="@this" 
-											actionListener="#{crudBean.limpar()}"
+											actionListener="#{crudBean.clean()}"
 											icon="fa fa-file-o white"
 											styleClass="Wid100 PurpleButton RaisedButton">
 						</p:commandButton>
@@ -31,7 +31,7 @@
 						<p:commandButton 	value="Salvar" 
 											icon="fa fa-floppy-o white"
 											id="salvarUsuario" 
-											actionListener="#{crudBean.salvar()}"
+											actionListener="#{crudBean.save()}"
 											validateClient="true" 
 											update="#{nomeFormulario}"
 											styleClass="Wid100 PurpleButton RaisedButton">
@@ -45,15 +45,15 @@
 						
 						<p:commandButton 	value="Excluir" 
 											icon="fa fa-trash white"
-											id="excluir" 
-											actionListener="#{crudBean.excluir()}"
+											id="exclude" 
+											actionListener="#{crudBean.exclude()}"
 											update="#{nomeFormulario}"
-											disabled="#{crudBean.cadTipoComponente.idTipoComponente == null}"
+											disabled="#{crudBean.entityId == null}"
 											immediate="true" 
 											styleClass="Wid100 PurpleButton RaisedButton">
 
 							<p:confirm 		header="Confirmação"
-											message="Tem certeza que deseja excluir? Este processo é irreversível"
+											message="Tem certeza que deseja excluir ? Este processo é irreversível"
 											icon="ui-icon-alert">
 							</p:confirm>
 
@@ -65,10 +65,10 @@
 				<div class="MarRight025Em MarBottom1 Container15 Responsive50">
 					<ui:insert name="contentSituacao">
 					
-						<p:commandButton	icon="#{crudBean.cadTipoComponente.status ? ' fa fa-lock white' 	: 'fa fa-unlock white'}"
-											value="#{crudBean.cadTipoComponente.status ? 'Inativar' 			: 'Ativar'}"
-											disabled="#{crudBean.cadTipoComponente.idTipoComponente == null}"
-											actionListener="#{crudBean.inativarAtivar()}"
+						<p:commandButton	icon="#{crudBean.entityStatus ? ' fa fa-lock white' 	: 'fa fa-unlock white'}"
+											value="#{crudBean.entityStatus ? 'Inativar' 			: 'Ativar'}"
+											disabled="#{crudBean.entityId == null}"
+											actionListener="#{crudBean.activateOrInactivate()}"
 											validateClient="true" 
 											update="#{nomeFormulario}"
 											immediate="true" 
@@ -81,18 +81,18 @@
 				<div class="MarRight025Em MarBottom1 Container15 Responsive100">
 					<ui:insert name="contentPesquisar">
 						
-						<o:methodParam name="selecionarObjetoPosPesquisa" value="#{crudBean.selecionarObjetoPosPesquisa}"/>
+						<o:methodParam name="selectObjectAfterSearch" value="#{crudBean.selectObjectAfterSearch}"/>
 						
 						<p:commandButton 	value="Pesquisar" 
 											icon="fa fa-search white"
 											immediate="true" 
-											actionListener="#{crudBean.pesquisar()}"
+											actionListener="#{crudBean.search()}"
 											update="#{nomeFormulario}" 
 											process="@this"
 											styleClass="Wid100 PurpleButton RaisedButton">
 
 							<p:ajax 		event="dialogReturn"
-											listener="#{selecionarObjetoPosPesquisa}"
+											listener="#{selectObjectAfterSearch}"
 											update="#{nomeFormulario}"/>
 
 						</p:commandButton>
