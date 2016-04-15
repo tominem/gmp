@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import org.primefaces.event.SelectEvent;
 
-import br.com.prati.tim.collaboration.gmp.dao.FilterParam;
 import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
 
 public interface Searchable<T extends Serializable> {
@@ -14,8 +13,6 @@ public interface Searchable<T extends Serializable> {
 	void selectObjectAfterSearch(SelectEvent event);
 	
 	String getResourceDialogPath();
-	
-	FilterParam<?>[] getFilterParams();
 	
 	CrudEJB<T> getCrudEJB();
 	

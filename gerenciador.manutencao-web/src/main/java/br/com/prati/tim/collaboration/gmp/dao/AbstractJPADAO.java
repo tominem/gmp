@@ -1,12 +1,16 @@
 package br.com.prati.tim.collaboration.gmp.dao;
 
+import static br.com.prati.tim.collaboration.gmp.dao.FilterCase.IGNORE_CASE;
+import static br.com.prati.tim.collaboration.gmp.dao.FilterCase.LOWER_CASE;
 import static br.com.prati.tim.collaboration.gmp.dao.FilterCriteria.EQUAL;
+import static com.uaihebert.uaicriteria.UaiCriteriaFactory.createMultiSelectCriteria;
 import static com.uaihebert.uaicriteria.UaiCriteriaFactory.createQueryCriteria;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -197,27 +201,7 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 		
 		List<FilterParam<?>> filters = Arrays.asList(filterParams);
 		
-		UaiCriteria<T> criteria = createQueryCriteria(em, getEntityClass());
-		
-		filters.forEach(f -> {
-			
-			if (f.getCriteria() == EQUAL) {
-				
-				try {
-					
-					criteria.orEquals(f.getFieldName(), f.parsePattern(pattern));
-				
-				} catch (NumberFormatException e) {
-					//do nothing
-				}
-				
-			}
-			
-			else{
-				criteria.orStringLike(f.getFieldName(), f.parsePattern(pattern).toString());
-			}
-			
-		});
+		UaiCriteria<T> criteria = handleWhereClause(pattern, filters);
 
 		active.ifPresent(b -> criteria.andEquals(getStatusAttrName(), b));
 		
@@ -238,6 +222,74 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 		});
 		
 		return criteria.getResultList();
+	}
+
+	private UaiCriteria<T> handleWhereClause(String pattern, List<FilterParam<?>> filters) {
+		
+		UaiCriteria<T> criteria = createQueryCriteria(em, getEntityClass());
+		
+		filters.forEach(f -> {
+			
+			handleJoinClause(criteria, f);
+			
+			if (f.getCriteria() == EQUAL) {
+				
+				try {
+					
+					criteria.orEquals(f.getFieldName(), f.parsePattern(pattern));
+				
+				} catch (NumberFormatException e) {
+					//do nothing
+				}
+				
+			}
+			
+			else{
+				
+				if (f.getFilterCase() == IGNORE_CASE || f.getFilterCase() == LOWER_CASE) {
+					criteria.orStringLike(true, f.getFieldName(),	f.parsePattern(pattern).toString());
+				}
+				
+				else{
+					criteria.orStringLike(f.getFieldName(),	f.parsePattern(pattern).toString());
+				}
+			}
+			
+		});
+		
+		return criteria;
+	}
+	
+	/**
+	 * Makes auto the join clauses if character <b>.</b is present in fieldName
+	 * 
+	 * @param criteria
+	 * @param f
+	 */
+	private void handleJoinClause(UaiCriteria<T> criteria, FilterParam<?> f) {
+		
+		if (f.getFieldName().contains(".")) {
+			String[] split = f.getFieldName().split("\\.");
+			criteria.leftJoin(split[0]);
+		}
+		
+	}
+	
+	public List<T> findAllOrderByAsc(String attribute){
+		return createQueryCriteria(em, getEntityClass())
+					.orderByAsc(attribute)
+					.getResultList();
+	}
+
+	@Override
+	public boolean checkIfExists(Map<String, Object> attributes) {
+
+		UaiCriteria<T> criteria = createMultiSelectCriteria(em, getEntityClass())
+				.countAttribute	(attributes.entrySet().stream().findFirst().get().getKey());
+		
+		attributes.forEach((k,v) -> criteria.orEquals(k, v));
+		
+		return (Long) criteria.getMultiSelectResult().get(0) > 0;
 	}
 
 }

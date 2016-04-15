@@ -1,6 +1,7 @@
 package br.com.prati.tim.collaboration.gmp.dao;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -66,4 +67,7 @@ public interface GenericDAO<T> {
 	void setStatusAttrName(String statusAttrName);
 	
 	T activeOrInactive(T object);
+	
+	boolean checkIfExists(Map<String, Object> attributes);
+	
 }

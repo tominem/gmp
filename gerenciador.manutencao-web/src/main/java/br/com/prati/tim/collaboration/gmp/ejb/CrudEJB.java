@@ -1,6 +1,7 @@
 package br.com.prati.tim.collaboration.gmp.ejb;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import br.com.prati.tim.collaboration.gmp.dao.FilterParam;
@@ -19,5 +20,7 @@ public interface CrudEJB<T> {
 	List<T> findLikeOrNotLikeWithLimit(String pattern, Optional<Integer> limit, Optional<Boolean> active, FilterParam<?> ... filterParams);
 
 	T activateOrInactivate(T entityBean);
+	
+	boolean checkIfExists(Map<String, Object> attributes);
 	
 }

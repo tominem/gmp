@@ -27,7 +27,10 @@ public class UtilsMessage {
 
 		FacesMessage message = new FacesMessage(errorMessage);
 		message.setSeverity(severity);
-		FacesContext.getCurrentInstance().addMessage(componentId, message);
+		
+		FacesContext fc = FacesContext.getCurrentInstance();
+		fc.addMessage(componentId, message);
+		fc.renderResponse();
 
 	}
 	

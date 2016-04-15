@@ -42,6 +42,10 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 	public T getEntityBean() {
 		return entityBean;
 	}
+	
+	public String getContentPane(){
+		return "contentPane";
+	}
 
 	public abstract String getResourceDialogPath();
 	
@@ -58,11 +62,11 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 	 * 
 	 * @return 
 	 */
-	public abstract String getFormName();
+	public String getFormName(){
+		return "formCad";
+	}
 	
 	public abstract CrudEJB<T> getCrudEJB();
-	
-	public abstract String getSearchMB();
 	
 	public abstract void validate(ComponentSystemEvent event);
 	

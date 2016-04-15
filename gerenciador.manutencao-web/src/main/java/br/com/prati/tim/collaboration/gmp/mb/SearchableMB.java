@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.PostConstruct;
 import javax.faces.model.SelectItem;
 
 import org.primefaces.context.RequestContext;
@@ -27,7 +28,10 @@ public abstract class SearchableMB<T extends Serializable> implements Serializab
 	
 	private List<SelectItem>	itemsSituacao;
 	
-	public abstract void init();
+	@PostConstruct
+	public void init() {
+		search();
+	}
 	
 	public abstract String getTitle();
 	

@@ -1,6 +1,7 @@
 package br.com.prati.tim.collaboration.gmp.ejb;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import br.com.prati.tim.collaboration.gmp.dao.FilterParam;
@@ -36,6 +37,9 @@ public abstract class AbstractCrudEJB<T> implements CrudEJB<T> {
 		return getCrudDAO().activeOrInactive(entityBean);
 	}
 
-	
+	@Override
+	public boolean checkIfExists(Map<String, Object> attributes) {
+		return getCrudDAO().checkIfExists(attributes);
+	}
 	
 }

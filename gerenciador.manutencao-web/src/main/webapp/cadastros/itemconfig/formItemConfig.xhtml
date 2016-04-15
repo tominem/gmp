@@ -1,0 +1,198 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+				
+	<ui:define name="header">
+		
+		.centered {
+			vertical-align: middle;
+		}
+		
+	</ui:define>
+				
+	<ui:define name="content">
+		
+		<h:form id	=	"formCad" >        
+	       
+	       <p:growl />
+	       
+	       <p:focus context		=	"#{itemConfigMB.contentPane}" />
+	       
+	        <div class="Container100">
+	          
+	            <div class="ContainerIndent">
+	                
+	                <p:panel styleClass="Card ShadowEffect" id	=	"contentPane">
+	                    
+	                    <div class="Container">
+	                    
+	                    	<div class="ContainerIndent">
+		                    	
+		                    	<div class="Container60 Responsive100">
+		                        
+		                            <div class="BigTopic Fs18">
+										<i class="fa fa-tag"/> Cadastro de Itens de Configuração
+									</div>
+									
+									<div class="Separator"></div>
+									
+									<p:panelGrid 	columns				=	"1" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
+		                            			 	columnClasses		=	"ui-grid-col-12">
+		                            			 	
+		                            	<!-- register a PostValidateEvent -->
+										<f:event listener="#{itemConfigMB.validate}" type="postValidate" />
+										
+										
+										
+										<p:outputLabel 	value			=	"Descrição" 		
+														for				=	"descricao"/>
+										
+										<p:inputText 	required		=	"true" 
+														requiredMessage	=	"Descrição requerida"
+														value			=	"#{itemConfigMB.entityBean.descricao}"
+														id				=	"descricao" />
+														
+														
+										
+										<p:outputLabel 	value			=	"Menu" 		
+														for				=	"menu"/>
+										
+										<p:selectOneMenu id					=	"menu" 
+														 value				=	"#{itemConfigMB.menuConfigSelected}"
+														 converter			=	"menuConfigConverter"
+														 required			=	"true"
+														 requiredMessage	=	"Menu requerido">
+								            
+								            <f:selectItem itemLabel			=	"Selecione o menu pai" 
+								            			  itemValue			=	"" />
+								            
+								            <f:selectItems 	value			=	"#{itemConfigMB.menus}" 
+								            				var				=	"item"
+								            				itemValue		=	"#{item}"
+								            				itemLabel		=	"#{item.descricao}"/>
+								            
+								        </p:selectOneMenu>
+								        
+								        
+
+										<p:outputLabel 	value			=	"Tipo de Componente" 		
+														for				=	"tipoComponente"/>
+										
+										<p:selectOneMenu id					=	"tipoComponente" 
+														 value				=	"#{itemConfigMB.tipoComponenteSelected}"
+														 converter			=	"tipoComponenteConverter"
+														 required			=	"true"
+														 requiredMessage	=	"Tipo de componente requerido">
+								            
+								            <f:selectItem itemLabel			=	"Selecione o tipo de componente" 
+								            			  itemValue			=	"" />
+								            
+								            <f:selectItems 	value			=	"#{itemConfigMB.tiposComponentes}" 
+								            				var				=	"item"
+								            				itemValue		=	"#{item}"
+								            				itemLabel		=	"#{item.descricao}"/>
+								            
+								        </p:selectOneMenu>
+								        
+								        
+								        
+								        <p:outputLabel 	value			=	"Comando" 		
+														for				=	"comando"/>
+										
+										<p:inputText 	required		=	"true" 
+														requiredMessage	=	"Comando requerido"
+														value			=	"#{itemConfigMB.entityBean.comando}"
+														id				=	"comando" />
+														
+		                            </p:panelGrid>
+		                            
+		                            <div class="EmptyBox20" />                  	
+		                            	
+		                            <p:panelGrid 		columns				=	"3" 
+			                            				layout				=	"grid" 
+			                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
+			                            			 	columnClasses		=	"ui-grid-col-4, ui-grid-col-4, ui-grid-col-4">
+		                            	
+		                            		<!-- line 1 -->
+		                            		<p:outputLabel 	value			=	"Valor Minimo"
+															for				=	"valorMinimo"/>
+
+		                            		<p:outputLabel 	value			=	"Valor Máximo"
+															for				=	"valorMaximo"/>
+															
+											<div/>			                            			 			
+																		
+											<!-- line 2 -->							
+											<p:inputText 	value			=	"#{itemConfigMB.entityBean.valorMinimo}"
+															id				=	"valorMinimo" />
+															
+											<p:inputText 	value			=	"#{itemConfigMB.entityBean.valorMaximo}"
+															id				=	"valorMaximo" />
+											
+											<p:panel style="border-style: none;">
+											
+												<p:selectBooleanCheckbox 	id			=	"exibirIHM"	
+																			itemLabel	=	"Exibir na IHM"
+																			value		=	"#{itemConfigMB.entityBean.exibe}"
+																			styleClass	=	"centered"/>
+																			
+											</p:panel>															
+		                            	
+		                            </p:panelGrid>
+		                            
+		                            <p:panelGrid 	columns				=	"1" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
+		                            			 	columnClasses		=	"ui-grid-col-12">
+		                            
+		                            	<p:outputLabel 	value			=	"Escala" 		
+														for				=	"escala"/>
+										
+										<p:inputText 	value			=	"#{itemConfigMB.entityBean.escala}"
+														id				=	"escala" />
+														
+										
+		                            	<p:outputLabel 	value			=	"Conversor" 		
+														for				=	"conversor"/>
+										
+										<p:selectOneMenu id					=	"conversor" 
+														 value				=	"#{itemConfigMB.conversores}"
+														 converter			=	"tipoComponenteConverter"
+														 required			=	"true"
+														 requiredMessage	=	"Tipo de componente requerido">
+								            
+								            <f:selectItem itemLabel			=	"Selecione o tipo de componente" 
+								            			  itemValue			=	"" />
+								            
+								            <f:selectItems 	value			=	"#{itemConfigMB.tiposComponentes}" 
+								            				var				=	"item"
+								            				itemValue		=	"#{item}"
+								            				itemLabel		=	"#{item.descricao}"/>
+								            
+								        </p:selectOneMenu>
+		                            	
+		                            </p:panelGrid>				
+											                        
+		                    	</div>
+		                 	</div>
+		                    
+	                    	<ui:include src="/cadastros/templatefooter.xhtml">
+	                    		<ui:param name="nomeFormulario" value="#{itemConfigMB.formName}" />
+	                    		<ui:param name="crudBean" value="#{itemConfigMB}" />
+	                    	</ui:include>
+		                    
+	                    </div>
+	                    
+	                </p:panel>
+	                
+	            </div>
+	            
+	        </div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

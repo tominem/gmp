@@ -36,4 +36,5 @@ public class TipoComponenteEJBImpl extends AbstractCrudEJB<TipoComponente> imple
 		return tipoComponenteDAO;
 	}
 
+
 }
