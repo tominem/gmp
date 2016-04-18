@@ -1,6 +1,8 @@
 package br.com.prati.tim.collaboration.gmp.mb.itemconfig;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.event.ComponentSystemEvent;
@@ -16,6 +18,9 @@ import br.com.prati.tim.collaboration.gmp.mb.AbstractCrudMB;
 import br.prati.tim.collaboration.gp.jpa.FuncaoConfig;
 import br.prati.tim.collaboration.gp.jpa.MenuConfig;
 import br.prati.tim.collaboration.gp.jpa.TipoComponente;
+import br.prati.tim.collaboration.gp.jpa.TipoComponente.ETipoComponente;
+import br.prati.tim.collaboration.gp.jpa.TipoComponente.ETipoComponenteType;
+import br.prati.tim.collaboration.gp.jpa.ValoresFuncao;
 import br.prati.tim.collaboration.gp.jpa.enumerator.EComponentConverter;
 
 @Named("itemConfigMB")
@@ -35,21 +40,41 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 	
 	private List<TipoComponente> tiposComponentes;
 
-	private List<TipoComponente> conversores;
+	private List<EComponentConverter> conversores;
+	
+	private List<ValoresFuncao> valoresFuncao;
+	
+	private ValoresFuncao valorFuncaoSelected;
 	
 	
 	//=================== METHODS ==========================//
 	
-	
+
+	public ValoresFuncao getValorFuncaoSelected() {
+		return valorFuncaoSelected;
+	}
+
+	public void setValorFuncaoSelected(ValoresFuncao valorFuncaoSelected) {
+		this.valorFuncaoSelected = valorFuncaoSelected;
+	}
+
 	public List<MenuConfig> getMenus() {
 		return menus;
 	}
 
-	public List<TipoComponente> getConversores() {
+	public List<ValoresFuncao> getValoresFuncao() {
+		return valoresFuncao;
+	}
+
+	public void setValoresFuncao(List<ValoresFuncao> valoresFuncao) {
+		this.valoresFuncao = valoresFuncao;
+	}
+
+	public List<EComponentConverter> getConversores() {
 		return conversores;
 	}
 
-	public void setConversores(List<TipoComponente> conversores) {
+	public void setConversores(List<EComponentConverter> conversores) {
 		this.conversores = conversores;
 	}
 
@@ -93,9 +118,11 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 	public void clean() {
 		try {
 			
-			getRequestContext().reset(getFormName());
+			//getRequestContext().reset(getFormName());
 			
 			this.entityBean = getEntityClass().newInstance();
+			
+			this.valoresFuncao = new ArrayList<ValoresFuncao>();
 			
 			load();
 			
@@ -110,7 +137,25 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 		
 		menus = ejb.findAllMenus();
 		tiposComponentes = ejb.findAllTipoComponentes();
+		conversores = Arrays.asList(EComponentConverter.values());
 		
+	}
+	
+	public Boolean getShowList(){
+		
+		TipoComponente tipoComponenteSel = entityBean.getTipoComponente();
+		
+		if(tipoComponenteSel == null) return false;
+		
+		ETipoComponente lookup = ETipoComponente.lookup(tipoComponenteSel.getDescricao());
+		
+		if (lookup == null) return false;
+		
+		if (lookup.getType() == ETipoComponenteType.LIST) {
+			return true;
+		}
+		
+		return false;
 	}
 
 	@Override
@@ -194,6 +239,12 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 			load();
 			showMensagemSucessoConsulta();
 		}
+	}
+	
+	public void teste(){
+		
+		System.out.println(entityBean);
+		
 	}
 
 }
