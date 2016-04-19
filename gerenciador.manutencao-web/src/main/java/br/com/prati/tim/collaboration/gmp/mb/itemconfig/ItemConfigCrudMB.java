@@ -3,7 +3,9 @@ package br.com.prati.tim.collaboration.gmp.mb.itemconfig;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
@@ -35,6 +37,9 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 	
 	@Inject
 	private FuncaoConfigEJB ejb;
+	
+	@Inject
+	private TimeZone defaultTimeZone;
 
 	private List<MenuConfig> menus;
 	
@@ -45,13 +50,22 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 	private List<ValoresFuncao> valoresFuncao;
 	
 	private ValoresFuncao valorFuncaoSelected;
-	
+
+	private ValoresFuncao valorFuncaoInserted;
 	
 	//=================== METHODS ==========================//
 	
 
 	public ValoresFuncao getValorFuncaoSelected() {
 		return valorFuncaoSelected;
+	}
+
+	public ValoresFuncao getValorFuncaoInserted() {
+		return valorFuncaoInserted;
+	}
+
+	public void setValorFuncaoInserted(ValoresFuncao valorFuncaoInserted) {
+		this.valorFuncaoInserted = valorFuncaoInserted;
 	}
 
 	public void setValorFuncaoSelected(ValoresFuncao valorFuncaoSelected) {
@@ -139,6 +153,11 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 		tiposComponentes = ejb.findAllTipoComponentes();
 		conversores = Arrays.asList(EComponentConverter.values());
 		
+		valoresFuncao = new ArrayList<ValoresFuncao>();
+		
+		valorFuncaoSelected = new ValoresFuncao();
+		valorFuncaoInserted = new ValoresFuncao();
+		
 	}
 	
 	public Boolean getShowList(){
@@ -156,6 +175,17 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 		}
 		
 		return false;
+	}
+	
+	public void addValorFuncao(){
+		
+		valorFuncaoInserted.setOrdem(valoresFuncao.size()+1);
+		valorFuncaoInserted.setFuncaoConfig(entityBean);
+		valorFuncaoInserted.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
+		
+		valoresFuncao.add(valorFuncaoInserted);
+		
+		valorFuncaoInserted = new ValoresFuncao();
 	}
 
 	@Override

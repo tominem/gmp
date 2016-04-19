@@ -10,6 +10,10 @@
 			vertical-align: middle;
 		}
 		
+		.h-right {
+			text-align: right;
+		}
+		
 	</ui:define>
 				
 	<ui:define name="content">
@@ -92,7 +96,7 @@
 								            			  	itemValue		=	"" />
 								            
 								            <p:ajax 	  	event			=	"change" 	
-								            				update			=	"containerPaValMinMax" 	
+								            				update			=	"containerPaValMinMax contentPaLista contentPaValores" 	
 								            				listener		=	"#{itemConfigMB.teste()}"/>
 								            
 								            <f:selectItems 	value			=	"#{itemConfigMB.tiposComponentes}" 
@@ -112,6 +116,48 @@
 														value			=	"#{itemConfigMB.entityBean.comando}"
 														id				=	"comando" />
 														
+		                            </p:panelGrid>
+		                            
+		                            <p:panelGrid 	id					=   "paConversor"
+		                            				columns				=	"1" 	
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
+		                            			 	columnClasses		=	"ui-grid-col-12">
+		                            
+		                            	<p:outputLabel 	value			=	"Conversor" 		
+														for				=	"conversor"/>
+										
+										<p:selectOneMenu id					=	"conversor" 
+														 value				=	"#{itemConfigMB.conversores}"
+														 converter			=	"eComponenteConverter">
+								            
+								            <f:selectItem itemLabel			=	"Selecione o tipo de conversor" 
+								            			  itemValue			=	"" />
+								            
+								            <f:selectItems 	value			=	"#{itemConfigMB.conversores}" 
+								            				var				=	"item"
+								            				itemValue		=	"#{item}"
+								            				itemLabel		=	"#{item.clazzName}"/>
+								            
+								        </p:selectOneMenu>
+								        
+								        <h:panelGroup styleClass="centered">
+												
+												<div class="EmptyBox20"/>			                            			 			
+																			
+												<p:panel style="border-style: none;">
+												
+														<p:selectBooleanCheckbox 	id			=	"exibirIHM"	
+																					itemLabel	=	"Exibir na IHM"
+																					value		=	"#{itemConfigMB.entityBean.exibe}"
+																					styleClass	=	"centered">
+																					
+														</p:selectBooleanCheckbox>
+																				
+												</p:panel>	
+															
+										</h:panelGroup>
+		                            	
 		                            </p:panelGrid>
 		                            
 		                            <div class="EmptyBox20" />                  	
@@ -150,24 +196,6 @@
 												
 												</h:panelGroup>							                            			 		
 														
-																
-												<h:panelGroup styleClass="centered">
-												
-															<div class="EmptyBox20"/>			                            			 			
-																						
-															<p:panel style="border-style: none;">
-															
-																	<p:selectBooleanCheckbox 	id			=	"exibirIHM"	
-																								itemLabel	=	"Exibir na IHM"
-																								value		=	"#{itemConfigMB.entityBean.exibe}"
-																								styleClass	=	"centered">
-																								
-																	</p:selectBooleanCheckbox>
-																							
-															</p:panel>	
-															
-												</h:panelGroup>
-																												
 			                            	
 			                            		<h:panelGroup>
 			                            			
@@ -177,86 +205,88 @@
 															<p:inputText 	value			=	"#{itemConfigMB.entityBean.escala}"
 																			id				=	"escala" />			
 			                            			
-			                            		</h:panelGroup>
-			                            		
-			                            		<h:panelGroup/>
-			                            		
-			                            		<h:panelGroup/>
+			                            		</h:panelGroup>			                            		
 			                            		
 			                            </p:panelGrid>
 			                            
 		                            </h:panelGroup>	
 		                            
 		                            <!-- Painel de Tipos de Componentes que são do tipo Lista -->
-		                            <p:panelGrid 		id					=	"paLista"
-		                            					columns				=	"3" 
-			                            				layout				=	"grid" 
-			                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
-			                            			 	columnClasses		=	"ui-grid-col-4, ui-grid-col-4, ui-grid-col-4">
-		                            	
-		                            		<div/>
-		                            	
-		                            		<!-- line 1 -->
-		                            		<p:outputLabel 	value			=	"Valor da Lista"
-															for				=	"valorDaLista"/>
-
-											<!-- line 2 -->							
-											<p:inputText 	value			=	"#{itemConfigMB.entityBean.valorMaximo}"
-															id				=	"valorDaLista" />
-		                            	
-		                            </p:panelGrid>
+		                            <h:panelGroup	id	=	"contentPaLista">
 		                            
-		                            <p:panelGrid		id					=   "paValores"		                            					
-		                            					columns				=	"1" 
-			                            				layout				=	"grid" 
-			                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
-			                            			 	columnClasses		=	"ui-grid-col-12">
-
-										<p:dataTable 	id="tableValores"
-														var="item"
-														value="#{itemConfigMB.valoresFuncao}" 
-														emptyMessage="Nenhum registro" 
-														paginator="true" 
-														rows="10"
-														selectionMode="single" 
-														selection="#{itemConfigMB.valorFuncaoSelected}"
-														paginatorPosition="bottom" scrollable="true"
-														scrollHeight="250">
-
-											<p:column headerText="Valores da Lista">
-												<h:outputText value="#{item.valor}" />
-											</p:column>
-
-										</p:dataTable>
-										
-									</p:panelGrid>
+				                            	
+				                            		<h:panelGroup id="contentValorDaLista">
+				                            		
+							                            		<!-- line 1 -->
+							                            		<p:outputLabel 	value			=	"Valor da Lista"
+																				for				=	"valorDaLista"/>
+						
+																<!-- line 2 -->							
+																<p:inputText 	value			=	"#{itemConfigMB.valorFuncaoInserted.valor}"
+																				id				=	"valorDaLista" />
+				                            		</h:panelGroup>
+				                            <p:panelGrid 		id					=	"paLista"
+				                            					columns				=	"2" 
+					                            				layout				=	"grid" 
+					                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
+					                            			 	columnClasses		=	"ui-grid-col-11,ui-grid-col-1"
+					                            			 	rendered			=	"#{itemConfigMB.showList}">
+				                            		
+				                            		<h:panelGroup>
+				                            			
+				                            			<div class="EmptyBox20" />
+				                            			
+				                            			
+				                            		</h:panelGroup>
+				                            			
+				                            			<p:commandButton 	styleClass		=	"PurpleTextButton RaisedButton"	
+				                            								icon			=	"fa fa-plus Fs16 White" 
+				                            								style 			= 	"float:right;"
+				                            								immediate		=	"true"
+				                            								update			=	"tableValores"
+				                            								actionListener	=	"#{itemConfigMB.addValorFuncao()}"
+				                            								process			=	"formCad:paLista"/>
+				                            								
+				                            </p:panelGrid>
+				                            
+		                            </h:panelGroup>
+				                    
+				                    <h:panelGrid	id	= 	"contentPaValores"	layout	= "block">
+				                    
+				                            <p:panelGrid		id					=   "paValores"		                            					
+				                            					columns				=	"1" 
+					                            				layout				=	"grid" 
+					                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
+					                            			 	columnClasses		=	"ui-grid-col-12"
+					                            			 	rendered			=	"#{itemConfigMB.showList}">
+			
+												<p:dataTable 	id					=	"tableValores"
+																var					=	"item"
+																value				=	"#{itemConfigMB.valoresFuncao}" 
+																emptyMessage		=	"Nenhum registro" 
+																paginator			=	"true" 
+																rows				=	"10"
+																rowKey				=	"#{item.hash()}"
+																selectionMode		=	"single" 
+																selection			=	"#{itemConfigMB.valorFuncaoSelected}"
+																paginatorPosition	=	"bottom" 
+																scrollable			=	"true"
+																scrollHeight		=	"250"
+																reflow				=	"true">
+			
+													<p:column headerText="Valores da Lista">
+													
+															<h:outputText value="#{item.valor}" />
+													
+													</p:column>
+			
+												</p:dataTable>
+												
+											</p:panelGrid>
+											
+				                    </h:panelGrid>        
+											
 		                         
-		                            
-		                            <p:panelGrid 	id					=   "paConversor"
-		                            				columns				=	"1" 	
-		                            				layout				=	"grid" 
-		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
-		                            			 	columnClasses		=	"ui-grid-col-12">
-		                            
-		                            	<p:outputLabel 	value			=	"Conversor" 		
-														for				=	"conversor"/>
-										
-										<p:selectOneMenu id					=	"conversor" 
-														 value				=	"#{itemConfigMB.conversores}"
-														 converter			=	"eComponenteConverter">
-								            
-								            <f:selectItem itemLabel			=	"Selecione o tipo de conversor" 
-								            			  itemValue			=	"" />
-								            
-								            <f:selectItems 	value			=	"#{itemConfigMB.conversores}" 
-								            				var				=	"item"
-								            				itemValue		=	"#{item}"
-								            				itemLabel		=	"#{item.clazzName}"/>
-								            
-								        </p:selectOneMenu>
-		                            	
-		                            </p:panelGrid>				
-											                        
 		                    	</div>
 		                 	</div>
 		                    

@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		
+		<h:form id	=	"formCad" >        
+	       
+	       <p:growl />
+	       
+	       <p:focus context		=	"#{fabricanteMB.contentPane}" />
+	       
+	        <div class="Container100">
+	          
+	            <div class="ContainerIndent">
+	                
+	                <p:panel styleClass="Card ShadowEffect" id	=	"contentPane">
+	                    
+	                    <div class="Container">
+	                    
+	                    	<div class="ContainerIndent">
+		                    	
+		                    	<div class="Container60 Responsive100">
+		                        
+		                            <div class="BigTopic Fs18">
+										<i class="fa fa-truck"/> Cadastro de Fabricante
+									</div>
+									
+									<div class="Separator"></div>
+									
+									<p:panelGrid 	columns				=	"1" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
+		                            			 	columnClasses		=	"ui-grid-col-12">
+		                            			 	
+		                            	<!-- register a PostValidateEvent -->
+										<f:event listener="#{fabricanteMB.validate}" type="postValidate" />
+										
+										<p:outputLabel 	value			=	"Nome" 		
+														for				=	"nome"/>
+										
+										<p:inputText 	requiredMessage	=	"Nome requerido"
+														value			=	"#{fabricanteMB.entityBean.nome}"
+														id				=	"nome" />
+										
+										<p:outputLabel 	value			=	"E-mail" 		
+														for				=	"email"/>
+														
+										<p:inputText 	value			=	"#{fabricanteMB.entityBean.email}"
+														id				=	"email" 
+														validator		=	"emailValidator"/>
+
+										<p:outputLabel 	value			=	"Telefone" 		
+														for				=	"telefone"/>
+														
+										<p:inputMask 	value			=	"#{fabricanteMB.entityBean.telefone}" 
+														mask			=	"(99) 99999-9999"
+														id				=	"telefone"/>
+										
+										<p:outputLabel 	value			=	"Observações" 		
+														for				=	"observacoes"/>
+																								
+										<p:inputTextarea id				=	"observacoes" 
+														value			=	"#{fabricanteMB.entityBean.observacoes}"/>
+										
+										
+		                            </p:panelGrid>
+											                        
+		                    	</div>
+		                 	</div>
+		                    
+	                    	<ui:include src="/cadastros/templatefooter.xhtml">
+	                    		<ui:param name="nomeFormulario" value="#{fabricanteMB.formName}" />
+	                    		<ui:param name="crudBean" value="#{fabricanteMB}" />
+	                    	</ui:include>
+		                    
+	                    </div>
+	                    
+	                </p:panel>
+	                
+	            </div>
+	            
+	        </div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
