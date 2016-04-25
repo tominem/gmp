@@ -18,8 +18,8 @@
 				
 	<ui:define name="content">
 		
-		<h:form id	=	"formCad" >        
-	       
+		<h:form 	id			=	"formCad">
+		
 	       <p:growl />
 	       
 	       <p:focus context		=	"#{itemConfigMB.contentPane}" />
@@ -37,7 +37,7 @@
 		                    	<div class="Container60 Responsive100">
 		                        
 		                            <div class="BigTopic Fs18">
-										<i class="fa fa-tag"/> Cadastro de Itens de Configuração
+										<i class="fa fa-th-list"/> Cadastro de Itens de Configuração
 									</div>
 									
 									<div class="Separator"></div>
@@ -96,8 +96,7 @@
 								            			  	itemValue		=	"" />
 								            
 								            <p:ajax 	  	event			=	"change" 	
-								            				update			=	"containerPaValMinMax contentPaLista contentPaValores" 	
-								            				listener		=	"#{itemConfigMB.teste()}"/>
+								            				update			=	"containerPaValMinMax contentPaLista contentPaValores"/>
 								            
 								            <f:selectItems 	value			=	"#{itemConfigMB.tiposComponentes}" 
 								            				var				=	"item"
@@ -128,7 +127,7 @@
 														for				=	"conversor"/>
 										
 										<p:selectOneMenu id					=	"conversor" 
-														 value				=	"#{itemConfigMB.conversores}"
+														 value				=	"#{itemConfigMB.entityBean.converter}"
 														 converter			=	"eComponenteConverter">
 								            
 								            <f:selectItem itemLabel			=	"Selecione o tipo de conversor" 
@@ -170,7 +169,7 @@
 				                            				layout				=	"grid" 
 				                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
 				                            			 	columnClasses		=	"ui-grid-col-4, ui-grid-col-4, ui-grid-col-4"
-				                            			 	rendered			=	"#{!itemConfigMB.showList}">
+				                            			 	rendered			=	"#{itemConfigMB.showScalable}">
 			                            	
 			                            		 <h:panelGroup>
 				                            	
@@ -212,44 +211,46 @@
 		                            </h:panelGroup>	
 		                            
 		                            <!-- Painel de Tipos de Componentes que são do tipo Lista -->
-		                            <h:panelGroup	id	=	"contentPaLista">
-		                            
-				                            	
-				                            		<h:panelGroup id="contentValorDaLista">
-				                            		
-							                            		<!-- line 1 -->
-							                            		<p:outputLabel 	value			=	"Valor da Lista"
-																				for				=	"valorDaLista"/>
-						
-																<!-- line 2 -->							
-																<p:inputText 	value			=	"#{itemConfigMB.valorFuncaoInserted.valor}"
-																				id				=	"valorDaLista" />
-				                            		</h:panelGroup>
-				                            <p:panelGrid 		id					=	"paLista"
-				                            					columns				=	"2" 
-					                            				layout				=	"grid" 
-					                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
-					                            			 	columnClasses		=	"ui-grid-col-11,ui-grid-col-1"
-					                            			 	rendered			=	"#{itemConfigMB.showList}">
-				                            		
-				                            		<h:panelGroup>
-				                            			
-				                            			<div class="EmptyBox20" />
-				                            			
-				                            			
-				                            		</h:panelGroup>
-				                            			
-				                            			<p:commandButton 	styleClass		=	"PurpleTextButton RaisedButton"	
-				                            								icon			=	"fa fa-plus Fs16 White" 
-				                            								style 			= 	"float:right;"
-				                            								immediate		=	"true"
-				                            								update			=	"tableValores"
-				                            								actionListener	=	"#{itemConfigMB.addValorFuncao()}"
-				                            								process			=	"formCad:paLista"/>
-				                            								
-				                            </p:panelGrid>
-				                            
-		                            </h:panelGroup>
+		                            <h:panelGroup	id	= 	"contentPaLista">
+			                            
+			                            <p:panelGrid 		id					=	"paLista"
+				                            				columns				=	"2" 
+					                            			layout				=	"grid" 
+					                            			styleClass			=	"ui-panelgrid-blank ui-fluid"
+					                            			columnClasses		=	"ui-grid-col-11,ui-grid-col-1"
+					                            			rendered			=	"#{itemConfigMB.showList}">
+					                            	
+					                            		<h:panelGroup id="contentValorDaLista">
+					                            		
+								                            		<!-- line 1 -->
+								                            		<p:outputLabel 		value			=	"Valor da Lista"
+																						for				=	"valorDaLista"/>
+							
+																	<!-- line 2 -->							
+																	<p:inputText 		value			=	"#{itemConfigMB.valorFuncaoInserted.valor}"
+																						id				=	"valorDaLista"/>
+																						
+					                            		</h:panelGroup>
+					                            		
+					                            		
+					                            		<h:panelGroup id="contentButtonValorDaLista">
+					                            			
+						                            		<div class="EmptyBox20" />
+						                            		
+					                            			<p:commandButton 	styleClass		=	"PurpleTextButton RaisedButton"	
+							                            						icon			=	"fa fa-plus Fs16 White" 
+							                            						style 			= 	"float:right;"
+							                            						update			=	"tableValores paLista"
+							                            						actionListener	=	"#{itemConfigMB.addValorFuncao()}"
+							                            						process			=	"formCad:paLista">
+							                            	</p:commandButton>
+					                            			
+					                            		</h:panelGroup>
+		                            								
+					                            		
+										</p:panelGrid>
+										
+									</h:panelGroup>
 				                    
 				                    <h:panelGrid	id	= 	"contentPaValores"	layout	= "block">
 				                    
@@ -268,7 +269,6 @@
 																rows				=	"10"
 																rowKey				=	"#{item.hash()}"
 																selectionMode		=	"single" 
-																selection			=	"#{itemConfigMB.valorFuncaoSelected}"
 																paginatorPosition	=	"bottom" 
 																scrollable			=	"true"
 																scrollHeight		=	"250"
@@ -278,8 +278,14 @@
 													
 															<h:outputText value="#{item.valor}" />
 													
+															<p:commandButton 	styleClass		=	"RedButton RaisedButton"
+																				icon			=	"fa fa-trash Fs16 White"
+																				style			=	"float:right;"
+																				actionListener	=	"#{itemConfigMB.removeVal(item)}"
+																				immediate		=	"true"
+																				update			=	"tableValores"/>
 													</p:column>
-			
+
 												</p:dataTable>
 												
 											</p:panelGrid>
@@ -293,6 +299,7 @@
 	                    	<ui:include src="/cadastros/templatefooter.xhtml">
 	                    		<ui:param name="nomeFormulario" value="#{itemConfigMB.formName}" />
 	                    		<ui:param name="crudBean" value="#{itemConfigMB}" />
+	                    		<ui:param name="rederedSitaucaoButton" value="false" />
 	                    	</ui:include>
 		                    
 	                    </div>

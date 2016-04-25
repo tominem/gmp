@@ -11,13 +11,13 @@ import javax.inject.Named;
 
 import br.com.prati.tim.collaboration.gmp.dao.FilterParam;
 import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
-import br.com.prati.tim.collaboration.gmp.ejb.menuconfig.MenuConfigEJB;
+import br.com.prati.tim.collaboration.gmp.ejb.itemconfig.FuncaoConfigEJB;
 import br.com.prati.tim.collaboration.gmp.mb.SearchableMB;
-import br.prati.tim.collaboration.gp.jpa.MenuConfig;
+import br.prati.tim.collaboration.gp.jpa.FuncaoConfig;
 
-@Named("searcItemConfigMB")
+@Named("searchItemConfigMB")
 @ViewScoped
-public class SearchItemConfigMB extends SearchableMB<MenuConfig> implements Serializable{
+public class SearchItemConfigMB extends SearchableMB<FuncaoConfig> implements Serializable{
 
 	/**
 	 * 
@@ -25,25 +25,25 @@ public class SearchItemConfigMB extends SearchableMB<MenuConfig> implements Seri
 	private static final long serialVersionUID = 632087411912461081L;
 
 	@Inject
-	private MenuConfigEJB ejb;
+	private FuncaoConfigEJB ejb;
 	
 	@Override
 	public String getTitle() {
-		return "Pesquisar Menu Configuração";
+		return "Pesquisar Item de Configuração";
 	}
 
 	@Override
 	public String getFormName() {
-		return "formPesquisaMenuConfig";
+		return "formPesquisaItemConfig";
 	}
 
 	@Override
 	public String getEntityName() {
-		return "Menu de configuração";
+		return "Item de configuração";
 	}
 	
 	@Override
-	public CrudEJB<MenuConfig> getCrudEJB() {
+	public CrudEJB<FuncaoConfig> getCrudEJB() {
 		return ejb;
 	}
 
@@ -52,7 +52,8 @@ public class SearchItemConfigMB extends SearchableMB<MenuConfig> implements Seri
 		return new FilterParam<?>[]{
 			
 			new FilterParam<String>("Descrição", "descricao", BOTH_LIKE, ASC),
-			new FilterParam<String>("Pai", "menuConfig.descricao", BOTH_LIKE)
+			new FilterParam<String>("Menu", "menuConfig.descricao", BOTH_LIKE),
+			new FilterParam<String>("Menu", "tipoComponente.descricao", BOTH_LIKE)
 			
 		};
 	}

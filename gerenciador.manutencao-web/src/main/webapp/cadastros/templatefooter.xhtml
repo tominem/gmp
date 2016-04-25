@@ -62,7 +62,7 @@
 					</ui:insert>
 				</div>
 
-				<div class="MarRight025Em MarBottom1 Container15 Responsive50">
+				<div class="MarRight025Em MarBottom1 Container15 Responsive50 #{rederedSitaucaoButton == null || rederedSitaucaoButton ? '' : 'hide'}">
 					<ui:insert name="contentSituacao">
 					
 						<p:commandButton	icon="#{crudBean.entityStatus ? ' fa fa-lock white' 	: 'fa fa-unlock white'}"

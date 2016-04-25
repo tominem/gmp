@@ -1,6 +1,7 @@
 package br.com.prati.tim.collaboration.gmp.mb.itemconfig;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -11,6 +12,7 @@ import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.xml.bind.ValidationException;
 
 import org.primefaces.event.SelectEvent;
 
@@ -33,7 +35,6 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 	 * 
 	 */
 	private static final long serialVersionUID = -5144587074129076687L;
-
 	
 	@Inject
 	private FuncaoConfigEJB ejb;
@@ -49,16 +50,11 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 	
 	private List<ValoresFuncao> valoresFuncao;
 	
-	private ValoresFuncao valorFuncaoSelected;
-
 	private ValoresFuncao valorFuncaoInserted;
+	
 	
 	//=================== METHODS ==========================//
 	
-
-	public ValoresFuncao getValorFuncaoSelected() {
-		return valorFuncaoSelected;
-	}
 
 	public ValoresFuncao getValorFuncaoInserted() {
 		return valorFuncaoInserted;
@@ -66,10 +62,6 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 
 	public void setValorFuncaoInserted(ValoresFuncao valorFuncaoInserted) {
 		this.valorFuncaoInserted = valorFuncaoInserted;
-	}
-
-	public void setValorFuncaoSelected(ValoresFuncao valorFuncaoSelected) {
-		this.valorFuncaoSelected = valorFuncaoSelected;
 	}
 
 	public List<MenuConfig> getMenus() {
@@ -132,11 +124,13 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 	public void clean() {
 		try {
 			
-			//getRequestContext().reset(getFormName());
-			
 			this.entityBean = getEntityClass().newInstance();
 			
 			this.valoresFuncao = new ArrayList<ValoresFuncao>();
+			
+			valoresFuncao = new ArrayList<ValoresFuncao>();
+			
+			valorFuncaoInserted = new ValoresFuncao();
 			
 			load();
 			
@@ -152,11 +146,6 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 		menus = ejb.findAllMenus();
 		tiposComponentes = ejb.findAllTipoComponentes();
 		conversores = Arrays.asList(EComponentConverter.values());
-		
-		valoresFuncao = new ArrayList<ValoresFuncao>();
-		
-		valorFuncaoSelected = new ValoresFuncao();
-		valorFuncaoInserted = new ValoresFuncao();
 		
 	}
 	
@@ -176,16 +165,57 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 		
 		return false;
 	}
+
+	public Boolean getShowScalable(){
+		
+		TipoComponente tipoComponenteSel = entityBean.getTipoComponente();
+		
+		if(tipoComponenteSel == null) return false;
+		
+		ETipoComponente lookup = ETipoComponente.lookup(tipoComponenteSel.getDescricao());
+		
+		if (lookup == null) return false;
+		
+		if (lookup.getType() == ETipoComponenteType.SCALABLE) {
+			return true;
+		}
+		
+		return false;
+	}
 	
 	public void addValorFuncao(){
 		
-		valorFuncaoInserted.setOrdem(valoresFuncao.size()+1);
-		valorFuncaoInserted.setFuncaoConfig(entityBean);
-		valorFuncaoInserted.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
+		try {
+			
+			validateAdd();
+			
+			valorFuncaoInserted.setOrdem(valoresFuncao.size()+1);
+			valorFuncaoInserted.setFuncaoConfig(entityBean);
+			valorFuncaoInserted.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
+			
+			valoresFuncao.add(valorFuncaoInserted);
+			
+			valorFuncaoInserted = new ValoresFuncao();
+			
+		} catch (ValidationException e) {
+			
+			addErrorMessage(e.getMessage());
+			
+		}
+	}
+	
+	public void validateAdd() throws ValidationException{
 		
-		valoresFuncao.add(valorFuncaoInserted);
+		if(valorFuncaoInserted.getValor() == null || valorFuncaoInserted.getValor().isEmpty()){
+			
+			throw new ValidationException("Entre com o valor da lista antes de adicionar");
+		}
 		
-		valorFuncaoInserted = new ValoresFuncao();
+		if (valoresFuncao.stream().filter(v -> v.getValor().equals(valorFuncaoInserted.getValor())).count() > 0) {
+			
+			throw new ValidationException("Valor da lista já inserido");
+		}
+		
 	}
 
 	@Override
@@ -251,6 +281,37 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 	public Boolean getEntityStatus() {
 		return null;
 	}
+	
+	@Override
+	public void save() {
+		
+		entityBean.setValorMinimo(entityBean.getValorMinimo() == null ? new BigDecimal("1.0") : entityBean.getValorMinimo());
+		entityBean.setValorMaximo(entityBean.getValorMaximo() == null ? new BigDecimal("1.0") : entityBean.getValorMaximo());
+		entityBean.setEscala(entityBean.getEscala() == null ? new BigDecimal("1.0") : entityBean.getEscala());
+		
+		entityBean.setValoresFuncaos(new ArrayList<ValoresFuncao>());
+		
+		entityBean.setValoresFuncaos(valoresFuncao);
+		
+		super.save();
+
+		resetForm();
+	}
+
+	private void resetForm() {
+		getRequestContext().reset(getFormName());
+	}
+	
+	@Override
+	public boolean exclude() {
+		boolean exclude = super.exclude();
+		
+		if (exclude) {
+			resetForm();
+		}
+		
+		return exclude;		
+	}
 
 	@Override
 	public void setEntityStatus(Boolean status) { }
@@ -259,6 +320,14 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 	public String getResourceDialogPath() {
 		return "/cadastros/itemconfig/searchItemConfig.xhtml";
 	}
+	
+	public void removeVal(ValoresFuncao valorFuncaoSelecionado){
+		
+		if (valorFuncaoSelecionado != null) {
+			valoresFuncao.remove(valorFuncaoSelecionado);
+		}
+		
+	}
 
 	@Override
 	public void selectObjectAfterSearch(SelectEvent event) {
@@ -266,15 +335,10 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 
 		if (object != null && object.getClass().getName().equals(getEntityClass().getName())) {
 			this.entityBean = (FuncaoConfig) object;
+			valoresFuncao = entityBean.getValoresFuncaos();
 			load();
 			showMensagemSucessoConsulta();
 		}
 	}
 	
-	public void teste(){
-		
-		System.out.println(entityBean);
-		
-	}
-
 }

@@ -75,17 +75,21 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 		clean();
 	}
 
-	public void exclude(){
+	public boolean exclude(){
 			
 		try {
 			
 			excludePerform();
+			
+			return true;
 			
 		} catch (Exception e) {
 			
 			addErrorMessage(
 					"Não foi possível excluir " + getEntityBean().getClass().getSimpleName()
 					+ e.getMessage().substring(e.getMessage().indexOf("Detalhe:")));
+			
+			return false;
 			
 		}
 		
