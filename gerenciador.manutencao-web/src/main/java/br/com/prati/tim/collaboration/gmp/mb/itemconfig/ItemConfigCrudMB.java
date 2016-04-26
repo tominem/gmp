@@ -325,6 +325,15 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 		
 		if (valorFuncaoSelecionado != null) {
 			valoresFuncao.remove(valorFuncaoSelecionado);
+			updateOrder();
+		}
+		
+	}
+
+	private void updateOrder() {
+		
+		for (int i = 0; i < valoresFuncao.size(); i++) {
+			valoresFuncao.get(i).setOrdem(i+1);
 		}
 		
 	}
