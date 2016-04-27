@@ -3,10 +3,11 @@
 				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:ui="http://java.sun.com/jsf/facelets"
 				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
-
+				
 	<ui:define name="content">
 		
-		<h:form id	=	"formCad" >        
+		<h:form id			=	"formCad" 
+				prependId	=	"false">        
 	       
 	       <p:growl />
 	       
@@ -148,7 +149,7 @@
 											<p:outputLabel 	value			=	"Fabricante" 		
 															for				=	"fabricante"/>
 											
-											<p:inputText 	value			=	"#{equipamentoMB.entityBean.fabricante}"
+											<p:inputText 	value			=	"#{equipamentoMB.entityBean.fabricante.nome}"
 															id				=	"fabricante" 
 															requiredMessage	=	"Fabricante requerido"
 															required		=	"true"
@@ -161,24 +162,143 @@
 										
 											<div class="EmptyBox20"/>
 	
-											<p:commandButton	icon		=	"fa fa-search"
-																styleClass	=	"PurpleTextButton RaisedButton"
-																process		=	"formCad:fabPane">
+											<p:commandButton	icon				=	"fa fa-search"
+																styleClass			=	"PurpleTextButton RaisedButton"
+																actionListener		=	"#{equipamentoMB.openFabricanteDialog()}"
+																immediate			=	"true"
+																process				=	"@this">
+												
+												<p:ajax 	event		=	"dialogReturn"
+															listener	=	"#{equipamentoMB.selectFabricante}"
+															update		=	"fabPane"/>
+											
 											</p:commandButton>
 															
 										</h:panelGroup>
 										
-										<div class="EmptyBox20"/>										
+										<div class="EmptyBox20"/>
+										
+										<h:panelGroup>
+										
+											<p:outputLabel 	value			=	"Tipo de Equipamento" 		
+															for				=	"tipoEquipamentos"/>
+										
+											<p:selectOneMenu 	id				=	"tipoEquipamentos"
+																value			=	"#{equipamentoMB.entityBean.tipoEquipamento}"
+																required		=	"true"
+																requiredMessage	=	"Tipo de equipamento requerido">
+												
+												<f:selectItem itemLabel="Selecione o tipo de equipamento" />
+												
+												<f:selectItems value="#{equipamentoMB.tiposEquipamentos}" var="a"
+													itemValue="#{a}"/>
+													
+											</p:selectOneMenu>									
+										
+										</h:panelGroup>
+										
+										<div class="EmptyBox20"/>
+										
+										<div class="EmptyBox20"/>
 
 		                            </p:panelGrid>
+		                            
+		                            
+		                            <div class="EmptyBox20"/>
+		                            
+		                            
+		                            <div class="BigTopic Fs18">
+										<i class="fa fa-expand"/>
+										<h:outputText styleClass="Purple Fs18 FontBold" value=" Entradas e Saídas Físicas do Equipamento"/>
+									</div>
+									
+									<div class="Separator"></div>
+									
+									<p:panelGrid 	columns				=	"1" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
+		                            			 	columnClasses		=	"ui-grid-col-12">
+		                            			 	
+		                            	<p:row>
+		                            	
+			                            	<p:column>
+			                            	
+												<p:outputLabel 	value			=	"Descrição" 		
+																for				=	"descricaoIO"/>
+											
+												<p:inputText 	value			=	"#{equipamentoMB.ioEquipamentoInserted.descricao}"
+																id				=	"descricaoIO" />
+																								
+			                            	</p:column>
+		                            	
+		                            	</p:row>
+		                            	
+		                            </p:panelGrid>
+		                            
+		                            <p:panelGrid 	columns				=	"4" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
+		                            			 	columnClasses		=	"ui-grid-col-5, ui-grid-col-5, ui-grid-col-5, ui-grid-col-1">
+		                            			 	
+										
+			                            	<h:panelGroup>
+											
+												<p:outputLabel 	value			=	"Tipo" 		
+																for				=	"tipoIO"/>
+											
+												<p:selectOneMenu 	id				=	"tipoIO"
+																	value			=	"#{equipamentoMB.ioEquipamentoInserted.tipo}"
+																	required		=	"true"
+																	requiredMessage	=	"Tipo de equipamento requerido">
+													
+													<f:selectItem itemLabel="Selecione o tipo de IO" />
+													
+													<f:selectItems value="#{equipamentoMB.tiposIoEquipamentos}" var="a"
+														itemValue="#{a}"/>
+														
+												</p:selectOneMenu>
+												
+											</h:panelGroup>
+											
+											
+											<h:panelGroup>
+											
+												<p:outputLabel 	value			=	"Variável" 		
+																for				=	"variavelIO"/>
+											
+												<p:inputText 	value			=	"#{equipamentoMB.ioEquipamentoInserted.variavel}"
+																id				=	"variavelIO" />
+																								
+											</h:panelGroup>
+
+											<h:panelGroup>
+											
+												<p:outputLabel 	value			=	"Variável Pulso" 		
+																for				=	"variavelPulsoIO"/>
+											
+												<p:inputText 	value			=	"#{equipamentoMB.ioEquipamentoInserted.variavelRetorno}"
+																id				=	"variavelPulsoIO" />
+																								
+											</h:panelGroup>
+
+											<h:panelGroup>
+											
+												<div class="EmptyBox20"/>
+											
+												<p:commandButton icon			=	"fa fa-plus Fs16 White"
+																 styleClass		=	"PurpleTextButton RaisedButton">
+																 
+												</p:commandButton>
+																								
+											</h:panelGroup>
+											
+											
+									
+									</p:panelGrid>
 											                        
 		                    	</div>
 		                 	</div>
 		                 	
-		                 	<p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true" height="100">
-    							<h:outputText value="This is a Modal Dialog." />
-							</p:dialog>
-		                    
 	                    	<ui:include src="/cadastros/templatefooter.xhtml">
 	                    		<ui:param name="nomeFormulario" value="#{equipamentoMB.formName}" />
 	                    		<ui:param name="crudBean" value="#{equipamentoMB}" />

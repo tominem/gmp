@@ -5,4 +5,5 @@ import br.prati.tim.collaboration.gp.jpa.Equipamento;
 
 public interface EquipamentoEJB extends CrudEJB<Equipamento>{
 
+
 }

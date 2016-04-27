@@ -19,12 +19,13 @@
 
 	    <style type="text/css">
 	    
-	    	.Wid10	{ width:10%;}
-	    	.Wid90	{ width:90%;}
-	    	
 	    	.nt		{ color: red; font-style: italic; }
 	    	.center { text-align: center;}
 	    	.left 	{ text-align: left;}
+	    	
+	    	.ui-panelgrid .ui-panelgrid-cell.rem-padding {
+				padding: 3px;   	
+	    	}
 	    
 	    </style>
 
@@ -34,45 +35,55 @@
 			<p:focus context	=	"panelGridBusca" />
 						
 			
-			<h:panelGrid 		columns			=	"2"
-								id				= 	"panelGridBusca"
-								columnClasses	=	"Wid90, Wid10">
+			<p:panelGrid 	columns			=	"2"
+							id				= 	"panelGridBusca"
+							styleClass		=	"ui-panelgrid-blank ui-fluid"
+							layout			=	"grid"
+							columnClasses	=	"ui-grid-col-9 rem-padding, ui-grid-col-3 rem-padding">
 				
-				<p:outputLabel	for				=	"criterioBusca" 
-								value			=	"Informe o nome para consultar o #{searcFabricanteMB.entityName} desejado"></p:outputLabel>
-
-				<p:outputLabel 	for				=	"selOneSituacao" 
-								value			=	"Situação">
-				</p:outputLabel>
+				<!-- Coluna 1 -->
+				<h:panelGroup>
 				
-				<p:inputText 	id				=	"criterioBusca" 
-								value			=	"#{searcFabricanteMB.pattern}"
-								required		=	"false"
-								style			=	"width: 100%">
-					
-					<p:ajax		event			=	"keyup" 
-								update			=	"panelGridTable" 
-								listener		=	"#{searcFabricanteMB.search()}">
-					</p:ajax>
-					
-				</p:inputText>
+					<p:outputLabel	for				=	"criterioBusca" 
+									value			=	"Informe o nome para consultar o #{searcFabricanteMB.entityName} desejado"/>
+		
+					<p:inputText 	id				=	"criterioBusca"
+									value			=	"#{searcFabricanteMB.pattern}"
+									required		=	"false">
+						
+						<p:ajax		event			=	"keyup" 
+									update			=	"panelGridTable" 
+									listener		=	"#{searcFabricanteMB.search()}">
+						</p:ajax>
+						
+					</p:inputText>
+	
+				</h:panelGroup>
 				
-				<p:selectOneMenu 	id			=	"selOneSituacao" 
-									style		=	"with:100%" 
-									required	=	"true"
-									value		=	"#{searcFabricanteMB.intSituacao}">
+				<!-- Coluna 2 -->
+				<h:panelGroup>
+				
+					<p:outputLabel 	for				=	"selOneSituacao" 
+									value			=	"Situação"/>
 					
-					<p:ajax 		update 		=	"panelGridTable"
-									listener	=	"#{searcFabricanteMB.search()}"
-									immediate	=	"true">
-					</p:ajax>
+					<p:selectOneMenu 	id			=	"selOneSituacao" 
+										required	=	"true"
+										value		=	"#{searcFabricanteMB.intSituacao}">
+						
+						<p:ajax 		update 		=	"panelGridTable"
+										listener	=	"#{searcFabricanteMB.search()}"
+										immediate	=	"true">
+						</p:ajax>
+						
+						<f:selectItems value	=	"#{searcFabricanteMB.itemSituacao}" />
+										
+					</p:selectOneMenu>
 					
-					<f:selectItems value	=	"#{searcFabricanteMB.itemSituacao}" ></f:selectItems>
-									
-				</p:selectOneMenu>
+				</h:panelGroup>
 							
-			</h:panelGrid>
+			</p:panelGrid>
 			
+			<!-- Painel Datatable -->
         	<h:panelGrid id="panelGridTable">
         		
         		 <p:dataTable 	var					=	"item" 
