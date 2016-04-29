@@ -1,9 +1,11 @@
 package br.com.prati.tim.collaboration.gmp.mb.equipamento;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.faces.event.ComponentSystemEvent;
@@ -20,6 +22,7 @@ import br.com.prati.tim.collaboration.gmp.mb.AbstractCrudMB;
 import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
 import br.prati.tim.collaboration.gp.jpa.Equipamento;
 import br.prati.tim.collaboration.gp.jpa.Fabricante;
+import br.prati.tim.collaboration.gp.jpa.FuncaoConfig;
 import br.prati.tim.collaboration.gp.jpa.IoEquipamento;
 import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoEquipamento;
 import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoIoEquipamento;
@@ -36,29 +39,68 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 	@Inject
 	private EquipamentoEJB ejb;
 	
+	private List<ETipoEquipamento> tiposEquipamentos;
+
 	private IoEquipamento ioEquipamentoInserted;
 	
-	private List<ETipoEquipamento> tiposEquipamentos;
+	private List<IoEquipamento> ioEquipamentos;
+	
+	private List<FuncaoConfig> itensConfig;
+	
+
+	//========================= METHODS ============================//
 	
 	@Override
 	@PostConstruct
 	public void initObjects() {
 		
-		super.initObjects();
-
 		load();
+		
 	}
 	
 	public void load() {
 		
+		this.entityBean = new Equipamento();
+		
 		tiposEquipamentos = Arrays.asList(ETipoEquipamento.values());
+		
+		ioEquipamentos = new ArrayList<IoEquipamento>();
 		
 		ioEquipamentoInserted = new IoEquipamento();
 		
+		itensConfig = ejb.findAllFuncaoConfig();
+		
+		itensConfig = itensConfig.stream().limit(10).collect(Collectors.toList());
+		
 	}
 	
+	@Override
+	public void clean() {
+		
+		load();
+
+		super.clean();
+
+	}
+	
+	public List<FuncaoConfig> getItensConfig() {
+		return itensConfig;
+	}
+
+	public void setItensConfig(List<FuncaoConfig> itensConfig) {
+		this.itensConfig = itensConfig;
+	}
+
 	public List<ETipoIoEquipamento> getTiposIoEquipamentos(){
 		return Arrays.asList(ETipoIoEquipamento.values());
+	}
+	
+	public List<IoEquipamento> getIoEquipamentos() {
+		return ioEquipamentos;
+	}
+
+	public void setIoEquipamentos(List<IoEquipamento> ioEquipamentos) {
+		this.ioEquipamentos = ioEquipamentos;
 	}
 	
 	public IoEquipamento getIoEquipamentoInserted() {
@@ -138,6 +180,19 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 			UtilsMessage.addInfoMessage("Fabricante informado com sucesso.");
 		}
 		
+	}
+	
+	public void addIOIntoTable(){
+		
+		ioEquipamentos.add(ioEquipamentoInserted);
+		
+		ioEquipamentoInserted = new IoEquipamento();
+		
+	}
+	
+	public void removeIoIntoTable(IoEquipamento removedIoEquipamento){
+		
+		ioEquipamentos.remove(removedIoEquipamento);
 		
 	}
 

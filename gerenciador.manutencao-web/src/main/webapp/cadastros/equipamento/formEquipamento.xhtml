@@ -5,9 +5,9 @@
 				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 				
 	<ui:define name="content">
-		
-		<h:form id			=	"formCad" 
-				prependId	=	"false">        
+	
+		<h:form id				=	"formCad" 
+				prependId		=	"false">        
 	       
 	       <p:growl />
 	       
@@ -17,13 +17,13 @@
 	          
 	            <div class="ContainerIndent">
 	                
-	                <p:panel styleClass="Card ShadowEffect" id	=	"contentPane">
+	                <p:panel styleClass="Card ShadowEffect HeiAutoOnMobile" id	=	"contentPane">
 	                    
-	                    <div class="Container">
+	                    <div class="Container ui-fluid">
 	                    
 	                    	<div class="ContainerIndent">
 		                    	
-		                    	<div class="Container60 Responsive100">
+		                        <div class="Container60 Responsive100">
 		                        
 		                            <div class="BigTopic Fs18">
 										<i class="fa fa-hdd-o"/> Cadastro de Equipamento
@@ -36,7 +36,7 @@
 									
 									<p:panelGrid 	columns				=	"2" 
 		                            				layout				=	"grid" 
-		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
+		                            			 	styleClass			=	"ui-panelgrid-blank"
 		                            			 	columnClasses		=	"ui-grid-col-8, ui-grid-col-4">
 		                            			 	
 										
@@ -214,89 +214,210 @@
 									
 									<div class="Separator"></div>
 									
-									<p:panelGrid 	columns				=	"1" 
-		                            				layout				=	"grid" 
-		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
-		                            			 	columnClasses		=	"ui-grid-col-12">
-		                            			 	
-		                            	<p:row>
-		                            	
-			                            	<p:column>
-			                            	
-												<p:outputLabel 	value			=	"Descrição" 		
-																for				=	"descricaoIO"/>
-											
-												<p:inputText 	value			=	"#{equipamentoMB.ioEquipamentoInserted.descricao}"
-																id				=	"descricaoIO" />
-																								
-			                            	</p:column>
-		                            	
-		                            	</p:row>
-		                            	
-		                            </p:panelGrid>
-		                            
-		                            <p:panelGrid 	columns				=	"4" 
-		                            				layout				=	"grid" 
-		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
-		                            			 	columnClasses		=	"ui-grid-col-5, ui-grid-col-5, ui-grid-col-5, ui-grid-col-1">
-		                            			 	
-										
-			                            	<h:panelGroup>
-											
-												<p:outputLabel 	value			=	"Tipo" 		
-																for				=	"tipoIO"/>
-											
-												<p:selectOneMenu 	id				=	"tipoIO"
-																	value			=	"#{equipamentoMB.ioEquipamentoInserted.tipo}"
-																	required		=	"true"
-																	requiredMessage	=	"Tipo de equipamento requerido">
-													
-													<f:selectItem itemLabel="Selecione o tipo de IO" />
-													
-													<f:selectItems value="#{equipamentoMB.tiposIoEquipamentos}" var="a"
-														itemValue="#{a}"/>
-														
-												</p:selectOneMenu>
-												
-											</h:panelGroup>
-											
-											
-											<h:panelGroup>
-											
-												<p:outputLabel 	value			=	"Variável" 		
-																for				=	"variavelIO"/>
-											
-												<p:inputText 	value			=	"#{equipamentoMB.ioEquipamentoInserted.variavel}"
-																id				=	"variavelIO" />
-																								
-											</h:panelGroup>
-
-											<h:panelGroup>
-											
-												<p:outputLabel 	value			=	"Variável Pulso" 		
-																for				=	"variavelPulsoIO"/>
-											
-												<p:inputText 	value			=	"#{equipamentoMB.ioEquipamentoInserted.variavelRetorno}"
-																id				=	"variavelPulsoIO" />
-																								
-											</h:panelGroup>
-
-											<h:panelGroup>
-											
-												<div class="EmptyBox20"/>
-											
-												<p:commandButton icon			=	"fa fa-plus Fs16 White"
-																 styleClass		=	"PurpleTextButton RaisedButton">
-																 
-												</p:commandButton>
-																								
-											</h:panelGroup>
-											
-											
 									
-									</p:panelGrid>
+									<h:panelGroup id	=	"contentPaneDescricao">
+									
+										<p:panelGrid 	columns				=	"1" 
+			                            				layout				=	"grid" 
+			                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
+			                            			 	columnClasses		=	"ui-grid-col-12">
+			                            			 	
+			                            	<p:row>
+			                            	
+				                            	<p:column>
+				                            	
+													<p:outputLabel 	value			=	"Descrição" 		
+																	for				=	"descricaoIO"/>
+												
+													<p:inputText 	value			=	"#{equipamentoMB.ioEquipamentoInserted.descricao}"
+																	id				=	"descricaoIO" />
+																									
+				                            	</p:column>
+			                            	
+			                            	</p:row>
+			                            	
+			                            </p:panelGrid>
+			                        
+			                        </h:panelGroup>
+		                            
+		                            <h:panelGroup id	=	"contentPanelInsert">
+		                            
+			                            <p:panelGrid 	id					=	"paIOInsert"
+			                            				columns				=	"4" 
+			                            				layout				=	"grid" 
+			                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
+			                            			 	columnClasses		=	"ui-grid-col-5, ui-grid-col-5, ui-grid-col-5, ui-grid-col-1">
+			                            			 	
+											
+				                            	<h:panelGroup>
+												
+													<p:outputLabel 	value			=	"Tipo" 		
+																	for				=	"tipoIO"/>
+												
+													<p:selectOneMenu 	id				=	"tipoIO"
+																		value			=	"#{equipamentoMB.ioEquipamentoInserted.tipo}"
+																		required		=	"true"
+																		requiredMessage	=	"Tipo de equipamento requerido">
+														
+														<f:selectItem itemLabel="Selecione o tipo de IO" />
+														
+														<f:selectItems 	value="#{equipamentoMB.tiposIoEquipamentos}" 
+																		var="a"
+																		itemValue="#{a}"/>
+															
+													</p:selectOneMenu>
+													
+												</h:panelGroup>
+												
+												
+												<h:panelGroup>
+												
+													<p:outputLabel 	value			=	"Variável" 		
+																	for				=	"variavelIO"/>
+												
+													<p:inputText 	value			=	"#{equipamentoMB.ioEquipamentoInserted.variavel}"
+																	id				=	"variavelIO" />
+																									
+												</h:panelGroup>
+	
+												<h:panelGroup>
+												
+													<p:outputLabel 	value			=	"Variável Pulso" 		
+																	for				=	"variavelPulsoIO"/>
+												
+													<p:inputText 	value			=	"#{equipamentoMB.ioEquipamentoInserted.variavelRetorno}"
+																	id				=	"variavelPulsoIO" />
+																									
+												</h:panelGroup>
+	
+												<h:panelGroup>
+												
+													<div class="EmptyBox20"/>
+												
+													<p:commandButton icon			=	"fa fa-plus Fs16 White"
+																	 styleClass		=	"PurpleTextButton RaisedButton"
+																	 actionListener	=	"#{equipamentoMB.addIOIntoTable()}"
+																	 update			=	"tableIOValores paIOInsert"
+																	 process		=	"contentPaneDescricao contentPanelInsert">
+																	 
+													</p:commandButton>
+																									
+												</h:panelGroup>
+												
+										</p:panelGrid>
+									
+		                            </h:panelGroup>
+									
+							    </div>
+								
+								<div class="EmptyBox20"/>
+									
+								<!-- Painel Datatable IOs -->
+								<h:panelGroup>
+	
+									<p:dataTable 		id					=	"tableIOValores"
+														var					=	"item"
+														value				=	"#{equipamentoMB.ioEquipamentos}" 
+														emptyMessage		=	"Nenhum registro" 
+														paginator			=	"true" 
+														rows				=	"10"
+														rowKey				=	"#{item.descricao}"
+														selectionMode		=	"single" 
+														paginatorPosition	=	"bottom" 
+														scrollable			=	"true"
+														scrollHeight		=	"250"
+														reflow				=	"true"
+														resizableColumns	=	"true">
+														
+											<f:facet name	=	"header">
+												Entradas e saídas adicionados
+											</f:facet>
+	
+											<p:column headerText="Descrição">
+											
+													<h:outputText value="#{item.descricao}" />
+											
+											</p:column>
+
+											<p:column headerText="Variável">
+											
+													<h:outputText value="#{item.variavel}" />
+											
+											</p:column>
+
+											<p:column headerText="Tipo" width="80">
+											
+													<h:outputText value="#{item.tipo}" />
+											
+											</p:column>
+
+											<p:column headerText="Excluir" width="45">
+											
+													<p:commandButton 	styleClass		=	"RedButton RaisedButton"
+																		icon			=	"fa fa-trash Fs16 White"
+																		style			=	"float:right;"
+																		actionListener	=	"#{equipamentoMB.removeIoIntoTable(item)}"
+																		immediate		=	"true"
+																		update			=	"tableIOValores"/>
+											</p:column>
+
+									</p:dataTable>
+										
+								</h:panelGroup>
+								
+							 	<div class="EmptyBox20"/>
+	                            
+	                            <div class="BigTopic Fs18">
+									<i class="fa fa-expand"/>
+									<h:outputText styleClass="Purple Fs18 FontBold" value=" Vínculo de Itens de Configuração"/>
+								</div>
+								
+								<div class="Separator"></div>
+								
+								<!-- Painel Itens de Configuração do Equipamento -->
+								<h:panelGroup>
+	
+									<p:dataTable 		id					=	"tableItensConfig"
+														var					=	"item2"
+														value				=	"#{equipamentoMB.itensConfig}" 
+														emptyMessage		=	"Nenhum registro" 
+														paginator			=	"false" 
+														rows				=	"10"
+														rowKey				=	"#{item2.idFuncaoConfig}"
+														paginatorPosition	=	"bottom" 
+														scrollable			=	"true"
+														rowSelectMode		=	"checkbox"
+														reflow				=	"true">
+														
+											<f:facet name	=	"header">
+												Itens de Configuração do Equipamento
+											</f:facet>
+											
+											<p:column 	id					=	"checkColum" 
+														selectionMode		=	"multiple"
+														width				=	"20">
+														
+												<p:tooltip id="toolTipFade" for="checkColum" value="Fade effect is used by default" />
+												
+											</p:column>
+	
+											<p:column headerText="Descrição">
+											
+													<h:outputText value="#{item2.descricao}" />
+											
+											</p:column>
+											
+											<p:column headerText="Ordem" width="80">
+													
+													<!-- quando a ordem vem nula do banco de dados ela assume o valor de 1000 -->
+													<h:outputText value="#{item2.ordem}"/>
+											
+											</p:column>
+
+									</p:dataTable>
+										
+								</h:panelGroup>
 											                        
-		                    	</div>
 		                 	</div>
 		                 	
 	                    	<ui:include src="/cadastros/templatefooter.xhtml">
