@@ -27,7 +27,7 @@ public class EquipamentoEJBImpl extends AbstractCrudEJB<Equipamento> implements 
 	private TimeZone defaultTimeZone;
 	
 	@Override
-	public Equipamento save(Equipamento entityBean) {
+	public Equipamento save(Equipamento entityBean) throws Exception {
 		
 		if (entityBean.getIdEquipamento() == null) {
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());

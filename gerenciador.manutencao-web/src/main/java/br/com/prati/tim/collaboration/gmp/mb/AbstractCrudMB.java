@@ -10,7 +10,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
+import javax.persistence.PersistenceException;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
@@ -104,19 +106,58 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 	}
 
 	public void activateOrInactivate(){
-		entityBean = getCrudEJB().activateOrInactivate(getEntityBean());
-		showMensagemAlterarSituacaoSucesso();
+		try {
+			
+			entityBean = getCrudEJB().activateOrInactivate(getEntityBean());
+			showMensagemAlterarSituacaoSucesso();
+			
+		} catch (Exception e) {
+			
+			addErrorMessage(e.getMessage());
+		}
 	};
 
 	public void save(){
 		
-		this.entityBean = getCrudEJB().save(entityBean);
-		
-		clean();
-		
-		showMensagemSucessoSalvar();
+		try {
+			
+			this.entityBean = getCrudEJB().save(entityBean);
+			
+			clean();
+			
+			showMensagemSucessoSalvar();
+			
+		} catch (Exception e) {
+
+			PersistenceException ex = isConstraintViolationException(e);
+			
+			if (ex != null) {
+				
+				addErrorMessage(
+						"Não foi possível salvar " + getEntityBean().getClass().getSimpleName()
+						+ ex.getMessage().substring(ex.getMessage().indexOf("Detalhe:")));
+				
+			} else{
+				
+				addErrorMessage(e.getMessage());
+				
+			}
+			
+		}
 		
 	}
+	
+	private PersistenceException isConstraintViolationException(Exception e) throws PersistenceException{
+		Throwable t = e.getCause();
+		while ((t != null) && !(t instanceof ConstraintViolationException)) {
+		    t = t.getCause();
+		}
+		if (t instanceof ConstraintViolationException) {
+			return new PersistenceException(t.getCause().getMessage());
+		}
+		else return null;
+	}
+
 
 	public void clean(){
 		
@@ -218,18 +259,18 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 		return component;
 	}
 	
-	public static void  setValidComponents(List<UIComponent> children) {
+	public static void  setValidComponents(List<UIComponent> children, boolean valid) {
 		
 		for (UIComponent uiComponent : children) {
 
 			if (uiComponent.getChildren().isEmpty()) {
 
 				if (uiComponent instanceof UIInput) {
-					((UIInput) uiComponent).setValid(true);
+					((UIInput) uiComponent).setValid(valid);
 				}
 
 			} else {
-				setValidComponents(uiComponent.getChildren());
+				setValidComponents(uiComponent.getChildren(), valid);
 			}
 
 		}

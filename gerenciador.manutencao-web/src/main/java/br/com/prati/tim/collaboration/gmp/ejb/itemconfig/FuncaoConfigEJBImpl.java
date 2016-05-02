@@ -32,7 +32,7 @@ public class FuncaoConfigEJBImpl extends AbstractCrudEJB<FuncaoConfig> implement
 	private TimeZone defaultTimeZone;
 	
 	@Override
-	public FuncaoConfig save(FuncaoConfig entityBean) {
+	public FuncaoConfig save(FuncaoConfig entityBean) throws Exception {
 		
 		if (entityBean.getIdFuncaoConfig() == null) {
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());

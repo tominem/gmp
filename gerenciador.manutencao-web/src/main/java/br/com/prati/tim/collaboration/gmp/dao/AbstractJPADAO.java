@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.FetchType;
 import javax.persistence.PersistenceException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -38,6 +39,11 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 	public AbstractJPADAO(Class<T> clazz) {
 		this.clazz =  clazz;
 	}
+	
+	
+	public EntityManager getEntityManager(){
+		return em;
+	}
 
 	@Override
 	public Class<T> getEntityClass() {
@@ -48,6 +54,7 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 	public void delete(T item) throws PersistenceException {
 		
 		try {
+			
 			if (item == null) {
 				throw new PersistenceException("Item may not be null");
 			}
@@ -57,7 +64,9 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 			
 		} catch (PersistenceException e) {
 			
-			isConstraintViolationException(e);
+			PersistenceException ex = isConstraintViolationException(e);
+			
+			if (ex != null) throw ex;
 			
 		}
 	}
@@ -68,14 +77,15 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 	 * @param e
 	 * @throws PersistenceException
 	 */
-	private void isConstraintViolationException(PersistenceException e) throws PersistenceException{
+	private PersistenceException isConstraintViolationException(PersistenceException e) throws PersistenceException{
 		Throwable t = e.getCause();
 		while ((t != null) && !(t instanceof ConstraintViolationException)) {
 		    t = t.getCause();
 		}
 		if (t instanceof ConstraintViolationException) {
-			throw new PersistenceException(t.getCause().getMessage());
+			return new PersistenceException(t.getCause().getMessage());
 		}
+		else return null;
 	}
 
 	@Override
@@ -99,13 +109,21 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 	}
 
 	@Override
-	public T update(T item) {
-		
-		if (item == null) {
-			throw new PersistenceException("Item may not be null");
-		}
+	public T update(T item) throws Exception{
+			
+		try {
+			
+			if (item == null) {
+				throw new PersistenceException("Item may not be null");
+			}
 
-		return em.merge(item);
+			return em.merge(item);
+			
+		} catch (Exception e) {
+			
+			throw e;
+			
+		}
 	}
 
 	@Override
@@ -114,7 +132,7 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 	}
 	
 	@Override
-	public T activeOrInactive(T object) {
+	public T activeOrInactive(T object) throws Exception {
 		
 		try {
 			
@@ -126,7 +144,7 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 			
 			setMethod.invoke(object, !lastStatus);
 			
-			return update(object);			
+			return update(object);		
 			
 		} catch (NoSuchMethodException e) {
 			// TODO Auto-generated catch block
@@ -168,7 +186,7 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 		
 		UaiCriteria<T> criteria = createQueryCriteria(em, getEntityClass());
 				
-		statusValue.ifPresent( sv -> criteria.andEquals(getStatusAttrName(), sv));
+		statusValue.ifPresent( sv -> criteria.andEquals(getStatusAttrName(), sv) );
 		
 		List<T> resultList = criteria.getResultList();
 		
@@ -268,9 +286,20 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 	 */
 	private void handleJoinClause(UaiCriteria<T> criteria, FilterParam<?> f) {
 		
+		if (f == null) return;
+		
 		if (f.getFieldName().contains(".")) {
+
 			String[] split = f.getFieldName().split("\\.");
-			criteria.leftJoin(split[0]);
+			
+			if (f.getFetchType() == FetchType.EAGER) {
+				criteria.leftJoinFetch(split[0]);
+			}
+			
+			else{
+				criteria.leftJoin(split[0]);
+			}
+			
 		}
 		
 	}

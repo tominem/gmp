@@ -1,4 +1,4 @@
-package br.com.prati.tim.collaboration.gmp.mb.fabricante;
+package br.com.prati.tim.collaboration.gmp.mb.tipoinspecao;
 
 import static br.com.prati.tim.collaboration.gmp.dao.FilterCriteria.BOTH_LIKE;
 import static br.com.prati.tim.collaboration.gmp.dao.FilterOrder.ASC;
@@ -15,9 +15,9 @@ import br.com.prati.tim.collaboration.gmp.ejb.fabricante.FabricanteEJB;
 import br.com.prati.tim.collaboration.gmp.mb.SearchableMB;
 import br.prati.tim.collaboration.gp.jpa.Fabricante;
 
-@Named("searchFabricanteMB")
+@Named("searchTipoInspecaoMB")
 @ViewScoped
-public class SearchFabricanteMB extends SearchableMB<Fabricante> implements Serializable{
+public class SearchTipoInspecaoMB extends SearchableMB<Fabricante> implements Serializable{
 
 	/**
 	 * 

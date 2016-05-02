@@ -11,7 +11,7 @@
     		<meta charset	=	"UTF-8" />
         </f:facet>
         
-        <title>#{searcFabricanteMB.title}</title>
+        <title>#{searchFabricanteMB.title}</title>
     </h:head>
     
      
@@ -30,7 +30,7 @@
 	    </style>
 
 		
-        <h:form id	=	"#{searcFabricanteMB.formName}">
+        <h:form id	=	"#{searchFabricanteMB.formName}">
 			
 			<p:focus context	=	"panelGridBusca" />
 						
@@ -45,15 +45,15 @@
 				<h:panelGroup>
 				
 					<p:outputLabel	for				=	"criterioBusca" 
-									value			=	"Informe o nome para consultar o #{searcFabricanteMB.entityName} desejado"/>
+									value			=	"Informe o nome para consultar o #{searchFabricanteMB.entityName} desejado"/>
 		
 					<p:inputText 	id				=	"criterioBusca"
-									value			=	"#{searcFabricanteMB.pattern}"
+									value			=	"#{searchFabricanteMB.pattern}"
 									required		=	"false">
 						
 						<p:ajax		event			=	"keyup" 
 									update			=	"panelGridTable" 
-									listener		=	"#{searcFabricanteMB.search()}">
+									listener		=	"#{searchFabricanteMB.search()}">
 						</p:ajax>
 						
 					</p:inputText>
@@ -68,14 +68,14 @@
 					
 					<p:selectOneMenu 	id			=	"selOneSituacao" 
 										required	=	"true"
-										value		=	"#{searcFabricanteMB.intSituacao}">
+										value		=	"#{searchFabricanteMB.intSituacao}">
 						
 						<p:ajax 		update 		=	"panelGridTable"
-										listener	=	"#{searcFabricanteMB.search()}"
+										listener	=	"#{searchFabricanteMB.search()}"
 										immediate	=	"true">
 						</p:ajax>
 						
-						<f:selectItems value	=	"#{searcFabricanteMB.itemSituacao}" />
+						<f:selectItems value	=	"#{searchFabricanteMB.itemSituacao}" />
 										
 					</p:selectOneMenu>
 					
@@ -87,23 +87,23 @@
         	<h:panelGrid id="panelGridTable">
         		
         		 <p:dataTable 	var					=	"item" 
-        		 				value				=	"#{searcFabricanteMB.objectList}" 
+        		 				value				=	"#{searchFabricanteMB.objectList}" 
         		 			  	id					=	"tablePesquisa"
         		 			  	emptyMessage		=	"Nenhum registro"
         		 			  	paginator			=	"true"
         		 			  	rows				=	"10"
         		 			  	selectionMode		=	"single"
         		 			  	rowKey				=	"#{item.idFabricante}"
-        		 			  	selection			=	"#{searcFabricanteMB.objectSelected}"
+        		 			  	selection			=	"#{searchFabricanteMB.objectSelected}"
         		 			  	paginatorPosition	=	"bottom"
 								scrollable			=	"true"
 	   		 			  		scrollHeight		=	"250"
         		 			  	>
 	
 					<p:ajax event		=	"rowSelect"
-							listener	=	"#{searcFabricanteMB.setSelectedObject()}"/>
+							listener	=	"#{searchFabricanteMB.setSelectedObject()}"/>
 					
-					<c:forEach var="filter" items="#{searcFabricanteMB.filterParams}">
+					<c:forEach var="filter" items="#{searchFabricanteMB.filterParams}">
 					
 	                	<p:column headerText	=	"#{filter.name}">
 	                    	<h:outputText value	=	"#{item[filter.fieldName]}" />

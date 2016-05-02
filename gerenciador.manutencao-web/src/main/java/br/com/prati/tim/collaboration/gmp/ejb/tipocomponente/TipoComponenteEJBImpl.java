@@ -21,7 +21,7 @@ public class TipoComponenteEJBImpl extends AbstractCrudEJB<TipoComponente> imple
 	private TipoComponenteDAO tipoComponenteDAO;
 	
 	@Override
-	public TipoComponente save(TipoComponente entityBean) {
+	public TipoComponente save(TipoComponente entityBean) throws Exception {
 		
 		if (entityBean.getIdTipoComponente() == null) {
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());

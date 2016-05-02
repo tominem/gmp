@@ -9,7 +9,7 @@
 		<h:form id				=	"formCad" 
 				prependId		=	"false">        
 	       
-	       <p:growl />
+	       <p:growl autoUpdate="true"/>
 	       
 	       <p:focus context		=	"#{equipamentoMB.contentPane}" />
 	       
@@ -255,9 +255,7 @@
 																	for				=	"tipoIO"/>
 												
 													<p:selectOneMenu 	id				=	"tipoIO"
-																		value			=	"#{equipamentoMB.ioEquipamentoInserted.tipo}"
-																		required		=	"true"
-																		requiredMessage	=	"Tipo de equipamento requerido">
+																		value			=	"#{equipamentoMB.ioEquipamentoInserted.tipo}">
 														
 														<f:selectItem itemLabel="Selecione o tipo de IO" />
 														
@@ -297,7 +295,7 @@
 													<p:commandButton icon			=	"fa fa-plus Fs16 White"
 																	 styleClass		=	"PurpleTextButton RaisedButton"
 																	 actionListener	=	"#{equipamentoMB.addIOIntoTable()}"
-																	 update			=	"tableIOValores paIOInsert"
+																	 update			=	"tableIOValores paIOInsert contentPaneDescricao contentPanelInsert"
 																	 process		=	"contentPaneDescricao contentPanelInsert">
 																	 
 													</p:commandButton>
@@ -319,7 +317,6 @@
 														var					=	"item"
 														value				=	"#{equipamentoMB.ioEquipamentos}" 
 														emptyMessage		=	"Nenhum registro" 
-														paginator			=	"true" 
 														rows				=	"10"
 														rowKey				=	"#{item.descricao}"
 														selectionMode		=	"single" 
@@ -358,7 +355,8 @@
 																		style			=	"float:right;"
 																		actionListener	=	"#{equipamentoMB.removeIoIntoTable(item)}"
 																		immediate		=	"true"
-																		update			=	"tableIOValores"/>
+																		update			=	"tableIOValores"
+																		process			=	"@this"/>
 											</p:column>
 
 									</p:dataTable>
@@ -378,43 +376,39 @@
 								<h:panelGroup>
 	
 									<p:dataTable 		id					=	"tableItensConfig"
-														var					=	"item2"
-														value				=	"#{equipamentoMB.itensConfig}" 
+														var					=	"item"
+														value				=	"#{equipamentoMB.itensConfigEquipamento}" 
 														emptyMessage		=	"Nenhum registro" 
-														paginator			=	"false" 
-														rows				=	"10"
-														rowKey				=	"#{item2.idFuncaoConfig}"
-														paginatorPosition	=	"bottom" 
+														rowKey				=	"#{item.funcaoConfig.idFuncaoConfig}"
 														scrollable			=	"true"
+														scrollHeight		=	"430"
 														rowSelectMode		=	"checkbox"
-														reflow				=	"true">
+														reflow				=	"true"
+														selection			=	"#{equipamentoMB.itensConfigEquipamentoSelected}">
 														
 											<f:facet name	=	"header">
 												Itens de Configuração do Equipamento
 											</f:facet>
 											
-											<p:column 	id					=	"checkColum" 
-														selectionMode		=	"multiple"
-														width				=	"20">
-														
-												<p:tooltip id="toolTipFade" for="checkColum" value="Fade effect is used by default" />
-												
-											</p:column>
+											<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
 	
 											<p:column headerText="Descrição">
 											
-													<h:outputText value="#{item2.descricao}" />
+													<h:outputText value="#{item.funcaoConfig.descricao}" />
 											
 											</p:column>
 											
 											<p:column headerText="Ordem" width="80">
 													
 													<!-- quando a ordem vem nula do banco de dados ela assume o valor de 1000 -->
-													<h:outputText value="#{item2.ordem}"/>
+													<p:inputText value		=	"#{item.ordem}"
+																 styleClass	=	"TexAlCenter"/>
 											
 											</p:column>
 
 									</p:dataTable>
+									
+									<div class="EmptyBox20"/>
 										
 								</h:panelGroup>
 											                        

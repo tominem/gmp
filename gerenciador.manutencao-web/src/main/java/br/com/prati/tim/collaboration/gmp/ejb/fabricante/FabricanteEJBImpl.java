@@ -21,7 +21,7 @@ public class FabricanteEJBImpl extends AbstractCrudEJB<Fabricante> implements Fa
 	private TimeZone defaultTimeZone;
 	
 	@Override
-	public Fabricante save(Fabricante entityBean) {
+	public Fabricante save(Fabricante entityBean) throws Exception {
 		if (entityBean.getIdFabricante() == null) {
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
 			entityBean.setStatus(Boolean.TRUE);

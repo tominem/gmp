@@ -3,9 +3,11 @@ package br.com.prati.tim.collaboration.gmp.mb.equipamento;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 import javax.faces.event.ComponentSystemEvent;
@@ -20,6 +22,7 @@ import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.equipamento.EquipamentoEJB;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractCrudMB;
 import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
+import br.prati.tim.collaboration.gp.jpa.ConfigEquipamento;
 import br.prati.tim.collaboration.gp.jpa.Equipamento;
 import br.prati.tim.collaboration.gp.jpa.Fabricante;
 import br.prati.tim.collaboration.gp.jpa.FuncaoConfig;
@@ -45,9 +48,13 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 	
 	private List<IoEquipamento> ioEquipamentos;
 	
-	private List<FuncaoConfig> itensConfig;
+	private List<ConfigEquipamento> itensConfigEquipamento;
 	
-
+	private List<ConfigEquipamento> itensConfigEquipamentoSelected;
+	
+	@Inject
+	private TimeZone defaultTimeZone;
+	
 	//========================= METHODS ============================//
 	
 	@Override
@@ -68,12 +75,22 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 		
 		ioEquipamentoInserted = new IoEquipamento();
 		
-		itensConfig = ejb.findAllFuncaoConfig();
+		itensConfigEquipamento = new ArrayList<ConfigEquipamento>();
 		
-		itensConfig = itensConfig.stream().limit(10).collect(Collectors.toList());
+		itensConfigEquipamentoSelected = new ArrayList<ConfigEquipamento>();
+
+		populateItens();
 		
 	}
 	
+	private void populateItens() {
+		
+		List<FuncaoConfig> funcaoConfigs = ejb.findAllFuncaoConfig();
+		
+		funcaoConfigs.forEach(fc -> itensConfigEquipamento.add(new ConfigEquipamento(fc)));
+		
+	}
+
 	@Override
 	public void clean() {
 		
@@ -83,12 +100,45 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 
 	}
 	
-	public List<FuncaoConfig> getItensConfig() {
-		return itensConfig;
+	@Override
+	public void save() {
+
+		if (itensConfigEquipamentoSelected.size() > 0) {
+			
+			//set configEquipamento into entityBean
+			entityBean.setConfigEquipamentos(new ArrayList<ConfigEquipamento>());
+			entityBean.setConfigEquipamentos(itensConfigEquipamentoSelected);
+			itensConfigEquipamentoSelected.forEach(ic -> ic.setEquipamento(entityBean));
+			
+		}
+		
+		if (ioEquipamentos.size() > 0) {
+			
+			//set IOEquipamentos into entityBean
+			entityBean.setIoEquipamentos(new ArrayList<IoEquipamento>());
+			entityBean.setIoEquipamentos(ioEquipamentos);
+			ioEquipamentos.forEach(io -> io.setEquipamento(entityBean));
+			
+		}
+		
+		super.save();
+	}
+	
+	public List<ConfigEquipamento> getItensConfigEquipamento() {
+		return itensConfigEquipamento;
 	}
 
-	public void setItensConfig(List<FuncaoConfig> itensConfig) {
-		this.itensConfig = itensConfig;
+	public void setItensConfigEquipamento(List<ConfigEquipamento> itensConfigEquipamento) {
+		this.itensConfigEquipamento = itensConfigEquipamento;
+	}
+
+	public List<ConfigEquipamento> getItensConfigEquipamentoSelected() {
+		return itensConfigEquipamentoSelected;
+	}
+
+	public void setItensConfigEquipamentoSelected(
+			List<ConfigEquipamento> itensConfigEquipamentoSelected) {
+		this.itensConfigEquipamentoSelected = itensConfigEquipamentoSelected;
 	}
 
 	public List<ETipoIoEquipamento> getTiposIoEquipamentos(){
@@ -121,7 +171,7 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 
 	@Override
 	public String getResourceDialogPath() {
-		return "/cadastros/tipocodigo/searchEquipamento.xhtml";
+		return "/cadastros/equipamento/searchEquipamento.xhtml";
 	}
 
 	@Override
@@ -184,8 +234,10 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 	
 	public void addIOIntoTable(){
 		
-		ioEquipamentos.add(ioEquipamentoInserted);
+		ioEquipamentoInserted.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
 		
+		ioEquipamentos.add(ioEquipamentoInserted);
+			
 		ioEquipamentoInserted = new IoEquipamento();
 		
 	}
@@ -195,5 +247,82 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 		ioEquipamentos.remove(removedIoEquipamento);
 		
 	}
+	
+	@Override
+	public void selectObjectAfterSearch(SelectEvent event) {
+		
+		Object object = event.getObject();
 
+		if (object != null && object.getClass().getName().equals(getEntityClass().getName())) {
+			this.entityBean = (Equipamento) object;
+		
+			loadItensConfig();
+			
+			loadIOEquipamento();
+			
+			showMensagemSucessoConsulta();
+		}
+	}
+
+	private void loadIOEquipamento() {
+		
+		ioEquipamentos = entityBean.getIoEquipamentos();
+		
+	}
+
+	private void loadItensConfig() {
+		
+		List<ConfigEquipamento> configEquipamentos = entityBean.getConfigEquipamentos();
+		
+		if (configEquipamentos != null) {
+		
+			configEquipamentos.forEach(ce -> {
+
+				ArrayList<ConfigEquipamento> buffer = new ArrayList<ConfigEquipamento>(itensConfigEquipamento);
+
+				for (int i = 0; i < buffer.size(); i++) {
+					
+					if (buffer.get(i).getFuncaoConfig().getIdFuncaoConfig().equals(ce.getFuncaoConfig().getIdFuncaoConfig())) {
+						itensConfigEquipamento.set(i, ce);
+					}
+				}
+
+			});
+			
+			ordenaItensConfigPorOrdem();
+			
+			ordenaItensConfigPorSelecao();
+			
+			itensConfigEquipamentoSelected = configEquipamentos;
+		}
+	}
+
+	private void ordenaItensConfigPorOrdem() {
+		Collections.sort(itensConfigEquipamento, (x1, x2) -> {
+			
+			if (x1.getOrdem() != null && x2.getOrdem() != null) {
+				return Integer.compare(x1.getOrdem(), x2.getOrdem());
+			}
+			
+			else if(x2.getOrdem() == null) 
+				return -1;
+
+			else return 1;
+			
+		});
+	}
+	
+	private void ordenaItensConfigPorSelecao() {
+		Collections.sort(itensConfigEquipamento, (x1, x2) -> {
+			
+			if (x1.getIdConfigEquipamento() != null && x2.getIdConfigEquipamento() != null) 
+				return 0;
+			else if (x1.getIdConfigEquipamento() != null)
+				return -1;
+			else
+				return 1;
+			
+		});
+	}
+	
 }

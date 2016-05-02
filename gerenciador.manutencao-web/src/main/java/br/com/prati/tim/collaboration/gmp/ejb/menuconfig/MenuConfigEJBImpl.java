@@ -22,7 +22,7 @@ public class MenuConfigEJBImpl extends AbstractCrudEJB<MenuConfig> implements Me
 	private MenuConfigDAO menuConfigDAO;
 	
 	@Override
-	public MenuConfig save(MenuConfig entityBean) {
+	public MenuConfig save(MenuConfig entityBean) throws Exception {
 		
 		if (entityBean.getIdMenuConfig() == null) {
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());

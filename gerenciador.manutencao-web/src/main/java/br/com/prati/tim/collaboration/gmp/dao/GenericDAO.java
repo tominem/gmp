@@ -21,7 +21,7 @@ public interface GenericDAO<T> {
 
 	T persist(T item);
 
-	T update(T item);
+	T update(T item) throws Exception;
 
 	List<T> findAll();
 
@@ -66,7 +66,7 @@ public interface GenericDAO<T> {
 
 	void setStatusAttrName(String statusAttrName);
 	
-	T activeOrInactive(T object);
+	T activeOrInactive(T object) throws Exception;
 	
 	boolean checkIfExists(Map<String, Object> attributes);
 	

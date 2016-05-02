@@ -21,7 +21,7 @@ public class TipoCodigoEJBImpl extends AbstractCrudEJB<TipoCodigo> implements Ti
 	private TimeZone defaultTimeZone;
 	
 	@Override
-	public TipoCodigo save(TipoCodigo entityBean) {
+	public TipoCodigo save(TipoCodigo entityBean) throws Exception {
 		if (entityBean.getIdTipoCodigo() == null) {
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
 			entityBean.setStatus(Boolean.TRUE);

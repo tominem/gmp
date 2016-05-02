@@ -1,0 +1,125 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	
+	<ui:define name="head">
+		
+		<style type="text/css">
+		
+			.ui-growl {
+   				 width: 300px !important;
+   				 right: 12px !important;
+    			 top: 70px !important;
+			}
+			
+			.ui-growl-title {
+				text-align: center;
+			}			
+
+
+		</style>
+		
+	</ui:define>
+
+	<ui:define name="content">
+		
+		<h:form id	=	"formCad" prependId="false">        
+	       
+	       <p:growl autoUpdate="true" sticky="false" life="60000"/>
+	       
+	       <p:focus context		=	"#{tipoInspecaoMB.contentPane}" />
+	       
+	        <div class="Container100">
+	          
+	            <div class="ContainerIndent">
+	                
+	                <p:panel styleClass="Card ShadowEffect" id	=	"contentPane">
+	                    
+	                    <div class="Container ui-fluid">
+	                    
+	                    	<div class="ContainerIndent">
+		                    	
+		                    	<div class="Container60 Responsive100">
+		                        
+		                            <div class="BigTopic Fs18">
+										<i class="fa fa-video-camera"/> Cadastro de Tipo de Inspeção
+									</div>
+									
+									<div class="Separator"></div>
+									
+									<p:panelGrid 	columns				=	"1" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-11">
+		                            			 	
+		                            	<!-- register a PostValidateEvent -->
+										<f:event listener="#{tipoInspecaoMB.validate}" type="postValidate" />
+										
+										<p:outputLabel 	value			=	"Descrição" 		
+														for				=	"descricao"/>
+										
+										<p:inputText 	requiredMessage	=	"Descrição requerida"
+														value			=	"#{tipoInspecaoMB.entityBean.descricao}"
+														id				=	"descricao" 
+														required		=	"true"/>
+										
+		                            </p:panelGrid>
+		                            	
+		                            <p:panelGrid 	columns				=	"2" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
+		                            			 	columnClasses		=	"ui-grid-col-11, ui-grid-col-1">
+		                            			 	
+		                           		<h:panelGroup id="paTipoCodigo">
+
+											<p:outputLabel 	value			=	"Tipo de código" 		
+															for				=	"tipoCodigo"/>
+															
+											<p:inputText 	requiredMessage	=	"Tipo de código requerido"
+															value			=	"#{tipoInspecaoMB.entityBean.tipoCodigo.descricao}"
+															id				=	"tipoCodigo"
+															readonly		=	"true" 
+															required		=	"true"/>
+										</h:panelGroup>
+											
+										<h:panelGroup id="paTipoCodigoButton">
+										
+											<div class="EmptyBox20" />
+														
+											<p:commandButton	icon				=	"fa fa-search"
+																styleClass			=	"PurpleTextButton RaisedButton"
+																actionListener		=	"#{tipoInspecaoMB.openTipoDeCodigoDialog()}"
+																immediate			=	"true"
+																process				=	"@this paTipoCodigo">
+													
+													<p:ajax 	event		=	"dialogReturn"
+																listener	=	"#{tipoInspecaoMB.selectTipoDeCodigo}"
+																update		=	"paTipoCodigo paTipoCodigoButton"/>
+											
+											</p:commandButton>
+
+										</h:panelGroup>
+		                            
+		                            </p:panelGrid>
+											                        
+		                    	</div>
+		                 	</div>
+		                    
+	                    	<ui:include src="/cadastros/templatefooter.xhtml">
+	                    		<ui:param name="nomeFormulario" value="#{tipoInspecaoMB.formName}" />
+	                    		<ui:param name="crudBean" value="#{tipoInspecaoMB}" />
+	                    	</ui:include>
+		                    
+	                    </div>
+	                    
+	                </p:panel>
+	                
+	            </div>
+	            
+	        </div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

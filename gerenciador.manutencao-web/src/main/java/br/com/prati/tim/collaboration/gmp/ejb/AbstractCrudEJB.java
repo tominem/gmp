@@ -33,7 +33,7 @@ public abstract class AbstractCrudEJB<T> implements CrudEJB<T> {
 	}
 
 	@Override
-	public T activateOrInactivate(T entityBean) {
+	public T activateOrInactivate(T entityBean) throws Exception {
 		return getCrudDAO().activeOrInactive(entityBean);
 	}
 
