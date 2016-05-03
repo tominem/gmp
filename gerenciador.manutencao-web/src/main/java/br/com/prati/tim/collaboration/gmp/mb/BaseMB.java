@@ -1,0 +1,15 @@
+package br.com.prati.tim.collaboration.gmp.mb;
+
+import javax.faces.event.ComponentSystemEvent;
+
+public interface BaseMB {
+	
+	String getFormName();
+	
+	void validate(ComponentSystemEvent event);
+	
+	void clean();
+
+	String getContentPane();
+
+}

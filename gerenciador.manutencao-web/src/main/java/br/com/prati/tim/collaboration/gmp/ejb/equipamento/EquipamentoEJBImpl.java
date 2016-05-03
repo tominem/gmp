@@ -21,7 +21,7 @@ public class EquipamentoEJBImpl extends AbstractCrudEJB<Equipamento> implements 
 	private EquipamentoDAO equipamentoDAO;
 	
 	@Inject
-	private FuncaoConfigDAO FuncaoConfigDAO;
+	private FuncaoConfigDAO funcaoConfigDAO;
 	
 	@Inject
 	private TimeZone defaultTimeZone;
@@ -44,7 +44,7 @@ public class EquipamentoEJBImpl extends AbstractCrudEJB<Equipamento> implements 
 
 	@Override
 	public List<FuncaoConfig> findAllFuncaoConfig() {
-		return FuncaoConfigDAO.findAll();
+		return funcaoConfigDAO.findAll();
 	}
 
 }

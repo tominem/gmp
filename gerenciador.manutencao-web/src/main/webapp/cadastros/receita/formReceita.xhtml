@@ -24,6 +24,7 @@
 	                    
 	                    	<div class="ContainerIndent">
 		                    	
+		                    	<!-- Responsividade 60 -->
 		                    	<div class="Container60 Responsive100">
 		                        
 		                            <div class="BigTopic Fs18">
@@ -47,14 +48,14 @@
 															for				=	"maquina"/>
 										
 											<p:inputText 	requiredMessage	=	"Maquina requerida"
-															value			=	"#{receitaMB.entityBean.maquina.descricao}"
+															value			=	"#{receitaMB.maquina.descricao}"
 															id				=	"maquina" 
 															required		=	"true"
 															readonly		=	"true"/>
 											
 										</h:panelGroup>
 
-										<h:panelGroup id="paMaquinaButton" layout="block">
+										<h:panelGroup id="paMaquinaButton">
 											
 											<p:commandButton	icon				=	"fa fa-search"
 																styleClass			=	"PurpleTextButton RaisedButton"
@@ -107,7 +108,7 @@
 																for				=	"tipoInspecao"/>
 											
 												<p:selectOneMenu id					=	"tipoInspecao" 
-																 value				=	"#{receitaMB.entityBean.tipoInspecao}"
+																 value				=	"#{receitaMB.tipoInspecao}"
 																 converter			=	"equipamentoConverter"
 																 required			=	"true"
 																 requiredMessage	=	"Tipo de Inspeção requerido">
@@ -123,52 +124,61 @@
 									        	</p:selectOneMenu>
 			                            	
 			                            </h:panelGroup>
-			                            
-			                            <h:panelGroup id="paTableReceita">
-			                            	
-			                            		<p:dataTable 		id					=	"tableReceita"
-																	var					=	"item"
-																	value				=	"#{receitaMB.receitas}" 
-																	emptyMessage		=	"Nenhum registro" 
-																	rowKey				=	"#{item.funcaoConfig.idFuncaoConfig}"
-																	scrollable			=	"true"
-																	scrollHeight		=	"430"
-																	rowSelectMode		=	"checkbox"
-																	reflow				=	"true"
-																	selection			=	"#{equipamentoMB.itensConfigEquipamentoSelected}">
-														
-													<f:facet name	=	"header">
-														Receita
-													</f:facet>
-													
-													<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
-			
-													<p:column headerText="Descrição">
-													
-															<h:outputText value="#{item.funcaoConfig.descricao}" />
-													
-													</p:column>
-													
-													<p:column headerText="Ordem" width="80">
-															
-															<p:inputText value		=	"#{item.ordem}"
-																		 styleClass	=	"TexAlCenter"/>
-													
-													</p:column>
-
-											</p:dataTable>
-			                            	
-			                            </h:panelGroup>
-			                           
+			                        
 			                        </p:panelGrid>
-											                        
+			                            
 		                    	</div>
+		                    	<!-- Fim Responsividade 60 -->
+		                    	
 		                 	</div>
 		                    
+		                    <div class="Container60 Responsive100 ContainerIndent">
+		                    
+	                    		<h:panelGroup id="paTableReceita" styleClass="ui-panelgrid-cell ui-grid-col-12">
+	                            	
+	                            		<p:dataTable 		id					=	"tableReceita"
+															var					=	"item"
+															value				=	"#{receitaMB.receitas}" 
+															emptyMessage		=	"Nenhum registro" 
+															rowKey				=	"#{item.configEquipamento.funcaoConfig.idFuncaoConfig}"
+															scrollable			=	"true"
+															scrollHeight		=	"430"
+															rowSelectMode		=	"checkbox"
+															reflow				=	"true"
+															selection			=	"#{receitaMB.selectedReceitas}">
+												
+											<f:facet name	=	"header">
+												Receita
+											</f:facet>
+											
+											<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+	
+											<p:column headerText="Descrição">
+											
+													<h:outputText value="#{item.configEquipamento.funcaoConfig.descricao}" />
+											
+											</p:column>
+											
+											<p:column headerText="Ordem" width="80">
+													
+													<p:inputText value		=	"#{item.ordem}"
+																 styleClass	=	"TexAlCenter"/>
+											
+											</p:column>
+
+									</p:dataTable>
+	                            	
+	                            </h:panelGroup>
+		                    		
+		                    </div>	
+		                    	
+		                    
+		                    <!-- 
 	                    	<ui:include src="/cadastros/templatefooter.xhtml">
 	                    		<ui:param name="nomeFormulario" value="#{receitaMB.formName}" />
 	                    		<ui:param name="crudBean" value="#{receitaMB}" />
 	                    	</ui:include>
+		                     -->
 		                    
 	                    </div>
 	                    

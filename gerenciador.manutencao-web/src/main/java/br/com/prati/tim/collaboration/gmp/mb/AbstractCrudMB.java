@@ -1,22 +1,13 @@
 package br.com.prati.tim.collaboration.gmp.mb;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ComponentSystemEvent;
 import javax.persistence.PersistenceException;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
-
-import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
 
 /**
  * Crud Bean Base to conventional crud Form
@@ -26,7 +17,9 @@ import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
  * @param <T> type of entityBean in Form
  * @param <P> type of id from entityBean in form
  */
-public abstract class AbstractCrudMB<T extends Serializable, P extends Serializable> implements Serializable, Searchable<T> {
+public abstract class AbstractCrudMB<T extends Serializable, P extends Serializable> 
+		
+				extends AbstractBaseMB implements Serializable, Searchable<T>, BaseMB, CrudMB<T, P> {
 
 	/**
 	 * 
@@ -44,36 +37,6 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 	public T getEntityBean() {
 		return entityBean;
 	}
-	
-	public String getContentPane(){
-		return "contentPane";
-	}
-
-	public abstract String getResourceDialogPath();
-	
-	public abstract P getEntityId();
-	
-	public abstract void setEntityId(P entityId);
-	
-	public abstract Boolean getEntityStatus();
-
-	public abstract void setEntityStatus(Boolean status);
-	
-	public abstract CrudEJB<T> getCrudEJB();
-	
-	
-	public abstract void validate(ComponentSystemEvent event);
-	
-
-	/**
-	 * Returns the form name of the view
-	 * 
-	 * @return 
-	 */
-	public String getFormName(){
-		return "formCad";
-	}
-	
 	
 	@PostConstruct
 	public void initObjects() {
@@ -156,18 +119,7 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 		
 	}
 	
-	private PersistenceException isConstraintViolationException(Exception e) throws PersistenceException{
-		Throwable t = e.getCause();
-		while ((t != null) && !(t instanceof ConstraintViolationException)) {
-		    t = t.getCause();
-		}
-		if (t instanceof ConstraintViolationException) {
-			return new PersistenceException(t.getCause().getMessage());
-		}
-		else return null;
-	}
-
-
+	@Override
 	public void clean(){
 		
 		try {
@@ -184,8 +136,6 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 		
 	}
 
-	public abstract Class<T> getEntityClass();
-	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void selectObjectAfterSearch(SelectEvent event) {
@@ -213,30 +163,6 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 		UtilsMessage.addInfoMessage("Exclusão realizada com sucesso.");
 	}
 	
-	public static void addErrorMessage(String errorMessage) {
-		UtilsMessage.addErrorMessage(errorMessage);
-	}
-
-	public static void addErrorMessage(String errorMessage, String componentId) {
-		UtilsMessage.addErrorMessage(errorMessage, componentId);
-	}
-
-	public static void addInfoMessage(String infoMessage) {
-		UtilsMessage.addInfoMessage(infoMessage);
-	}
-
-	public static void addWarningMessage(String warningMessage) {
-		UtilsMessage.addWarningMessage(warningMessage);
-	}
-
-	public void showMessageInDialog(String errorMessage) {
-		UtilsMessage.showMessageInDialog(errorMessage);
-	}
-
-	public RequestContext getRequestContext() {
-		return RequestContext.getCurrentInstance();
-	}
-	
     public void search() {
         
         clean();
@@ -246,43 +172,5 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
         RequestContext.getCurrentInstance().openDialog(getResourceDialogPath(), options, null);
         
     }
-
-	public Map<String, Object> getParamsDialogPesquisa() {
-		
-		Map<String,Object> options = new HashMap<String, Object>();
-
-        options.put("modal"			,  	true);
-        options.put("resizable"		,  	false);
-        options.put("width"			,	780);
-        options.put("contentWidth"	, 	738);
-        options.put("responsive"	, 	true);
-        
-		return options;
-		
-	}
-
-	public UIInput getUIComponentById(String id) {
-
-		UIInput component = (UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent(id);
-
-		return component;
-	}
-	
-	public static void  setValidComponents(List<UIComponent> children, boolean valid) {
-		
-		for (UIComponent uiComponent : children) {
-
-			if (uiComponent.getChildren().isEmpty()) {
-
-				if (uiComponent instanceof UIInput) {
-					((UIInput) uiComponent).setValid(valid);
-				}
-
-			} else {
-				setValidComponents(uiComponent.getChildren(), valid);
-			}
-
-		}
-	}
 
 }

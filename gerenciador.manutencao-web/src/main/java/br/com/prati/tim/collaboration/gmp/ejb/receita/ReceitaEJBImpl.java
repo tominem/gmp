@@ -1,38 +1,39 @@
 package br.com.prati.tim.collaboration.gmp.ejb.receita;
 
-import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import br.com.prati.tim.collaboration.gmp.dao.GenericDAO;
+import br.com.prati.tim.collaboration.gmp.dao.itemconfig.FuncaoConfigDAO;
 import br.com.prati.tim.collaboration.gmp.dao.receita.ReceitaDAO;
-import br.com.prati.tim.collaboration.gmp.ejb.AbstractCrudEJB;
+import br.prati.tim.collaboration.gp.jpa.Equipamento;
+import br.prati.tim.collaboration.gp.jpa.FuncaoConfig;
+import br.prati.tim.collaboration.gp.jpa.Maquina;
 import br.prati.tim.collaboration.gp.jpa.Receita;
+import br.prati.tim.collaboration.gp.jpa.TipoInspecao;
 
 @Stateless
-public class ReceitaEJBImpl extends AbstractCrudEJB<Receita> implements ReceitaEJB{
+public class ReceitaEJBImpl implements ReceitaEJB{
 
 	@Inject
 	private ReceitaDAO receitaDAO;
 	
 	@Inject
+	private FuncaoConfigDAO funcaoConfigDAO;
+	
+	@Inject
 	private TimeZone defaultTimeZone;
 	
+	@Override
+	public List<Receita> findReceitasFetchByMaquinaAndEquipamentoAndTipoInspecao(Maquina maquina, Equipamento equipamento, TipoInspecao tipoInspecao){
+		return receitaDAO.findReceitasFetchByMaquinaAndEquipamentoAndTipoInspecao(maquina, equipamento, tipoInspecao);
+	}
 	
 	@Override
-	public Receita save(Receita entityBean) throws Exception {
-		if (entityBean.getIdReceita() == null) {
-			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
-		}
-		
-		return receitaDAO.update(entityBean);
+	public List<FuncaoConfig> findAllFuncaoConfig() {
+		return funcaoConfigDAO.findAll();
 	}
-
-	@Override
-	public GenericDAO<Receita> getCrudDAO() {
-		return receitaDAO;
-	}
-
+	
 }

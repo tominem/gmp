@@ -14,20 +14,19 @@ import javax.inject.Named;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
-import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.receita.ReceitaEJB;
-import br.com.prati.tim.collaboration.gmp.mb.AbstractCrudMB;
+import br.com.prati.tim.collaboration.gmp.mb.AbstractBaseMB;
 import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
 import br.prati.tim.collaboration.gp.jpa.ConfigEquipamento;
 import br.prati.tim.collaboration.gp.jpa.Equipamento;
+import br.prati.tim.collaboration.gp.jpa.FuncaoConfig;
 import br.prati.tim.collaboration.gp.jpa.Maquina;
 import br.prati.tim.collaboration.gp.jpa.Receita;
 import br.prati.tim.collaboration.gp.jpa.TipoInspecao;
 
 @Named("receitaMB")
 @ViewScoped
-public class ReceitaCrudMB extends AbstractCrudMB<Receita, Long> implements
-		Serializable {
+public class ReceitaCrudMB extends AbstractBaseMB implements Serializable {
 
 	/**
 	 * 
@@ -37,31 +36,87 @@ public class ReceitaCrudMB extends AbstractCrudMB<Receita, Long> implements
 	@Inject
 	private ReceitaEJB ejb;
 
+	private Maquina maquina;
+
 	private ConfigEquipamento configEquipamento;
+	
+	private TipoInspecao tipoInspecao;
 
 	private List<Equipamento> equipamentos;
 
 	private List<TipoInspecao> tiposInspecao;
 	
+	private List<Receita> selectedReceitas;
+
 	private List<Receita> receitas;
 
 	// =============== METHODS ===========================//
 
 	@PostConstruct
-	@Override
 	public void initObjects() {
 
-		super.initObjects();
-
-		configEquipamento = new ConfigEquipamento();
-
-		equipamentos = new ArrayList<Equipamento>();
+		load();
 
 	}
 
-	@Override
-	public String getResourceDialogPath() {
-		return "/cadastros/receita/searchReceita.xhtml";
+	private void load() {
+		
+		configEquipamento = new ConfigEquipamento();
+		
+		equipamentos = new ArrayList<Equipamento>();
+		
+		receitas = new ArrayList<Receita>();
+		
+		selectedReceitas = new ArrayList<Receita>();
+		
+		populateItens();
+		
+	}
+	
+	private void populateItens() {
+		
+		List<FuncaoConfig> funcaoConfigs = ejb.findAllFuncaoConfig();
+		
+		funcaoConfigs.forEach(fc -> {
+			
+			ConfigEquipamento ce = new ConfigEquipamento(fc);
+			Receita receita = new Receita(ce);
+			receitas.add(receita);
+			
+		});
+		
+	}
+
+	public TipoInspecao getTipoInspecao() {
+		return tipoInspecao;
+	}
+
+	public void setTipoInspecao(TipoInspecao tipoInspecao) {
+		this.tipoInspecao = tipoInspecao;
+	}
+
+	public Maquina getMaquina() {
+		return maquina;
+	}
+
+	public void setMaquina(Maquina maquina) {
+		this.maquina = maquina;
+	}
+	
+	public List<Receita> getSelectedReceitas() {
+		return selectedReceitas;
+	}
+
+	public void setSelectedReceitas(List<Receita> selectedReceitas) {
+		this.selectedReceitas = selectedReceitas;
+	}
+
+	public List<Receita> getReceitas() {
+		return receitas;
+	}
+
+	public void setReceitas(List<Receita> receitas) {
+		this.receitas = receitas;
 	}
 
 	public List<TipoInspecao> getTiposInspecao() {
@@ -89,39 +144,9 @@ public class ReceitaCrudMB extends AbstractCrudMB<Receita, Long> implements
 	}
 
 	@Override
-	public Long getEntityId() {
-		return null;
-	}
-
-	@Override
-	public void setEntityId(Long entityId) {
-		//do nothing
-	}
-
-	@Override
-	public Boolean getEntityStatus() {
-		return null;
-	}
-
-	@Override
-	public void setEntityStatus(Boolean status) {
-		// do nothing
-	}
-
-	@Override
-	public CrudEJB<Receita> getCrudEJB() {
-		return ejb;
-	}
-
-	@Override
 	public void validate(ComponentSystemEvent event) {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public Class<Receita> getEntityClass() {
-		return Receita.class;
 	}
 
 	public void openMaquinaDialog() {
@@ -139,9 +164,8 @@ public class ReceitaCrudMB extends AbstractCrudMB<Receita, Long> implements
 
 		Object object = event.getObject();
 
-		if (object != null
-				&& object.getClass().getName().equals(Maquina.class.getName())) {
-			this.entityBean.setMaquina((Maquina) object);
+		if (object != null	&& object.getClass().getName().equals(Maquina.class.getName())) {
+			setMaquina(maquina);
 
 			UtilsMessage.addInfoMessage("Máquina informada com sucesso.");
 		}
