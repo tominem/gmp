@@ -181,3 +181,17 @@
 .MarRight025Em {
 	margin-right: 0.25em !important
 }
+
+.ui-growl {
+	width: 300px !important;
+	right: 12px !important;
+	top: 70px !important;
+}
+
+.ui-growl-title {
+	text-align: center;
+}
+
+.ui-growl-message{
+	width: 220px !important;
+}		

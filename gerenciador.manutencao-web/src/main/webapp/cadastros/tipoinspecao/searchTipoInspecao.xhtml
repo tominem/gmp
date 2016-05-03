@@ -11,7 +11,7 @@
     		<meta charset	=	"UTF-8" />
         </f:facet>
         
-        <title>#{searchTipoCodigoMB.title}</title>
+        <title>#{searchTipoInspecaoMB.title}</title>
     </h:head>
     
      
@@ -29,7 +29,7 @@
 	    </style>
 
 		
-        <h:form id	=	"#{searchTipoCodigoMB.formName}">
+        <h:form id	=	"#{searchTipoInspecaoMB.formName}">
 			
 			<p:focus context	=	"panelGridBusca" />
 						
@@ -39,20 +39,20 @@
 								columnClasses	=	"Wid90, Wid10">
 				
 				<p:outputLabel	for				=	"criterioBusca" 
-								value			=	"Informe o nome para consultar o #{searchTipoCodigoMB.entityName} desejado"></p:outputLabel>
+								value			=	"Informe o nome para consultar o #{searchTipoInspecaoMB.entityName} desejado"></p:outputLabel>
 
 				<p:outputLabel 	for				=	"selOneSituacao" 
 								value			=	"Situação">
 				</p:outputLabel>
 				
 				<p:inputText 	id				=	"criterioBusca" 
-								value			=	"#{searchTipoCodigoMB.pattern}"
+								value			=	"#{searchTipoInspecaoMB.pattern}"
 								required		=	"false"
 								style			=	"width: 100%">
 					
 					<p:ajax		event			=	"keyup" 
 								update			=	"panelGridTable" 
-								listener		=	"#{searchTipoCodigoMB.search()}">
+								listener		=	"#{searchTipoInspecaoMB.search()}">
 					</p:ajax>
 					
 				</p:inputText>
@@ -60,14 +60,14 @@
 				<p:selectOneMenu 	id			=	"selOneSituacao" 
 									style		=	"with:100%" 
 									required	=	"true"
-									value		=	"#{searchTipoCodigoMB.intSituacao}">
+									value		=	"#{searchTipoInspecaoMB.intSituacao}">
 					
 					<p:ajax 		update 		=	"panelGridTable"
-									listener	=	"#{searchTipoCodigoMB.search()}"
+									listener	=	"#{searchTipoInspecaoMB.search()}"
 									immediate	=	"true">
 					</p:ajax>
 					
-					<f:selectItems value	=	"#{searchTipoCodigoMB.itemSituacao}" ></f:selectItems>
+					<f:selectItems value	=	"#{searchTipoInspecaoMB.itemSituacao}" ></f:selectItems>
 									
 				</p:selectOneMenu>
 							
@@ -76,23 +76,23 @@
         	<h:panelGrid id="panelGridTable">
         		
         		 <p:dataTable 	var					=	"item" 
-        		 				value				=	"#{searchTipoCodigoMB.objectList}" 
+        		 				value				=	"#{searchTipoInspecaoMB.objectList}" 
         		 			  	id					=	"tablePesquisa"
         		 			  	emptyMessage		=	"Nenhum registro"
         		 			  	paginator			=	"true"
         		 			  	rows				=	"10"
         		 			  	selectionMode		=	"single"
-        		 			  	rowKey				=	"#{item.idTipoCodigo}"
-        		 			  	selection			=	"#{searchTipoCodigoMB.objectSelected}"
+        		 			  	rowKey				=	"#{item.idTipoInspecao}"
+        		 			  	selection			=	"#{searchTipoInspecaoMB.objectSelected}"
         		 			  	paginatorPosition	=	"bottom"
 								scrollable			=	"true"
 	   		 			  		scrollHeight		=	"250"
         		 			  	>
 	
 					<p:ajax event		=	"rowSelect"
-							listener	=	"#{searchTipoCodigoMB.setSelectedObject()}"/>
+							listener	=	"#{searchTipoInspecaoMB.setSelectedObject()}"/>
 					
-					<c:forEach var="filter" items="#{searchTipoCodigoMB.filterParams}">
+					<c:forEach var="filter" items="#{searchTipoInspecaoMB.filterParams}">
 					
 	                	<p:column headerText	=	"#{filter.name}">
 	                    	<h:outputText value	=	"#{item[filter.fieldName]}" />

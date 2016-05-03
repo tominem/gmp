@@ -12,7 +12,7 @@
 	       
 	       <p:growl autoUpdate="true" />
 	       
-	       <p:focus context		=	"#{tipoInspecaoMB.contentPane}" />
+	       <p:focus context		=	"#{tipoComunicacaoMB.contentPane}" />
 	       
 	        <div class="Container100">
 	          
@@ -27,7 +27,7 @@
 		                    	<div class="Container60 Responsive100">
 		                        
 		                            <div class="BigTopic Fs18">
-										<i class="fa fa-video-camera"/> Cadastro de Tipo de Inspeção
+										<i class="tipoinspecao"/> Cadastro de Tipo de Comunicacao
 									</div>
 									
 									<div class="Separator"></div>
@@ -38,61 +38,24 @@
 		                            			 	columnClasses		=	"ui-grid-col-11">
 		                            			 	
 		                            	<!-- register a PostValidateEvent -->
-										<f:event listener="#{tipoInspecaoMB.validate}" type="postValidate" />
+										<f:event listener="#{tipoComunicacaoMB.validate}" type="postValidate" />
 										
 										<p:outputLabel 	value			=	"Descrição" 		
 														for				=	"descricao"/>
 										
 										<p:inputText 	requiredMessage	=	"Descrição requerida"
-														value			=	"#{tipoInspecaoMB.entityBean.descricao}"
+														value			=	"#{tipoComunicacaoMB.entityBean.descricao}"
 														id				=	"descricao" 
 														required		=	"true"/>
 										
-		                            </p:panelGrid>
-		                            	
-		                            <p:panelGrid 	columns				=	"2" 
-		                            				layout				=	"grid" 
-		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
-		                            			 	columnClasses		=	"ui-grid-col-11, ui-grid-col-1">
-		                            			 	
-		                           		<h:panelGroup id="paTipoCodigo">
-
-											<p:outputLabel 	value			=	"Tipo de código" 		
-															for				=	"tipoCodigo"/>
-															
-											<p:inputText 	requiredMessage	=	"Tipo de código requerido"
-															value			=	"#{tipoInspecaoMB.entityBean.tipoCodigo.descricao}"
-															id				=	"tipoCodigo"
-															readonly		=	"true" 
-															required		=	"true"/>
-										</h:panelGroup>
-											
-										<h:panelGroup id="paTipoCodigoButton">
-										
-											<div class="EmptyBox20" />
-														
-											<p:commandButton	icon				=	"fa fa-search"
-																styleClass			=	"PurpleTextButton RaisedButton"
-																actionListener		=	"#{tipoInspecaoMB.openTipoDeCodigoDialog()}"
-																immediate			=	"true"
-																process				=	"@this paTipoCodigo">
-													
-													<p:ajax 	event		=	"dialogReturn"
-																listener	=	"#{tipoInspecaoMB.selectTipoDeCodigo}"
-																update		=	"paTipoCodigo paTipoCodigoButton"/>
-											
-											</p:commandButton>
-
-										</h:panelGroup>
-		                            
 		                            </p:panelGrid>
 											                        
 		                    	</div>
 		                 	</div>
 		                    
 	                    	<ui:include src="/cadastros/templatefooter.xhtml">
-	                    		<ui:param name="nomeFormulario" value="#{tipoInspecaoMB.formName}" />
-	                    		<ui:param name="crudBean" value="#{tipoInspecaoMB}" />
+	                    		<ui:param name="nomeFormulario" value="#{tipoComunicacaoMB.formName}" />
+	                    		<ui:param name="crudBean" value="#{tipoComunicacaoMB}" />
 	                    	</ui:include>
 		                    
 	                    </div>
