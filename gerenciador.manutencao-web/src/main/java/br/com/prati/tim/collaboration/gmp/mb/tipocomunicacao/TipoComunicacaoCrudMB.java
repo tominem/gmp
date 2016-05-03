@@ -14,7 +14,7 @@ import br.prati.tim.collaboration.gp.jpa.TipoComunicacao;
 
 @Named("tipoComunicacaoMB")
 @ViewScoped
-public class TipoComunicacaoCrudMB extends AbstractCrudMB<TipoComunicacao, Long>	implements Serializable {
+public class TipoComunicacaoCrudMB extends AbstractCrudMB<TipoComunicacao, Long> implements Serializable {
 
 	/**
 	 * 

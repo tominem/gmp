@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
+import javax.annotation.PostConstruct;
 import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -55,7 +56,14 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 	
 	//=================== METHODS ==========================//
 	
-
+	@PostConstruct
+	@Override
+	public void initObjects() {
+		
+		clean();
+		
+	}
+	
 	public ValoresFuncao getValorFuncaoInserted() {
 		return valorFuncaoInserted;
 	}

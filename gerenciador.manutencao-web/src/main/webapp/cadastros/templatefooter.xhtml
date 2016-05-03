@@ -62,7 +62,7 @@
 					</ui:insert>
 				</div>
 
-				<div class="MarRight025Em MarBottom1 Container15 Responsive50 #{rederedSitaucaoButton == null || rederedSitaucaoButton ? '' : 'hide'}">
+				<h:panelGroup class="MarRight025Em MarBottom1 Container15 Responsive50" rendered="#{crudBean.entityStatus != null}">
 					<ui:insert name="contentSituacao">
 					
 						<p:commandButton	icon="#{crudBean.entityStatus ? ' fa fa-lock white' 	: 'fa fa-unlock white'}"
@@ -76,7 +76,7 @@
 						</p:commandButton>
 						
 					</ui:insert>
-				</div>
+				</h:panelGroup>
 
 				<div class="MarRight025Em MarBottom1 Container15 Responsive100">
 					<ui:insert name="contentPesquisar">

@@ -59,6 +59,12 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 
 	public abstract void setEntityStatus(Boolean status);
 	
+	public abstract CrudEJB<T> getCrudEJB();
+	
+	
+	public abstract void validate(ComponentSystemEvent event);
+	
+
 	/**
 	 * Returns the form name of the view
 	 * 
@@ -68,13 +74,16 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 		return "formCad";
 	}
 	
-	public abstract CrudEJB<T> getCrudEJB();
-	
-	public abstract void validate(ComponentSystemEvent event);
 	
 	@PostConstruct
 	public void initObjects() {
-		clean();
+		try {
+			
+			this.entityBean = getEntityClass().newInstance();
+			
+		} catch (Exception e) {
+			//do nothing
+		}
 	}
 
 	public boolean exclude(){

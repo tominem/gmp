@@ -182,6 +182,8 @@
 	margin-right: 0.25em !important
 }
 
+/* Ajuste no Growl para caber textos maiores */
+
 .ui-growl {
 	width: 300px !important;
 	right: 12px !important;
@@ -194,4 +196,14 @@
 
 .ui-growl-message{
 	width: 220px !important;
+}
+
+/* Padding dos botões de busca */
+@media (min-width: 641px) {
+	
+	.ui-grid-col-1.search-button-padding {
+		padding-left: 0px;
+		padding-top: 14px;
+		margin: auto 0 auto 0;
+	}
 }		

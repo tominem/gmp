@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.event.ComponentSystemEvent;
@@ -38,6 +39,23 @@ public class MenuConfigCrudMB extends AbstractCrudMB<MenuConfig, Long>	implement
 	
 	//=================== METHODS ==========================//
 	
+	@PostConstruct
+	@Override
+	public void initObjects() {
+		
+		try {
+			
+			this.entityBean = getEntityClass().newInstance();
+			
+			load();
+			
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	public List<MenuConfig> getMenus() {
 		return menus;

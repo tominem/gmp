@@ -1,0 +1,183 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	
+	
+
+	<ui:define name="content">
+		
+		<h:form id	=	"formCad" prependId="false">        
+	       
+	       <p:growl autoUpdate="true" />
+	       
+	       <p:focus context		=	"#{receitaMB.contentPane}" />
+	       
+	        <div class="Container100">
+	          
+	            <div class="ContainerIndent">
+	                
+	                <p:panel styleClass="Card ShadowEffect" id	=	"contentPane">
+	                    
+	                    <div class="Container ui-fluid">
+	                    
+	                    	<div class="ContainerIndent">
+		                    	
+		                    	<div class="Container60 Responsive100">
+		                        
+		                            <div class="BigTopic Fs18">
+										<i class="fa fa-book"/> Cadastro de Receita
+									</div>
+									
+									<div class="Separator"></div>
+									
+	                            	<!-- register a PostValidateEvent -->
+									<f:event listener="#{receitaMB.validate}" type="postValidate" />
+									
+									<p:panelGrid 	columns				=	"3" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-4, ui-grid-col-1 search-button-padding, ui-grid-col-6">
+		                            			 	
+										
+										<h:panelGroup id="paMaquina">
+											
+											<p:outputLabel 	value			=	"Máquina" 		
+															for				=	"maquina"/>
+										
+											<p:inputText 	requiredMessage	=	"Maquina requerida"
+															value			=	"#{receitaMB.entityBean.maquina.descricao}"
+															id				=	"maquina" 
+															required		=	"true"
+															readonly		=	"true"/>
+											
+										</h:panelGroup>
+
+										<h:panelGroup id="paMaquinaButton" layout="block">
+											
+											<p:commandButton	icon				=	"fa fa-search"
+																styleClass			=	"PurpleTextButton RaisedButton"
+																actionListener		=	"#{receitaMB.openMaquinaDialog()}"
+																immediate			=	"true"
+																process				=	"@this paMaquina">
+													
+													<p:ajax 	event		=	"dialogReturn"
+																listener	=	"#{receitaMB.selectMaquina}"
+																update		=	"paMaquina paMaquinaButton"/>
+											
+											</p:commandButton>
+															
+										</h:panelGroup>
+										
+										<h:panelGroup id="paEquipamento">
+											
+											<p:outputLabel 	value			=	"Equipamento" 		
+															for				=	"equipamento"/>
+										
+											<p:selectOneMenu id					=	"equipamento" 
+															 value				=	"#{receitaMB.configEquipamento.equipamento}"
+															 converter			=	"equipamentoConverter"
+															 required			=	"true"
+															 requiredMessage	=	"Equipamento requerido">
+								            
+									            <f:selectItem itemLabel			=	"Selecione o equipamento" 
+									            			  itemValue			=	"" />
+									            
+									            <f:selectItems 	value			=	"#{receitaMB.equipamentos}" 
+									            				var				=	"item"
+									            				itemValue		=	"#{item}"
+									            				itemLabel		=	"#{item.descricao}"/>
+								            
+								        	</p:selectOneMenu>
+											
+										</h:panelGroup>
+										
+		                            </p:panelGrid>
+		                            
+		                            
+									<p:panelGrid 	columns				=	"1" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-5">
+		                            			 	
+			                            <h:panelGroup id="paTipoInspecao">
+			                            	
+			                            	<p:outputLabel 		value			=	"Tipo de Inspeção" 		
+																for				=	"tipoInspecao"/>
+											
+												<p:selectOneMenu id					=	"tipoInspecao" 
+																 value				=	"#{receitaMB.entityBean.tipoInspecao}"
+																 converter			=	"equipamentoConverter"
+																 required			=	"true"
+																 requiredMessage	=	"Tipo de Inspeção requerido">
+									            
+										            <f:selectItem itemLabel			=	"Selecione o Tipo de Inspeção" 
+										            			  itemValue			=	"" />
+										            
+										            <f:selectItems 	value			=	"#{receitaMB.tiposInspecao}" 
+										            				var				=	"item"
+										            				itemValue		=	"#{item}"
+										            				itemLabel		=	"#{item.descricao}"/>
+									            
+									        	</p:selectOneMenu>
+			                            	
+			                            </h:panelGroup>
+			                            
+			                            <h:panelGroup id="paTableReceita">
+			                            	
+			                            		<p:dataTable 		id					=	"tableReceita"
+																	var					=	"item"
+																	value				=	"#{receitaMB.receitas}" 
+																	emptyMessage		=	"Nenhum registro" 
+																	rowKey				=	"#{item.funcaoConfig.idFuncaoConfig}"
+																	scrollable			=	"true"
+																	scrollHeight		=	"430"
+																	rowSelectMode		=	"checkbox"
+																	reflow				=	"true"
+																	selection			=	"#{equipamentoMB.itensConfigEquipamentoSelected}">
+														
+													<f:facet name	=	"header">
+														Receita
+													</f:facet>
+													
+													<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+			
+													<p:column headerText="Descrição">
+													
+															<h:outputText value="#{item.funcaoConfig.descricao}" />
+													
+													</p:column>
+													
+													<p:column headerText="Ordem" width="80">
+															
+															<p:inputText value		=	"#{item.ordem}"
+																		 styleClass	=	"TexAlCenter"/>
+													
+													</p:column>
+
+											</p:dataTable>
+			                            	
+			                            </h:panelGroup>
+			                           
+			                        </p:panelGrid>
+											                        
+		                    	</div>
+		                 	</div>
+		                    
+	                    	<ui:include src="/cadastros/templatefooter.xhtml">
+	                    		<ui:param name="nomeFormulario" value="#{receitaMB.formName}" />
+	                    		<ui:param name="crudBean" value="#{receitaMB}" />
+	                    	</ui:include>
+		                    
+	                    </div>
+	                    
+	                </p:panel>
+	                
+	            </div>
+	            
+	        </div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

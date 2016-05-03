@@ -1,0 +1,112 @@
+<html 	xmlns	="http://www.w3.org/1999/xhtml"
+		xmlns:h	="http://java.sun.com/jsf/html"
+		xmlns:f	="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:c= "http://java.sun.com/jsp/jstl/core"
+		xmlns:p	="http://primefaces.org/ui">
+
+    <h:head>
+
+        <f:facet name="first">
+    		<meta charset	=	"UTF-8" />
+        </f:facet>
+        
+        <title>#{searchReceitaMB.title}</title>
+    </h:head>
+    
+     
+    <h:body>
+
+	    <style type="text/css">
+	    
+	    	.Wid10	{ width:10%;}
+	    	.Wid90	{ width:90%;}
+	    	
+	    	.nt		{ color: red; font-style: italic; }
+	    	.center { text-align: center;}
+	    	.left 	{ text-align: left;}
+	    
+	    </style>
+
+		
+        <h:form id	=	"#{searchReceitaMB.formName}">
+			
+			<p:focus context	=	"panelGridBusca" />
+						
+			
+			<h:panelGrid 		columns			=	"2"
+								id				= 	"panelGridBusca"
+								columnClasses	=	"Wid90, Wid10">
+				
+				<p:outputLabel	for				=	"criterioBusca" 
+								value			=	"Informe o nome para consultar o #{searchReceitaMB.entityName} desejado"></p:outputLabel>
+
+				<p:outputLabel 	for				=	"selOneSituacao" 
+								value			=	"Situação">
+				</p:outputLabel>
+				
+				<p:inputText 	id				=	"criterioBusca" 
+								value			=	"#{searchReceitaMB.pattern}"
+								required		=	"false"
+								style			=	"width: 100%">
+					
+					<p:ajax		event			=	"keyup" 
+								update			=	"panelGridTable" 
+								listener		=	"#{searchReceitaMB.search()}">
+					</p:ajax>
+					
+				</p:inputText>
+				
+				<p:selectOneMenu 	id			=	"selOneSituacao" 
+									style		=	"with:100%" 
+									required	=	"true"
+									value		=	"#{searchReceitaMB.intSituacao}">
+					
+					<p:ajax 		update 		=	"panelGridTable"
+									listener	=	"#{searchReceitaMB.search()}"
+									immediate	=	"true">
+					</p:ajax>
+					
+					<f:selectItems value	=	"#{searchReceitaMB.itemSituacao}" ></f:selectItems>
+									
+				</p:selectOneMenu>
+							
+			</h:panelGrid>
+			
+        	<h:panelGrid id="panelGridTable">
+        		
+        		 <p:dataTable 	var					=	"item" 
+        		 				value				=	"#{searchReceitaMB.objectList}" 
+        		 			  	id					=	"tablePesquisa"
+        		 			  	emptyMessage		=	"Nenhum registro"
+        		 			  	paginator			=	"true"
+        		 			  	rows				=	"10"
+        		 			  	selectionMode		=	"single"
+        		 			  	rowKey				=	"#{item.idTipoComunicacao}"
+        		 			  	selection			=	"#{searchReceitaMB.objectSelected}"
+        		 			  	paginatorPosition	=	"bottom"
+								scrollable			=	"true"
+	   		 			  		scrollHeight		=	"250"
+        		 			  	>
+	
+					<p:ajax event		=	"rowSelect"
+							listener	=	"#{searchReceitaMB.setSelectedObject()}"/>
+					
+					<c:forEach var="filter" items="#{searchReceitaMB.filterParams}">
+					
+	                	<p:column headerText	=	"#{filter.name}">
+	                    	<h:outputText value	=	"#{item[filter.fieldName]}" />
+	                	</p:column>
+	                	
+					</c:forEach>
+	                	
+                	
+                </p:dataTable>
+                
+        	</h:panelGrid>
+        		
+        </h:form>
+        
+	</h:body>
+	
+</html>
