@@ -182,9 +182,17 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 	}
 	
 	@Override
-	public List<T> findAllWithLimit(Optional<Boolean> statusValue) {
+	public List<T> findAllWithLimit(Optional<Boolean> statusValue, FilterParam<?> ... filterParams) {
 		
 		UaiCriteria<T> criteria = createQueryCriteria(em, getEntityClass());
+		
+		if (filterParams != null) {
+			Arrays.asList(filterParams).forEach(fp -> {
+				
+				handleJoinClause(criteria, fp);
+				
+			});
+		}
 				
 		statusValue.ifPresent( sv -> criteria.andEquals(getStatusAttrName(), sv) );
 		

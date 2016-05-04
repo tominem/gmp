@@ -31,5 +31,5 @@ public class EquipamentoDAOImpl extends AbstractJPADAO<Equipamento> implements E
 		
 		return filterByTipo != null && filterByTipo.size() > 0 ? equipamentos : equipamentos;
 	}
-	
+
 }

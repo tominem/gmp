@@ -2,12 +2,8 @@ package br.com.prati.tim.collaboration.gmp.mb;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
-import javax.faces.context.FacesContext;
 import javax.persistence.PersistenceException;
 
 import org.hibernate.exception.ConstraintViolationException;
@@ -72,30 +68,6 @@ public abstract class AbstractBaseMB implements BaseMB, Serializable{
         
 		return options;
 		
-	}
-	
-	public UIInput getUIComponentById(String id) {
-
-		UIInput component = (UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent(id);
-
-		return component;
-	}
-	
-	public static void  setValidComponents(List<UIComponent> children, boolean valid) {
-		
-		for (UIComponent uiComponent : children) {
-
-			if (uiComponent.getChildren().isEmpty()) {
-
-				if (uiComponent instanceof UIInput) {
-					((UIInput) uiComponent).setValid(valid);
-				}
-
-			} else {
-				setValidComponents(uiComponent.getChildren(), valid);
-			}
-
-		}
 	}
 	
 	protected PersistenceException isConstraintViolationException(Exception e) throws PersistenceException{

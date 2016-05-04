@@ -11,7 +11,7 @@ import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebServiceClient;
 
-import br.com.prati.tim.collaboration.gmp.ex.ws.WSException;
+import br.com.prati.tim.collaboration.gmp.ex.WSException;
 
 public class DynamicServiceLocator {
 

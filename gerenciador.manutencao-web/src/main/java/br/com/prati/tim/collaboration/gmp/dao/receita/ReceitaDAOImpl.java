@@ -25,6 +25,7 @@ public class ReceitaDAOImpl extends AbstractJPADAO<Receita> implements ReceitaDA
 		return createQueryCriteria(getEntityManager(), getEntityClass())
 			.innerJoinFetch("maquina")
 			.innerJoinFetch("configEquipamento")
+			.innerJoinFetch("configEquipamento.funcaoConfig")
 			
 			.andEquals("maquina", maquina)
 			.andEquals("configEquipamento.equipamento", equipamento)

@@ -6,9 +6,11 @@ import java.util.TimeZone;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import br.com.prati.tim.collaboration.gmp.dao.equipamentoMaquina.EquipamentoMaquinaDAO;
 import br.com.prati.tim.collaboration.gmp.dao.itemconfig.FuncaoConfigDAO;
 import br.com.prati.tim.collaboration.gmp.dao.receita.ReceitaDAO;
 import br.prati.tim.collaboration.gp.jpa.Equipamento;
+import br.prati.tim.collaboration.gp.jpa.EquipamentoMaquina;
 import br.prati.tim.collaboration.gp.jpa.FuncaoConfig;
 import br.prati.tim.collaboration.gp.jpa.Maquina;
 import br.prati.tim.collaboration.gp.jpa.Receita;
@@ -22,6 +24,9 @@ public class ReceitaEJBImpl implements ReceitaEJB{
 	
 	@Inject
 	private FuncaoConfigDAO funcaoConfigDAO;
+
+	@Inject
+	private EquipamentoMaquinaDAO equipamentoMaquinaDAO;
 	
 	@Inject
 	private TimeZone defaultTimeZone;
@@ -34,6 +39,17 @@ public class ReceitaEJBImpl implements ReceitaEJB{
 	@Override
 	public List<FuncaoConfig> findAllFuncaoConfig() {
 		return funcaoConfigDAO.findAll();
+	}
+
+	@Override
+	public List<EquipamentoMaquina> findEquipamentoMaquinaByMaquina(Maquina maquina) {
+		return equipamentoMaquinaDAO.findByMaquina(maquina);
+	}
+
+	@Override
+	public List<TipoInspecao> findTiposInspecaoByEquipamentoAndMaquina(Maquina maquina, Equipamento equipamento) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

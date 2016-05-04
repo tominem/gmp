@@ -29,7 +29,7 @@ public interface GenericDAO<T> {
 
 	void delete(T item) throws PersistenceException;
 	
-	List<T> findAllWithLimit(Optional<Boolean> status);
+	List<T> findAllWithLimit(Optional<Boolean> status, FilterParam<?> ... filterParams);
 
 	/**
 	 * Makes the search with a list filters using the LIKE clause or not

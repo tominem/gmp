@@ -61,11 +61,11 @@
 																styleClass			=	"PurpleTextButton RaisedButton"
 																actionListener		=	"#{receitaMB.openMaquinaDialog()}"
 																immediate			=	"true"
-																process				=	"@this paMaquina">
+																process				=	"@this paMaquina paEquipamento">
 													
 													<p:ajax 	event		=	"dialogReturn"
 																listener	=	"#{receitaMB.selectMaquina}"
-																update		=	"paMaquina paMaquinaButton"/>
+																update		=	"paMaquina paMaquinaButton paEquipamento paTipoInspecao"/>
 											
 											</p:commandButton>
 															
@@ -77,13 +77,18 @@
 															for				=	"equipamento"/>
 										
 											<p:selectOneMenu id					=	"equipamento" 
-															 value				=	"#{receitaMB.configEquipamento.equipamento}"
+															 value				=	"#{receitaMB.equipamento}"
 															 converter			=	"equipamentoConverter"
 															 required			=	"true"
-															 requiredMessage	=	"Equipamento requerido">
+															 requiredMessage	=	"Equipamento requerido"
+															 disabled			=	"#{receitaMB.maquina == null}">
 								            
 									            <f:selectItem itemLabel			=	"Selecione o equipamento" 
 									            			  itemValue			=	"" />
+									            			  
+									            <p:ajax			event			=	"change"
+									            				listener		=	"#{receitaMB.onChangeEquipamento}" 	
+								            				  	update			=	"paTipoInspecao paTableReceita"/>
 									            
 									            <f:selectItems 	value			=	"#{receitaMB.equipamentos}" 
 									            				var				=	"item"
@@ -107,21 +112,12 @@
 			                            	<p:outputLabel 		value			=	"Tipo de Inspeção" 		
 																for				=	"tipoInspecao"/>
 											
-												<p:selectOneMenu id					=	"tipoInspecao" 
-																 value				=	"#{receitaMB.tipoInspecao}"
-																 converter			=	"equipamentoConverter"
-																 required			=	"true"
-																 requiredMessage	=	"Tipo de Inspeção requerido">
-									            
-										            <f:selectItem itemLabel			=	"Selecione o Tipo de Inspeção" 
-										            			  itemValue			=	"" />
-										            
-										            <f:selectItems 	value			=	"#{receitaMB.tiposInspecao}" 
-										            				var				=	"item"
-										            				itemValue		=	"#{item}"
-										            				itemLabel		=	"#{item.descricao}"/>
-									            
-									        	</p:selectOneMenu>
+											<p:inputText 		requiredMessage	=	"Equipamento não possui tipo de inspeção"
+																value			=	"#{receitaMB.tipoInspecao.descricao}"
+																id				=	"tipoInspecao" 
+																required		=	"true"
+																readonly		=	"true"
+																disabled		=	"#{receitaMB.equipamento == null}"/>
 			                            	
 			                            </h:panelGroup>
 			                        
@@ -145,7 +141,8 @@
 															scrollHeight		=	"430"
 															rowSelectMode		=	"checkbox"
 															reflow				=	"true"
-															selection			=	"#{receitaMB.selectedReceitas}">
+															selection			=	"#{receitaMB.selectedReceitas}"
+															disabledSelection	=	"#{receitaMB.tipoInspecao == null}">
 												
 											<f:facet name	=	"header">
 												Receita

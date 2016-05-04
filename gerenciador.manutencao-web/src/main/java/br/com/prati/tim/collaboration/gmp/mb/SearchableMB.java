@@ -44,7 +44,7 @@ public abstract class SearchableMB<T extends Serializable> implements Serializab
 		List<T> objectList;
 
 		if (getPattern() == null || getPattern().trim().isEmpty()) {
-			objectList = getCrudEJB().findAllWithLimit(Optional.ofNullable(getStatusSituation()));
+			objectList = getCrudEJB().findAllWithLimit(Optional.ofNullable(getStatusSituation()), getFilterParams());
 
 		} else {
 

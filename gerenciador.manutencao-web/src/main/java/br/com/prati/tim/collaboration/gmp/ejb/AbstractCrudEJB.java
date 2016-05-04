@@ -19,8 +19,8 @@ public abstract class AbstractCrudEJB<T> implements CrudEJB<T> {
 	}
 
 	@Override
-	public List<T> findAllWithLimit(Optional<Boolean> statusValue) {
-		return getCrudDAO().findAllWithLimit(statusValue);
+	public List<T> findAllWithLimit(Optional<Boolean> status, FilterParam<?> ... filterParams) {
+		return getCrudDAO().findAllWithLimit(status, filterParams);
 	}
 
 	@Override

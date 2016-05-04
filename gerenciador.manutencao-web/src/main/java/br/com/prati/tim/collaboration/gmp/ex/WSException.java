@@ -1,4 +1,4 @@
-package br.com.prati.tim.collaboration.gmp.ex.ws;
+package br.com.prati.tim.collaboration.gmp.ex;
 
 public class WSException extends Exception {
 
