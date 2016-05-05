@@ -86,14 +86,15 @@
 									            <f:selectItem itemLabel			=	"Selecione o equipamento" 
 									            			  itemValue			=	"" />
 									            			  
-									            <p:ajax			event			=	"change"
+									            <p:ajax			event			=   "change"
+									            				process			= 	"@this paEquipamento paTipoInspecao paMaquina"
 									            				listener		=	"#{receitaMB.onChangeEquipamento}" 	
 								            				  	update			=	"paTipoInspecao paTableReceita"/>
 									            
 									            <f:selectItems 	value			=	"#{receitaMB.equipamentos}" 
 									            				var				=	"item"
 									            				itemValue		=	"#{item}"
-									            				itemLabel		=	"#{item.descricao}"/>
+									            				itemLabel		=	"#{item.nome}"/>
 								            
 								        	</p:selectOneMenu>
 											
@@ -135,8 +136,11 @@
 	                            		<p:dataTable 		id					=	"tableReceita"
 															var					=	"item"
 															value				=	"#{receitaMB.receitas}" 
-															emptyMessage		=	"Nenhum registro" 
+															emptyMessage		=	"Nenhum registro"
+															rows				= 	"10"
 															rowKey				=	"#{item.configEquipamento.funcaoConfig.idFuncaoConfig}"
+															paginator			=	"true"
+															paginatorPosition	=	"bottom"
 															scrollable			=	"true"
 															scrollHeight		=	"430"
 															rowSelectMode		=	"checkbox"
@@ -162,6 +166,15 @@
 																 styleClass	=	"TexAlCenter"/>
 											
 											</p:column>
+											
+											<p:ajax event		=	"toggleSelect"	
+													listener	=	"#{receitaMB.onToggleSelect}" />
+													
+											<p:ajax event		=	"rowSelectCheckbox"	
+													listener	=	"#{receitaMB.onRowSelectReceita}" />
+													
+        									<p:ajax event		=	"rowUnselectCheckbox" 
+        											listener	=	"#{receitaMB.onRowUnselectReceita}" />
 
 									</p:dataTable>
 	                            	
@@ -169,13 +182,7 @@
 		                    		
 		                    </div>	
 		                    	
-		                    
-		                    <!-- 
-	                    	<ui:include src="/cadastros/templatefooter.xhtml">
-	                    		<ui:param name="nomeFormulario" value="#{receitaMB.formName}" />
-	                    		<ui:param name="crudBean" value="#{receitaMB}" />
-	                    	</ui:include>
-		                     -->
+	                    	<ui:include src="/cadastros/receita/footerReceita.xhtml" />
 		                    
 	                    </div>
 	                    

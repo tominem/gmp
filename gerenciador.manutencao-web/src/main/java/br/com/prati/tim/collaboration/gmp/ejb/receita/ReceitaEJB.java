@@ -2,6 +2,7 @@ package br.com.prati.tim.collaboration.gmp.ejb.receita;
 
 import java.util.List;
 
+import br.prati.tim.collaboration.gp.jpa.ConfigEquipamento;
 import br.prati.tim.collaboration.gp.jpa.Equipamento;
 import br.prati.tim.collaboration.gp.jpa.EquipamentoMaquina;
 import br.prati.tim.collaboration.gp.jpa.FuncaoConfig;
@@ -18,6 +19,10 @@ public interface ReceitaEJB {
 
 	List<EquipamentoMaquina> findEquipamentoMaquinaByMaquina(Maquina maquina);
 
-	List<TipoInspecao> findTiposInspecaoByEquipamentoAndMaquina(Maquina maquina, Equipamento equipamento);
+	void save(Receita r) throws Exception;
+
+	List<ConfigEquipamento> findConfigEquipamentoFetchByEquipamento(Equipamento equipamento) throws Exception;
+
+	void remove(Receita receita) throws Exception;
 
 }

@@ -2,25 +2,25 @@ package br.com.prati.tim.collaboration.gmp.mb.receita;
 
 import static br.com.prati.tim.collaboration.gmp.utis.FacesUtis.setValidComponent;
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-
+import javax.persistence.NoResultException;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
-
+import org.primefaces.event.ToggleSelectEvent;
+import org.primefaces.event.UnselectEvent;
 
 import br.com.prati.tim.collaboration.gmp.ejb.receita.ReceitaEJB;
 import br.com.prati.tim.collaboration.gmp.ex.FacesValidateException;
@@ -29,7 +29,6 @@ import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
 import br.prati.tim.collaboration.gp.jpa.ConfigEquipamento;
 import br.prati.tim.collaboration.gp.jpa.Equipamento;
 import br.prati.tim.collaboration.gp.jpa.EquipamentoMaquina;
-import br.prati.tim.collaboration.gp.jpa.FuncaoConfig;
 import br.prati.tim.collaboration.gp.jpa.Maquina;
 import br.prati.tim.collaboration.gp.jpa.Receita;
 import br.prati.tim.collaboration.gp.jpa.TipoInspecao;
@@ -43,9 +42,11 @@ public class ReceitaCrudMB extends AbstractBaseMB implements Serializable {
 	 */
 	private static final long serialVersionUID = -6966525816419190286L;
 
-	private final String COMBOBOX_EQUIPAMENTO_ID = "formCad:equipamento";
+	private final String COMBOBOX_EQUIPAMENTO_ID 	= "formCad:equipamento";
 
-	private final String INPUT_TIPO_INSPECAO_ID = "formCad:tipoInspecao";
+	private final String INPUT_TIPO_INSPECAO_ID 	= "formCad:tipoInspecao";
+
+	private final String MAQUINA_COMPONENT_ID 		= "formCad:maquina";
 
 	@Inject
 	private ReceitaEJB ejb;
@@ -64,6 +65,12 @@ public class ReceitaCrudMB extends AbstractBaseMB implements Serializable {
 
 	private List<EquipamentoMaquina> filteredEquipamentoMaquinas;
 
+	/**
+	 * Receitas to delete 
+	 */
+	private List<Receita> receitasDel;
+
+
 
 	// =============== METHODS ===========================//
 
@@ -73,28 +80,92 @@ public class ReceitaCrudMB extends AbstractBaseMB implements Serializable {
 		load();
 
 	}
+	
+	@Override
+	public void clean() {
+		super.clean();
+		load();
+	}
 
 	private void load() {
+		
+		maquina = null;
+		
+		equipamento = null;
+		
+		tipoInspecao = null;
+		
+		filteredEquipamentoMaquinas = null;
+		
+		equipamentos = null;
 		
 		receitas = new ArrayList<Receita>();
 		
 		selectedReceitas = new ArrayList<Receita>();
 		
-		populateItens();
+		receitasDel = new ArrayList<Receita>();
 		
 	}
 	
-	private void populateItens() {
+	public void save(){
 		
-		List<FuncaoConfig> funcaoConfigs = ejb.findAllFuncaoConfig();
+		try {
+			
+			if (selectedReceitas != null && selectedReceitas.size() > 0) {
+				
+				for (Receita receita : selectedReceitas) {
+					ejb.save(receita);
+				}
+				
+				for (Receita receita : receitasDel) {
+					ejb.remove(receita);
+				}
+
+				clean();
+				
+				addInfoMessage("Receitas cadastradas com sucesso");
+				
+			}
+			
+			if (maquina == null || maquina.getIdMaquina() == null) {
+				
+				throw new FacesValidateException("Máquina requerida!", MAQUINA_COMPONENT_ID);
+			}
+			
+			
+		} catch (Exception e) {
+			
+			addErrorMessage(e.getMessage());
+			
+		}
 		
-		funcaoConfigs.forEach(fc -> {
+	}
+	
+	private void populateTable() {
+		
+		try {
 			
-			ConfigEquipamento ce = new ConfigEquipamento(fc);
-			Receita receita = new Receita(ce);
-			receitas.add(receita);
+			List<ConfigEquipamento> configEquipamentos = ejb.findConfigEquipamentoFetchByEquipamento(getEquipamento());
 			
-		});
+			configEquipamentos.forEach(ce -> {
+				
+				Receita receita = new Receita(ce);
+				receita.setTipoInspecao(getTipoInspecao());
+				receita.setMaquina(getMaquina());
+				
+				receitas.add(receita);
+				
+			});
+			
+		} catch (Exception e) {
+			
+			if (e instanceof NoResultException) {
+				addErrorMessage("Não existem itens de configuração cadastrados para o equipamento: " + getEquipamento().getNome());
+			}
+			else{
+				addErrorMessage(e.getMessage());
+			}
+		}
 		
 	}	
 
@@ -227,7 +298,9 @@ public class ReceitaCrudMB extends AbstractBaseMB implements Serializable {
 		
 		try {
 			
-			if (equipamento != null) {
+			receitas = new ArrayList<Receita>();
+			
+			if (equipamento != null && equipamento.getIdEquipamento() != null) {
 				
 				Optional<EquipamentoMaquina> findFirst = filteredEquipamentoMaquinas.stream().filter(em -> em.getEquipamento().equals(equipamento)).findFirst();
 					
@@ -237,11 +310,13 @@ public class ReceitaCrudMB extends AbstractBaseMB implements Serializable {
 					
 					if (getTipoInspecao() == null) throw new FacesValidateException("Tipo de Inspeção não vinculada ao equipamento selecionado!", INPUT_TIPO_INSPECAO_ID);
 					
+					populateTable();
+
 					loadItensReceita();
 				
+					setValidComponent(INPUT_TIPO_INSPECAO_ID, true);
+					
 				}
-				
-				setValidComponent(INPUT_TIPO_INSPECAO_ID, true);
 				
 			}
 			
@@ -257,26 +332,97 @@ public class ReceitaCrudMB extends AbstractBaseMB implements Serializable {
 		
 		List<Receita> fromDBReceitas = ejb.findReceitasFetchByMaquinaAndEquipamentoAndTipoInspecao(maquina, equipamento, tipoInspecao);
 		
-		if (fromDBReceitas != null) {
+		if (fromDBReceitas != null && receitas.size() > 0) {
 			
-			ArrayList<Receita> buffer = new ArrayList<Receita>();
+			ArrayList<Receita> buffer = new ArrayList<Receita>(receitas);
 			
-			buffer.forEach(r -> {
+			for (int j = 0; j < buffer.size(); j++) {
 				
 				for (int i = 0; i < fromDBReceitas.size(); i++) {
 					
 					Receita curr = fromDBReceitas.get(i);
+					Receita buff = buffer.get(j);
 					
-					Long bufIdFuncaoConfig = r.getConfigEquipamento().getFuncaoConfig().getIdFuncaoConfig();
+					Long bufIdFuncaoConfig 	= buff.getConfigEquipamento().getFuncaoConfig().getIdFuncaoConfig();
 					Long currIdFuncaoConfig = curr.getConfigEquipamento().getFuncaoConfig().getIdFuncaoConfig();
 					
+					if (bufIdFuncaoConfig.equals(currIdFuncaoConfig)) {
+						receitas.set(j, curr);
+					}
 					
 				}
-				
-			});
+			}
+			
+			ordenaTableReceita();
+
+			selectedReceitas = fromDBReceitas;
 			
 		}
 		
 	}
 
+	private void ordenaTableReceita() {
+		ordenaReceitasPorOrdem();
+		
+		ordenaReceitasPorSelecao();
+	}
+	
+	private void ordenaReceitasPorOrdem(){
+		Collections.sort(receitas, (x1, x2) -> {
+			
+			if (x1.getOrdem() != null && x2.getOrdem() != null) {
+				return Integer.compare(x1.getOrdem(), x2.getOrdem());
+			}
+			
+			else if(x2.getOrdem() == null) 
+				return -1;
+
+			else return 1;
+			
+		});
+	}
+
+	private void ordenaReceitasPorSelecao() {
+		
+		Collections.sort(receitas, (x1, x2) -> {
+			
+			if (x1.getIdReceita() != null && x2.getIdReceita() != null) 
+				return 0;
+			else if (x1.getIdReceita() != null)
+				return -1;
+			else
+				return 1;
+			
+		});
+		
+	}
+	
+	public void onRowSelectReceita(SelectEvent event) {
+		Receita receita = (Receita) event.getObject();
+		
+		if (receita.getIdReceita() != null) {
+			receitasDel.remove(receita);
+		} 
+		
+	}
+ 
+    public void onRowUnselectReceita(UnselectEvent event) {
+    	Receita receita = (Receita) event.getObject();
+
+    	if (receita.getIdReceita() != null) {
+			receitasDel.add(receita);
+		}
+    }
+
+    public void onToggleSelect(ToggleSelectEvent event){
+    	receitasDel.clear();
+    	
+    	if (!event.isSelected()) {
+    		receitasDel = receitas.stream().filter(r -> r.getIdReceita() != null).collect(Collectors.toList());
+    		
+    		if (receitasDel == null) {
+				receitasDel = new ArrayList<Receita>();
+			}
+		}
+    }
 }
