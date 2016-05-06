@@ -2,7 +2,6 @@ package br.com.prati.tim.collaboration.gmp.mb.setor;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
