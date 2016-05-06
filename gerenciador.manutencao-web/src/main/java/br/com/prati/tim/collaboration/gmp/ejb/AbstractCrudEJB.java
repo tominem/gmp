@@ -8,7 +8,6 @@ import br.com.prati.tim.collaboration.gmp.dao.FilterParam;
 
 public abstract class AbstractCrudEJB<T> implements CrudEJB<T> {
 
-
 	@Override
 	public void exclude(T entityBean) throws Exception{
 		try {
@@ -17,7 +16,7 @@ public abstract class AbstractCrudEJB<T> implements CrudEJB<T> {
 			throw new Exception(e.getMessage());
 		}
 	}
-
+	
 	@Override
 	public List<T> findAllWithLimit(Optional<Boolean> status, FilterParam<?> ... filterParams) {
 		return getCrudDAO().findAllWithLimit(status, filterParams);

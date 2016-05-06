@@ -1,0 +1,87 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		
+		<h:form id			=	"formCad" 
+				prependId	=	"false">      
+	       
+	       <p:growl />
+	       
+	       <p:focus context		=	"contentPane" />
+	       
+	        <div class="Container100">
+	          
+	            <div class="ContainerIndent">
+	                
+	                <p:panel styleClass="Card ShadowEffect" id	=	"contentPane">
+	                    
+	                    <div class="Container ui-fluid">
+	                    
+	                    	<div class="ContainerIndent">
+		                    	
+		                    	<div class="Container60 Responsive100">
+		                        
+		                            <div class="BigTopic Fs18">
+										<i class="fa fa-link"/> Cadastro de Linha de produção
+									</div>
+									
+									<div class="Separator"></div>
+									
+	                            	<!-- register a PostValidateEvent -->
+									<f:event listener="#{linhaMB.validate}" type="postValidate" />
+									
+									<p:panelGrid 	columns				=	"1"
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-5">
+		                            			 	
+										
+										<p:outputLabel 	value			=	"Tag" 		
+														for				=	"tag"/>
+										
+										<p:inputText 	requiredMessage	=	"Tag requerida"
+														value			=	"#{linhaMB.entityBean.tag}"
+														id				=	"tag" 
+														required		=	"true"/>
+										
+		                            </p:panelGrid>
+
+									<p:panelGrid 	columns				=	"1" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-11">
+		                            			 	
+										
+										<p:outputLabel 	value			=	"Descrição" 		
+														for				=	"descricao"/>
+										
+										<p:inputText 	requiredMessage	=	"Descrição requerida"
+														value			=	"#{linhaMB.entityBean.descricao}"
+														id				=	"descricao" 
+														required		=	"true"/>
+										
+		                            </p:panelGrid>
+		                            
+		                    	</div>
+		                 	</div>
+		                    
+	                    	<ui:include src="/cadastros/templatefooter.xhtml">
+	                    		<ui:param name="nomeFormulario" value="#{linhaMB.formName}" />
+	                    		<ui:param name="crudBean" value="#{linhaMB}" />
+	                    	</ui:include>
+		                    
+	                    </div>
+	                    
+	                </p:panel>
+	                
+	            </div>
+	            
+	        </div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

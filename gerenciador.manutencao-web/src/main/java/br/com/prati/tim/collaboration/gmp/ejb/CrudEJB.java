@@ -8,7 +8,7 @@ import br.com.prati.tim.collaboration.gmp.dao.FilterParam;
 import br.com.prati.tim.collaboration.gmp.dao.GenericDAO;
 
 public interface CrudEJB<T> {
-
+	
 	T save(T entityBean) throws Exception;
 	
 	GenericDAO<T> getCrudDAO();
@@ -22,5 +22,5 @@ public interface CrudEJB<T> {
 	T activateOrInactivate(T entityBean) throws Exception;
 	
 	boolean checkIfExists(Map<String, Object> attributes);
-	
+
 }

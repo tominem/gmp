@@ -70,6 +70,14 @@ public abstract class AbstractBaseMB implements BaseMB, Serializable{
 		
 	}
 	
+	public void openDialog(String path){
+		
+		Map<String, Object> params = getParamsDialogPesquisa();
+		
+		RequestContext.getCurrentInstance().openDialog(path, params, null);
+		
+	}
+	
 	protected PersistenceException isConstraintViolationException(Exception e) throws PersistenceException{
 		Throwable t = e.getCause();
 		while ((t != null) && !(t instanceof ConstraintViolationException)) {

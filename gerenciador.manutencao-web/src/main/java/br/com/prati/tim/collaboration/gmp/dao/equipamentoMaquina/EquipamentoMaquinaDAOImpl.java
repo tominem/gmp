@@ -20,7 +20,10 @@ public class EquipamentoMaquinaDAOImpl extends AbstractJPADAO<EquipamentoMaquina
 		return createQueryCriteria(getEntityManager(), getEntityClass())
 					.leftJoinFetch("maquina")
 					.leftJoinFetch("tipoInspecao")
+					.leftJoinFetch("tipoComunicacao")
+					
 					.andEquals("maquina", maquina)
+					
 					.getResultList();
 	}
 

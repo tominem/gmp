@@ -3,14 +3,30 @@
 				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:ui="http://java.sun.com/jsf/facelets"
 				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	
+	<ui:define name="head">
+		
+		<style type="text/css">
+		
+			@media (min-width: 641px) {
 
+				.PurpleTextButton.RaisedButton.AddButton {
+					float: right;
+				}
+				
+			}
+			
+		</style>		
+	
+	</ui:define>
+	
 	<ui:define name="content">
 		
-		<h:form id	=	"formCad" >        
+		<h:form id	=	"formCad" 	prependId	=	"false">
 	       
-	       <p:growl />
+	       <p:growl autoUpdate	=	"true"/>
 	       
-	       <p:focus context		=	"#{tipoCodigoMB.contentPane}" />
+	       <p:focus context		=	"#{maquinaMB.contentPane}" />
 	       
 	        <div class="Container100">
 	          
@@ -18,50 +34,364 @@
 	                
 	                <p:panel styleClass="Card ShadowEffect" id	=	"contentPane">
 	                    
-	                    <div class="Container">
+	                    <div class="Container ui-fluid">
 	                    
 	                    	<div class="ContainerIndent">
 		                    	
 		                    	<div class="Container60 Responsive100">
 		                        
 		                            <div class="BigTopic Fs18">
-										<i class="fa fa-barcode"/> Cadastro de Tipo de Código
+										<i class="fa fa-cog"/> Cadastro de Máquina
 									</div>
 									
 									<div class="Separator"></div>
 									
+	                            	<!-- register a PostValidateEvent -->
+									<f:event listener="#{maquinaMB.validate}" type="postValidate" />
+									
+									<!-- tagPanel -->
 									<p:panelGrid 	columns				=	"1" 
 		                            				layout				=	"grid" 
-		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-4">
+		                            			 	
+										
+										<p:outputLabel 	value			=	"Tag" 		
+														for				=	"tag"/>
+										
+										<p:inputText 	requiredMessage	=	"Tag requerida"
+														value			=	"#{maquinaMB.entityBean.tag}"
+														id				=	"tag" 
+														required		=	"true"/>
+										
+		                            </p:panelGrid>
+									
+									<!-- descriptionPanel -->
+									<p:panelGrid 	columns				=	"1" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
 		                            			 	columnClasses		=	"ui-grid-col-12">
 		                            			 	
-		                            	<!-- register a PostValidateEvent -->
-										<f:event listener="#{tipoCodigoMB.validate}" type="postValidate" />
 										
 										<p:outputLabel 	value			=	"Descrição" 		
 														for				=	"descricao"/>
 										
 										<p:inputText 	requiredMessage	=	"Descrição requerida"
-														value			=	"#{tipoCodigoMB.entityBean.descricao}"
+														value			=	"#{maquinaMB.entityBean.descricao}"
 														id				=	"descricao" 
 														required		=	"true"/>
+
+		                            </p:panelGrid>
+		                            
+		                            <!-- searchItens Panel -->
+									<p:panelGrid 	columns				=	"2" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-10, ui-grid-col-1 search-button-padding">
+		                            			 	
+		                            	<h:panelGroup id="paLinha" layout="block">
+
+			                            	<p:outputLabel 	value			=	"Linha de produção" 		
+															for				=	"linha"/>
+											
+											<p:inputText 	requiredMessage	=	"Linha de produção requerida"
+															value			=	"#{maquinaMB.entityBean.linhaproducao.descricao}"
+															id				=	"linha"
+															readonly		=	"true" 
+															required		=	"true"/>
+		                            	
+		                            	</h:panelGroup>
+		                            	
+		                            	<h:panelGroup>
+		                            		
+		                            		<p:commandButton	icon				=	"fa fa-search"
+																styleClass			=	"PurpleTextButton RaisedButton"
+																actionListener		=	"#{maquinaMB.openDialog('/cadastros/linha/searchLinha.xhtml')}"
+																immediate			=	"true"
+																process				=	"@this paLinha">
+													
+													<p:ajax 	event		=	"dialogReturn"
+																listener	=	"#{maquinaMB.selectLinha}"
+																update		=	"paLinha"/>
+											
+											</p:commandButton>
+		                            		
+		                            	</h:panelGroup>
+
+		                            	<h:panelGroup id="paSala">
+
+			                            	<p:outputLabel 	value			=	"Sala" 		
+															for				=	"sala"/>
+											
+											<p:inputText 	requiredMessage	=	"Sala requerida"
+															value			=	"#{maquinaMB.entityBean.sala.descricao}"
+															id				=	"sala"
+															readonly		=	"true" 
+															required		=	"true"/>
+		                            	
+		                            	</h:panelGroup>
+		                            	
+		                            	<h:panelGroup>
+		                            		
+		                            		<p:commandButton	icon				=	"fa fa-search"
+																styleClass			=	"PurpleTextButton RaisedButton"
+																actionListener		=	"#{maquinaMB.openDialog('/cadastros/sala/searchSala.xhtml')}"
+																immediate			=	"true"
+																process				=	"@this paSala">
+													
+													<p:ajax 	event		=	"dialogReturn"
+																listener	=	"#{maquinaMB.selectSala}"
+																update		=	"paSala"/>
+											
+											</p:commandButton>
+		                            		
+		                            	</h:panelGroup>
+		                            	
+		                            			 	
+		                            </p:panelGrid>
+		                            <!-- END - searchItens Panel -->
+		                            
+		                            
+		                            <div class="EmptyBox20"/>
+		                            
+		                            
+									<!-- Panel codes -->
+		                           	<p:panelGrid layout="grid" columns="1" styleClass="ui-panelgrid-blank">
+		                           		
+		                           		 <div class="BigTopic Fs18">
+											<i class="fa fa-barcode"/> Informações do SAP
+										</div>
 										
-										<p:outputLabel 	value			=	"Tamanho" 		
-														for				=	"tamanho"/>
+										<div class="Separator"></div>
+										
+		                           	</p:panelGrid>
+									
+									<p:panelGrid 	columns				=	"3" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-4, ui-grid-col-4, ui-grid-col-4">
+												                            			 	
+										<h:panelGroup>
+										
+											<p:outputLabel 	value			=	"Código Local SAP" 		
+															for				=	"codLocalSap"/>
+											
+											<p:inputText 	requiredMessage	=	"Código Local SAP requerido"
+															value			=	"#{maquinaMB.entityBean.codigoLocalSap}"
+															id				=	"codLocalSap" 
+															required		=	"true"/>
 														
-										<p:inputText 	value			=	"#{tipoCodigoMB.entityBean.tamanho}"
-														id				=	"tamanho"
-														required		=	"true"
-														requiredMessage	=	"Tamanho requerido"/>
+										</h:panelGroup>
+
+										<h:panelGroup>
 										
+											<p:outputLabel 	value			=	"Código SAP" 		
+															for				=	"codMaquinaSap"/>
+											
+											<p:inputText 	requiredMessage	=	"Código SAP da máquina requerido"
+															value			=	"#{maquinaMB.entityBean.codigoSap}"
+															id				=	"codMaquinaSap" 
+															required		=	"true"/>
+														
+										</h:panelGroup>
+
+										<h:panelGroup>
+										
+											<p:outputLabel 	value			=	"Código Conjunto SAP" 		
+															for				=	"codConjuntoSap"/>
+											
+											<p:inputText 	requiredMessage	=	"Código do conjunto SAP requerido"
+															value			=	"#{maquinaMB.entityBean.codigoConjuntoSap}"
+															id				=	"codConjuntoSap" 
+															required		=	"true"/>
+														
+										</h:panelGroup>
+
+										
+		                            </p:panelGrid>
+		                            <!-- End - Panel codes -->
+		                            
+		                            
+		                            <div class="EmptyBox20"/>
+		                            
+		                            
+		                            <p:panelGrid layout="grid" columns="1" styleClass="ui-panelgrid-blank">
+		                           		
+		                           		 <div class="BigTopic Fs18">
+											<i class="fa fa-hdd-o"/> Equipamentos da Máquina
+										</div>
+										
+										<div class="Separator"></div>
+										
+		                           	</p:panelGrid>
+		                           	
+		                           	<!-- searchItens2 Panel -->
+									<p:panelGrid 	columns				=	"2" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-10, ui-grid-col-1 search-button-padding">
+		                            			 	
+		                            	<h:panelGroup id="paEquipamento">
+
+			                            	<p:outputLabel 	value			=	"Equipamento" 		
+															for				=	"equipamento"/>
+											
+											<p:inputText 	requiredMessage	=	"Equipamento requerido"
+															value			=	"#{maquinaMB.equipamentoSelected.nome}"
+															id				=	"equipamento"
+															readonly		=	"true" />
+		                            	
+		                            	</h:panelGroup>
+		                            	
+		                            	<h:panelGroup>
+		                            		
+		                            		<p:commandButton	icon				=	"fa fa-search"
+																styleClass			=	"PurpleTextButton RaisedButton"
+																actionListener		=	"#{maquinaMB.openDialog('/cadastros/equipamento/searchEquipamento.xhtml')}"
+																immediate			=	"true"
+																process				=	"@this paEquipamento">
+													
+													<p:ajax 	event		=	"dialogReturn"
+																listener	=	"#{maquinaMB.selectEquipamento}"
+																update		=	"paEquipamento"/>
+											
+											</p:commandButton>
+		                            		
+		                            	</h:panelGroup>
+
+		                            	<h:panelGroup id="paTipoInspecao">
+
+			                            	<p:outputLabel 	value			=	"Tipo Inspeção" 		
+															for				=	"tipoInspecao"/>
+											
+											<p:inputText 	requiredMessage	=	"Tipo de Inspeção requerida"
+															value			=	"#{maquinaMB.tipoInspecaoSelected.descricao}"
+															id				=	"tipoInspecao"
+															readonly		=	"true" />
+		                            	
+		                            	</h:panelGroup>
+		                            	
+		                            	<h:panelGroup>
+		                            		
+		                            		<p:commandButton	icon				=	"fa fa-search"
+																styleClass			=	"PurpleTextButton RaisedButton"
+																actionListener		=	"#{maquinaMB.openDialog('/cadastros/tipoinspecao/searchTipoInspecao.xhtml')}"
+																immediate			=	"true"
+																process				=	"@this paTipoInspecao">
+													
+													<p:ajax 	event		=	"dialogReturn"
+																listener	=	"#{maquinaMB.selectTipoInspecao}"
+																update		=	"paTipoInspecao"/>
+											
+											</p:commandButton>
+		                            		
+		                            	</h:panelGroup>
+
+		                            </p:panelGrid>
+		                            <!-- END - searchItens2 Panel -->
+		                            
+		                            <p:panelGrid	columns				=	"3" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-10, ui-grid-col-1 search-button-padding, ui-grid-col-1 search-button-padding">
+		                            	
+		                            	<h:panelGroup id="paTipoComunicacao">
+
+			                            	<p:outputLabel 	value			=	"Tipo Comunicação" 		
+															for				=	"tipoComunicacao"/>
+											
+											<p:inputText 	requiredMessage	=	"TipoInspecao requerida"
+															value			=	"#{maquinaMB.tipoComunicacaoSelected.descricao}"
+															id				=	"tipoComunicacao"
+															readonly		=	"true" />
+		                            	
+		                            	</h:panelGroup>
+		                            	
+		                            	<h:panelGroup>
+		                            		
+		                            		<p:commandButton	icon				=	"fa fa-search"
+																styleClass			=	"PurpleTextButton RaisedButton"
+																actionListener		=	"#{maquinaMB.openDialog('/cadastros/tipocomunicacao/searchTipoComunicacao.xhtml')}"
+																immediate			=	"true"
+																process				=	"@this paTipoComunicacao">
+													
+													<p:ajax 	event		=	"dialogReturn"
+																listener	=	"#{maquinaMB.selectTipoComunicacao}"
+																update		=	"paTipoComunicacao"/>
+											
+											</p:commandButton>
+		                            		
+		                            	</h:panelGroup>
+
+		                            	<h:panelGroup>
+		                            		
+		                            		<p:commandButton	icon				=	"fa fa-plus"
+																styleClass			=	"PurpleTextButton RaisedButton AddButton"
+																actionListener		=	"#{maquinaMB.addEquipamento()}"
+																process				=	"@this paEquipamento paTipoInspecao paTipoComunicacao"
+																update				=	"paEquipamento paTipoInspecao paTipoComunicacao paTableEquipamentos">
+													
+											</p:commandButton>
+		                            		
+		                            	</h:panelGroup>
+		                            	
+		                            </p:panelGrid>
+		                            
+		                            <div class="EmptyBox10" />
+		                            
+		                            <p:panelGrid layout="grid" columns="1" styleClass="ui-panelgrid-blank">
+		                            
+			                            <!-- Datatable Equipamentos -->
+			                            <h:panelGroup id	=	"paTableEquipamentos">
+			                            	
+			                            		<p:dataTable 	id					=	"tableEquipamento"
+																var					=	"item"
+																value				=	"#{maquinaMB.equipamentoMaquinas}" 
+																emptyMessage		=	"Nenhum registro"
+																rows				= 	"10"
+																rowKey				=	"#{item.idEquipamentoMaquina}"
+																paginator			=	"true"
+																paginatorPosition	=	"bottom"
+																scrollable			=	"true"
+																scrollHeight		=	"430"
+																reflow				=	"true"
+																selectionMode		=	"single"
+																selection			=	"#{maquinaMB.equipamentoMaquinaSelected}">
+													
+												<f:facet name	=	"header">
+													Equipamentos da máquina
+												</f:facet>
+												
+												<p:column headerText="Equipamento">
+												
+														<h:outputText value="#{item.equipamento.nome}" />
+												
+												</p:column>
+	
+												<p:column headerText="Tipo Inspeção">
+												
+														<h:outputText value="#{item.tipoInspecao.descricao}" />
+												
+												</p:column>
+	
+												<p:column headerText="Tipo Comunicação">
+												
+														<h:outputText value="#{item.tipoComunicacao.descricao}" />
+												
+												</p:column>
+												
+												</p:dataTable>
+			                            	
+			                            </h:panelGroup>
+		                            
 		                            </p:panelGrid>
 											                        
 		                    	</div>
 		                 	</div>
 		                    
 	                    	<ui:include src="/cadastros/templatefooter.xhtml">
-	                    		<ui:param name="nomeFormulario" value="#{tipoCodigoMB.formName}" />
-	                    		<ui:param name="crudBean" value="#{tipoCodigoMB}" />
+	                    		<ui:param name="nomeFormulario" value="#{maquinaMB.formName}" />
+	                    		<ui:param name="crudBean" value="#{maquinaMB}" />
 	                    	</ui:include>
 		                    
 	                    </div>
@@ -71,6 +401,7 @@
 	            </div>
 	            
 	        </div>
+	        
 		</h:form>
 	</ui:define>
 
