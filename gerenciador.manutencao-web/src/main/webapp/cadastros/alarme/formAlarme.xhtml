@@ -1,0 +1,169 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		
+		<h:form id	=	"formCad" >        
+	       
+	       <p:growl />
+	       
+	       <p:focus context		=	"#{alarmeMB.contentPane}" />
+	       
+	        <div class="Container100">
+	          
+	            <div class="ContainerIndent">
+	                
+	                <p:panel styleClass="Card ShadowEffect" id	=	"contentPane">
+	                    
+	                    <div class="Container ui-fluid">
+	                    
+	                    	<div class="ContainerIndent">
+		                    	
+		                    	<div class="Container60 Responsive100">
+		                        
+		                            <div class="BigTopic Fs18">
+										<i class="fa fa-barcode"/> Cadastro de Alarme
+									</div>
+									
+									<div class="Separator"></div>
+									
+	                            	<!-- register a PostValidateEvent -->
+									<f:event listener="#{alarmeMB.validate}" type="postValidate" />
+									
+									<p:panelGrid 	columns				=	"1" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-11">
+										
+										<p:outputLabel 	value			=	"Título" 		
+														for				=	"titulo"/>
+										
+										<p:inputText 	requiredMessage	=	"Título requerida"
+														value			=	"#{alarmeMB.entityBean.titulo}"
+														id				=	"titulo" 
+														required		=	"true"/>
+										
+										<p:outputLabel 	value			=	"Descrição" 		
+														for				=	"descricao"/>
+														
+										<p:inputText 	value			=	"#{alarmeMB.entityBean.descricao}"
+														id				=	"descricao"
+														required		=	"true"
+														requiredMessage	=	"Descrição requerida"/>
+										
+		                            </p:panelGrid>
+		                            
+		                            <p:panelGrid 	columns				=	"2" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank SearchButtonGrid"
+		                            			 	columnClasses		=	"ui-grid-col-11, ui-grid-col-1 SearchButtonPadding">
+										
+										<h:panelGroup	id	=	"paCategoria">
+
+											<p:outputLabel 	value			=	"Categoria" 		
+															for				=	"categoria"/>
+											
+											<p:inputText 	requiredMessage	=	"Categoria requerida"
+															value			=	"#{alarmeMB.entityBean.categoriaAlarme.descricao}"
+															id				=	"categoria" 
+															required		=	"true"/>
+										
+										</h:panelGroup>
+										
+										<h:panelGroup	id	= 	"paBtCategoria">
+											
+											<p:commandButton	icon				=	"fa fa-search"
+																styleClass			=	"PurpleTextButton RaisedButton"
+																actionListener		=	"#{alarmeMB.openDialog('/cadastros/categoriaalarme/searchCategoriaAlarme.xhtml')}"
+																immediate			=	"true"
+																process				=	"@this paCategoria">
+													
+													<p:ajax 	event		=	"dialogReturn"
+																listener	=	"#{alarmeMB.selectCategoria}"
+																update		=	"paCategoria paBtCategoria"/>
+											
+											</p:commandButton>
+											
+										</h:panelGroup>
+										
+									</p:panelGrid>
+									
+									<p:panelGrid 	styleClass			=	"ui-panelgrid-blank"
+													layout="grid"
+													columns="3">
+												                            			 	
+										<p:column styleClass="ui-grid-col-4">
+										
+											<p:outputLabel 	value			=	"Tag sistema" 		
+															for				=	"tagSistema"/>
+											
+											<p:inputText 	requiredMessage	=	"Tag do sistema requerida"
+															value			=	"#{alarmeMB.entityBean.tagSistema}"
+															id				=	"tagSistema" 
+															required		=	"true"/>
+														
+										</p:column>
+
+										<p:column styleClass="ui-grid-col-4">
+										
+											<p:outputLabel 	value			=	"Tipo Alarme" 		
+															for				=	"tipoAlarme"/>
+											
+											<p:selectOneMenu id					=	"tipoAlarme" 
+															 value				=	"#{alarmeMB.entityBean.tipoAlarme.descricao}"
+															 required			=	"true"
+															 requiredMessage	=	"TIpo de alarme requerido">
+								            
+									            <f:selectItem itemLabel			=	"Selecione o tipo de alarme" 
+									            			  itemValue			=	"" />
+									            			  
+									            <p:ajax			event			=   "change"
+									            				process			= 	"@this paEquipamento paTipoInspecao paMaquina"
+									            				listener		=	"#{alarmeMB.onChangeTipoAlarme}" 	
+								            				  	update			=	"paTipoInspecao paTableReceita"/>
+									            
+									            <f:selectItems 	value			=	"#{alarmeMB.equipamentos}" 
+									            				var				=	"item"
+									            				itemValue		=	"#{item}"
+									            				itemLabel		=	"#{item.nome}"/>
+								            
+								        	</p:selectOneMenu>
+														
+										</p:column>
+
+										<p:column styleClass="ui-grid-col-4">
+										
+											<p:outputLabel 	value			=	"Código Conjunto SAP" 		
+															for				=	"codConjuntoSap"/>
+											
+											<p:inputText 	requiredMessage	=	"Código do conjunto SAP requerido"
+															value			=	"#{maquinaMB.entityBean.codigoConjuntoSap}"
+															id				=	"codConjuntoSap" 
+															required		=	"true"/>
+														
+										</p:column>
+
+		                            </p:panelGrid>		                            			 	
+											                        
+		                    	</div>
+		                 	</div>
+		                    
+	                    	<ui:include src="/cadastros/templatefooter.xhtml">
+	                    		<ui:param name="nomeFormulario" value="#{alarmeMB.formName}" />
+	                    		<ui:param name="crudBean" value="#{alarmeMB}" />
+	                    	</ui:include>
+		                    
+	                    </div>
+	                    
+	                </p:panel>
+	                
+	            </div>
+	            
+	        </div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

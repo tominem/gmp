@@ -198,6 +198,12 @@
 	width: 220px !important;
 }
 
+/* Ajuste das linhas zebradas quando datatable está dentro de um panelgrid blank */
+
+.ui-panelgrid.ui-panelgrid-blank .ui-datatable .ui-datatable-odd {
+	background-color: #eef2f7;
+}
+
 /* Padding dos botões de busca */
 
 .ui-grid-col-1.SearchButtonPadding {
