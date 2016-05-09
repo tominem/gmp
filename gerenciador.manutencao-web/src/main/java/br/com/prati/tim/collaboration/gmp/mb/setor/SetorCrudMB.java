@@ -17,7 +17,7 @@ import br.prati.tim.collaboration.gp.jpa.Setor;
 
 @Named("setorMB")
 @ViewScoped
-public class SetorCrudCrudMB extends AbstractCrudMB<Setor, Long>	implements Serializable {
+public class SetorCrudMB extends AbstractCrudMB<Setor, Long>	implements Serializable {
 
 	/**
 	 * 
