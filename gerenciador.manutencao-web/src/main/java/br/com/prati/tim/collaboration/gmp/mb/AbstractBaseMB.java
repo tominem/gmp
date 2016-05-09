@@ -88,5 +88,5 @@ public abstract class AbstractBaseMB implements BaseMB, Serializable{
 		}
 		else return null;
 	}
-	
+
 }

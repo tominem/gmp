@@ -12,4 +12,6 @@ public interface BaseMB {
 
 	String getContentPane();
 
+	ValidateComponent[] getValidaComponents();
+
 }

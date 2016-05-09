@@ -1,6 +1,8 @@
 package br.com.prati.tim.collaboration.gmp.ejb.maquina;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -16,6 +18,9 @@ import br.prati.tim.collaboration.gp.jpa.Maquina;
 public class MaquinaEJBImpl extends AbstractCrudEJB<Maquina> implements MaquinaEJB{
 
 	@Inject
+	private TimeZone defaultTimeZone;
+	
+	@Inject
 	private MaquinaDAO maquinaDAO;
 	
 	@Inject
@@ -23,7 +28,12 @@ public class MaquinaEJBImpl extends AbstractCrudEJB<Maquina> implements MaquinaE
 	
 	@Override
 	public Maquina save(Maquina entityBean) throws Exception {
-		return null;
+		if (entityBean.getIdMaquina() == null) {
+			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
+			entityBean.setStatus(Boolean.TRUE);
+		}
+		
+		return maquinaDAO.update(entityBean);
 	}
 
 	@Override

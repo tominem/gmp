@@ -26,6 +26,7 @@ import br.com.prati.tim.collaboration.gmp.ejb.receita.ReceitaEJB;
 import br.com.prati.tim.collaboration.gmp.ex.FacesValidateException;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractBaseMB;
 import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
+import br.com.prati.tim.collaboration.gmp.mb.ValidateComponent;
 import br.prati.tim.collaboration.gp.jpa.ConfigEquipamento;
 import br.prati.tim.collaboration.gp.jpa.Equipamento;
 import br.prati.tim.collaboration.gp.jpa.EquipamentoMaquina;
@@ -425,4 +426,10 @@ public class ReceitaCrudMB extends AbstractBaseMB implements Serializable {
 			}
 		}
     }
+    
+	@Override
+	public ValidateComponent[] getValidaComponents() {
+		return null;
+	}
+
 }

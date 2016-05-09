@@ -292,7 +292,7 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 	 * @param criteria
 	 * @param f
 	 */
-	private void handleJoinClause(UaiCriteria<T> criteria, FilterParam<?> f) {
+	protected void handleJoinClause(UaiCriteria<T> criteria, FilterParam<?> f) {
 		
 		if (f == null) return;
 		

@@ -1,9 +1,13 @@
 package br.com.prati.tim.collaboration.gmp.mb;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.event.ComponentSystemEvent;
 import javax.persistence.PersistenceException;
 
 import org.primefaces.context.RequestContext;
@@ -119,6 +123,52 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 		
 	}
 	
+	@Override
+	public void validate(ComponentSystemEvent event) {
+		
+		if (getEntityId() != null) return;
+		
+		ValidateComponent[] validateComps = getValidaComponents();
+		
+		if (validateComps != null && validateComps.length > 0) {
+			
+			for (ValidateComponent validateComponent : validateComps) {
+				
+				UIComponent components = event.getComponent();
+
+				UIInput uiInputDescricao = (UIInput) components.findComponent(validateComponent.getComponentID());
+				String value = uiInputDescricao.getSubmittedValue() != null ? ""
+						: uiInputDescricao.getLocalValue().toString();
+
+				HashMap<String, Object> params = new HashMap<String, Object>();
+				params.put(validateComponent.getEntityAttribute(), value);
+				
+				if (value.isEmpty()) continue;
+				
+				boolean exists = getCrudEJB().checkIfExists(params);
+				
+				if (exists) {
+					
+					//invalidate inputs
+					uiInputDescricao.setValid(false);
+					
+					//add validation message
+					addErrorMessage("Existe um(a) " + getEntityBean().getClass().getSimpleName() +" já cadastrado(a) com o(a) mesmo(a) " +
+							validateComponent.getLabelComponent() + "!");
+					
+				}
+				
+			}
+			
+		}
+		
+	}
+	
+	@Override
+	public ValidateComponent[] getValidaComponents() {
+		return null;
+	}
+
 	@Override
 	public void clean(){
 		

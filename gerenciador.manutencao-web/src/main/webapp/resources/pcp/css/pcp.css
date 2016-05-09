@@ -199,11 +199,52 @@
 }
 
 /* Padding dos botões de busca */
-@media (min-width: 641px) {
+
+.ui-grid-col-1.SearchButtonPadding {
+	padding-top: 24px;
+}
+
+.PurpleTextButton.RaisedButton.SearchButton{
+	float: left;
+}
+
+.SearchButtonGrid .ui-grid-row {
+	display: flex;
+}
+
+@media (max-width: 640px) {
 	
-	.ui-grid-col-1.search-button-padding {
-		padding-left: 0px;
-		padding-top: 20px;
-		margin: auto 0 auto 0;
+	.PurpleTextButton.RaisedButton.SearchButton {
+		float: left;
 	}
-}		
+	
+	.ui-grid-col-1.SearchButtonPadding {
+		width: 10%;
+		padding-left: 0px;
+		margin-right: 10px;
+	}
+
+}
+
+@media (max-width: 400px) {
+	
+	.PurpleTextButton.RaisedButton.SearchButton {
+	    margin-right: 10px;
+	}
+	
+}
+
+/* Ajuste do container60 para diferentes resoluções */
+@media (max-width: 1366px) {
+	
+	.Container60 {
+		width: 100% !important;
+	}
+}	
+
+@media (min-width: 1367px) and (max-width: 1600px) {
+	
+	.Container60 {
+		width: 80% !important;
+	}
+}	

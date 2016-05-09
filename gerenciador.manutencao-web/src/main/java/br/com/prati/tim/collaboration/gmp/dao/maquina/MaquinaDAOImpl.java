@@ -8,5 +8,5 @@ public class MaquinaDAOImpl extends AbstractJPADAO<Maquina> implements MaquinaDA
 	public MaquinaDAOImpl() {
 		super(Maquina.class);
 	}
-
+	
 }

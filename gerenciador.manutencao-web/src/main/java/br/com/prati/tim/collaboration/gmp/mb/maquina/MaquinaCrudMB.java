@@ -2,9 +2,11 @@ package br.com.prati.tim.collaboration.gmp.mb.maquina;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
-import javax.faces.event.ComponentSystemEvent;
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -15,6 +17,7 @@ import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.maquina.MaquinaEJB;
 import br.com.prati.tim.collaboration.gmp.ex.FacesValidateException;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractCrudMB;
+import br.com.prati.tim.collaboration.gmp.mb.ValidateComponent;
 import br.prati.tim.collaboration.gp.jpa.Equipamento;
 import br.prati.tim.collaboration.gp.jpa.EquipamentoMaquina;
 import br.prati.tim.collaboration.gp.jpa.Linhaproducao;
@@ -34,13 +37,18 @@ public class MaquinaCrudMB extends AbstractCrudMB<Maquina, Long>	implements Seri
 
 	private final String INPUT_EQUIPAMENTO_ID = "formCad:equipamento";
 
-	private final String INPUT_TIPOINSPECAO_ID = "formCad:tipoInspecao";
-
 	private final String INPUT_TIPOCOMUNICACAO_ID = "formCad:tipoComunicacao";
+
+	private final String INPUT_DESCRICAO_ID = "formCad:descricao";
+
+	private final String INPUT_TAG_ID = "formCad:tag";
 	
 
 	@Inject
 	private MaquinaEJB ejb;
+	
+	@Inject
+	private TimeZone defaultTimeZone;
 	
 	private Equipamento equipamentoSelected;
 
@@ -56,6 +64,14 @@ public class MaquinaCrudMB extends AbstractCrudMB<Maquina, Long>	implements Seri
 	
 	//================ METHODS ========================//
 	
+	@PostConstruct
+	@Override
+	public void initObjects() {
+		super.initObjects();
+		
+		load();
+	}
+	
 	@Override
 	public String getResourceDialogPath() {
 		return "/cadastros/maquina/searchMaquina.xhtml";
@@ -66,9 +82,15 @@ public class MaquinaCrudMB extends AbstractCrudMB<Maquina, Long>	implements Seri
 		
 		super.clean();
 		
-		cleanEquipamentoForm();
+		load();
+		
+	}
+
+	private void load() {
 		
 		equipamentoMaquinas = new ArrayList<EquipamentoMaquina>();
+
+		cleanEquipamentoForm();
 		
 	}
 
@@ -98,35 +120,15 @@ public class MaquinaCrudMB extends AbstractCrudMB<Maquina, Long>	implements Seri
 	}
 
 	@Override
-	public void validate(ComponentSystemEvent event) {
-		
-//		if (entityBean.getIdLinhaproducao() != null) return;
-//		
-//		UIComponent components = event.getComponent();
-//
-//		// get descricao
-//		UIInput uiInputDescricao = (UIInput) components.findComponent(DESCRICAO_INPUT_ID);
-//		String descricao = uiInputDescricao.getSubmittedValue() != null ? ""
-//				: uiInputDescricao.getLocalValue().toString();
-//
-//		HashMap<String, Object> params = new HashMap<String, Object>();
-//		params.put("descricao", descricao);
-//		
-//		//validate if object is present in db
-//		boolean exists = getCrudEJB().checkIfExists(params);
-//		
-//		if (exists) {
-//			
-//			//invalidate inputs
-//			uiInputDescricao.setValid(false);
-//			
-//			//add validation message
-//			addErrorMessage("Existe um Maquina já cadastrado com a mesma descrição!");
-//			
-//		}
-		
+	public ValidateComponent[] getValidaComponents() {
+		return new ValidateComponent[] {
+			
+			new ValidateComponent(INPUT_TAG_ID, "Tag", "tag"),
+			new ValidateComponent(INPUT_DESCRICAO_ID, "Descrição", "descricao")
+			
+		};
 	}
-
+	
 	@Override
 	public Class<Maquina> getEntityClass() {
 		return Maquina.class;
@@ -207,7 +209,10 @@ public class MaquinaCrudMB extends AbstractCrudMB<Maquina, Long>	implements Seri
 			
 			validateAddEquipamento();
 			
-			equipamentoMaquinas.add(new EquipamentoMaquina(getEquipamentoSelected(), getEntityBean(), getTipoInspecaoSelected(), getTipoComunicacaoSelected()));
+			EquipamentoMaquina em = new EquipamentoMaquina(getEquipamentoSelected(), getEntityBean(), getTipoInspecaoSelected(), getTipoComunicacaoSelected());
+			em.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
+			
+			equipamentoMaquinas.add(em);
 			
 			cleanEquipamentoForm();
 			
@@ -217,6 +222,10 @@ public class MaquinaCrudMB extends AbstractCrudMB<Maquina, Long>	implements Seri
 			
 		}
 		
+	}
+	
+	public void removeEquipamento(EquipamentoMaquina em){
+		equipamentoMaquinas.remove(em);
 	}
 
 	private void cleanEquipamentoForm() {
@@ -234,12 +243,23 @@ public class MaquinaCrudMB extends AbstractCrudMB<Maquina, Long>	implements Seri
 		if (equipamentoSelected == null)
 			throw new FacesValidateException("", INPUT_EQUIPAMENTO_ID);
 
-		if (tipoInspecaoSelected == null)
-			throw new FacesValidateException("", INPUT_TIPOINSPECAO_ID);
-
 		if (tipoComunicacaoSelected == null)
 			throw new FacesValidateException("", INPUT_TIPOCOMUNICACAO_ID);
+
+		//	it can't exist more than one equipamento in equipamento_maquina 
+		if (equipamentoMaquinas.stream().filter(em -> em.getEquipamento().hashCode() == equipamentoSelected.hashCode()).findFirst().isPresent()){
+			throw new FacesValidateException("Equipamento já vinculado à maquina", INPUT_EQUIPAMENTO_ID);
+		}
 		
+	}
+	
+	@Override
+	public void save() {
+		
+		entityBean.setEquipamentoMaquinas(new ArrayList<EquipamentoMaquina>());
+		entityBean.setEquipamentoMaquinas(equipamentoMaquinas);
+		
+		super.save();
 	}
 
 	public Equipamento getEquipamentoSelected() {

@@ -16,6 +16,16 @@
 				
 			}
 			
+			.ui-widget-header.ui-datatable-scrollable-header {
+				clear: both;
+			}
+			
+			.AddButton {
+				float: right;
+				margin-top: -5px;
+    			margin-right: -5px;
+			}
+			
 		</style>		
 	
 	</ui:define>
@@ -86,8 +96,8 @@
 		                            <!-- searchItens Panel -->
 									<p:panelGrid 	columns				=	"2" 
 		                            				layout				=	"grid" 
-		                            			 	styleClass			=	"ui-panelgrid-blank"
-		                            			 	columnClasses		=	"ui-grid-col-10, ui-grid-col-1 search-button-padding">
+		                            			 	styleClass			=	"ui-panelgrid-blank SearchButtonGrid"
+		                            			 	columnClasses		=	"ui-grid-col-10, ui-grid-col-1 SearchButtonPadding">
 		                            			 	
 		                            	<h:panelGroup id="paLinha" layout="block">
 
@@ -150,8 +160,11 @@
 		                            			 	
 		                            </p:panelGrid>
 		                            <!-- END - searchItens Panel -->
-		                            
-		                            
+		                        
+		                        <!-- Fim Container60 -->
+		                        
+		                        <!--  <div class="Container80 Responsive100"> -->
+		                         
 		                            <div class="EmptyBox20"/>
 		                            
 		                            
@@ -166,12 +179,11 @@
 										
 		                           	</p:panelGrid>
 									
-									<p:panelGrid 	columns				=	"3" 
-		                            				layout				=	"grid" 
-		                            			 	styleClass			=	"ui-panelgrid-blank"
-		                            			 	columnClasses		=	"ui-grid-col-4, ui-grid-col-4, ui-grid-col-4">
+									<p:panelGrid 	styleClass			=	"ui-panelgrid-blank DisplayBlock"
+													layout="grid"
+													columns="3">
 												                            			 	
-										<h:panelGroup>
+										<p:column styleClass="ui-grid-col-4">
 										
 											<p:outputLabel 	value			=	"Código Local SAP" 		
 															for				=	"codLocalSap"/>
@@ -181,9 +193,9 @@
 															id				=	"codLocalSap" 
 															required		=	"true"/>
 														
-										</h:panelGroup>
+										</p:column>
 
-										<h:panelGroup>
+										<p:column styleClass="ui-grid-col-4">
 										
 											<p:outputLabel 	value			=	"Código SAP" 		
 															for				=	"codMaquinaSap"/>
@@ -193,9 +205,9 @@
 															id				=	"codMaquinaSap" 
 															required		=	"true"/>
 														
-										</h:panelGroup>
+										</p:column>
 
-										<h:panelGroup>
+										<p:column styleClass="ui-grid-col-4">
 										
 											<p:outputLabel 	value			=	"Código Conjunto SAP" 		
 															for				=	"codConjuntoSap"/>
@@ -205,9 +217,8 @@
 															id				=	"codConjuntoSap" 
 															required		=	"true"/>
 														
-										</h:panelGroup>
+										</p:column>
 
-										
 		                            </p:panelGrid>
 		                            <!-- End - Panel codes -->
 		                            
@@ -228,8 +239,8 @@
 		                           	<!-- searchItens2 Panel -->
 									<p:panelGrid 	columns				=	"2" 
 		                            				layout				=	"grid" 
-		                            			 	styleClass			=	"ui-panelgrid-blank"
-		                            			 	columnClasses		=	"ui-grid-col-10, ui-grid-col-1 search-button-padding">
+		                            			 	styleClass			=	"ui-panelgrid-blank SearchButtonGrid"
+		                            			 	columnClasses		=	"ui-grid-col-10, ui-grid-col-1 SearchButtonPadding, ui-grid-col-1">
 		                            			 	
 		                            	<h:panelGroup id="paEquipamento">
 
@@ -292,8 +303,8 @@
 		                            
 		                            <p:panelGrid	columns				=	"3" 
 		                            				layout				=	"grid" 
-		                            			 	styleClass			=	"ui-panelgrid-blank"
-		                            			 	columnClasses		=	"ui-grid-col-10, ui-grid-col-1 search-button-padding, ui-grid-col-1 search-button-padding">
+		                            			 	styleClass			=	"ui-panelgrid-blank SearchButtonGrid"
+		                            			 	columnClasses		=	"ui-grid-col-10, ui-grid-col-1 SearchButtonPadding, ui-grid-col-1 AddButton">
 		                            	
 		                            	<h:panelGroup id="paTipoComunicacao">
 
@@ -310,7 +321,7 @@
 		                            	<h:panelGroup>
 		                            		
 		                            		<p:commandButton	icon				=	"fa fa-search"
-																styleClass			=	"PurpleTextButton RaisedButton"
+																styleClass			=	"PurpleTextButton RaisedButton SearchButton"
 																actionListener		=	"#{maquinaMB.openDialog('/cadastros/tipocomunicacao/searchTipoComunicacao.xhtml')}"
 																immediate			=	"true"
 																process				=	"@this paTipoComunicacao">
@@ -322,24 +333,12 @@
 											</p:commandButton>
 		                            		
 		                            	</h:panelGroup>
-
-		                            	<h:panelGroup>
-		                            		
-		                            		<p:commandButton	icon				=	"fa fa-plus"
-																styleClass			=	"PurpleTextButton RaisedButton AddButton"
-																actionListener		=	"#{maquinaMB.addEquipamento()}"
-																process				=	"@this paEquipamento paTipoInspecao paTipoComunicacao"
-																update				=	"paEquipamento paTipoInspecao paTipoComunicacao paTableEquipamentos">
-													
-											</p:commandButton>
-		                            		
-		                            	</h:panelGroup>
 		                            	
 		                            </p:panelGrid>
 		                            
 		                            <div class="EmptyBox10" />
 		                            
-		                            <p:panelGrid layout="grid" columns="1" styleClass="ui-panelgrid-blank">
+		                            <p:panelGrid layout="grid" columns="1" style="border:none">
 		                            
 			                            <!-- Datatable Equipamentos -->
 			                            <h:panelGroup id	=	"paTableEquipamentos">
@@ -347,38 +346,59 @@
 			                            		<p:dataTable 	id					=	"tableEquipamento"
 																var					=	"item"
 																value				=	"#{maquinaMB.equipamentoMaquinas}" 
-																emptyMessage		=	"Nenhum registro"
-																rows				= 	"10"
-																rowKey				=	"#{item.idEquipamentoMaquina}"
-																paginator			=	"true"
-																paginatorPosition	=	"bottom"
+																emptyMessage		=	"Nenhum registro" 
+																rows				=	"10"
+																rowKey				=	"#{item.hashCode()}"
+																selectionMode		=	"single" 
+																paginatorPosition	=	"bottom" 
 																scrollable			=	"true"
-																scrollHeight		=	"430"
+																scrollHeight		=	"250"
 																reflow				=	"true"
-																selectionMode		=	"single"
-																selection			=	"#{maquinaMB.equipamentoMaquinaSelected}">
+																resizableColumns	=	"true">
 													
-												<f:facet name	=	"header">
-													Equipamentos da máquina
-												</f:facet>
-												
-												<p:column headerText="Equipamento">
-												
-														<h:outputText value="#{item.equipamento.nome}" />
-												
-												</p:column>
-	
-												<p:column headerText="Tipo Inspeção">
-												
-														<h:outputText value="#{item.tipoInspecao.descricao}" />
-												
-												</p:column>
-	
-												<p:column headerText="Tipo Comunicação">
-												
-														<h:outputText value="#{item.tipoComunicacao.descricao}" />
-												
-												</p:column>
+													<f:facet name	=	"header">
+														Equipamentos
+														<h:panelGroup layout="block" styleClass="AddButton">
+			                            		
+						                            		<p:commandButton	icon				=	"fa fa-plus"
+																				styleClass			=	"PurpleTextButton RaisedButton"
+																				actionListener		=	"#{maquinaMB.addEquipamento()}"
+																				process				=	"@this paEquipamento paTipoInspecao paTipoComunicacao"
+																				update				=	"paEquipamento paTipoInspecao paTipoComunicacao paTableEquipamentos">
+																	
+															</p:commandButton>
+			                            		
+			                           					 </h:panelGroup>
+													</f:facet>
+													
+													<p:column headerText="Equipamento">
+													
+															<h:outputText value="#{item.equipamento.nome}" />
+													
+													</p:column>
+		
+													<p:column headerText="Tipo Inspeção">
+													
+															<h:outputText value="#{item.tipoInspecao.descricao}" />
+													
+													</p:column>
+		
+													<p:column headerText="Tipo Comunicação">
+													
+															<h:outputText value="#{item.tipoComunicacao.descricao}" />
+													
+													</p:column>
+													
+													<p:column headerText="Excluir" width="45">
+														
+														<p:commandButton 	styleClass		=	"RedButton RaisedButton"
+																			icon			=	"fa fa-trash Fs16 White"
+																			style			=	"float:right;"
+																			actionListener	=	"#{maquinaMB.removeEquipamento(item)}"
+																			immediate		=	"true"
+																			update			=	"paTableEquipamentos"
+																			process			=	"@this"/>
+													</p:column>
 												
 												</p:dataTable>
 			                            	

@@ -38,7 +38,7 @@ public class FacesValidateException extends Exception {
 	
 	public FacesValidateException(String message, UIInput ... inputs) {
 		
-		super( message = inputs != null && inputs.length == 1 ? 
+		super( message = (message.isEmpty() || message == null) && inputs != null && inputs.length == 1 ? 
 				( inputs[0].getRequiredMessage() != null && !inputs[0].getRequiredMessage().isEmpty() ?
 						inputs[0].getRequiredMessage() : message )
 			: message);
