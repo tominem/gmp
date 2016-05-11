@@ -4,11 +4,76 @@
 				xmlns:ui="http://java.sun.com/jsf/facelets"
 				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
+	<ui:define name="head">
+	
+		<style type="text/css">
+		
+			@media ( min-width : 641px) {
+				
+				#habilitaNotaPM {
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translateX(-50%) translateY(-50%);
+					position: relative;
+					top: 40px;
+				}
+				
+			}
+			
+			@media ( max-width : 640px) {
+				
+				#habilitaNotaPM {
+					position: static;
+					padding-top: 10px;
+				}
+				
+			}
+			
+			.fileupload-buttonbar {
+			    background: transparent none;
+			    border: none;
+			}
+
+			.fileupload-content {
+			    display: none;
+			}
+
+			.ui-fileupload .fileinput-button {
+			    background-color: rgba(142, 103, 64, 0.98);
+			}
+			
+			.fa-file-pdf-o:before {
+				content: "\f1c1";
+			    position: relative;
+			    bottom: 33px;
+			    color: white;
+			    left: 24px;
+			}
+			
+			.ui-fileupload-choose .ui-icon-plusthick, .ui-fileupload-simple .ui-icon-plusthick {
+				background-image: none !important;
+			}
+			
+			.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-icon-left.ui-fileupload-choose {
+				width: 184px;
+				margin-left: -5px;
+			}
+			
+			.ui-fileupload-content.ui-widget-content.ui-corner-bottom {
+				margin-top: -25px;
+				margin-left: -5px;
+			}
+			
+		</style>
+		
+	</ui:define>
+	
 	<ui:define name="content">
 		
-		<h:form id	=	"formCad" >        
+		<h:form id	=	"formCad" prependId="false">        
 	       
-	       <p:growl />
+	       <p:growl autoUpdate="true" />
 	       
 	       <p:focus context		=	"#{alarmeMB.contentPane}" />
 	       
@@ -25,7 +90,7 @@
 		                    	<div class="Container60 Responsive100">
 		                        
 		                            <div class="BigTopic Fs18">
-										<i class="fa fa-barcode"/> Cadastro de Alarme
+										<i class="fa fa-exclamation-triangle"/> Cadastro de Alarme
 									</div>
 									
 									<div class="Separator"></div>
@@ -38,21 +103,29 @@
 		                            			 	styleClass			=	"ui-panelgrid-blank"
 		                            			 	columnClasses		=	"ui-grid-col-11">
 										
-										<p:outputLabel 	value			=	"Título" 		
-														for				=	"titulo"/>
+										<p:column>
+											<p:outputLabel 	value			=	"Título" 		
+															for				=	"titulo"/>
+										</p:column>
 										
-										<p:inputText 	requiredMessage	=	"Título requerida"
-														value			=	"#{alarmeMB.entityBean.titulo}"
-														id				=	"titulo" 
-														required		=	"true"/>
+										<p:column>
+											<p:inputText 	requiredMessage	=	"Título requerida"
+															value			=	"#{alarmeMB.entityBean.titulo}"
+															id				=	"titulo" 
+															required		=	"true"/>
+										</p:column>
 										
-										<p:outputLabel 	value			=	"Descrição" 		
-														for				=	"descricao"/>
-														
-										<p:inputText 	value			=	"#{alarmeMB.entityBean.descricao}"
-														id				=	"descricao"
-														required		=	"true"
-														requiredMessage	=	"Descrição requerida"/>
+										<p:column>
+											<p:outputLabel 	value			=	"Descrição" 		
+															for				=	"descricao"/>
+										</p:column>
+										
+										<p:column>
+											<p:inputText 	value			=	"#{alarmeMB.entityBean.descricao}"
+															id				=	"descricao"
+															required		=	"true"
+															requiredMessage	=	"Descrição requerida"/>
+										</p:column>				
 										
 		                            </p:panelGrid>
 		                            
@@ -68,12 +141,13 @@
 											
 											<p:inputText 	requiredMessage	=	"Categoria requerida"
 															value			=	"#{alarmeMB.entityBean.categoriaAlarme.descricao}"
-															id				=	"categoria" 
+															id				=	"categoria"
+															readonly		=	"true" 
 															required		=	"true"/>
 										
 										</h:panelGroup>
 										
-										<h:panelGroup	id	= 	"paBtCategoria">
+										<p:column	id	= 	"paBtCategoria">
 											
 											<p:commandButton	icon				=	"fa fa-search"
 																styleClass			=	"PurpleTextButton RaisedButton"
@@ -87,15 +161,16 @@
 											
 											</p:commandButton>
 											
-										</h:panelGroup>
+										</p:column>
 										
 									</p:panelGrid>
 									
 									<p:panelGrid 	styleClass			=	"ui-panelgrid-blank"
-													layout="grid"
-													columns="3">
+													layout				=	"grid"
+													columns				=	"3"
+													columnClasses		=	"ui-grid-col-4, ui-grid-col-4, ui-grid-col-4">
 												                            			 	
-										<p:column styleClass="ui-grid-col-4">
+										<h:panelGroup id	=	"paTag">
 										
 											<p:outputLabel 	value			=	"Tag sistema" 		
 															for				=	"tagSistema"/>
@@ -103,51 +178,212 @@
 											<p:inputText 	requiredMessage	=	"Tag do sistema requerida"
 															value			=	"#{alarmeMB.entityBean.tagSistema}"
 															id				=	"tagSistema" 
-															required		=	"true"/>
+															required		=	"true"
+															autocomplete	=	"off"
+															style			=	"text-transform: uppercase"/>
 														
-										</p:column>
+										</h:panelGroup>
 
-										<p:column styleClass="ui-grid-col-4">
+										<h:panelGroup 	id			=	"paTipoAlarme" >
 										
 											<p:outputLabel 	value			=	"Tipo Alarme" 		
 															for				=	"tipoAlarme"/>
 											
 											<p:selectOneMenu id					=	"tipoAlarme" 
-															 value				=	"#{alarmeMB.entityBean.tipoAlarme.descricao}"
+															 value				=	"#{alarmeMB.entityBean.tipoAlarme}"
 															 required			=	"true"
-															 requiredMessage	=	"TIpo de alarme requerido">
+															 requiredMessage	=	"Tipo de alarme requerido">
 								            
 									            <f:selectItem itemLabel			=	"Selecione o tipo de alarme" 
 									            			  itemValue			=	"" />
 									            			  
-									            <p:ajax			event			=   "change"
-									            				process			= 	"@this paEquipamento paTipoInspecao paMaquina"
-									            				listener		=	"#{alarmeMB.onChangeTipoAlarme}" 	
-								            				  	update			=	"paTipoInspecao paTableReceita"/>
-									            
-									            <f:selectItems 	value			=	"#{alarmeMB.equipamentos}" 
+									            <p:ajax 	  event				=	"change"
+									            			  process			=	"@this paTipoAlarme paTag"
+									            			  listener			=	"#{alarmeMB.onChangeTipoAlarme()}"
+									            			  update			=	"paTipoAlarme paTag paCodigoAlarme paCodigoReset">
+									            </p:ajax>
+									            			  
+									            <f:selectItems 	value			=	"#{alarmeMB.tipoAlarmes}"
 									            				var				=	"item"
 									            				itemValue		=	"#{item}"
-									            				itemLabel		=	"#{item.nome}"/>
+									            				itemLabel		=	"#{item.descricao}"/>
 								            
 								        	</p:selectOneMenu>
 														
-										</p:column>
+										</h:panelGroup>
 
-										<p:column styleClass="ui-grid-col-4">
+										<h:panelGroup	id	=	"paCodigoAlarme">
 										
-											<p:outputLabel 	value			=	"Código Conjunto SAP" 		
-															for				=	"codConjuntoSap"/>
+											<p:outputLabel 	value			=	"Código do Alarme"
+															for				=	"codigoAlarme"/>
 											
-											<p:inputText 	requiredMessage	=	"Código do conjunto SAP requerido"
-															value			=	"#{maquinaMB.entityBean.codigoConjuntoSap}"
-															id				=	"codConjuntoSap" 
-															required		=	"true"/>
+											<p:inputText 	requiredMessage	=	"Código do alarme requerido"
+															value			=	"#{alarmeMB.entityBean.codigoAlarme}"
+															id				=	"codigoAlarme" 
+															required		=	"#{!alarmeMB.alarmeManual}"
+															disabled		=	"#{alarmeMB.alarmeManual}"/>
 														
+										</h:panelGroup>
+										
+		                            </p:panelGrid>
+		                            
+		                            <p:panelGrid 	styleClass			=	"ui-panelgrid-blank"
+													layout				=	"grid"
+													columns				=	"1">
+									
+										<p:column styleClass="ui-grid-col-11" colspan="3">
+											
+											<p:outputLabel 		value			=	"Dica" 		
+																for				=	"dica"/>
+											
+											<p:inputTextarea 	id				=	"dica"
+																rows			=	"8" 
+																value			=	"#{alarmeMB.entityBean.dica}"/>
+											
 										</p:column>
+									
+									</p:panelGrid>
+									
+									<p:panelGrid 	columns				=	"3" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank">
+										
+										<h:panelGroup	id = "paCodigoReset">
 
-		                            </p:panelGrid>		                            			 	
-											                        
+											<p:outputLabel 	value			=	"Código Reset" 		
+															for				=	"reset"/>
+											
+											<p:inputText 	value			=	"#{alarmeMB.entityBean.codigoReset}"
+															id				=	"reset" 
+															required		=	"#{!alarmeMB.alarmeManual}"
+															disabled		=	"#{alarmeMB.alarmeManual}"/>
+										
+										</h:panelGroup>
+
+										<p:column>
+
+											<p:outputLabel 	value			=	"Criticidade" 		
+															for				=	"criticidade"/>
+											
+											<p:inputText 	value			=	"#{alarmeMB.entityBean.criticidade}"
+															id				=	"criticidade" />
+										
+										</p:column>
+										
+										<p:column>
+
+											<p:selectBooleanCheckbox 	id			=	"habilitaNotaPM"	
+																		itemLabel	=	"Nota PM"
+																		value		=	"#{alarmeMB.entityBean.notapm}">
+																					
+											</p:selectBooleanCheckbox>
+										
+										</p:column>
+										
+										
+									</p:panelGrid>
+									
+									<div class="EmptyBox10" />
+									
+									<p:panelGrid 	columns				=	"1" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-12">
+		                            
+										<h:panelGroup	id 	=	"paFile">
+
+											<p:fileUpload id					=	"file"
+														  label					=	"Anexo"
+														  fileUploadListener	=	"#{alarmeMB.fazerUpload}"
+														  showButtons			=	"false" 
+														  invalidFileMessage	=	"Tipo inválido de arquivo. Apenas arquivos .pdf são suportados  "
+														  sizeLimit				=	"10485760"
+														  invalidSizeMessage	=	"Arquivo ultrapassa o limite de 10 Mb"
+														  auto					=	"true"
+														  mode					=	"advanced"
+														  update				=	"paLabelUpload"
+														  allowTypes			=	"/(\.|\/)(pdf)$/"
+														  dragDropSupport		=	"true">	  
+														  
+												 <i class="fa fa-file-pdf-o"/>
+												  
+											</p:fileUpload>
+											
+										</h:panelGroup>
+										
+										<p:panelGrid id	=	"paLabelUpload" layout="grid" columns="2" style="margin-top: -25px"
+											columnClasses="ui-grid-col-1, ui-grid-col-12 TexAlLeft"
+											styleClass="#{alarmeMB.entityBean.arquivo.nome == null ? 'hide' : ''}">
+											
+											<p:column>
+											
+												<i class="fa fa-file-o PurpleTextButton"/>
+												
+											</p:column>
+											
+											<p:column>
+											
+												<p:outputLabel id			=	"labelUpload"
+												   		   	   value		=	"#{alarmeMB.entityBean.arquivo.nome}"/>
+												   		   		
+											</p:column>
+											
+										</p:panelGrid>
+												 	
+		                            </p:panelGrid>
+									
+									<div class="EmptyBox10" />
+									
+									<p:panelGrid 	columns				=	"1" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank">
+									
+										<div class="BigTopic Fs18">
+											<i class="fa fa-bell"/> Notificações
+										</div>
+										
+										<div class="Separator"></div>
+									
+									</p:panelGrid>
+									
+									<p:panelGrid 	columns				=	"2" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank">
+		                            	
+		                            	<p:column>
+
+											<p:outputLabel 	value			=	"% Alarme para notificação" 		
+															for				=	"alarmeNotificacao"/>
+											
+											<p:inputText 	value			=	"#{alarmeMB.entityBean.quantidadeNotificacao}"
+															id				=	"alarmeNotificacao" />
+										
+										</p:column>
+										
+										<p:column>
+											
+											<p:outputLabel 	value			=	"Tipo Notificação" 		
+															for				=	"tipoNotificacao"/>
+											
+											<p:selectOneMenu id					=	"tipoNotificacao" 
+															 value				=	"#{alarmeMB.entityBean.tipoNotificacao}">
+								            
+									            <f:selectItem itemLabel			=	"Selecione o tipo de notificação" 
+									            			  itemValue			=	"" />
+									            			  
+									            <f:selectItems 	value			=	"#{alarmeMB.tipoNotificacoes}"
+									            				var				=	"item"
+									            				itemValue		=	"#{item}"
+									            				itemLabel		=	"#{item.descricao}"/>
+								            
+								        	</p:selectOneMenu>
+											
+										</p:column>
+										
+										<div class="EmptyBox10" />
+		                            	
+		                            </p:panelGrid>
+		                            
 		                    	</div>
 		                 	</div>
 		                    

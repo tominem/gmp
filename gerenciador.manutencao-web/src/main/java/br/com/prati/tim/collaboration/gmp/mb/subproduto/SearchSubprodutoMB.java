@@ -1,8 +1,7 @@
-package br.com.prati.tim.collaboration.gmp.mb.alarme;
+package br.com.prati.tim.collaboration.gmp.mb.subproduto;
 
 import static br.com.prati.tim.collaboration.gmp.dao.FilterCriteria.BOTH_LIKE;
 import static br.com.prati.tim.collaboration.gmp.dao.FilterOrder.ASC;
-import static javax.persistence.FetchType.EAGER;
 
 import java.io.Serializable;
 
@@ -12,13 +11,13 @@ import javax.inject.Named;
 
 import br.com.prati.tim.collaboration.gmp.dao.FilterParam;
 import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
-import br.com.prati.tim.collaboration.gmp.ejb.alarme.AlarmeEJB;
+import br.com.prati.tim.collaboration.gmp.ejb.subproduto.SubprodutoEJB;
 import br.com.prati.tim.collaboration.gmp.mb.SearchableMB;
-import br.prati.tim.collaboration.gp.jpa.Alarme;
+import br.prati.tim.collaboration.gp.jpa.Subproduto;
 
-@Named("searchAlarmeMB")
+@Named("searchSubprodutoMB")
 @ViewScoped
-public class SearchAlarmeMB extends SearchableMB<Alarme> implements Serializable{
+public class SearchSubprodutoMB extends SearchableMB<Subproduto> implements Serializable{
 
 	/**
 	 * 
@@ -26,25 +25,25 @@ public class SearchAlarmeMB extends SearchableMB<Alarme> implements Serializable
 	private static final long serialVersionUID = 632087411912461081L;
 
 	@Inject
-	private AlarmeEJB ejb;
+	private SubprodutoEJB ejb;
 	
 	@Override
 	public String getTitle() {
-		return "Pesquisar Alarme";
+		return "Pesquisar Subproduto";
 	}
 
 	@Override
 	public String getFormName() {
-		return "formPesquisaAlarme";
+		return "formPesquisaSubproduto";
 	}
 
 	@Override
 	public String getEntityName() {
-		return "Alarme";
+		return "Subproduto";
 	}
 	
 	@Override
-	public CrudEJB<Alarme> getCrudEJB() {
+	public CrudEJB<Subproduto> getCrudEJB() {
 		return ejb;
 	}
 
@@ -52,9 +51,7 @@ public class SearchAlarmeMB extends SearchableMB<Alarme> implements Serializable
 	public FilterParam<?>[] getFilterParams() {
 		return new FilterParam<?>[]{
 			
-			new FilterParam<String>("Título", "titulo", BOTH_LIKE, ASC),
-			new FilterParam<String>("Descrição", "descricao", BOTH_LIKE),
-			new FilterParam<String>("Categoria", "categoriaAlarme.descricao", BOTH_LIKE, EAGER)
+			new FilterParam<String>("Descrição", "descricao", BOTH_LIKE, ASC)
 			
 		};
 	}

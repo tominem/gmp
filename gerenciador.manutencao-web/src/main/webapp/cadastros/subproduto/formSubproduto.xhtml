@@ -1,0 +1,99 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	
+	<ui:define name="head">
+	
+		<style type="text/css">
+			
+			.sapSearch {
+				background-image: url("#{resource['pcp:images/sap128.png']}") !important;
+				background-position: center !important;
+  				background-size: 300%;
+			}
+			
+		</style>
+		
+	</ui:define>
+
+	<ui:define name="content">
+		
+		<h:form id			=	"formCad" 
+				prependId	=	"false">      
+	       
+	       <p:growl />
+	       
+	       <p:focus context		=	"contentPane" />
+	       
+	        <div class="Container100">
+	          
+	            <div class="ContainerIndent">
+	                
+	                <p:panel styleClass="Card ShadowEffect" id	=	"contentPane">
+	                    
+	                    <div class="Container ui-fluid">
+	                    
+	                    	<div class="ContainerIndent">
+		                    	
+		                    	<div class="Container60 Responsive100">
+		                        
+		                            <div class="BigTopic Fs18">
+										<i class="fa fa-map-marker"/> Cadastro de Subproduto
+									</div>
+									
+									<div class="Separator"></div>
+									
+	                            	<!-- register a PostValidateEvent -->
+									<f:event listener="#{subprodutoMB.validate}" type="postValidate" />
+									
+									<p:panelGrid 	columns				=	"2" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-12">
+										
+										<h:panelGroup id =	"paDescricao">
+										
+											<p:outputLabel 	value			=	"Descrição" 		
+															for				=	"descricao"/>
+											
+											<p:inputText 	requiredMessage	=	"Descrição requerida"
+															value			=	"#{subprodutoMB.entityBean.descricao}"
+															id				=	"descricao" 
+															required		=	"true"/>
+															
+										</h:panelGroup>
+
+										<h:panelGroup id =	"paSearchSap">
+										
+											<p:commandButton	icon				=	"sapSearch"
+																styleClass			=	"PurpleTextButton RaisedButton"
+																immediate			=	"true"
+																process				=	"@this paDescricao">
+											
+											</p:commandButton>
+															
+										</h:panelGroup>
+												                            			 	
+		                            </p:panelGrid>
+											                        
+		                    	</div>
+		                 	</div>
+		                    
+	                    	<ui:include src="/cadastros/templatefooter.xhtml">
+	                    		<ui:param name="nomeFormulario" value="#{subprodutoMB.formName}" />
+	                    		<ui:param name="crudBean" value="#{subprodutoMB}" />
+	                    	</ui:include>
+		                    
+	                    </div>
+	                    
+	                </p:panel>
+	                
+	            </div>
+	            
+	        </div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

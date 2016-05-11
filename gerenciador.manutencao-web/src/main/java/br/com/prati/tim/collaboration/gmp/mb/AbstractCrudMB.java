@@ -109,9 +109,13 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 			
 			if (ex != null) {
 				
+				int indexDetalhe = ex.getMessage().indexOf("Detalhe:");
+
+				int indexErro = ex.getMessage().indexOf("ERROR:");
+				
 				addErrorMessage(
 						"Não foi possível salvar " + getEntityBean().getClass().getSimpleName()
-						+ ex.getMessage().substring(ex.getMessage().indexOf("Detalhe:")));
+						+ ex.getMessage().substring(indexDetalhe > 0 ? indexDetalhe : indexErro));
 				
 			} else{
 				
