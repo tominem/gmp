@@ -129,9 +129,9 @@ public class AlarmeCrudMB extends AbstractCrudMB<Alarme, Long> implements Serial
 	}
 	
 	@Override
-	public void validate(ComponentSystemEvent event) {
+	public boolean validate(ComponentSystemEvent event) {
 		
-		if( isAlarmeManual() ) return;
+		if( isAlarmeManual() ) return true;
 
 		UIComponent components = event.getComponent();
 
@@ -172,9 +172,11 @@ public class AlarmeCrudMB extends AbstractCrudMB<Alarme, Long> implements Serial
 			
 			addErrorMessage(e.getMessage());
 			
+			return false;
+			
 		}
 		
-		
+		return true;
 	}
 	
 	public void onChangeTipoAlarme(){

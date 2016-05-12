@@ -2,6 +2,7 @@
 				xmlns:h="http://java.sun.com/jsf/html"
 				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:pe="http://primefaces.org/ui/extensions"
 				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 	
 	<ui:define name="head">
@@ -9,9 +10,23 @@
 		<style type="text/css">
 			
 			.sapSearch {
-				background-image: url("#{resource['pcp:images/sap128.png']}") !important;
+				background-image: url("#{resource['pcp:images/sap.svg']}") !important;
 				background-position: center !important;
-  				background-size: 300%;
+  				background-size: 105%;
+  				width: 100%;
+    			height: 100%;
+			    margin-left: -18px !important;
+			    margin-top: -20px !important;
+			}
+			
+			@media (max-width: 640px) {
+				
+				#principal {
+					
+					margin-top: 10px !important;
+					
+				}
+				
 			}
 			
 		</style>
@@ -23,7 +38,7 @@
 		<h:form id			=	"formCad" 
 				prependId	=	"false">      
 	       
-	       <p:growl />
+	       <p:growl autoUpdate="true"/>
 	       
 	       <p:focus context		=	"contentPane" />
 	       
@@ -50,8 +65,8 @@
 									
 									<p:panelGrid 	columns				=	"2" 
 		                            				layout				=	"grid" 
-		                            			 	styleClass			=	"ui-panelgrid-blank"
-		                            			 	columnClasses		=	"ui-grid-col-12">
+		                            			 	styleClass			=	"ui-panelgrid-blank SearchButtonGrid"
+		                            			 	columnClasses		=	"ui-grid-col-11, ui-grid-col-1 SearchButtonPadding">
 										
 										<h:panelGroup id =	"paDescricao">
 										
@@ -68,12 +83,234 @@
 										<h:panelGroup id =	"paSearchSap">
 										
 											<p:commandButton	icon				=	"sapSearch"
-																styleClass			=	"PurpleTextButton RaisedButton"
+																styleClass			=	"BlueButton RaisedButton"
 																immediate			=	"true"
-																process				=	"@this paDescricao">
+																process				=	"@this paDescricao"
+																onclick				=	"PF('ordemDlg').show();">
 											
 											</p:commandButton>
 															
+										</h:panelGroup>
+												                            			 	
+		                            </p:panelGrid>
+		                            
+		                            <p:panelGrid 	columns				=	"2" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-3, ui-grid-col-8">
+										
+										<h:panelGroup id =	"paCodigoSap">
+										
+											<p:outputLabel 	value			=	"Código SAP" 		
+															for				=	"codSap"/>
+											
+											<p:inputText	value			=	"#{subprodutoMB.entityBean.codigoSap}"
+															id				=	"codSap" 
+														 	requiredMessage	=	"Código SAP requerido"
+															required		=	"true"/>
+															
+										</h:panelGroup>
+										
+										<h:panelGroup layout="block">
+											
+											<p:selectBooleanCheckbox 	id			=	"principal"	
+																		itemLabel	=	"Subproduto principal"
+																		value		=	"#{subprodutoMB.entityBean.principal}"
+																		style		=	"margin-top: 30px">
+																					
+											</p:selectBooleanCheckbox>
+											
+										</h:panelGroup>
+										
+									</p:panelGrid>
+									
+									<p:panelGrid 	columns				=	"3" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-4, ui-grid-col-4, ui-grid-col-4">
+		                            	
+		                            	<h:panelGroup>
+		                            	
+			                            	<p:outputLabel 	value			=	"Unidade" 		
+															for				=	"unidade"/>
+															
+											<p:selectOneMenu id					=	"unidade" 
+															 value				=	"#{subprodutoMB.entityBean.unidade}">
+									            
+									            <f:selectItem itemLabel			=	"Selecione a unidade" 
+									            			  itemValue			=	"" />
+									            
+									            <f:selectItems 	value			=	"#{subprodutoMB.unidades}" 
+									            				var				=	"item"
+									            				itemValue		=	"#{item}"
+									            				itemLabel		=	"#{item.sigla}"/>
+									            
+									        </p:selectOneMenu>
+									        
+		                            	</h:panelGroup>
+
+		                            	<h:panelGroup>
+		                            	
+			                            	<p:outputLabel 	value			=	"Tipo Cálculo Conversão" 		
+															for				=	"tipoCalculo"/>
+															
+											<p:selectOneMenu id					=	"tipoCalculo" 
+															 value				=	"#{subprodutoMB.entityBean.tipoCalculoFator}">
+									            
+									            <f:selectItem itemLabel			=	"Selecione o tipo de cálculo" 
+									            			  itemValue			=	"" />
+									            
+									            <f:selectItems 	value			=	"#{subprodutoMB.calculos}" 
+									            				var				=	"item"
+									            				itemValue		=	"#{item}"
+									            				itemLabel		=	"#{item.descricao}"/>
+									            
+									        </p:selectOneMenu>
+									        
+		                            	</h:panelGroup>
+
+		                            	<h:panelGroup>
+		                            	
+			                            	<p:outputLabel 	value			=	"Fator de Conversão" 		
+															for				=	"fator"/>
+															
+											<p:inputMask	value			=	"#{subprodutoMB.entityBean.fatorConversao}"
+															id				=	"fator"
+															styleClass		=	"TexAlCenter">
+												
+												<pe:keyFilter regEx="/[0-9._]/i" />
+												
+											</p:inputMask>
+									        
+		                            	</h:panelGroup>
+		                            	
+		                            </p:panelGrid>
+		                            
+		                            <div class="EmptyBox20" />
+		                            
+		                            <p:panelGrid 	columns				=	"1" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank">
+									
+										<div class="BigTopic Fs18">
+											<i class="fa fa-bell"/> Vincular Tipo de Inspeção
+										</div>
+										
+										<div class="Separator"></div>
+									
+									</p:panelGrid>
+									
+									 <p:panelGrid 	columns				=	"2" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank SearchButtonGrid"
+		                            			 	columnClasses		=	"ui-grid-col-10, ui-grid-col-1 SearchButtonPadding">
+		                            	
+		                            	<h:panelGroup id	=	"paTipoInspecao">
+		                            	
+			                            	<p:outputLabel 	value			=	"Tipo de Inspeção" 		
+															for				=	"tpInspecao"/>
+															
+											<p:inputText 	value			=	"#{subprodutoMB.tipoInspecao.descricao}"
+															id				=	"tpInspecao"
+															readonly		=	"true" />
+									        
+		                            	</h:panelGroup>
+		                            	
+		                            	<h:panelGroup>
+		                            		
+		                            		<p:commandButton	icon				=	"fa fa-search"
+																styleClass			=	"PurpleTextButton RaisedButton"
+																actionListener		=	"#{subprodutoMB.openDialog('/cadastros/tipoinspecao/searchTipoInspecao.xhtml')}"
+																immediate			=	"true"
+																process				=	"@this paTipoInspecao">
+													
+													<p:ajax 	event		=	"dialogReturn"
+																listener	=	"#{subprodutoMB.selectTipoInspecao}"
+																update		=	"paTipoInspecao"/>
+											
+											</p:commandButton>
+		                            		
+		                            	</h:panelGroup>
+		                            	
+		                            </p:panelGrid>
+		                            
+		                            <p:panelGrid 	columns				=	"1" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-10">
+		                            	
+		                            	<h:panelGroup id	=	"paCodigoInspecao">
+		                            	
+			                            	<p:outputLabel 	value			=	"Código inspecionado" 		
+															for				=	"codigoInspecionado"/>
+															
+											<p:inputText 	value			=	"#{subprodutoMB.codigoInspecionado}"
+															id				=	"codigoInspecionado"/>
+									        
+		                            	</h:panelGroup>
+		                            	
+		                            </p:panelGrid>
+		                            
+		                            <div class="EmptyBox10" />
+		                            
+		                            <p:panelGrid 	columns				=	"1" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank">
+										
+										<h:panelGroup>
+											
+											<p:dataTable 	id					=	"tableTiposInspecao"
+															var					=	"item"
+															value				=	"#{subprodutoMB.subprodTipoInsps}" 
+															emptyMessage		=	"Nenhum registro" 
+															rows				=	"10"
+															rowKey				=	"#{item.hashCode()}"
+															selectionMode		=	"single"
+															scrollable			=	"true"
+															scrollHeight		=	"250"
+															reflow				=	"true"
+															resizableColumns	=	"true">
+												
+												<f:facet name	=	"header">
+													Tipos de Inspeção
+													<h:panelGroup layout="block" styleClass="AddButton">
+		                            		
+					                            		<p:commandButton	icon				=	"fa fa-plus"
+																			styleClass			=	"PurpleTextButton RaisedButton"
+																			actionListener		=	"#{subprodutoMB.addItem()}"
+																			process				=	"@this paTipoInspecao paCodigoInspecao"
+																			update				=	"paTipoInspecao paCodigoInspecao tableTiposInspecao">
+																
+														</p:commandButton>
+		                            		
+		                           					 </h:panelGroup>
+												</f:facet>
+												
+												<p:column headerText="Código" width="20%" >
+													
+													<h:outputText value="#{item.codigo}" />
+													
+												</p:column>
+
+												<p:column headerText="Tipo de inspeção">
+													
+													<h:outputText value="#{item.tipoInspecao.descricao}" />
+													
+												</p:column>
+												
+												<p:column headerText="Excluir" width="45">
+														
+													<p:commandButton 	styleClass		=	"RedButton RaisedButton"
+																		icon			=	"fa fa-trash Fs16 White"
+																		style			=	"float:right;"
+																		actionListener	=	"#{subprodutoMB.removeItem(item)}"
+																		immediate		=	"true"
+																		update			=	"tableTiposInspecao"
+																		process			=	"@this"/>
+												</p:column>
+													
+											</p:dataTable>
+											
 										</h:panelGroup>
 												                            			 	
 		                            </p:panelGrid>
@@ -84,6 +321,10 @@
 	                    	<ui:include src="/cadastros/templatefooter.xhtml">
 	                    		<ui:param name="nomeFormulario" value="#{subprodutoMB.formName}" />
 	                    		<ui:param name="crudBean" value="#{subprodutoMB}" />
+	                    	</ui:include>
+
+	                    	<ui:include src="/cadastros/subproduto/ordemDialog.xhtml">
+	                    		<ui:param name="ordemProducao" value="#{subprodutoMB.numeroOrdem}" />
 	                    	</ui:include>
 		                    
 	                    </div>

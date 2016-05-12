@@ -2,7 +2,6 @@ package br.com.prati.tim.collaboration.gmp.mb.tipocodigo;
 
 import java.io.Serializable;
 
-import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -52,12 +51,6 @@ public class TipoCodigoCrudMB extends AbstractCrudMB<TipoCodigo, Long>	implement
 	@Override
 	public CrudEJB<TipoCodigo> getCrudEJB() {
 		return ejb;
-	}
-
-	@Override
-	public void validate(ComponentSystemEvent event) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

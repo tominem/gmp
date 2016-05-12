@@ -64,9 +64,9 @@ public class SetorCrudMB extends AbstractCrudMB<Setor, Long>	implements Serializ
 	}
 
 	@Override
-	public void validate(ComponentSystemEvent event) {
+	public boolean validate(ComponentSystemEvent event) {
 		
-		if (entityBean.getIdSetor() != null) return;
+		if (entityBean.getIdSetor() != null) return true;
 		
 		UIComponent components = event.getComponent();
 
@@ -89,8 +89,10 @@ public class SetorCrudMB extends AbstractCrudMB<Setor, Long>	implements Serializ
 			//add validation message
 			addErrorMessage("Existe um Setor já cadastrado com a mesma descrição!");
 			
+			return false;
 		}
 		
+		return true;
 	}
 
 	@Override

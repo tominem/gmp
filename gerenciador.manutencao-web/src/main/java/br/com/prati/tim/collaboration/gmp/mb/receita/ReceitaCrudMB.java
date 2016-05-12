@@ -218,12 +218,6 @@ public class ReceitaCrudMB extends AbstractBaseMB implements Serializable {
 		this.equipamentos = equipamentos;
 	}
 
-	@Override
-	public void validate(ComponentSystemEvent event) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public void openMaquinaDialog() {
 
 		Map<String, Object> params = getParamsDialogPesquisa();
@@ -430,6 +424,11 @@ public class ReceitaCrudMB extends AbstractBaseMB implements Serializable {
 	@Override
 	public ValidateComponent[] getValidaComponents() {
 		return null;
+	}
+
+	@Override
+	public boolean validate(ComponentSystemEvent event) {
+		return false;
 	}
 
 }

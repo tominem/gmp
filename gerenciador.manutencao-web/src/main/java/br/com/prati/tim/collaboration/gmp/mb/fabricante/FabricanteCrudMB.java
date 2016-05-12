@@ -2,7 +2,6 @@ package br.com.prati.tim.collaboration.gmp.mb.fabricante;
 
 import java.io.Serializable;
 
-import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -53,12 +52,6 @@ public class FabricanteCrudMB extends AbstractCrudMB<Fabricante, Long>	implement
 	@Override
 	public CrudEJB<Fabricante> getCrudEJB() {
 		return ejb;
-	}
-
-	@Override
-	public void validate(ComponentSystemEvent event) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

@@ -3,7 +3,6 @@ package br.com.prati.tim.collaboration.gmp.mb.tipoinspecao;
 import java.io.Serializable;
 import java.util.Map;
 
-import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -59,12 +58,6 @@ public class TipoInspecaoCrudMB extends AbstractCrudMB<TipoInspecao, Long>	imple
 	@Override
 	public CrudEJB<TipoInspecao> getCrudEJB() {
 		return ejb;
-	}
-
-	@Override
-	public void validate(ComponentSystemEvent event) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

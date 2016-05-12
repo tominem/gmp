@@ -5,9 +5,10 @@ import static br.com.prati.tim.collaboration.gmp.dao.FilterCase.UPPER_CASE;
 import static br.com.prati.tim.collaboration.gmp.dao.FilterCriteria.AFTER_LIKE;
 import static br.com.prati.tim.collaboration.gmp.dao.FilterCriteria.BEFORE_LIKE;
 import static br.com.prati.tim.collaboration.gmp.dao.FilterCriteria.BOTH_LIKE;
-import static br.com.prati.tim.collaboration.gmp.dao.FilterType.CHARACTER;
+import static br.com.prati.tim.collaboration.gmp.dao.FilterType.STRING;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import javax.persistence.FetchType;
 
@@ -26,7 +27,7 @@ public class FilterParam<T> {
 
 	private FilterCase filterCase = IGNORE_CASE;
 	
-	private FilterType type = CHARACTER;
+	private FilterType type = STRING;
 
 	private String fieldName;
 	
@@ -64,6 +65,13 @@ public class FilterParam<T> {
 		this.order = order;
 	}
 	
+	public FilterParam(String name, String fieldName, FilterCriteria criteria, FilterType type) {
+		this.name = name;
+		this.fieldName = fieldName;
+		this.criteria = criteria;
+		this.type = type;
+	}
+
 	public FilterParam(String name, String fieldName, FilterCriteria criteria) {
 		this.name = name;
 		this.fieldName = fieldName;
@@ -135,7 +143,7 @@ public class FilterParam<T> {
 	
 	public Object parsePattern(String pattern) throws NumberFormatException{
 		
-		if (type == CHARACTER) {
+		if (type == STRING) {
 
 			return new StringBuilder()		
 					.append(criteria == BOTH_LIKE || criteria == AFTER_LIKE ? "%" : "")
@@ -147,8 +155,11 @@ public class FilterParam<T> {
 		
 		else{
 			
-			return new BigDecimal(pattern);
+			if (type == FilterType.INTEGER) return Integer.parseInt(pattern);
+			if (type == FilterType.LONG) 	return Long.valueOf(pattern);
+			if (type == FilterType.BIGINT) 	return new BigInteger(pattern);
 			
+			return new BigDecimal(pattern); 
 		}
 		
 	}

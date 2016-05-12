@@ -107,10 +107,10 @@ public class MenuConfigCrudMB extends AbstractCrudMB<MenuConfig, Long>	implement
 	}
 
 	@Override
-	public void validate(ComponentSystemEvent event) {
+	public boolean validate(ComponentSystemEvent event) {
 		
 		//ensure is on update mode
-		if (entityBean.getIdMenuConfig() != null) return;
+		if (entityBean.getIdMenuConfig() != null) return true;
 
 		UIComponent components = event.getComponent();
 
@@ -132,8 +132,11 @@ public class MenuConfigCrudMB extends AbstractCrudMB<MenuConfig, Long>	implement
 
 			//add validation message
 			addErrorMessage("Já existe um Menu de configuração cadastrado com a mesma descrição");
-
+			
+			return false;
 		}
+		
+		return true;
 	}
 
 	 private Map<String, Object> putParams(String descricao) {

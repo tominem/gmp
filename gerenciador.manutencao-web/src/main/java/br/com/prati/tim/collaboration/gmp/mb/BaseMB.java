@@ -6,7 +6,7 @@ public interface BaseMB {
 	
 	String getFormName();
 	
-	void validate(ComponentSystemEvent event);
+	boolean validate(ComponentSystemEvent event);
 	
 	void clean();
 

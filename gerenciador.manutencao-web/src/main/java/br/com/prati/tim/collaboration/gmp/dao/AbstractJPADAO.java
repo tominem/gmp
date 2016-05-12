@@ -196,9 +196,29 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 				
 		statusValue.ifPresent( sv -> criteria.andEquals(getStatusAttrName(), sv) );
 		
+		ordenate(Arrays.asList(filterParams), criteria);
+		
 		List<T> resultList = criteria.getResultList();
 		
 		return resultList;
+	}
+
+
+	private void ordenate(List<FilterParam<?>> filters, UaiCriteria<T> criteria) {
+		
+		List<FilterParam<?>> ordernates = filters.stream().filter(f -> f.getOrder() != FilterOrder.NONE).collect(Collectors.toList());
+		
+		ordernates.forEach(f -> {
+			
+			if (f.getOrder() == FilterOrder.ASC) {
+				criteria.orderByAsc(f.getFieldName());
+			}
+			
+			else{
+				criteria.orderByDesc(f.getFieldName());
+			}
+			
+		});
 	}
 
 	@Override
@@ -233,19 +253,7 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 		
 		limit.ifPresent(maxResults -> criteria.setMaxResults(maxResults));
 		
-		List<FilterParam<?>> ordernates = filters.stream().filter(f -> f.getOrder() != FilterOrder.NONE).collect(Collectors.toList());
-		
-		ordernates.forEach(f -> {
-			
-			if (f.getOrder() == FilterOrder.ASC) {
-				criteria.orderByAsc(f.getFieldName());
-			}
-			
-			else{
-				criteria.orderByDesc(f.getFieldName());
-			}
-			
-		});
+		ordenate(filters, criteria);
 		
 		return criteria.getResultList();
 	}

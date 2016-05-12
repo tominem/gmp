@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -84,36 +83,6 @@ public class SalaCrudMB extends AbstractCrudMB<Sala, Long>	implements Serializab
 	@Override
 	public CrudEJB<Sala> getCrudEJB() {
 		return ejb;
-	}
-
-	@Override
-	public void validate(ComponentSystemEvent event) {
-		
-//		if (entityBean.getIdSala() != null) return;
-//		
-//		UIComponent components = event.getComponent();
-//
-//		// get descricao
-//		UIInput uiInputDescricao = (UIInput) components.findComponent(DESCRICAO_INPUT_ID);
-//		String descricao = uiInputDescricao.getSubmittedValue() != null ? ""
-//				: uiInputDescricao.getLocalValue().toString();
-//
-//		HashMap<String, Object> params = new HashMap<String, Object>();
-//		params.put("descricao", descricao);
-//		
-//		//validate if object is present in db
-//		boolean exists = getCrudEJB().checkIfExists(params);
-//		
-//		if (exists) {
-//			
-//			//invalidate inputs
-//			uiInputDescricao.setValid(false);
-//			
-//			//add validation message
-//			addErrorMessage("Existe um Sala já cadastrado com a mesma descrição!");
-//			
-//		}
-		
 	}
 
 	@Override

@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
-import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -197,12 +196,6 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 	@Override
 	public CrudEJB<Equipamento> getCrudEJB() {
 		return ejb;
-	}
-
-	@Override
-	public void validate(ComponentSystemEvent event) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

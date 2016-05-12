@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
+
+
+	<h:form>
+	            
+	    <p:growl id="growl"/>
+	 
+	    <p:dialog header="Entre com o número da ordem de Produção" widgetVar="ordemDlg" resizable="false" responsive="true" modal="true">
+	        <h:panelGrid columns="2" cellpadding="5">
+	        
+	            <h:outputLabel for="username" value="Número da ordem de produção" />
+	            <p:inputText id="username" 
+	            	value="#{ordemProducao}" 
+	            	label="username" 
+	            	required="true"
+	            	requiredMessage="Número da ordem de produção requerido"/>
+	 
+	            <f:facet name="footer">
+	                <p:commandButton value="Confirmar" styleClass="PurpleButton RaisedButton"/>
+	            </f:facet>
+	            
+	        </h:panelGrid>
+	    </p:dialog>
+	    
+	</h:form>
+	
+	
+</ui:composition>

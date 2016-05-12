@@ -128,9 +128,9 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 	}
 	
 	@Override
-	public void validate(ComponentSystemEvent event) {
+	public boolean validate(ComponentSystemEvent event) {
 		
-		if (getEntityId() != null) return;
+		if (getEntityId() != null) return true;
 		
 		ValidateComponent[] validateComps = getValidaComponents();
 		
@@ -160,12 +160,14 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 					addErrorMessage("Existe um(a) " + getEntityBean().getClass().getSimpleName() +" já cadastrado(a) com o(a) mesmo(a) " +
 							validateComponent.getLabelComponent() + "!");
 					
+					return false;
 				}
 				
 			}
 			
 		}
 		
+		return true;
 	}
 	
 	@Override

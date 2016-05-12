@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
-import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -245,45 +244,6 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 	public void setEntityId(Long entityId) {
 		entityBean.setIdFuncaoConfig(entityId);
 	}
-
-	@Override
-	public void validate(ComponentSystemEvent event) {
-		
-		//ensure is on update mode
-//		if (entityBean.getIdFuncaoConfig() != null) return;
-//
-//		UIComponent components = event.getComponent();
-//
-//		// get descricao
-//		UIInput uiInputDescricao = (UIInput)
-//				components.findComponent("descricao");
-//		String descricao = uiInputDescricao.getSubmittedValue() != null ? ""
-//				: uiInputDescricao.getLocalValue().toString();
-//
-//		Map<String, Object> params = putParams(descricao);
-//
-//		//validate if object is present in db
-//		boolean exists = getCrudEJB().checkIfExists(params);
-//
-//		if (exists) {
-//
-//			//invalidate inputs
-//			uiInputDescricao.setValid(false);
-//
-//			//add validation message
-//			addErrorMessage("Já existe um Menu de configuração cadastrado com a mesma descrição");
-//
-//		}
-	}
-
-//	 private Map<String, Object> putParams(String descricao) {
-//	
-//		 Map<String, Object> params = new HashMap<String, Object>();
-//
-//		 params.put("descricao", descricao);
-//
-//		 return params;
-//	 }
 
 	@Override
 	public Boolean getEntityStatus() {

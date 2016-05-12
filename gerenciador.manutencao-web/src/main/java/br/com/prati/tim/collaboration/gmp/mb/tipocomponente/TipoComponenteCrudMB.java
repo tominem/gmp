@@ -54,7 +54,7 @@ public class TipoComponenteCrudMB extends AbstractCrudMB<TipoComponente, Long> i
 	}
 	
 	@Override
-	public void validate(ComponentSystemEvent event) {
+	public boolean validate(ComponentSystemEvent event) {
 		
 		UIComponent components = event.getComponent();
 
@@ -82,7 +82,10 @@ public class TipoComponenteCrudMB extends AbstractCrudMB<TipoComponente, Long> i
 			//add validation message
 			addErrorMessage("Tipo Componente já está cadastrado, com a mesma descrição, nome ou ambos");
 			
+			return false;
 		}
+		
+		return true;
 	}
 
 	private Map<String, Object> putParams(String descricao, String nome) {

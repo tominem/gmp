@@ -1,6 +1,7 @@
 package br.com.prati.tim.collaboration.gmp.mb.subproduto;
 
 import static br.com.prati.tim.collaboration.gmp.dao.FilterCriteria.BOTH_LIKE;
+import static br.com.prati.tim.collaboration.gmp.dao.FilterCriteria.EQUAL;
 import static br.com.prati.tim.collaboration.gmp.dao.FilterOrder.ASC;
 
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.prati.tim.collaboration.gmp.dao.FilterParam;
+import br.com.prati.tim.collaboration.gmp.dao.FilterType;
 import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.subproduto.SubprodutoEJB;
 import br.com.prati.tim.collaboration.gmp.mb.SearchableMB;
@@ -51,6 +53,7 @@ public class SearchSubprodutoMB extends SearchableMB<Subproduto> implements Seri
 	public FilterParam<?>[] getFilterParams() {
 		return new FilterParam<?>[]{
 			
+			new FilterParam<String>("Código Sap", "codigoSap", EQUAL, FilterType.INTEGER),
 			new FilterParam<String>("Descrição", "descricao", BOTH_LIKE, ASC)
 			
 		};
