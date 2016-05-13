@@ -16,14 +16,14 @@ import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
 import br.com.prati.tim.collaboration.gmp.mb.resources.MD5Gen;
 import br.com.prati.tim.collaboration.gmp.ws.DynamicServiceLocator;
 import br.prati.tim.collaboration.gp.jpa.ConfiguracaoGeral;
-import br.prati.tim.pcp.ws.usuario.AlterarSenhaParams;
-import br.prati.tim.pcp.ws.usuario.AutParams;
-import br.prati.tim.pcp.ws.usuario.ETipoAcesso;
-import br.prati.tim.pcp.ws.usuario.RecuperacaoSenhaParams;
-import br.prati.tim.pcp.ws.usuario.RetornoAutenticacao;
-import br.prati.tim.pcp.ws.usuario.StatusAut;
-import br.prati.tim.pcp.ws.usuario.UsuarioService;
-import br.prati.tim.pcp.ws.usuario.UsuarioWS;
+import br.prati.tim.gmp.ws.usuario.AlterarSenhaParams;
+import br.prati.tim.gmp.ws.usuario.AutParams;
+import br.prati.tim.gmp.ws.usuario.ETipoAcesso;
+import br.prati.tim.gmp.ws.usuario.RecuperacaoSenhaParams;
+import br.prati.tim.gmp.ws.usuario.RetornoAutenticacao;
+import br.prati.tim.gmp.ws.usuario.StatusAut;
+import br.prati.tim.gmp.ws.usuario.UsuarioService;
+import br.prati.tim.gmp.ws.usuario.UsuarioWS;
 
 @Named("mbLogin")
 @SessionScoped

@@ -1,0 +1,65 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
+
+
+	<h:form id="formOrdemItens" prependId="false">
+	            
+	    <p:dialog 			id			=		"ordemItensDlg" 
+	    					header		=		"Selecione o material a ser importado" 
+	    					widgetVar	=		"ordemItensDlg" 
+	    					resizable	=		"false"
+	    					responsive	=		"true" 
+	    					modal		=		"true">
+	    					
+	    		<p:ajax event="close" listener="#{ordemProducaoMB.close}" update="ordemDlg"/>
+	    					
+	        	<h:panelGrid columns="1" cellpadding="5">
+	        
+		       		<h:panelGrid id="panelGridTable">
+        		
+		        		 <p:dataTable 	var					=	"item" 
+		        		 				value				=	"#{ordemProducaoMB.materiais}"
+		        		 			  	id					=	"tablePesquisa"
+		        		 			  	emptyMessage		=	"Nenhum registro"
+		        		 			  	paginator			=	"true"
+		        		 			  	rows				=	"10"
+		        		 			  	selectionMode		=	"single"
+		        		 			  	rowKey				=	"#{item.codigo}"
+		        		 			  	selection			=	"#{ordemProducaoMB.materialSelected}"
+		        		 			  	paginatorPosition	=	"bottom"
+										scrollable			=	"true"
+			   		 			  		scrollHeight		=	"250"
+			   		 			  		reflow				=	"true">
+			
+							<p:ajax event		=	"rowSelect"
+									listener	=	"#{listener.retrieveMaterialSelected(ordemProducaoMB.materialSelected)}"
+									oncomplete	=	"PF('ordemItensDlg').hide();"
+									update		=	"#{formPatern}"/>
+							
+		                	<p:column headerText	=	"Código">
+		                    	<h:outputText value	=	"#{item.codigo}" />
+		                	</p:column>
+		
+		                	<p:column headerText	=	"Descrição">
+		                    	<h:outputText value	=	"#{item.descricao}" />	
+		                	</p:column>
+		
+		                	<p:column headerText	=	"Tipo">
+		                    	<h:outputText value	=	"#{item.tipo}" />
+		                	</p:column>
+			                	
+		                </p:dataTable>
+		                
+		        	</h:panelGrid>
+		            	
+	        </h:panelGrid>
+	    </p:dialog>
+	    
+	</h:form>
+	
+	
+</ui:composition>

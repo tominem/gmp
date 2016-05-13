@@ -18,15 +18,18 @@ import br.com.prati.tim.collaboration.gmp.ejb.subproduto.SubprodutoEJB;
 import br.com.prati.tim.collaboration.gmp.ex.FacesValidateException;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractCrudMB;
 import br.com.prati.tim.collaboration.gmp.mb.ValidateComponent;
+import br.com.prati.tim.collaboration.gmp.mb.ordemproducao.OrdemSAPListener;
 import br.prati.tim.collaboration.gp.jpa.SubprodTipoInsp;
 import br.prati.tim.collaboration.gp.jpa.Subproduto;
 import br.prati.tim.collaboration.gp.jpa.TipoInspecao;
 import br.prati.tim.collaboration.gp.jpa.Unidade;
 import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoCalculoFator;
+import br.prati.tim.gmp.ws.ordemproducao.OrdemProducao;
+import br.prati.tim.gmp.ws.ordemproducao.OrdemProducaoMateriais;
 
 @Named("subprodutoMB")
 @ViewScoped
-public class SubprodutoCrudMB extends AbstractCrudMB<Subproduto, Long>	implements Serializable {
+public class SubprodutoCrudMB extends AbstractCrudMB<Subproduto, Long>	implements Serializable, OrdemSAPListener {
 
 	/**
 	 * 
@@ -58,6 +61,7 @@ public class SubprodutoCrudMB extends AbstractCrudMB<Subproduto, Long>	implement
 		subprodTipoInsps = null;
 		tipoInspecao = null;
 		codigoInspecionado = "";
+		numeroOrdem = "";
 		
 		super.clean();
 	}
@@ -235,6 +239,19 @@ public class SubprodutoCrudMB extends AbstractCrudMB<Subproduto, Long>	implement
 
 	public void setNumeroOrdem(String numeroOrdem) {
 		this.numeroOrdem = numeroOrdem;
+	}
+
+	@Override
+	public void retrieveOrdem(OrdemProducao ordemProducao) {
+		
+	}
+
+	@Override
+	public void retrieveMaterialSelected(OrdemProducaoMateriais material) {
+		entityBean.setDescricao(material.getDescricao());
+		entityBean.setCodigoSap(material.getCodigo());
+		
+		addInfoMessage("Subproduto importado da ordem de produção com sucesso!");
 	}
 	
 }

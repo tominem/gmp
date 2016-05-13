@@ -86,12 +86,10 @@
         		 			  	selection			=	"#{searchAlarmeMB.objectSelected}"
         		 			  	paginatorPosition	=	"bottom"
 								scrollable			=	"true"
-	   		 			  		scrollHeight		=	"250"
-        		 			  	>
+	   		 			  		scrollHeight		=	"250">
 	
 					<p:ajax event		=	"rowSelect"
 							listener	=	"#{searchAlarmeMB.setSelectedObject()}"/>
-					
 					
                 	<p:column headerText	=	"Título">
                     	<h:outputText value	=	"#{item.titulo}" />

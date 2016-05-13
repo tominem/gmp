@@ -57,9 +57,17 @@
 
 		<!-- Prati WS Props -->
 		<ws.host-port>172.70.64.21:8080</ws.host-port>
+		
 		<wsdl.url.autenticacao.usuario>
 			http://${ws.host-port}/gerenciador.usuario-ws/UsuarioService?wsdl
 		</wsdl.url.autenticacao.usuario>
+
+		<wsdl.url.integracaosap.ordemproducaows>
+			http://${ws.host-port}/IntegracaoSAPWS/OrdemProducaoService?wsdl
+		</wsdl.url.integracaosap.ordemproducaows>
+		
+		<srcBinding>src/main/bindings</srcBinding>
+		<bindingDirectory>${basedir}/${srcBinding}</bindingDirectory>
 
 	</properties>
 
@@ -411,12 +419,32 @@
 									<goal>wsimport</goal>
 								</goals>
 								<configuration>
-									<bindingDirectory>${basedir}/src/bindings</bindingDirectory>
+									<bindingDirectory>${bindingDirectory}</bindingDirectory>
 									<wsdlUrls>
 										<wsdlUrl>${wsdl.url.autenticacao.usuario}</wsdlUrl>
 									</wsdlUrls>
 									<packageName>
-										br.prati.tim.pcp.ws.usuario
+										br.prati.tim.gmp.ws.usuario
+									</packageName>
+									<httpproxy />
+									<httpnonproxyhosts>localhost|172.70.*</httpnonproxyhosts>
+									<sourceDestDir>${basedir}/src/main/srcws</sourceDestDir>
+								</configuration>
+							</execution>
+							
+							<!-- Geração de artefatos do Web Service Ordem de produção -->
+							<execution>
+								<id>op.importacao</id>
+								<goals>
+									<goal>wsimport</goal>
+								</goals>
+								<configuration>
+									<bindingDirectory>${bindingDirectory}</bindingDirectory>
+									<wsdlUrls>
+										<wsdlUrl>${wsdl.url.integracaosap.ordemproducaows}</wsdlUrl>
+									</wsdlUrls>
+									<packageName>
+										br.prati.tim.gmp.ws.ordemproducao
 									</packageName>
 									<httpproxy />
 									<httpnonproxyhosts>localhost|172.70.*</httpnonproxyhosts>

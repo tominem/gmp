@@ -3,6 +3,7 @@
 				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:ui="http://java.sun.com/jsf/facelets"
 				xmlns:pe="http://primefaces.org/ui/extensions"
+				xmlns:o="http://omnifaces.org/ui"
 				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 	
 	<ui:define name="head">
@@ -38,7 +39,7 @@
 		<h:form id			=	"formCad" 
 				prependId	=	"false">      
 	       
-	       <p:growl autoUpdate="true"/>
+	       <p:growl id="messages" autoUpdate="true"/>
 	       
 	       <p:focus context		=	"contentPane" />
 	       
@@ -323,8 +324,10 @@
 	                    		<ui:param name="crudBean" value="#{subprodutoMB}" />
 	                    	</ui:include>
 
-	                    	<ui:include src="/cadastros/subproduto/ordemDialog.xhtml">
-	                    		<ui:param name="ordemProducao" value="#{subprodutoMB.numeroOrdem}" />
+	                    	<ui:include src="/cadastros/ordemDialog.xhtml">
+	                    		<ui:param name="listener"  value="#{subprodutoMB}" />
+	                    		<ui:param name="formPatern" value="formCad" />
+	                    		<ui:param name="onlyOrdem"  value="false" />
 	                    	</ui:include>
 		                    
 	                    </div>

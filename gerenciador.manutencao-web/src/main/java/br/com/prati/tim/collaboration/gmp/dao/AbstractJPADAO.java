@@ -85,7 +85,8 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 		if (t instanceof ConstraintViolationException) {
 			return new PersistenceException(t.getCause().getMessage());
 		}
-		else return null;
+		
+		return null;
 	}
 
 	@Override
