@@ -56,7 +56,7 @@
 		                    	<div class="Container60 Responsive100">
 		                        
 		                            <div class="BigTopic Fs18">
-										<i class="fa fa-map-marker"/> Cadastro de Subproduto
+										<i class="fa fa-sitemap"/> Cadastro de Subproduto
 									</div>
 									
 									<div class="Separator"></div>
@@ -81,7 +81,7 @@
 															
 										</h:panelGroup>
 
-										<h:panelGroup id =	"paSearchSap">
+										<h:panelGroup id =	"paSearchSap" rendered="#{subprodutoMB.entityBean.idSubproduto == null}">
 										
 											<p:commandButton	icon				=	"sapSearch"
 																styleClass			=	"BlueButton RaisedButton"
@@ -194,7 +194,7 @@
 		                            			 	styleClass			=	"ui-panelgrid-blank">
 									
 										<div class="BigTopic Fs18">
-											<i class="fa fa-bell"/> Vincular Tipo de Inspeção
+											<i class="fa fa-video-camera"/> Vincular Tipo de Inspeção
 										</div>
 										
 										<div class="Separator"></div>
