@@ -71,7 +71,7 @@ public class FilterParam<T> {
 		this.criteria = criteria;
 		this.type = type;
 	}
-
+	
 	public FilterParam(String name, String fieldName, FilterCriteria criteria) {
 		this.name = name;
 		this.fieldName = fieldName;
@@ -155,11 +155,12 @@ public class FilterParam<T> {
 		
 		else{
 			
-			if (type == FilterType.INTEGER) return Integer.parseInt(pattern);
-			if (type == FilterType.LONG) 	return Long.valueOf(pattern);
-			if (type == FilterType.BIGINT) 	return new BigInteger(pattern);
+			if (type == FilterType.INTEGER) 	return Integer.parseInt(pattern);
+			if (type == FilterType.LONG) 		return Long.valueOf(pattern);
+			if (type == FilterType.BIGINT) 		return new BigInteger(pattern);
+			if (type == FilterType.BIGDECIMAL) 	return new BigDecimal(pattern);
 			
-			return new BigDecimal(pattern); 
+			return null; 
 		}
 		
 	}

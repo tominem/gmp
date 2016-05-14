@@ -56,13 +56,13 @@
 		                    	<div class="Container60 Responsive100">
 		                        
 		                            <div class="BigTopic Fs18">
-										<i class="fa fa-map-marker"/> Cadastro de Subproduto
+										<i class="fa fa-map-marker"/> Cadastro de Produto
 									</div>
 									
 									<div class="Separator"></div>
 									
 	                            	<!-- register a PostValidateEvent -->
-									<f:event listener="#{subprodutoMB.validate}" type="postValidate" />
+									<f:event listener="#{produtoMB.validate}" type="postValidate" />
 									
 									<p:panelGrid 	columns				=	"2" 
 		                            				layout				=	"grid" 
@@ -75,7 +75,7 @@
 															for				=	"descricao"/>
 											
 											<p:inputText 	requiredMessage	=	"Descrição requerida"
-															value			=	"#{subprodutoMB.entityBean.descricao}"
+															value			=	"#{produtoMB.entityBean.descricao}"
 															id				=	"descricao" 
 															required		=	"true"/>
 															
@@ -95,93 +95,69 @@
 												                            			 	
 		                            </p:panelGrid>
 		                            
-		                            <p:panelGrid 	columns				=	"2" 
+		                            <p:panelGrid 	columns				=	"1" 
 		                            				layout				=	"grid" 
 		                            			 	styleClass			=	"ui-panelgrid-blank"
-		                            			 	columnClasses		=	"ui-grid-col-3, ui-grid-col-8">
+		                            			 	columnClasses		=	"ui-grid-col-11">
 										
-										<h:panelGroup id =	"paCodigoSap">
+										<h:panelGroup id =	"paCodigoEan">
 										
-											<p:outputLabel 	value			=	"Código SAP" 		
-															for				=	"codSap"/>
+											<p:outputLabel 	value			=	"Código EAN13" 		
+															for				=	"codEan"/>
 											
-											<p:inputText	value			=	"#{subprodutoMB.entityBean.codigoSap}"
-															id				=	"codSap" 
-														 	requiredMessage	=	"Código SAP requerido"
-															required		=	"true"/>
+											<p:inputText	value			=	"#{produtoMB.entityBean.codigo}"
+															id				=	"codEan" 
+														 	requiredMessage	=	"Código EAN13 requerido"
+															required		=	"true">
+												
+												<pe:keyFilter regEx="/[0-9._]/i" />
+												
+											</p:inputText>
 															
-										</h:panelGroup>
-										
-										<h:panelGroup layout="block">
-											
-											<p:selectBooleanCheckbox 	id			=	"principal"	
-																		itemLabel	=	"Subproduto principal"
-																		value		=	"#{subprodutoMB.entityBean.principal}"
-																		style		=	"margin-top: 30px">
-																					
-											</p:selectBooleanCheckbox>
-											
 										</h:panelGroup>
 										
 									</p:panelGrid>
 									
-									<p:panelGrid 	columns				=	"3" 
+									<p:panelGrid 	columns				=	"2" 
 		                            				layout				=	"grid" 
 		                            			 	styleClass			=	"ui-panelgrid-blank"
-		                            			 	columnClasses		=	"ui-grid-col-4, ui-grid-col-4, ui-grid-col-4">
+		                            			 	columnClasses		=	"ui-grid-col-4, ui-grid-col-7">
 		                            	
 		                            	<h:panelGroup>
 		                            	
-			                            	<p:outputLabel 	value			=	"Unidade" 		
-															for				=	"unidade"/>
+			                            	<p:outputLabel 	value			=	"Código SAP" 		
+															for				=	"codigoSAP"/>
 															
-											<p:selectOneMenu id					=	"unidade" 
-															 value				=	"#{subprodutoMB.entityBean.unidade}">
-									            
-									            <f:selectItem itemLabel			=	"Selecione a unidade" 
-									            			  itemValue			=	"" />
-									            
-									            <f:selectItems 	value			=	"#{subprodutoMB.unidades}" 
-									            				var				=	"item"
-									            				itemValue		=	"#{item}"
-									            				itemLabel		=	"#{item.sigla}"/>
-									            
-									        </p:selectOneMenu>
-									        
-		                            	</h:panelGroup>
-
-		                            	<h:panelGroup>
-		                            	
-			                            	<p:outputLabel 	value			=	"Tipo Cálculo Conversão" 		
-															for				=	"tipoCalculo"/>
-															
-											<p:selectOneMenu id					=	"tipoCalculo" 
-															 value				=	"#{subprodutoMB.entityBean.tipoCalculoFator}">
-									            
-									            <f:selectItem itemLabel			=	"Selecione o tipo de cálculo" 
-									            			  itemValue			=	"" />
-									            
-									            <f:selectItems 	value			=	"#{subprodutoMB.calculos}" 
-									            				var				=	"item"
-									            				itemValue		=	"#{item}"
-									            				itemLabel		=	"#{item.descricao}"/>
-									            
-									        </p:selectOneMenu>
-									        
-		                            	</h:panelGroup>
-
-		                            	<h:panelGroup>
-		                            	
-			                            	<p:outputLabel 	value			=	"Fator de Conversão" 		
-															for				=	"fator"/>
-															
-											<p:inputMask	value			=	"#{subprodutoMB.entityBean.fatorConversao}"
-															id				=	"fator"
-															styleClass		=	"TexAlCenter">
+											<p:inputText	value			=	"#{produtoMB.entityBean.codigoSap}"
+															id				=	"codigoSAP" 
+														 	requiredMessage	=	"Código SAP requerido"
+															required		=	"true">
 												
 												<pe:keyFilter regEx="/[0-9._]/i" />
-												
-											</p:inputMask>
+											
+											</p:inputText>
+									        
+		                            	</h:panelGroup>
+
+		                            	<h:panelGroup>
+		                            	
+			                            	<p:outputLabel 	value			=	"Categoria" 		
+															for				=	"categoria"/>
+															
+											<p:selectOneMenu id					=	"categoria" 
+															 value				=	"#{produtoMB.entityBean.categoriaProduto}"
+															 required			=	"true"
+															 requiredMessage	=	"Categoria do produto requerida!">
+									            
+									            <f:selectItem itemLabel			=	"Selecione a categoria" 
+									            			  itemValue			=	"" />
+									            
+									            <f:selectItems 	value			=	"#{produtoMB.categorias}" 
+									            				var				=	"item"
+									            				itemValue		=	"#{item}"
+									            				itemLabel		=	"#{item.desc}"/>
+									            
+									        </p:selectOneMenu>
 									        
 		                            	</h:panelGroup>
 		                            	
@@ -194,64 +170,13 @@
 		                            			 	styleClass			=	"ui-panelgrid-blank">
 									
 										<div class="BigTopic Fs18">
-											<i class="fa fa-bell"/> Vincular Tipo de Inspeção
+											<i class="fa fa-bell"/> Vincular Subprodutos
 										</div>
 										
 										<div class="Separator"></div>
 									
 									</p:panelGrid>
 									
-									 <p:panelGrid 	columns				=	"2" 
-		                            				layout				=	"grid" 
-		                            			 	styleClass			=	"ui-panelgrid-blank SearchButtonGrid"
-		                            			 	columnClasses		=	"ui-grid-col-10, ui-grid-col-1 SearchButtonPadding">
-		                            	
-		                            	<h:panelGroup id	=	"paTipoInspecao">
-		                            	
-			                            	<p:outputLabel 	value			=	"Tipo de Inspeção" 		
-															for				=	"tpInspecao"/>
-															
-											<p:inputText 	value			=	"#{subprodutoMB.tipoInspecao.descricao}"
-															id				=	"tpInspecao"
-															readonly		=	"true" />
-									        
-		                            	</h:panelGroup>
-		                            	
-		                            	<h:panelGroup>
-		                            		
-		                            		<p:commandButton	icon				=	"fa fa-search"
-																styleClass			=	"PurpleTextButton RaisedButton"
-																actionListener		=	"#{subprodutoMB.openDialog('/cadastros/tipoinspecao/searchTipoInspecao.xhtml')}"
-																immediate			=	"true"
-																process				=	"@this paTipoInspecao">
-													
-													<p:ajax 	event		=	"dialogReturn"
-																listener	=	"#{subprodutoMB.selectTipoInspecao}"
-																update		=	"paTipoInspecao"/>
-											
-											</p:commandButton>
-		                            		
-		                            	</h:panelGroup>
-		                            	
-		                            </p:panelGrid>
-		                            
-		                            <p:panelGrid 	columns				=	"1" 
-		                            				layout				=	"grid" 
-		                            			 	styleClass			=	"ui-panelgrid-blank"
-		                            			 	columnClasses		=	"ui-grid-col-10">
-		                            	
-		                            	<h:panelGroup id	=	"paCodigoInspecao">
-		                            	
-			                            	<p:outputLabel 	value			=	"Código inspecionado" 		
-															for				=	"codigoInspecionado"/>
-															
-											<p:inputText 	value			=	"#{subprodutoMB.codigoInspecionado}"
-															id				=	"codigoInspecionado"/>
-									        
-		                            	</h:panelGroup>
-		                            	
-		                            </p:panelGrid>
-		                            
 		                            <div class="EmptyBox10" />
 		                            
 		                            <p:panelGrid 	columns				=	"1" 
@@ -260,9 +185,9 @@
 										
 										<h:panelGroup>
 											
-											<p:dataTable 	id					=	"tableTiposInspecao"
+											<p:dataTable 	id					=	"tableSubproduto"
 															var					=	"item"
-															value				=	"#{subprodutoMB.subprodTipoInsps}" 
+															value				=	"#{produtoMB.produtoSubprodutos}" 
 															emptyMessage		=	"Nenhum registro" 
 															rows				=	"10"
 															rowKey				=	"#{item.hashCode()}"
@@ -273,14 +198,18 @@
 															resizableColumns	=	"true">
 												
 												<f:facet name	=	"header">
-													Tipos de Inspeção
+													Subprodutos
 													<h:panelGroup layout="block" styleClass="AddButton">
 		                            		
 					                            		<p:commandButton	icon				=	"fa fa-plus"
 																			styleClass			=	"PurpleTextButton RaisedButton"
-																			actionListener		=	"#{subprodutoMB.addItem()}"
-																			process				=	"@this paTipoInspecao paCodigoInspecao"
-																			update				=	"paTipoInspecao paCodigoInspecao tableTiposInspecao">
+																			actionListener		=	"#{produtoMB.openDialog('/cadastros/subproduto/searchSubproduto.xhtml')}"
+																			process				=	"@this"
+																			update				=	"tableSubproduto">
+																			
+															<p:ajax 	event		=	"dialogReturn"
+																		listener	=	"#{produtoMB.selectSubproduto}"
+																		update		=	"tableSubproduto"/>
 																
 														</p:commandButton>
 		                            		
@@ -289,13 +218,13 @@
 												
 												<p:column headerText="Código" width="20%" >
 													
-													<h:outputText value="#{item.codigo}" />
+													<h:outputText value="#{item.subproduto.codigoSap}" />
 													
 												</p:column>
 
-												<p:column headerText="Tipo de inspeção">
+												<p:column headerText="Descrição">
 													
-													<h:outputText value="#{item.tipoInspecao.descricao}" />
+													<h:outputText value="#{item.subproduto.descricao}" />
 													
 												</p:column>
 												
@@ -304,9 +233,9 @@
 													<p:commandButton 	styleClass		=	"RedButton RaisedButton"
 																		icon			=	"fa fa-trash Fs16 White"
 																		style			=	"float:right;"
-																		actionListener	=	"#{subprodutoMB.removeItem(item)}"
+																		actionListener	=	"#{produtoMB.removeItem(item)}"
 																		immediate		=	"true"
-																		update			=	"tableTiposInspecao"
+																		update			=	"tableSubproduto"
 																		process			=	"@this"/>
 												</p:column>
 													
@@ -320,8 +249,8 @@
 		                 	</div>
 		                    
 	                    	<ui:include src="/cadastros/templatefooter.xhtml">
-	                    		<ui:param name="nomeFormulario" value="#{subprodutoMB.formName}" />
-	                    		<ui:param name="crudBean" value="#{subprodutoMB}" />
+	                    		<ui:param name="nomeFormulario" value="#{produtoMB.formName}" 	/>
+	                    		<ui:param name="crudBean" value="#{produtoMB}" 					/>
 	                    	</ui:include>
 
 	                    </div>
@@ -334,9 +263,9 @@
 		</h:form>
 		
 		<ui:include src="/cadastros/ordemDialog.xhtml">
-      		<ui:param name="listener"  value="#{subprodutoMB}" />
-      		<ui:param name="formPatern" value="formCad" />
-      		<ui:param name="onlyOrdem"  value="false" />
+	   		<ui:param name="listener"  value="#{produtoMB}" />
+	   		<ui:param name="formPatern" value="formCad" 	/>
+	   		<ui:param name="onlyOrdem"  value="true"		/>
       	</ui:include>
 		
 	</ui:define>

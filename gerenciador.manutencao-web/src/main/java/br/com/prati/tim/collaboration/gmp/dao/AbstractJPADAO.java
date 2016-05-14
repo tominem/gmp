@@ -267,27 +267,33 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 			
 			handleJoinClause(criteria, f);
 			
-			if (f.getCriteria() == EQUAL) {
+			try {
 				
-				try {
+				Object parsePattern = f.parsePattern(pattern);
+				
+				if (parsePattern != null) {
 					
-					criteria.orEquals(f.getFieldName(), f.parsePattern(pattern));
-				
-				} catch (NumberFormatException e) {
-					//do nothing
+					if (f.getCriteria() == EQUAL) {
+						
+						criteria.orEquals(f.getFieldName(), parsePattern);
+						
+					}
+					
+					else{
+						
+						if (f.getFilterCase() == IGNORE_CASE || f.getFilterCase() == LOWER_CASE) {
+							criteria.orStringLike(true, f.getFieldName(),	parsePattern.toString());
+						}
+						
+						else{
+							criteria.orStringLike(f.getFieldName(),	parsePattern.toString());
+						}
+					}
+					
 				}
 				
-			}
-			
-			else{
-				
-				if (f.getFilterCase() == IGNORE_CASE || f.getFilterCase() == LOWER_CASE) {
-					criteria.orStringLike(true, f.getFieldName(),	f.parsePattern(pattern).toString());
-				}
-				
-				else{
-					criteria.orStringLike(f.getFieldName(),	f.parsePattern(pattern).toString());
-				}
+			} catch (NumberFormatException e) {
+				//do nothing
 			}
 			
 		});

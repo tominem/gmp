@@ -36,25 +36,6 @@ public class SubprodutoEJBImpl extends AbstractCrudEJB<Subproduto> implements Su
 		return subprodutoDAO.update(entityBean);
 	}
 	
-	/**
-	 * Foi necessário a sobrescrita do método porque no JPQ não é permitido casting de objetos e 
-	 * e na tela de busca é necessário o filtro por códigoSap que é do tipo inteiro e não pode ser 
-	 * utilizado na função LIKE do JPQL.
-	 */
-//	@Override
-//	public List<Subproduto> findLikeOrNotLikeWithLimit(String pattern, Optional<Integer> limit, Optional<Boolean> active, FilterParam<?>... filterParams) {
-//		
-//		FilterParam<?> descricaoFilter = filterParams[1];
-//		
-//		List<Subproduto> result = super.findLikeOrNotLikeWithLimit(pattern, limit, active, descricaoFilter);
-//		
-//		if (result != null && result.size() > 0) {
-//			result = result.stream().filter(e -> Integer.toString(e.getCodigoSap()).contains(pattern)).collect(Collectors.toList());
-//		}
-//		
-//		return result;
-//	}
-	
 	@Override
 	public GenericDAO<Subproduto> getCrudDAO() {
 		return subprodutoDAO;
