@@ -1,3 +1,13 @@
+/** Ajuste no logotipo **/
+
+@media (min-width: 961px) {
+	
+	#logo img{
+		margin-top: 6px !important;
+	}
+	
+}
+
 .ui-columntoggler .ui-columntoggler-item label{
 	width: 250px !important;
 }
