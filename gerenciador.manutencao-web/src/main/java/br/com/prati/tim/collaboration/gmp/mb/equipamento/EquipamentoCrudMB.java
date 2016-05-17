@@ -83,8 +83,14 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 		
 		itensConfigEquipamento = new ArrayList<ConfigEquipamento>();
 		
-		itensConfigEquipamentoSelected = null;
-
+		if (itensConfigEquipamentoSelected == null) {
+			itensConfigEquipamentoSelected = new ArrayList<ConfigEquipamento>();
+		}
+		
+		else{
+			itensConfigEquipamentoSelected.clear();
+		}
+		
 		populateItens();
 		
 	}
@@ -99,11 +105,11 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 
 	@Override
 	public void clean() {
-		
+
 		load();
-
-		super.clean();
-
+		
+		getRequestContext().reset(getFormName());
+		
 	}
 	
 	@Override
@@ -293,6 +299,8 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 			loadItensConfig();
 			
 			loadIOEquipamento();
+			
+			checkIfIsCLP();
 			
 			showMensagemSucessoConsulta();
 		}

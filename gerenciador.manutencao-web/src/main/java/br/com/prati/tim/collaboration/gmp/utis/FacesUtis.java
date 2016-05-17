@@ -43,5 +43,9 @@ public class FacesUtis {
 	public static void setValidComponent(String componentId, boolean valid) {
 		setValidComponents(Arrays.asList(getUIComponentById(componentId)), valid);
 	}
+	
+//	public static String translateMessage(){
+//		
+//	}
 
 }
