@@ -71,7 +71,7 @@ public class TipoComponenteCrudMB extends AbstractCrudMB<TipoComponente, Long> i
 		Map<String, Object> params = putParams(descricao, nome);
 		
 		//validate if object is present in db
-		boolean exists = getCrudEJB().checkIfExists(params);
+		boolean exists = getCrudEJB().checkIfExistsBoolean(params);
 		
 		if (exists) {
 			

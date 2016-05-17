@@ -40,6 +40,8 @@ public class OrdemProducaoMB extends AbstractBaseMB implements BaseMB, Serializa
 	
 	private OrdemProducaoMateriais materialSelected;
 	
+	private List<OrdemProducaoMateriais> materiaisSelecionados;
+	
 	
 	// ==================================================
 	//  METHODS
@@ -64,6 +66,8 @@ public class OrdemProducaoMB extends AbstractBaseMB implements BaseMB, Serializa
 		materialSelected = null;
 		
 		ordemProducao = null;
+		
+		materiaisSelecionados = null;
 		
 	}
 	
@@ -101,11 +105,12 @@ public class OrdemProducaoMB extends AbstractBaseMB implements BaseMB, Serializa
 			
 		} catch (Exception e) {
 			
+			addErrorMessage(e.getMessage());
+
 			invalidate = true;
 			
 			getRequestContext().addCallbackParam("invalidate", invalidate);
 			
-			addErrorMessage(e.getMessage());
 			
 		}
 	}
@@ -140,6 +145,14 @@ public class OrdemProducaoMB extends AbstractBaseMB implements BaseMB, Serializa
 
 	public void setOrdemProducao(OrdemProducao ordemProducao) {
 		this.ordemProducao = ordemProducao;
+	}
+
+	public List<OrdemProducaoMateriais> getMateriaisSelecionados() {
+		return materiaisSelecionados;
+	}
+
+	public void setMateriaisSelecionados(List<OrdemProducaoMateriais> materiaisSelecionados) {
+		this.materiaisSelecionados = materiaisSelecionados;
 	}
 
 }

@@ -8,6 +8,8 @@
 
 
 	<h:form id="formOrdem" prependId="false">
+	
+		<p:growl autoUpdate="true"/>
 	            
 	    <p:dialog 			id			=		"ordemDlg" 
 	    					header		=		"Entre com o número da ordem de Produção" 
@@ -21,16 +23,17 @@
 	            <h:outputLabel 		id			=	"ordemLb"
 	            					for			=	"ordem" 
 	            					value		=	"Número da ordem de produção" />
-	            
-	            <p:inputText 		id				=	"ordem" 
-	            					value			=	"#{ordemProducaoMB.numOrdem}" 
-			            			required		=	"true"
-			            			label			=	"ordemLb"
-			            			requiredMessage	=	"Número da ordem de produção requerido">
-			    	
-			    	<pe:keyFilter regEx="/[0-9._]/i" />
-			    	
-			    </p:inputText>
+	            <h:panelGroup id = "paOrdem">
+		            <p:inputText 		id				=	"ordem" 
+		            					value			=	"#{ordemProducaoMB.numOrdem}" 
+				            			required		=	"true"
+				            			label			=	"ordemLb"
+				            			requiredMessage	=	"Número da ordem de produção requerido">
+				    	
+				    	<pe:keyFilter regEx="/[0-9._]/i" />
+				    	
+				    </p:inputText>
+	            </h:panelGroup>
 	                					
 	        </h:panelGrid>
 	        
@@ -42,10 +45,10 @@
 	                					icon			=	"fa fa-refresh"
 	                					value			=	"Confirmar"
 	                					styleClass		=	"PurpleButton RaisedButton"
-	                					process			=	"@this formOrdem:ordem"
+	                					process			=	"@this formOrdem"
 	                					actionListener	=	"#{ordemProducaoMB.consultaOrdem(listener)}"
-	                					update			=	"ordemDlg ordemItensDlg"
-	                					oncomplete		=	"handleOrdem(xhr, status, args, #{onlyOrdem});">
+	                					update			=	"ordemDlg ordemItensDlg formOrdem #{formPattern}"
+	                					oncomplete		=	"handleOrdem(xhr, status, args);">
 	                	
 	                </p:commandButton>
 	                
@@ -59,22 +62,17 @@
 	
 	<script type="text/javascript">
 	
-	    function handleOrdem(xhr, status, args, onlyOrdem) {
-	    	if( !args.invalidate){
-		        if(onlyOrdem) {
-		        	PF('ordemDlg').hide();
-		        }
-		        else {
-		        	PF('ordemDlg').hide(); 
-		        	PF('ordemItensDlg').show();
-		        }
+	    function handleOrdem(xhr, status, args) {
+	    	if( !args.validationFailed ){
+	        	PF('ordemDlg').hide(); 
+	        	PF('ordemItensDlg').show();
 		    }
 	    }
 	    
 	</script>
 	
-	<ui:include src="/cadastros/ordemItensDialog.xhtml">
-		<ui:param name="formPatern" value="#{formPatern}" />
+	<ui:include src="#{multiSelect ? '/cadastros/ordemMutiSelectItensDialog.xhtml' : '/cadastros/ordemItensDialog.xhtml'}">
+		<ui:param name="formPattern" value="#{formPattern}" />
 		<ui:param name="listener"  value="#{listener}" />
 	</ui:include>
 	

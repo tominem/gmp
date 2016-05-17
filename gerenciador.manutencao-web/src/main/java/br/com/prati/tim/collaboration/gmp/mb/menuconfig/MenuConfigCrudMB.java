@@ -123,7 +123,7 @@ public class MenuConfigCrudMB extends AbstractCrudMB<MenuConfig, Long>	implement
 		Map<String, Object> params = putParams(descricao);
 
 		//validate if object is present in db
-		boolean exists = getCrudEJB().checkIfExists(params);
+		boolean exists = getCrudEJB().checkIfExistsBoolean(params);
 
 		if (exists) {
 

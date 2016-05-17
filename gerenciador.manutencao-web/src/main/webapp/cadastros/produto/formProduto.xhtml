@@ -81,7 +81,7 @@
 															
 										</h:panelGroup>
 
-										<h:panelGroup id =	"paSearchSap" rendered="#{produtoMB.entityBean.idProduto == null}">
+										<h:panelGroup id =	"paSearchSap" rendered="#{produtoMB.entityBean.idProduto == null and !produtoMB.ordemImportada}">
 										
 											<p:commandButton	icon				=	"sapSearch"
 																styleClass			=	"BlueButton RaisedButton"
@@ -263,9 +263,9 @@
 		</h:form>
 		
 		<ui:include src="/cadastros/ordemDialog.xhtml">
-	   		<ui:param name="listener"  value="#{produtoMB}" />
-	   		<ui:param name="formPatern" value="formCad" 	/>
-	   		<ui:param name="onlyOrdem"  value="true"		/>
+	   		<ui:param name="listener"  		value="#{produtoMB}" />
+	   		<ui:param name="formPattern" 	value="formCad" 	/>
+	   		<ui:param name="multiSelect"  	value="true"		/>
       	</ui:include>
 		
 	</ui:define>

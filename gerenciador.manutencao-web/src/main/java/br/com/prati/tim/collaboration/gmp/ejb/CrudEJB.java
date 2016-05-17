@@ -21,6 +21,8 @@ public interface CrudEJB<T> {
 
 	T activateOrInactivate(T entityBean) throws Exception;
 	
-	boolean checkIfExists(Map<String, Object> attributes);
+	List<T> checkIfExists(Map<String, Object> attributes);
+
+	boolean checkIfExistsBoolean(Map<String, Object> params);
 
 }

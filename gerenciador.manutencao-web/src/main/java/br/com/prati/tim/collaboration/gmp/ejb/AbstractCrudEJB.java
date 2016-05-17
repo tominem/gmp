@@ -37,8 +37,13 @@ public abstract class AbstractCrudEJB<T> implements CrudEJB<T> {
 	}
 
 	@Override
-	public boolean checkIfExists(Map<String, Object> attributes) {
+	public List<T> checkIfExists(Map<String, Object> attributes) {
 		return getCrudDAO().checkIfExists(attributes);
+	}
+	
+	@Override
+	public boolean checkIfExistsBoolean(Map<String, Object> params){
+		return getCrudDAO().checkIfExistsBoolean(params);
 	}
 	
 }

@@ -9,6 +9,7 @@ import javax.inject.Named;
 import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.fabricante.FabricanteEJB;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractCrudMB;
+import br.com.prati.tim.collaboration.gmp.mb.ValidateComponent;
 import br.prati.tim.collaboration.gp.jpa.Fabricante;
 
 @Named("fabricanteMB")
@@ -57,6 +58,15 @@ public class FabricanteCrudMB extends AbstractCrudMB<Fabricante, Long>	implement
 	@Override
 	public Class<Fabricante> getEntityClass() {
 		return Fabricante.class;
+	}
+	
+	@Override
+	public ValidateComponent[] getValidaComponents() {
+		return new ValidateComponent[]{
+				
+			new ValidateComponent("formCad:nome", "Nome", "nome")
+				
+		};
 	}
 
 

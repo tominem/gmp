@@ -55,5 +55,15 @@ public class FuncaoConfigEJBImpl extends AbstractCrudEJB<FuncaoConfig> implement
 	public List<TipoComponente> findAllTipoComponentes() {
 		return tipoComponenteDAO.findAllOrderByAsc("descricao");
 	}
+
+	@Override
+	public List<FuncaoConfig> findByDescricaoAndMenuConfig(String descricao, MenuConfig menuConfig) {
+		return funcaoConfigDAO.findByDescricaoAndMenuConfig(descricao, menuConfig);
+	}
+
+	@Override
+	public List<FuncaoConfig> findByComandoAndMenuConfig(String comando, MenuConfig menuConfig) {
+		return funcaoConfigDAO.findByComandoAndMenuConfig(comando, menuConfig);
+	}
 	
 }

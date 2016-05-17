@@ -9,11 +9,12 @@
 	<h:form id="formOrdemItens" prependId="false">
 	            
 	    <p:dialog 			id			=		"ordemItensDlg" 
-	    					header		=		"Selecione o material a ser importado" 
+	    					header		=		"Selecione os materiais a serem importados da ordem de produção" 
 	    					widgetVar	=		"ordemItensDlg" 
 	    					resizable	=		"false"
 	    					responsive	=		"true" 
-	    					modal		=		"true">
+	    					modal		=		"true"
+	    					width		=		"780">
 	    					
 	    		<p:ajax event="close" listener="#{ordemProducaoMB.close}" update="ordemDlg"/>
 	    					
@@ -25,22 +26,16 @@
 		        		 				value				=	"#{ordemProducaoMB.materiais}"
 		        		 			  	id					=	"tablePesquisa"
 		        		 			  	emptyMessage		=	"Nenhum registro"
-		        		 			  	paginator			=	"true"
-		        		 			  	rows				=	"10"
-		        		 			  	selectionMode		=	"single"
 		        		 			  	rowKey				=	"#{item.codigo}"
-		        		 			  	selection			=	"#{ordemProducaoMB.materialSelected}"
-		        		 			  	paginatorPosition	=	"bottom"
+		        		 			  	selection			=	"#{ordemProducaoMB.materiaisSelecionados}"
 										scrollable			=	"true"
-			   		 			  		scrollHeight		=	"250"
+			   		 			  		scrollHeight		=	"260"
+			   		 			  		rowSelectMode		=	"checkbox"
 			   		 			  		reflow				=	"true">
-			
-							<p:ajax event		=	"rowSelect"
-									listener	=	"#{listener.retrieveMaterialSelected(ordemProducaoMB.materialSelected)}"
-									oncomplete	=	"PF('ordemItensDlg').hide();"
-									update		=	"#{formPattern} ordemDlg"/>
 							
-		                	<p:column headerText	=	"Código">
+							<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+			
+		                	<p:column headerText	=	"Código"	width="15%">
 		                    	<h:outputText value	=	"#{item.codigo}" />
 		                	</p:column>
 		
@@ -55,8 +50,30 @@
 		                </p:dataTable>
 		                
 		        	</h:panelGrid>
-		            	
+		        	
 	        </h:panelGrid>
+
+        	<f:facet name="footer">
+        	
+	        	<div class="Container">
+
+					<div class="Container100 ui-fluid">
+					
+						<p:commandButton	icon			=	"fa fa-refresh"
+		                					value			=	"Confirmar"
+		                					actionListener	=	"#{listener.retrieveMaterialSelecteds(ordemProducaoMB.materiaisSelecionados)}"
+		                					process			=	"@this panelGridTable"
+		                					update			=	"#{formPattern} ordemDlg"
+		                					styleClass		=	"PurpleButton RaisedButton"
+		                					oncomplete		=	"PF('ordemItensDlg').hide();">
+	                	</p:commandButton>
+					
+					</div>
+					
+				</div>
+	                
+            </f:facet>
+		            	
 	    </p:dialog>
 	    
 	</h:form>

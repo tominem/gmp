@@ -68,6 +68,8 @@ public interface GenericDAO<T> {
 	
 	T activeOrInactive(T object) throws Exception;
 	
-	boolean checkIfExists(Map<String, Object> attributes);
+	List<T> checkIfExists(Map<String, Object> attributes);
+
+	boolean checkIfExistsBoolean(Map<String, Object> attributes);
 	
 }

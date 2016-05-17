@@ -79,7 +79,7 @@ public class SetorCrudMB extends AbstractCrudMB<Setor, Long>	implements Serializ
 		params.put("descricao", descricao);
 		
 		//validate if object is present in db
-		boolean exists = getCrudEJB().checkIfExists(params);
+		boolean exists = getCrudEJB().checkIfExistsBoolean(params);
 		
 		if (exists) {
 			

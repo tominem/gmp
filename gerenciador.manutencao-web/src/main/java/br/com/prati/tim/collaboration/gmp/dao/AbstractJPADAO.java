@@ -332,9 +332,9 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 					.orderByAsc(attribute)
 					.getResultList();
 	}
-
+	
 	@Override
-	public boolean checkIfExists(Map<String, Object> attributes) {
+	public boolean checkIfExistsBoolean(Map<String, Object> attributes) {
 
 		UaiCriteria<T> criteria = createMultiSelectCriteria(em, getEntityClass())
 				.countAttribute	(attributes.entrySet().stream().findFirst().get().getKey());
@@ -343,5 +343,16 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 		
 		return (Long) criteria.getMultiSelectResult().get(0) > 0;
 	}
+	
+	@Override
+	public List<T> checkIfExists(Map<String, Object> attributes) {
+
+		UaiCriteria<T> criteria = createQueryCriteria(em, getEntityClass());
+		
+		attributes.forEach((k,v) -> criteria.orEquals(k, v));
+		
+		return criteria.getResultList();
+	}
+
 
 }

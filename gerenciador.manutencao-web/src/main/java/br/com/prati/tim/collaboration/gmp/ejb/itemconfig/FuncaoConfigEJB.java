@@ -13,4 +13,8 @@ public interface FuncaoConfigEJB extends CrudEJB<FuncaoConfig> {
 
 	List<TipoComponente> findAllTipoComponentes();
 
+	List<FuncaoConfig> findByDescricaoAndMenuConfig(String descricao, MenuConfig menuConfig);
+
+	List<FuncaoConfig> findByComandoAndMenuConfig(String comando, MenuConfig menuConfig);
+
 }

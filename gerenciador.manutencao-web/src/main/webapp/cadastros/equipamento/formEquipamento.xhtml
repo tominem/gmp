@@ -92,7 +92,8 @@
 															for				=	"ip"/>
 											
 											<p:inputText 	value			=	"#{equipamentoMB.entityBean.ip}"
-															id				=	"ip" />
+															id				=	"ip" 
+															validator		=	"iplValidator"/>
 															
 										</h:panelGroup>
 
@@ -178,7 +179,7 @@
 										
 										<div class="EmptyBox20"/>
 										
-										<h:panelGroup>
+										<h:panelGroup id	=	"paTipoEquipamento">
 										
 											<p:outputLabel 	value			=	"Tipo de Equipamento" 		
 															for				=	"tipoEquipamentos"/>
@@ -187,6 +188,10 @@
 																value			=	"#{equipamentoMB.entityBean.tipoEquipamento}"
 																required		=	"true"
 																requiredMessage	=	"Tipo de equipamento requerido">
+																
+												<p:ajax event		=	"change"
+														listener	=	"#{equipamentoMB.checkIfIsCLP()}" 
+														update		=	"paEntradasLabel contentPaneDescricao contentPanelInsert paTableIO"/>
 												
 												<f:selectItem itemLabel="Selecione o tipo de equipamento" />
 												
@@ -204,23 +209,30 @@
 		                            </p:panelGrid>
 		                            
 		                            
-		                            <div class="EmptyBox20"/>
+		                            <h:panelGroup id	=	"paEntradasLabel">
 		                            
-		                            
-		                            <div class="BigTopic Fs18">
-										<i class="fa fa-expand"/>
-										<h:outputText styleClass="Purple Fs18 FontBold" value=" Entradas e Saídas Físicas do Equipamento"/>
-									</div>
+			                            <p:panelGrid  styleClass="ui-panelgrid-blank ui-fluid" rendered="#{equipamentoMB.clp}">
+			                            	
+			                            	 <div class="EmptyBox20"/>
+			                            
+				                            <div class="BigTopic Fs18">
+													<i class="fa fa-expand"/>
+													<h:outputText styleClass="Purple Fs18 FontBold" value=" Entradas e Saídas Físicas do Equipamento"/>
+											</div>
+											
+											<div class="Separator"></div>
+											
+			                            </p:panelGrid>									
 									
-									<div class="Separator"></div>
-									
+									</h:panelGroup>
 									
 									<h:panelGroup id	=	"contentPaneDescricao">
 									
 										<p:panelGrid 	columns				=	"1" 
 			                            				layout				=	"grid" 
 			                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
-			                            			 	columnClasses		=	"ui-grid-col-12">
+			                            			 	columnClasses		=	"ui-grid-col-12"
+			                            			 	rendered			=	"#{equipamentoMB.clp}">
 			                            			 	
 			                            	<p:row>
 			                            	
@@ -246,16 +258,23 @@
 			                            				columns				=	"4" 
 			                            				layout				=	"grid" 
 			                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
-			                            			 	columnClasses		=	"ui-grid-col-5, ui-grid-col-5, ui-grid-col-5, ui-grid-col-1">
+			                            			 	columnClasses		=	"ui-grid-col-5, ui-grid-col-5, ui-grid-col-5, ui-grid-col-1"
+			                            			 	rendered			=	"#{equipamentoMB.clp}">
 			                            			 	
 											
-				                            	<h:panelGroup>
+				                            	<h:panelGroup	id	=	"paSelectOneTipoIO">
 												
 													<p:outputLabel 	value			=	"Tipo" 		
 																	for				=	"tipoIO"/>
 												
 													<p:selectOneMenu 	id				=	"tipoIO"
 																		value			=	"#{equipamentoMB.ioEquipamentoInserted.tipo}">
+														
+														<p:ajax 	event		=	"change"
+																	listener	=	"#{equipamentoMB.tipoIoOnChange()}"
+																	process		=	"paIOInsert contentPaneDescricao contentPanelInsert"
+																	update		=	"paIOInsert contentPaneDescricao contentPanelInsert">
+														</p:ajax>
 														
 														<f:selectItem itemLabel="Selecione o tipo de IO" />
 														
@@ -268,7 +287,7 @@
 												</h:panelGroup>
 												
 												
-												<h:panelGroup>
+												<h:panelGroup	id	=	"paVariavel">
 												
 													<p:outputLabel 	value			=	"Variável" 		
 																	for				=	"variavelIO"/>
@@ -284,7 +303,8 @@
 																	for				=	"variavelPulsoIO"/>
 												
 													<p:inputText 	value			=	"#{equipamentoMB.ioEquipamentoInserted.variavelRetorno}"
-																	id				=	"variavelPulsoIO" />
+																	id				=	"variavelPulsoIO" 
+																	disabled		=	"#{equipamentoMB.saida}"/>
 																									
 												</h:panelGroup>
 	
@@ -311,7 +331,7 @@
 								<div class="EmptyBox20"/>
 									
 								<!-- Painel Datatable IOs -->
-								<h:panelGroup>
+								<h:panelGroup	id	=	"paTableIO"	>
 	
 									<p:dataTable 		id					=	"tableIOValores"
 														var					=	"item"
@@ -320,11 +340,12 @@
 														rows				=	"10"
 														rowKey				=	"#{item.descricao}"
 														selectionMode		=	"single" 
-														paginatorPosition	=	"bottom" 
+														paginatorPosition	=	"bottom"
 														scrollable			=	"true"
 														scrollHeight		=	"250"
 														reflow				=	"true"
-														resizableColumns	=	"true">
+														resizableColumns	=	"true"
+														rendered			=	"#{equipamentoMB.clp}">
 														
 											<f:facet name	=	"header">
 												Entradas e saídas adicionados
@@ -360,10 +381,12 @@
 											</p:column>
 
 									</p:dataTable>
+
+								 	<div class="EmptyBox20"/>
 										
 								</h:panelGroup>
-								
-							 	<div class="EmptyBox20"/>
+
+
 	                            
 	                            <div class="BigTopic Fs18">
 									<i class="fa fa-expand"/>

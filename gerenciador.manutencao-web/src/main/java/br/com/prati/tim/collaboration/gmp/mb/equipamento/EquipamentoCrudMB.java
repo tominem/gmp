@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
+import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -19,8 +20,10 @@ import org.primefaces.event.SelectEvent;
 
 import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.equipamento.EquipamentoEJB;
+import br.com.prati.tim.collaboration.gmp.ex.FacesValidateException;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractCrudMB;
 import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
+import br.com.prati.tim.collaboration.gmp.mb.ValidateComponent;
 import br.prati.tim.collaboration.gp.jpa.ConfigEquipamento;
 import br.prati.tim.collaboration.gp.jpa.Equipamento;
 import br.prati.tim.collaboration.gp.jpa.Fabricante;
@@ -51,6 +54,10 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 	
 	private List<ConfigEquipamento> itensConfigEquipamentoSelected;
 	
+	private boolean clp = false;
+	
+	private boolean saida = false;
+	
 	@Inject
 	private TimeZone defaultTimeZone;
 	
@@ -76,7 +83,7 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 		
 		itensConfigEquipamento = new ArrayList<ConfigEquipamento>();
 		
-		itensConfigEquipamentoSelected = new ArrayList<ConfigEquipamento>();
+		itensConfigEquipamentoSelected = null;
 
 		populateItens();
 		
@@ -121,6 +128,10 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 		}
 		
 		super.save();
+	}
+	
+	public void checkIfIsCLP(){
+		setClp(entityBean.getTipoEquipamento() != null && entityBean.getTipoEquipamento() == ETipoEquipamento.CLP);
 	}
 	
 	public List<ConfigEquipamento> getItensConfigEquipamento() {
@@ -227,14 +238,44 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 	
 	public void addIOIntoTable(){
 		
-		ioEquipamentoInserted.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
-		
-		ioEquipamentos.add(ioEquipamentoInserted);
+		try {
 			
-		ioEquipamentoInserted = new IoEquipamento();
+			validateInsertIO();
+			
+			ioEquipamentoInserted.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
+			
+			ioEquipamentos.add(ioEquipamentoInserted);
+				
+			ioEquipamentoInserted = new IoEquipamento();
+			
+		} catch (FacesValidateException e) {
+			
+			addErrorMessage(e.getMessage());
+			
+		}
 		
 	}
 	
+	private void validateInsertIO() throws FacesValidateException {
+		
+		String descricao 			= 	ioEquipamentoInserted.getDescricao();
+		ETipoIoEquipamento tipoIO 	= 	ioEquipamentoInserted.getTipo();
+		String variavel 			=	ioEquipamentoInserted.getVariavel();
+		
+		if ( descricao == null || descricao.isEmpty()) {
+			throw new FacesValidateException("Descrição requerida!", "formCad:descricaoIO");
+		}
+
+		if ( tipoIO == null) {
+			throw new FacesValidateException("Tipo de IO requerido!", "formCad:tipoIO");
+		}
+		
+		if ( variavel == null) {
+			throw new FacesValidateException("Variável requerida!", "formCad:variavelIO");
+		}
+		
+	}
+
 	public void removeIoIntoTable(IoEquipamento removedIoEquipamento){
 		
 		ioEquipamentos.remove(removedIoEquipamento);
@@ -305,6 +346,11 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 		});
 	}
 	
+	public void tipoIoOnChange(){
+		
+		setSaida( !(ioEquipamentoInserted != null && ioEquipamentoInserted.getTipo() == ETipoIoEquipamento.SAIDA) );
+	}
+	
 	private void ordenaItensConfigPorSelecao() {
 		Collections.sort(itensConfigEquipamento, (x1, x2) -> {
 			
@@ -316,6 +362,56 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 				return 1;
 			
 		});
+	}
+	
+	@Override
+	public boolean validate(ComponentSystemEvent event) {
+		
+		try {
+			
+			validateBefore();
+			
+			return super.validate(event);
+			
+		} catch (FacesValidateException e) {
+			addErrorMessage(e.getMessage());
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public ValidateComponent[] getValidaComponents() {
+		return new ValidateComponent[]{
+			
+			new ValidateComponent("formCad:tag", "Tag", "tag"),
+			new ValidateComponent("formCad:ip", "IP", "ip")
+				
+		};
+	}
+
+	private void validateBefore() throws FacesValidateException {
+		
+		if (entityBean.getFabricante() == null) {
+			throw new FacesValidateException("Fabricante requerido!", "formCad:fabricante");
+		}
+		
+	}
+
+	public boolean isClp() {
+		return clp;
+	}
+
+	public void setClp(boolean clp) {
+		this.clp = clp;
+	}
+
+	public boolean isSaida() {
+		return saida;
+	}
+
+	public void setSaida(boolean saida) {
+		this.saida = saida;
 	}
 	
 }

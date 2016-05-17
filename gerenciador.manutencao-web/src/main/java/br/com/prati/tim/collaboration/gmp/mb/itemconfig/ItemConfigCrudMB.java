@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -59,7 +62,9 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 	@Override
 	public void initObjects() {
 		
-		clean();
+		this.entityBean = new FuncaoConfig();
+		
+		load();
 		
 	}
 	
@@ -126,29 +131,81 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 	public EComponentConverter getConversor(){
 		return entityBean.getConverter();
 	}
+	
+	@Override
+	public boolean validate(ComponentSystemEvent event) {
+		
+		UIComponent components = event.getComponent();
+
+		UIInput uiInputDescricao = (UIInput) components.findComponent("formCad:descricao");
+		String descricaovalue = uiInputDescricao.getSubmittedValue() != null ? ""
+				: uiInputDescricao.getLocalValue().toString();
+
+		UIInput uiInputMenu = (UIInput) components.findComponent("formCad:menu");
+		MenuConfig menuConfig = uiInputMenu.getSubmittedValue() != null ? null
+				: (MenuConfig) uiInputMenu.getLocalValue();
+
+		UIInput uiComando = (UIInput) components.findComponent("formCad:comando");
+		String comando = uiComando.getSubmittedValue() != null ? ""
+				: uiComando.getLocalValue().toString();
+		
+		List<FuncaoConfig> results = ejb.findByDescricaoAndMenuConfig(descricaovalue, menuConfig);
+		
+		if( results != null && findDifferent(results) ) {
+			
+			uiInputDescricao.setValid(false);
+			
+			addErrorMessage("Já existe um Item de Configuração com a mesma descrição, vinculado ao Menu: " + menuConfig.getDescricao() + "!");
+			
+			return false;
+			
+		}
+		
+		results = ejb.findByComandoAndMenuConfig(comando, menuConfig);
+		
+		if( results != null && findDifferent(results) ) {
+			
+			uiComando.setValid(false);
+			
+			addErrorMessage("Já existe um Item de Configuração com o mesmo comando, vinculado ao Menu: " + menuConfig.getDescricao() + "!");
+			
+			return false;
+			
+		}
+				
+		return true;
+	}
+	
+	
+	private boolean findDifferent(List<FuncaoConfig> results) {
+		
+		if (results.size() == 0) {
+			return false;
+		}
+		
+		else if(entityBean.getIdFuncaoConfig() == null) {
+			return true;
+		}
+		
+		return results.stream().filter(f -> !entityBean.getIdFuncaoConfig().equals(f.getIdFuncaoConfig())).findFirst().isPresent();
+	}
 
 	@Override
 	public void clean() {
-		try {
 			
-			this.entityBean = getEntityClass().newInstance();
+		load();
+
+		super.clean();
 			
-			this.valoresFuncao = new ArrayList<ValoresFuncao>();
-			
-			valoresFuncao = new ArrayList<ValoresFuncao>();
-			
-			valorFuncaoInserted = new ValoresFuncao();
-			
-			load();
-			
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	private void load() {
+		
+		this.valoresFuncao = new ArrayList<ValoresFuncao>();
+		
+		valoresFuncao = new ArrayList<ValoresFuncao>();
+		
+		valorFuncaoInserted = new ValoresFuncao();
 		
 		menus = ejb.findAllMenus();
 		tiposComponentes = ejb.findAllTipoComponentes();
@@ -310,10 +367,9 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 	public void selectObjectAfterSearch(SelectEvent event) {
 		Object object = event.getObject();
 
-		if (object != null && object.getClass().getName().equals(getEntityClass().getName())) {
+		if (object != null && object.getClass().getName().equals(FuncaoConfig.class.getName())) {
 			this.entityBean = (FuncaoConfig) object;
 			valoresFuncao = entityBean.getValoresFuncaos();
-			load();
 			showMensagemSucessoConsulta();
 		}
 	}

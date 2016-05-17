@@ -9,6 +9,7 @@ import javax.inject.Named;
 import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.tipocodigo.TipoCodigoEJB;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractCrudMB;
+import br.com.prati.tim.collaboration.gmp.mb.ValidateComponent;
 import br.prati.tim.collaboration.gp.jpa.TipoCodigo;
 
 @Named("tipoCodigoMB")
@@ -58,5 +59,15 @@ public class TipoCodigoCrudMB extends AbstractCrudMB<TipoCodigo, Long>	implement
 		return TipoCodigo.class;
 	}
 
+	@Override
+	public ValidateComponent[] getValidaComponents() {
+		
+		return new ValidateComponent[] {
+			
+			new ValidateComponent("formCad:descricao", "Descrição", "descricao")
+				
+		};
+		
+	}
 
 }

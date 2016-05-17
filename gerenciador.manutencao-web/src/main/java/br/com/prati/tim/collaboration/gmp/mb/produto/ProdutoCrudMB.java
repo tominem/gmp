@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.NoResultException;
 
 import org.primefaces.event.SelectEvent;
 
@@ -44,6 +45,8 @@ public class ProdutoCrudMB extends AbstractCrudMB<Produto, Long>	implements Seri
 	@Inject
 	private ProdutoEJB ejb;
 	
+	private boolean ordemImportada = false;
+	
 	private List<ProdutoSubproduto> produtoSubprodutos;
 	
 	//================ METHODS ========================//
@@ -59,6 +62,8 @@ public class ProdutoCrudMB extends AbstractCrudMB<Produto, Long>	implements Seri
 	private void load() {
 		
 		produtoSubprodutos = new ArrayList<ProdutoSubproduto>();
+		
+		ordemImportada = false;
 		
 	}
 
@@ -159,7 +164,8 @@ public class ProdutoCrudMB extends AbstractCrudMB<Produto, Long>	implements Seri
 
 	private void validateAddItem(Subproduto subproduto) throws FacesValidateException{
 		
-		if (getProdutoSubprodutos() != null && getProdutoSubprodutos().stream().filter(s -> s.getSubproduto().getCodigoSap().equals(subproduto.getCodigoSap())).findFirst().isPresent()) {
+		if (getProdutoSubprodutos() != null && getProdutoSubprodutos()
+				.stream().filter(s -> s.getSubproduto().getCodigoSap().equals(subproduto.getCodigoSap())).findFirst().isPresent()) {
 			throw new FacesValidateException("Subproduto já vinculado!");
 		}
 		
@@ -203,6 +209,37 @@ public class ProdutoCrudMB extends AbstractCrudMB<Produto, Long>	implements Seri
 
 	public void setProdutoSubprodutos(List<ProdutoSubproduto> produtoSubprodutos) {
 		this.produtoSubprodutos = produtoSubprodutos;
+	}
+
+	@Override
+	public void retrieveMaterialSelecteds(List<OrdemProducaoMateriais> materiais) {
+		try {
+			
+			if (materiais != null && materiais.size() > 0) {
+				
+				produtoSubprodutos = ejb.parseToProdutoSubprodutos(entityBean, materiais);
+				
+				ordemImportada = true;
+			}
+			
+		} catch (Exception e) {
+			
+			if (e instanceof NoResultException) {
+				addInfoMessage("Ordem importada com sucesso! Essa ordem não possui materiais ou subprodutos.");
+			}
+			else{
+				addErrorMessage(e.getMessage());
+			}
+			
+		}
+	}
+
+	public boolean isOrdemImportada() {
+		return ordemImportada;
+	}
+
+	public void setOrdemImportada(boolean ordemImportada) {
+		this.ordemImportada = ordemImportada;
 	}
 	
 }

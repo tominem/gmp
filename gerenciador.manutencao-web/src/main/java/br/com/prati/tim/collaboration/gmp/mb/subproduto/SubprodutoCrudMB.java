@@ -253,5 +253,11 @@ public class SubprodutoCrudMB extends AbstractCrudMB<Subproduto, Long>	implement
 		
 		addInfoMessage("Subproduto importado da ordem de produção com sucesso!");
 	}
+
+	@Override
+	public void retrieveMaterialSelecteds(List<OrdemProducaoMateriais> materiais) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

@@ -1,15 +1,23 @@
 package br.com.prati.tim.collaboration.gmp.mb;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.event.ComponentSystemEvent;
+import javax.persistence.Id;
 import javax.persistence.PersistenceException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
@@ -130,8 +138,6 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 	@Override
 	public boolean validate(ComponentSystemEvent event) {
 		
-		if (getEntityId() != null) return true;
-		
 		ValidateComponent[] validateComps = getValidaComponents();
 		
 		if (validateComps != null && validateComps.length > 0) {
@@ -147,9 +153,22 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 				HashMap<String, Object> params = new HashMap<String, Object>();
 				params.put(validateComponent.getEntityAttribute(), value);
 				
-				if (value.isEmpty()) continue;
+				if (value == null || value.isEmpty()) continue;
 				
-				boolean exists = getCrudEJB().checkIfExists(params);
+				List<T> result = getCrudEJB().checkIfExists(params);
+				
+				boolean exists = false;
+				
+				if (result != null) {
+					
+					//===========================================================================================================
+					// Varre os resultados a fim de encontrar o mesmo id, o que significa que o usuário está fazendo um update. 
+					// Caso encontre algum outro de id diferente, imediatamente invalida o submmit
+					//===========================================================================================================
+					
+					exists = result.stream().filter(e -> compare(e, getEntityId())).findFirst().isPresent();
+					
+				}
 				
 				if (exists) {
 					
@@ -170,6 +189,50 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 		return true;
 	}
 	
+	/**
+	 * Método que compara os objetos encontrados no banco 
+	 * com a entidade do formulário por Reflection
+	 * 
+	 * @param e         	elemento genérico que representa o tipo da entidade do formulário
+	 * 
+	 * @param  entityId  	id da entidade do formulário
+	 * 
+	 * @return true 		(se encontrar um id diferente do da entidade do formulário)
+	 * 		   false		(se encontrar o mesmo id ou nenhum)
+	 */
+	private boolean compare(T e, P entityId) {
+		
+		Optional<Field> findFirst = Arrays.asList(e.getClass().getDeclaredFields()).stream().filter(e1 -> e1.isAnnotationPresent(Id.class)).findFirst();
+		
+		if (findFirst.isPresent()) {
+			
+			Field f = findFirst.get();
+			
+			try {
+				
+				Method m = e.getClass().getMethod("get" + StringUtils.capitalize(f.getName()));
+				
+				boolean equals = m.invoke(e).equals(entityId);
+				
+				return !equals;
+				
+			} catch (IllegalArgumentException e2) {
+				e2.printStackTrace();
+			} catch (IllegalAccessException e2) {
+				e2.printStackTrace();
+			} catch (NoSuchMethodException e2) {
+				e2.printStackTrace();
+			} catch (SecurityException e2) {
+				e2.printStackTrace();
+			} catch (InvocationTargetException e2) {
+				e2.printStackTrace();
+			}
+			
+		}
+		
+		return false;
+	}
+
 	@Override
 	public ValidateComponent[] getValidaComponents() {
 		return null;
