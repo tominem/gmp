@@ -91,7 +91,7 @@
 		<mime-type>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</mime-type>
 	</mime-mapping>
 	
-	<!-- COMENTANDO OS FILTROS PARA O PERÍODO DE TESTES 
+	<!-- COMENTANDO OS FILTROS PARA O PERÍODO DE TESTES -->
 	
 	<filter>
 		<filter-name>FilterSecurity</filter-name>
@@ -112,6 +112,5 @@
 		<url-pattern>/monitoramento/*</url-pattern>
 		<url-pattern>/programacao/*</url-pattern>
 	</filter-mapping>
-	 -->
 	 
 </web-app>
