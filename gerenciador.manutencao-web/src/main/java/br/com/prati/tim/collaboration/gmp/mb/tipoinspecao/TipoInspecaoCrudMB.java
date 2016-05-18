@@ -3,6 +3,7 @@ package br.com.prati.tim.collaboration.gmp.mb.tipoinspecao;
 import java.io.Serializable;
 import java.util.Map;
 
+import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -12,8 +13,10 @@ import org.primefaces.event.SelectEvent;
 
 import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.tipoinspecao.TipoInspecaoEJB;
+import br.com.prati.tim.collaboration.gmp.ex.FacesValidateException;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractCrudMB;
 import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
+import br.com.prati.tim.collaboration.gmp.mb.ValidateComponent;
 import br.prati.tim.collaboration.gp.jpa.TipoCodigo;
 import br.prati.tim.collaboration.gp.jpa.TipoInspecao;
 
@@ -85,6 +88,43 @@ public class TipoInspecaoCrudMB extends AbstractCrudMB<TipoInspecao, Long>	imple
 			UtilsMessage.addInfoMessage("Tipo de código informado com sucesso.");
 		}
 		
+	}
+	
+	@Override
+	public ValidateComponent[] getValidaComponents() {
+		return new ValidateComponent[] {
+			
+			new ValidateComponent("formCad:descricao", "Descrição", "descricao")
+				
+		};
+	}
+	
+	@Override
+	public boolean validate(ComponentSystemEvent event) {
+		
+		try {
+			
+			if( validatePerform() ){
+				
+				return super.validate(event);
+			}
+			
+		} catch (FacesValidateException e) {
+			
+			addErrorMessage(e.getMessage());
+			
+		}
+		
+		return false;
+	}
+
+	private boolean validatePerform() throws FacesValidateException {
+
+		if (entityBean.getTipoCodigo() == null){
+			throw new FacesValidateException("Tipo de código requerido!", "formCad:tipoCodigo");
+		}
+		
+		return false;
 	}
 
 

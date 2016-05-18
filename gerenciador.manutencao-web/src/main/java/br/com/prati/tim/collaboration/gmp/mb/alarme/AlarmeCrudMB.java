@@ -131,22 +131,24 @@ public class AlarmeCrudMB extends AbstractCrudMB<Alarme, Long> implements Serial
 	@Override
 	public boolean validate(ComponentSystemEvent event) {
 		
-		if( isAlarmeManual() ) return true;
-
-		UIComponent components = event.getComponent();
-
-		UIInput uiCodigoAlarme = (UIInput) components.findComponent(CODIGO_ALARME_INPUT_ID);
-		String alarmeStr = uiCodigoAlarme.getSubmittedValue() != null ? ""
-				: uiCodigoAlarme.getLocalValue().toString();
-
-		UIInput uiTagSistema = (UIInput) components.findComponent(TAG_SISTEMA_INPUT_ID);
-		String tagSistema = uiTagSistema.getSubmittedValue() != null ? ""
-				: uiTagSistema.getLocalValue().toString();
-
-		Integer codigoAlarme = 0;
-		
 		try {
+
+			validateRequiredFields();
 			
+			if( isAlarmeManual() ) return true;
+	
+			UIComponent components = event.getComponent();
+	
+			UIInput uiCodigoAlarme = (UIInput) components.findComponent(CODIGO_ALARME_INPUT_ID);
+			String alarmeStr = uiCodigoAlarme.getSubmittedValue() != null ? ""
+					: uiCodigoAlarme.getLocalValue().toString();
+	
+			UIInput uiTagSistema = (UIInput) components.findComponent(TAG_SISTEMA_INPUT_ID);
+			String tagSistema = uiTagSistema.getSubmittedValue() != null ? ""
+					: uiTagSistema.getLocalValue().toString();
+	
+			Integer codigoAlarme = 0;
+		
 			try {
 				codigoAlarme = Integer.valueOf(alarmeStr);
 			} catch (NumberFormatException e) {
@@ -179,6 +181,14 @@ public class AlarmeCrudMB extends AbstractCrudMB<Alarme, Long> implements Serial
 		return true;
 	}
 	
+	private void validateRequiredFields() throws FacesValidateException {
+		
+		if (entityBean.getCategoriaAlarme() == null) {
+			throw new FacesValidateException("Categoia requerida!", "formCad:categoria");
+		}
+		
+	}
+
 	public void onChangeTipoAlarme(){
 		setAlarmeManual(entityBean.getTipoAlarme() == ETipoAlarme.MANUAL);
 	}

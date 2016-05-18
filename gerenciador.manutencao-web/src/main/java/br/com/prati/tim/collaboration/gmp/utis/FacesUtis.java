@@ -44,8 +44,11 @@ public class FacesUtis {
 		setValidComponents(Arrays.asList(getUIComponentById(componentId)), valid);
 	}
 	
-//	public static String translateMessage(){
-//		
-//	}
+	public static String translateMessage(String message){
+		message = message.replace("Key", "A chave");
+		message = message.replace("is still referenced from table", "ainda está referenciado na tabela");
+		
+		return message;
+	}
 
 }

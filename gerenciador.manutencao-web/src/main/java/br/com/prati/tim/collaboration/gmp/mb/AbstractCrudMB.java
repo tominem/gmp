@@ -73,7 +73,7 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 			
 			addErrorMessage(
 					"Não foi possível excluir " + getEntityBean().getClass().getSimpleName()
-					+ e.getMessage().substring(e.getMessage().indexOf("Detalhe:")));
+					+ e.getMessage().substring(e.getMessage().indexOf("Detalhe:")-1));
 			
 			return false;
 			

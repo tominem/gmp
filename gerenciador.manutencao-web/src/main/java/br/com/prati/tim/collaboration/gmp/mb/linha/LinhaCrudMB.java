@@ -9,6 +9,7 @@ import javax.inject.Named;
 import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.linha.LinhaproducaoEJB;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractCrudMB;
+import br.com.prati.tim.collaboration.gmp.mb.ValidateComponent;
 import br.prati.tim.collaboration.gp.jpa.Linhaproducao;
 
 @Named("linhaMB")
@@ -62,4 +63,11 @@ public class LinhaCrudMB extends AbstractCrudMB<Linhaproducao, Long>	implements 
 		return Linhaproducao.class;
 	}
 
+	@Override
+	public ValidateComponent[] getValidaComponents() {
+		return new ValidateComponent[] {
+				new ValidateComponent("formCad:tag", "Tag", "tag")
+		};
+	}
+	
 }

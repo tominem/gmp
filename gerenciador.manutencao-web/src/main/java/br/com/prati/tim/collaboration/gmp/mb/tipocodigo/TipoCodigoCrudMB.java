@@ -69,5 +69,5 @@ public class TipoCodigoCrudMB extends AbstractCrudMB<TipoCodigo, Long>	implement
 		};
 		
 	}
-
+	
 }

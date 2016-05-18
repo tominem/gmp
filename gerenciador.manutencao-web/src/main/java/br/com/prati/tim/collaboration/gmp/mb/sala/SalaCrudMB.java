@@ -12,6 +12,7 @@ import javax.inject.Named;
 import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.sala.SalaEJB;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractCrudMB;
+import br.com.prati.tim.collaboration.gmp.mb.ValidateComponent;
 import br.prati.tim.collaboration.gp.jpa.Sala;
 import br.prati.tim.collaboration.gp.jpa.Setor;
 
@@ -98,4 +99,11 @@ public class SalaCrudMB extends AbstractCrudMB<Sala, Long>	implements Serializab
 		this.setores = setores;
 	}
 
+	@Override
+	public ValidateComponent[] getValidaComponents() {
+		return new ValidateComponent[]{
+				new ValidateComponent("formCad:descricao", "Descrição", "descricao")
+		};
+	}
+	
 }

@@ -112,6 +112,11 @@ public class ReceitaCrudMB extends AbstractBaseMB implements Serializable {
 		
 		try {
 			
+			if (maquina == null || maquina.getIdMaquina() == null) {
+				
+				throw new FacesValidateException("Máquina requerida!", MAQUINA_COMPONENT_ID);
+			}
+			
 			if (selectedReceitas != null && selectedReceitas.size() > 0) {
 				
 				for (Receita receita : selectedReceitas) {
@@ -126,11 +131,6 @@ public class ReceitaCrudMB extends AbstractBaseMB implements Serializable {
 				
 				addInfoMessage("Receitas cadastradas com sucesso");
 				
-			}
-			
-			if (maquina == null || maquina.getIdMaquina() == null) {
-				
-				throw new FacesValidateException("Máquina requerida!", MAQUINA_COMPONENT_ID);
 			}
 			
 			

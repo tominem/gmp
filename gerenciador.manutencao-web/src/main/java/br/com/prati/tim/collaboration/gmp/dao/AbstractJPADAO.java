@@ -22,6 +22,8 @@ import javax.persistence.PersistenceException;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.exception.ConstraintViolationException;
 
+import br.com.prati.tim.collaboration.gmp.utis.FacesUtis;
+
 import com.uaihebert.uaicriteria.UaiCriteria;
 
 public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
@@ -83,7 +85,7 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 		    t = t.getCause();
 		}
 		if (t instanceof ConstraintViolationException) {
-			return new PersistenceException(t.getCause().getMessage());
+			return new PersistenceException(FacesUtis.translateMessage(t.getCause().getMessage()));
 		}
 		
 		return null;
