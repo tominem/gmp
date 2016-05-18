@@ -93,7 +93,7 @@
 		                            			 	styleClass			=	"ui-panelgrid-blank SearchButtonGrid"
 		                            			 	columnClasses		=	"ui-grid-col-10, ui-grid-col-1 SearchButtonPadding">
 		                            			 	
-		                            	<h:panelGroup id="paLinha" layout="block">
+		                            	<h:panelGroup id="paLinha">
 
 			                            	<p:outputLabel 	value			=	"Linha de produção" 		
 															for				=	"linha"/>
@@ -101,7 +101,7 @@
 											<p:inputText 	requiredMessage	=	"Linha de produção requerida"
 															value			=	"#{maquinaMB.entityBean.linhaproducao.descricao}"
 															id				=	"linha"
-															readonly		=	"true" 
+															readonly		=	"#{facesContext.renderResponse}"
 															required		=	"true"/>
 		                            	
 		                            	</h:panelGroup>
@@ -130,7 +130,7 @@
 											<p:inputText 	requiredMessage	=	"Sala requerida"
 															value			=	"#{maquinaMB.entityBean.sala.descricao}"
 															id				=	"sala"
-															readonly		=	"true" 
+															readonly		=	"#{facesContext.renderResponse}"
 															required		=	"true"/>
 		                            	
 		                            	</h:panelGroup>

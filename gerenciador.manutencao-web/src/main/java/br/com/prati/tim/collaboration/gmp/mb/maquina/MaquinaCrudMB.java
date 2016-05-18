@@ -88,6 +88,9 @@ public class MaquinaCrudMB extends AbstractCrudMB<Maquina, Long>	implements Seri
 
 	private void load() {
 		
+		entityBean.setLinhaproducao(new Linhaproducao());
+		entityBean.setSala(new Sala());
+		
 		equipamentoMaquinas = new ArrayList<EquipamentoMaquina>();
 
 		cleanEquipamentoForm();

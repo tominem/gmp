@@ -41,9 +41,10 @@
 										<p:outputLabel 	value			=	"Nome" 		
 														for				=	"nome"/>
 										
-										<p:inputText 	requiredMessage	=	"Nome requerido"
-														value			=	"#{fabricanteMB.entityBean.nome}"
-														id				=	"nome" />
+										<p:inputText	id				=	"nome" 
+													 	value			=	"#{fabricanteMB.entityBean.nome}"
+														requiredMessage	=	"Nome requerido"
+														required		=	"true"/>
 										
 										<p:outputLabel 	value			=	"E-mail" 		
 														for				=	"email"/>

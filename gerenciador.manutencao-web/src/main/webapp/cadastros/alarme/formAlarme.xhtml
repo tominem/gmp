@@ -142,7 +142,7 @@
 											<p:inputText 	requiredMessage	=	"Categoria requerida"
 															value			=	"#{alarmeMB.entityBean.categoriaAlarme.descricao}"
 															id				=	"categoria"
-															readonly		=	"true" 
+															readonly		=	"#{facesContext.renderResponse}"
 															required		=	"true"/>
 										
 										</h:panelGroup>
