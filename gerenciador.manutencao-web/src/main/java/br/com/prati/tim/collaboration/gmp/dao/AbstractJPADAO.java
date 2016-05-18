@@ -341,9 +341,25 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 		UaiCriteria<T> criteria = createMultiSelectCriteria(em, getEntityClass())
 				.countAttribute	(attributes.entrySet().stream().findFirst().get().getKey());
 		
-		attributes.forEach((k,v) -> criteria.orEquals(k, v));
+		handleWhereClause(attributes, criteria);
 		
 		return (Long) criteria.getMultiSelectResult().get(0) > 0;
+	}
+
+
+	private void handleWhereClause(Map<String, Object> attributes,	UaiCriteria<T> criteria) {
+		
+		attributes.forEach((k,v) -> {
+			
+			if (v instanceof String) {
+				criteria.orEquals(true, k, v.toString());
+			}
+			
+			else{
+				criteria.orEquals(k, v);
+			}
+			
+		});
 	}
 	
 	@Override
@@ -351,7 +367,7 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 
 		UaiCriteria<T> criteria = createQueryCriteria(em, getEntityClass());
 		
-		attributes.forEach((k,v) -> criteria.orEquals(k, v));
+		handleWhereClause(attributes, criteria);
 		
 		return criteria.getResultList();
 	}
