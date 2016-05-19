@@ -1,14 +1,12 @@
 package br.com.prati.tim.collaboration.gmp.mb.tipoinspecao;
 
 import java.io.Serializable;
-import java.util.Map;
 
 import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
 import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
@@ -66,16 +64,6 @@ public class TipoInspecaoCrudMB extends AbstractCrudMB<TipoInspecao, Long>	imple
 	@Override
 	public Class<TipoInspecao> getEntityClass() {
 		return TipoInspecao.class;
-	}
-	
-	public void openTipoDeCodigoDialog(){
-		
-		Map<String, Object> params = getParamsDialogPesquisa();
-		
-		String searchFabPath = "/cadastros/tipocodigo/searchTipoCodigo.xhtml";
-		
-		RequestContext.getCurrentInstance().openDialog(searchFabPath, params, null);
-		
 	}
 	
 	public void selectTipoDeCodigo(SelectEvent event) {

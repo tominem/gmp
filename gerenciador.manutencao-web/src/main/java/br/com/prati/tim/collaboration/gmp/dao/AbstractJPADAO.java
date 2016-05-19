@@ -238,7 +238,7 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 	public List<T> findActives() {
 		UaiCriteria<T> criteria = createQueryCriteria(em, getEntityClass());
 		
-		if (statusAttrName != null) {
+		if (getStatusAttrName() != null) {
 			criteria.andEquals(getStatusAttrName(), true);
 		}
 		
@@ -304,7 +304,7 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 	}
 	
 	/**
-	 * Makes auto the join clauses if character <b>.</b is present in fieldName
+	 * Makes auto the join clauses if character <b>.</b> is present in fieldName
 	 * 
 	 * @param criteria
 	 * @param f
@@ -333,6 +333,13 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 		return createQueryCriteria(em, getEntityClass())
 					.orderByAsc(attribute)
 					.getResultList();
+	}
+	
+	public List<T> findActivesOrderByAsc(String attribute){
+		return createQueryCriteria(em, getEntityClass())
+				.andEquals(getStatusAttrName(), true)
+				.orderByAsc(attribute)
+				.getResultList();
 	}
 	
 	@Override

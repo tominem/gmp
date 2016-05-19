@@ -269,4 +269,15 @@
 	float: right;
 	margin-top: -5px;
 	margin-right: -5px;
-}	
+}
+
+/* Ajuste no botão no header do Datatable */
+.ui-datatable .ui-datatable-header .ui-button {
+	margin-top: auto !important;
+	margin-bottom: auto !important;
+	border: none;
+}
+
+Table .TexAlCenter {
+	text-align: center;
+}

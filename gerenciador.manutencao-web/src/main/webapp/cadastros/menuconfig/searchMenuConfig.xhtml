@@ -101,6 +101,12 @@
 	                    	<h:outputText value	=	"#{item.menuConfig.descricao == null ? 'NT' : item.menuConfig.descricao}" styleClass="#{item.menuConfig.descricao == null ? 'nt' : ''}"/>
 	                    </div>
 	                </p:column>
+	                
+	                <p:column headerText	=	"Status" 	width	=	"60">
+	                	<div class="center">
+                    		<h:outputText value	=	"#{item.status ? 'Ativo' : 'Inativo'}"/>
+                    	</div>
+                	</p:column>
 	                	
                 	
                 </p:dataTable>

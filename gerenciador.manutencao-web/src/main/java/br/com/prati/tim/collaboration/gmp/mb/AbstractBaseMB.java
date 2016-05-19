@@ -1,7 +1,9 @@
 package br.com.prati.tim.collaboration.gmp.mb;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.PersistenceException;
@@ -72,9 +74,31 @@ public abstract class AbstractBaseMB implements BaseMB, Serializable{
 	
 	public void openDialog(String path){
 		
-		Map<String, Object> params = getParamsDialogPesquisa();
+		openDialog(path, false);
 		
-		RequestContext.getCurrentInstance().openDialog(path, params, null);
+	}
+	
+	/**
+	 * Open a DialogFramework
+	 * 
+	 * @param path outcome for dialogview
+	 * @param onlyActives flag that informs if search results should only be actives or not 
+	 */
+	public void openDialog(String path, boolean onlyActives){
+		
+		Map<String, Object> options = getParamsDialogPesquisa();
+		
+		Map<String, List<String>> params = null;
+		
+		if (onlyActives) {
+			
+			params = new HashMap<String, List<String>>();
+			
+			params.put("onlyActives", Arrays.asList("true"));
+			
+		}
+		
+		RequestContext.getCurrentInstance().openDialog(path, options, params);
 		
 	}
 	

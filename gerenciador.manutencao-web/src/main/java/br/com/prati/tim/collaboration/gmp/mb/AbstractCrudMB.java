@@ -147,13 +147,13 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 				UIComponent components = event.getComponent();
 
 				UIInput uiInputDescricao = (UIInput) components.findComponent(validateComponent.getComponentID());
-				String value = uiInputDescricao.getSubmittedValue() != null ? ""
-						: uiInputDescricao.getLocalValue().toString();
+				Object value = uiInputDescricao.getSubmittedValue() != null ? ""
+						: uiInputDescricao.getLocalValue();
 
 				HashMap<String, Object> params = new HashMap<String, Object>();
 				params.put(validateComponent.getEntityAttribute(), value);
 				
-				if (value == null || value.isEmpty()) continue;
+				if (value == null || (value instanceof String && value.toString().isEmpty())) continue;
 				
 				List<T> result = getCrudEJB().checkIfExists(params);
 				

@@ -9,9 +9,9 @@ import br.prati.tim.collaboration.gp.jpa.TipoComponente;
 
 public interface FuncaoConfigEJB extends CrudEJB<FuncaoConfig> {
 
-	List<MenuConfig> findAllMenus();
+	List<MenuConfig> findAllMenuActives();
 
-	List<TipoComponente> findAllTipoComponentes();
+	List<TipoComponente> findAllTipoComponentesActives();
 
 	List<FuncaoConfig> findByDescricaoAndMenuConfig(String descricao, MenuConfig menuConfig);
 

@@ -83,13 +83,7 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 		
 		itensConfigEquipamento = new ArrayList<ConfigEquipamento>();
 		
-		if (itensConfigEquipamentoSelected == null) {
-			itensConfigEquipamentoSelected = new ArrayList<ConfigEquipamento>();
-		}
-		
-		else{
-			itensConfigEquipamentoSelected.clear();
-		}
+		itensConfigEquipamentoSelected = new ArrayList<ConfigEquipamento>();
 		
 		populateItens();
 		

@@ -15,12 +15,12 @@ import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.xml.bind.ValidationException;
 
 import org.primefaces.event.SelectEvent;
 
 import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.itemconfig.FuncaoConfigEJB;
+import br.com.prati.tim.collaboration.gmp.ex.FacesValidateException;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractCrudMB;
 import br.prati.tim.collaboration.gp.jpa.FuncaoConfig;
 import br.prati.tim.collaboration.gp.jpa.MenuConfig;
@@ -207,9 +207,9 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 		
 		valorFuncaoInserted = new ValoresFuncao();
 		
-		menus = ejb.findAllMenus();
-		tiposComponentes = ejb.findAllTipoComponentes();
-		conversores = Arrays.asList(EComponentConverter.values());
+		menus 				= ejb.findAllMenuActives();
+		tiposComponentes 	= ejb.findAllTipoComponentesActives();
+		conversores 		= Arrays.asList(EComponentConverter.values());
 		
 	}
 	
@@ -261,23 +261,23 @@ public class ItemConfigCrudMB extends AbstractCrudMB<FuncaoConfig, Long>	impleme
 			
 			valorFuncaoInserted = new ValoresFuncao();
 			
-		} catch (ValidationException e) {
+		} catch (FacesValidateException e) {
 			
 			addErrorMessage(e.getMessage());
 			
 		}
 	}
 	
-	public void validateAdd() throws ValidationException{
+	public void validateAdd() throws FacesValidateException{
 		
 		if(valorFuncaoInserted.getValor() == null || valorFuncaoInserted.getValor().isEmpty()){
 			
-			throw new ValidationException("Entre com o valor da lista antes de adicionar");
+			throw new FacesValidateException("Entre com o valor da lista antes de adicionar", "formCad:valorDaLista");
 		}
 		
 		if (valoresFuncao.stream().filter(v -> v.getValor().equals(valorFuncaoInserted.getValor())).count() > 0) {
 			
-			throw new ValidationException("Valor da lista já inserido");
+			throw new FacesValidateException("Valor da lista já inserido");
 		}
 		
 	}

@@ -68,7 +68,8 @@
 					
 					<p:selectOneMenu 	id			=	"selOneSituacao" 
 										required	=	"true"
-										value		=	"#{searchFabricanteMB.intSituacao}">
+										value		=	"#{searchFabricanteMB.intSituacao}"
+										disabled	=	"#{param.onlyActives != null}">
 						
 						<p:ajax 		update 		=	"panelGridTable"
 										listener	=	"#{searchFabricanteMB.search()}"

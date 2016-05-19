@@ -6,9 +6,9 @@
 				
 	<ui:define name="content">
 		
-		<h:form 	id			=	"formCad">
+		<h:form 	id			=	"formCad" 	prependId="false">
 		
-	       <p:growl />
+	       <p:growl autoUpdate="true"/>
 	       
 	       <p:focus context		=	"#{itemConfigMB.contentPane}" />
 	       
@@ -230,7 +230,7 @@
 							                            						style 			= 	"float:right;"
 							                            						update			=	"tableValores paLista"
 							                            						actionListener	=	"#{itemConfigMB.addValorFuncao()}"
-							                            						process			=	"formCad:paLista">
+							                            						process			=	"paLista">
 							                            	</p:commandButton>
 					                            			
 					                            		</h:panelGroup>

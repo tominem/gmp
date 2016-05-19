@@ -47,13 +47,13 @@ public class FuncaoConfigEJBImpl extends AbstractCrudEJB<FuncaoConfig> implement
 	}
 
 	@Override
-	public List<MenuConfig> findAllMenus() {
-		return menuConfigDAO.findAll();
+	public List<MenuConfig> findAllMenuActives() {
+		return menuConfigDAO.findActives();
 	}
 
 	@Override
-	public List<TipoComponente> findAllTipoComponentes() {
-		return tipoComponenteDAO.findAllOrderByAsc("descricao");
+	public List<TipoComponente> findAllTipoComponentesActives() {
+		return tipoComponenteDAO.findActivesOrderByAsc("descricao");
 	}
 
 	@Override

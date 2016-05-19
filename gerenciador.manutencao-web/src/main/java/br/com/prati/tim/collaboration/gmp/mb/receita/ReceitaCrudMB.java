@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -17,7 +16,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.NoResultException;
 
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.ToggleSelectEvent;
 import org.primefaces.event.UnselectEvent;
@@ -216,16 +214,6 @@ public class ReceitaCrudMB extends AbstractBaseMB implements Serializable {
 
 	public void setEquipamentos(List<Equipamento> equipamentos) {
 		this.equipamentos = equipamentos;
-	}
-
-	public void openMaquinaDialog() {
-
-		Map<String, Object> params = getParamsDialogPesquisa();
-
-		String searchFabPath = "/cadastros/maquina/searchMaquina.xhtml";
-
-		RequestContext.getCurrentInstance().openDialog(searchFabPath, params, null);
-
 	}
 
 	public void selectMaquina(SelectEvent event) {

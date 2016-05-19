@@ -9,4 +9,6 @@ public interface TipoComponenteDAO extends GenericDAO<TipoComponente>{
 
 	List<TipoComponente> findAllOrderByAsc(String string);
 
+	List<TipoComponente> findActivesOrderByAsc(String descricao);
+	
 }

@@ -86,16 +86,21 @@
         		 			  	>
 	
 					<p:ajax event		=	"rowSelect"
-							listener	=	"#{searchTipoCompMB.setSelectedObject()}"
-					/>
+							listener	=	"#{searchTipoCompMB.setSelectedObject()}" />
 					
-					<c:forEach var="filter" items="#{searchTipoCompMB.filterParams}">
 					
-	                	<p:column headerText	=	"#{filter.name}">
-	                    	<h:outputText value	=	"#{item[filter.fieldName]}" />
-	                	</p:column>
+                	<p:column headerText	=	"Descrição">
+                    	<h:outputText value	=	"#{item.descricao}" />
+                	</p:column>
+
+                	<p:column headerText	=	"Nome">
+                    	<h:outputText value	=	"#{item.nomeComponente}" />
+                	</p:column>
+
+                	<p:column headerText	=	"Status" 	width="80">
+                    	<h:outputText value	=	"#{item.status ? 'Ativo' : 'Inativo'}" />
+                	</p:column>
 	                	
-					</c:forEach>
                 	
                 </p:dataTable>
                 

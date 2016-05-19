@@ -2,6 +2,7 @@
 				xmlns:h="http://java.sun.com/jsf/html"
 				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:pe="http://primefaces.org/ui/extensions"
 				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
 	<ui:define name="content">
@@ -56,9 +57,12 @@
 										<p:outputLabel 	value			=	"Telefone" 		
 														for				=	"telefone"/>
 														
-										<p:inputMask 	value			=	"#{fabricanteMB.entityBean.telefone}" 
-														mask			=	"(99) 99999-9999"
-														id				=	"telefone"/>
+										<p:inputText  	value			=	"#{fabricanteMB.entityBean.telefone}" 
+														id				=	"telefone">
+											
+											<pe:keyFilter regEx="/[0-9-()]/i" />
+											
+										</p:inputText>
 										
 										<p:outputLabel 	value			=	"Observações" 		
 														for				=	"observacoes"/>

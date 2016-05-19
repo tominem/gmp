@@ -2,6 +2,7 @@
 				xmlns:h="http://java.sun.com/jsf/html"
 				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:pe="http://primefaces.org/ui/extensions"
 				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
 	<ui:define name="head">
@@ -151,7 +152,7 @@
 											
 											<p:commandButton	icon				=	"fa fa-search"
 																styleClass			=	"PurpleTextButton RaisedButton"
-																actionListener		=	"#{alarmeMB.openDialog('/cadastros/categoriaalarme/searchCategoriaAlarme.xhtml')}"
+																actionListener		=	"#{alarmeMB.openDialog('/cadastros/categoriaalarme/searchCategoriaAlarme.xhtml', true)}"
 																immediate			=	"true"
 																process				=	"@this paCategoria">
 													
@@ -221,7 +222,11 @@
 															value			=	"#{alarmeMB.entityBean.codigoAlarme}"
 															id				=	"codigoAlarme" 
 															required		=	"#{!alarmeMB.alarmeManual}"
-															disabled		=	"#{alarmeMB.alarmeManual}"/>
+															disabled		=	"#{alarmeMB.alarmeManual}">
+												
+												<pe:keyFilter regEx="/[0-9]/i" />
+												
+											</p:inputText>
 														
 										</h:panelGroup>
 										
@@ -256,7 +261,12 @@
 											<p:inputText 	value			=	"#{alarmeMB.entityBean.codigoReset}"
 															id				=	"reset" 
 															required		=	"#{!alarmeMB.alarmeManual}"
-															disabled		=	"#{alarmeMB.alarmeManual}"/>
+															requiredMessage	=	"Código do Reset requerido!"
+															disabled		=	"#{alarmeMB.alarmeManual}">
+												
+												<pe:keyFilter regEx="/[0-9]/i" />
+												
+											</p:inputText>
 										
 										</h:panelGroup>
 
@@ -266,7 +276,11 @@
 															for				=	"criticidade"/>
 											
 											<p:inputText 	value			=	"#{alarmeMB.entityBean.criticidade}"
-															id				=	"criticidade" />
+															id				=	"criticidade">
+											
+												<pe:keyFilter regEx="/[0-9]/i" />
+											
+											</p:inputText>
 										
 										</p:column>
 										

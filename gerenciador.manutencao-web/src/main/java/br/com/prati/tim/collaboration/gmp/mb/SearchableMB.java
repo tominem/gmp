@@ -3,15 +3,19 @@ package br.com.prati.tim.collaboration.gmp.mb;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.context.RequestContext;
 
 import br.com.prati.tim.collaboration.gmp.dao.FilterParam;
 import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
+import br.com.prati.tim.collaboration.gmp.utis.FacesUtis;
 
 public abstract class SearchableMB<T extends Serializable> implements Serializable {
 
@@ -30,9 +34,25 @@ public abstract class SearchableMB<T extends Serializable> implements Serializab
 	
 	@PostConstruct
 	public void init() {
+		
+		handleParameters();
+		
 		search();
 	}
 	
+	private void handleParameters() {
+		
+		Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		String onlyActives = params.get("onlyActives");
+		
+		if (onlyActives != null && Boolean.valueOf(onlyActives)) {
+			
+			setIntSituacao(1);
+			
+		}
+		
+	}
+
 	public abstract String getTitle();
 	
 	public abstract String getFormName();
