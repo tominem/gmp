@@ -11,7 +11,7 @@
     		<meta charset	=	"UTF-8" />
         </f:facet>
         
-        <title>#{searchItemConfigMB.title}</title>
+        <title>#{searchCLPMB.title}</title>
     </h:head>
     
      
@@ -29,7 +29,7 @@
 	    </style>
 
 		
-        <h:form id	=	"#{searchItemConfigMB.formName}">
+        <h:form id	=	"#{searchCLPMB.formName}">
 			
 			<p:focus context	=	"panelGridBusca" />
 						
@@ -39,20 +39,20 @@
 								columnClasses	=	"Wid90, Wid10">
 				
 				<p:outputLabel	for				=	"criterioBusca" 
-								value			=	"Informe o nome para consultar o #{searchItemConfigMB.entityName} desejado"></p:outputLabel>
+								value			=	"Informe o nome para consultar o #{searchCLPMB.entityName} desejado"></p:outputLabel>
 
 				<p:outputLabel 	for				=	"selOneSituacao" 
 								value			=	"Situação">
 				</p:outputLabel>
 				
 				<p:inputText 	id				=	"criterioBusca" 
-								value			=	"#{searchItemConfigMB.pattern}"
+								value			=	"#{searchCLPMB.pattern}"
 								required		=	"false"
 								style			=	"width: 100%">
 					
 					<p:ajax		event			=	"keyup" 
 								update			=	"panelGridTable" 
-								listener		=	"#{searchItemConfigMB.search()}">
+								listener		=	"#{searchCLPMB.search()}">
 					</p:ajax>
 					
 				</p:inputText>
@@ -60,15 +60,15 @@
 				<p:selectOneMenu 	id			=	"selOneSituacao" 
 									style		=	"with:100%" 
 									required	=	"true"
-									value		=	"#{searchItemConfigMB.intSituacao}"
-									disabled	=	"true">
+									value		=	"#{searchCLPMB.intSituacao}"
+									disabled	=	"#{param.onlyActives != null}">
 					
 					<p:ajax 		update 		=	"panelGridTable"
-									listener	=	"#{searchItemConfigMB.search()}"
+									listener	=	"#{searchCLPMB.search()}"
 									immediate	=	"true">
 					</p:ajax>
 					
-					<f:selectItems value	=	"#{searchItemConfigMB.itemSituacao}" ></f:selectItems>
+					<f:selectItems value	=	"#{searchCLPMB.itemSituacao}" ></f:selectItems>
 									
 				</p:selectOneMenu>
 							
@@ -77,34 +77,42 @@
         	<h:panelGrid id="panelGridTable">
         		
         		 <p:dataTable 	var					=	"item" 
-        		 				value				=	"#{searchItemConfigMB.objectList}" 
+        		 				value				=	"#{searchCLPMB.objectList}" 
         		 			  	id					=	"tablePesquisa"
         		 			  	emptyMessage		=	"Nenhum registro"
         		 			  	paginator			=	"true"
         		 			  	rows				=	"10"
         		 			  	selectionMode		=	"single"
-        		 			  	rowKey				=	"#{item.idFuncaoConfig}"
-        		 			  	selection			=	"#{searchItemConfigMB.objectSelected}"
+        		 			  	rowKey				=	"#{item.idEquipamento}"
+        		 			  	selection			=	"#{searchCLPMB.objectSelected}"
         		 			  	paginatorPosition	=	"bottom"
 								scrollable			=	"true"
-	   		 			  		scrollHeight		=	"250">
+	   		 			  		scrollHeight		=	"250"
+        		 			  	>
 	
 					<p:ajax event		=	"rowSelect"
-							listener	=	"#{searchItemConfigMB.setSelectedObject()}"/>
+							listener	=	"#{searchCLPMB.setSelectedObject()}"/>
 					
-					
+                	<p:column headerText	=	"nome">
+                    	<h:outputText value	=	"#{item.nome}" />
+                	</p:column>
+                	
                 	<p:column headerText	=	"Descrição">
                     	<h:outputText value	=	"#{item.descricao}" />
                 	</p:column>
-
-                	<p:column headerText	=	"Menu">
-                    	<h:outputText value	=	"#{item.menuConfig.descricao}" />
+                	
+                	<p:column headerText	=	"Tag">
+                    	<h:outputText value	=	"#{item.tag}" />
                 	</p:column>
                 	
-                	<p:column headerText	=	"Tipo Componente">
-                    	<h:outputText value	=	"#{item.tipoComponente.descricao}" />
+                	<p:column headerText	=	"Tipo">
+                    	<h:outputText value	=	"#{item.tipoEquipamento}" />
                 	</p:column>
-	                	
+                	
+                	<p:column headerText	=	"Fabricante">
+                    	<h:outputText value	=	"#{item.fabricante.nome}" />
+                	</p:column>
+                	
                 	
                 </p:dataTable>
                 

@@ -1,0 +1,274 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		
+		<h:form id			=	"formCad" 
+				prependId	=	"false">      
+	       
+	       <p:growl autoUpdate	=	"true"/>
+	       
+	       <p:focus context		=	"contentPane" />
+	       
+	        <div class="Container100">
+	          
+	            <div class="ContainerIndent">
+	                
+	                <p:panel styleClass="Card ShadowEffect" id	=	"contentPane">
+	                    
+	                    <div class="Container ui-fluid">
+	                    
+	                    	<div class="ContainerIndent">
+		                    	
+		                    	<div class="Container60 Responsive100">
+		                        
+		                            <div class="BigTopic Fs18">
+										<i class="fa fa fa-bookmark"/> Configurar Variáveis CLP
+									</div>
+									
+									<div class="Separator"></div>
+									
+	                            	<!-- register a PostValidateEvent -->
+									<f:event listener="#{variaveisClpMB.validate}" type="postValidate" />
+									
+									<p:panelGrid 	columns				=	"2" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank SearchButtonGrid"
+		                            			 	columnClasses		=	"ui-grid-col-11, ui-grid-col-1 SearchButtonPadding">
+		                            			 	
+										
+										<h:panelGroup id	=	"paMaquina">
+										
+											<p:outputLabel 	value			=	"Máquina" 		
+															for				=	"maquina"/>
+											
+											<p:inputText 	requiredMessage	=	"Máquina requerida"
+															value			=	"#{variaveisClpMB.variaveisClp.maquina.descricao}"
+															id				=	"maquina" 
+															required		=	"true"
+															readonly		=	"#{facesContext.renderResponse}"/>
+										
+										</h:panelGroup>
+										
+										<h:panelGroup>
+										
+											<p:commandButton	icon				=	"fa fa-search"
+																styleClass			=	"PurpleTextButton RaisedButton"
+																actionListener		=	"#{variaveisClpMB.openDialog('/cadastros/maquina/searchMaquina.xhtml', true)}"
+																immediate			=	"true"
+																process				=	"@this paMaquina">
+													
+													<p:ajax 	event		=	"dialogReturn"
+																listener	=	"#{variaveisClpMB.select}"
+																update		=	"paMaquina"/>
+											
+											</p:commandButton>
+											
+										</h:panelGroup>
+
+										<h:panelGroup id	=	"paCLP">
+										
+											<p:outputLabel 	value			=	"CLP" 		
+															for				=	"clp"/>
+											
+											<p:inputText 	requiredMessage	=	"Equipamento requerido"
+															value			=	"#{variaveisClpMB.variaveisClp.equipamento.descricao}"
+															id				=	"clp" 
+															required		=	"true"
+															readonly		=	"#{facesContext.renderResponse}"/>
+										
+										</h:panelGroup>
+										
+										<h:panelGroup>
+										
+											<p:commandButton	icon				=	"fa fa-search"
+																styleClass			=	"PurpleTextButton RaisedButton"
+																actionListener		=	"#{variaveisClpMB.openDialog('/cadastros/equipamento/searchCLP.xhtml', true)}"
+																immediate			=	"true"
+																process				=	"@this paCLP">
+													
+													<p:ajax 	event		=	"dialogReturn"
+																listener	=	"#{variaveisClpMB.select}"
+																update		=	"paCLP"/>
+											
+											</p:commandButton>
+											
+										</h:panelGroup>
+										
+											
+		                            </p:panelGrid>
+		                            
+		                            <p:panelGrid 	columns				=	"1" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-11">
+		                            			 	
+                           			 	<h:panelGroup>
+                           			 		
+                           			 		<p:outputLabel 	value			=	"Variável" 		
+															for				=	"variavel"/>
+											
+											<p:inputText 	requiredMessage	=	"Variável requerida"
+															value			=	"#{variaveisClpMB.variaveisClp.variavel}"
+															id				=	"variavel" 
+															required		=	"true"/>
+                           			 		
+                           			 	</h:panelGroup>
+
+                           			 	<h:panelGroup>
+                           			 		
+                           			 		<p:outputLabel 	value			=	"Descrição" 		
+															for				=	"descricao"/>
+											
+											<p:inputText 	requiredMessage	=	"Descrição requerida"
+															value			=	"#{variaveisClpMB.variaveisClp.descricao}"
+															id				=	"descricao" 
+															required		=	"true"/>
+                           			 		
+                           			 	</h:panelGroup>
+		                            			 	
+		                           	</p:panelGrid>
+		                           	
+		                           	<p:panelGrid 	columns				=	"2" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-6, ui-grid-col-5">
+									
+										
+										<h:panelGroup	id	=	"paTipoValor">
+										
+											<p:outputLabel 	value			=	"Tipo do Valor" 		
+															for				=	"tipoValor"/>
+														
+											<p:selectOneMenu 	id				=	"tipoValor"
+																value			=	"#{variaveisClpMB.variaveisClp.tipoValor}"
+																required		=	"true"
+																requiredMessage	=	"Tipo do valor requerido">
+																
+												<p:ajax event		=	"change"
+														process		=	"paTipoValor"
+														update		=	"paValor"/>
+												
+												<f:selectItem itemLabel="Selecione o tipo de valor" />
+												
+												<f:selectItems value="#{variaveisClpMB.tiposValor}" var="a"
+													itemValue="#{a}"/>
+													
+											</p:selectOneMenu>
+										
+										</h:panelGroup>
+										
+										<h:panelGroup	id	=	"paValor">
+                           			 		
+                           			 		<p:outputLabel 	value			=	"Valor" 		
+															for				=	"valor"/>
+											
+											<p:inputText 	requiredMessage	=	"Valor requerido"
+															value			=	"#{variaveisClpMB.variaveisClp.valor}"
+															id				=	"valor" 
+															required		=	"true"/>
+                           			 		
+                           			 	</h:panelGroup>														
+										
+									</p:panelGrid>
+									
+									<div class="EmptyBox20" />
+									
+									<p:panelGrid layout="grid" columns="1" style="border:none">
+		                            
+			                            <!-- Datatable Variáveis do CLP -->
+			                            <h:panelGroup id	=	"paTableVariaveis">
+			                            	
+			                            		<p:dataTable 	id					=	"tableVariaveis"
+																var					=	"item"
+																value				=	"#{variaveisClpMB.variaveis}" 
+																emptyMessage		=	"Nenhum registro" 
+																rows				=	"10"
+																rowKey				=	"#{item.hashCode()}"
+																selectionMode		=	"single" 
+																paginatorPosition	=	"bottom" 
+																scrollable			=	"true"
+																scrollHeight		=	"250"
+																reflow				=	"true"
+																resizableColumns	=	"true">
+													
+													<f:facet name	=	"header">
+														Equipamentos
+														<h:panelGroup layout="block" styleClass="AddButton">
+			                            		
+						                            		<p:commandButton	icon				=	"fa fa-plus"
+																				styleClass			=	"PurpleTextButton RaisedButton"
+																				actionListener		=	"#{variaveisClpMB.add()}"
+																				process				=	"@form"
+																				update				=	"@form">
+																	
+															</p:commandButton>
+			                            		
+			                           					 </h:panelGroup>
+													</f:facet>
+													
+													<p:column headerText="Variável">
+													
+															<h:outputText value="#{item.variavel}" />
+													
+													</p:column>
+		
+													<p:column headerText="Descrição">
+													
+															<h:outputText value="#{item.descricao}" />
+													
+													</p:column>
+		
+													<p:column headerText="Tipo Valor">
+													
+															<h:outputText value="#{item.tipoValor}" />
+													
+													</p:column>
+
+													<p:column headerText="Valor">
+													
+															<h:outputText value="#{item.valor}" />
+													
+													</p:column>
+													
+													<p:column headerText="Excluir" width="45">
+														
+														<p:commandButton 	styleClass		=	"RedButton RaisedButton"
+																			icon			=	"fa fa-trash Fs16 White"
+																			style			=	"float:right;"
+																			actionListener	=	"#{variaveisClpMB.remove(item)}"
+																			immediate		=	"true"
+																			update			=	"paTableVariaveis"
+																			process			=	"@this"/>
+													</p:column>
+												
+												</p:dataTable>
+			                            	
+			                            </h:panelGroup>
+		                            
+		                            </p:panelGrid>		                            			 	
+											                        
+		                    	</div>
+		                 	</div>
+		                    
+		                    <!-- 
+	                    	<ui:include src="/cadastros/templatefooter.xhtml">
+	                    		<ui:param name="nomeFormulario" value="#{variaveisClpMB.formName}" />
+	                    		<ui:param name="crudBean" value="#{variaveisClpMB}" />
+	                    	</ui:include>
+		                     -->
+		                    
+	                    </div>
+	                    
+	                </p:panel>
+	                
+	            </div>
+	            
+	        </div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

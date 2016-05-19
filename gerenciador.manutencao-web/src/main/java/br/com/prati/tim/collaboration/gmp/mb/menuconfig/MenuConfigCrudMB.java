@@ -160,7 +160,7 @@ public class MenuConfigCrudMB extends AbstractCrudMB<MenuConfig, Long>	implement
 
 	@Override
 	public String getResourceDialogPath() {
-		return "/cadastros/menuConfig/searchMenuConfig.xhtml";
+		return "/cadastros/menuconfig/searchMenuConfig.xhtml";
 	}
 
 	public MenuConfig getMenuPaiSelected() {

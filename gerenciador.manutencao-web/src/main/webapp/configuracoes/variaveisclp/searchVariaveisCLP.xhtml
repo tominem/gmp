@@ -11,7 +11,7 @@
     		<meta charset	=	"UTF-8" />
         </f:facet>
         
-        <title>#{searchItemConfigMB.title}</title>
+        <title>#{searchCategoriaAlarmeMB.title}</title>
     </h:head>
     
      
@@ -29,7 +29,7 @@
 	    </style>
 
 		
-        <h:form id	=	"#{searchItemConfigMB.formName}">
+        <h:form id	=	"#{searchCategoriaAlarmeMB.formName}">
 			
 			<p:focus context	=	"panelGridBusca" />
 						
@@ -39,20 +39,20 @@
 								columnClasses	=	"Wid90, Wid10">
 				
 				<p:outputLabel	for				=	"criterioBusca" 
-								value			=	"Informe o nome para consultar o #{searchItemConfigMB.entityName} desejado"></p:outputLabel>
+								value			=	"Informe o nome para consultar o #{searchCategoriaAlarmeMB.entityName} desejado"></p:outputLabel>
 
 				<p:outputLabel 	for				=	"selOneSituacao" 
 								value			=	"Situação">
 				</p:outputLabel>
 				
 				<p:inputText 	id				=	"criterioBusca" 
-								value			=	"#{searchItemConfigMB.pattern}"
+								value			=	"#{searchCategoriaAlarmeMB.pattern}"
 								required		=	"false"
 								style			=	"width: 100%">
 					
 					<p:ajax		event			=	"keyup" 
 								update			=	"panelGridTable" 
-								listener		=	"#{searchItemConfigMB.search()}">
+								listener		=	"#{searchCategoriaAlarmeMB.search()}">
 					</p:ajax>
 					
 				</p:inputText>
@@ -60,15 +60,15 @@
 				<p:selectOneMenu 	id			=	"selOneSituacao" 
 									style		=	"with:100%" 
 									required	=	"true"
-									value		=	"#{searchItemConfigMB.intSituacao}"
-									disabled	=	"true">
+									value		=	"#{searchCategoriaAlarmeMB.intSituacao}"
+									disabled	=	"#{param.onlyActives != null}">
 					
 					<p:ajax 		update 		=	"panelGridTable"
-									listener	=	"#{searchItemConfigMB.search()}"
+									listener	=	"#{searchCategoriaAlarmeMB.search()}"
 									immediate	=	"true">
 					</p:ajax>
 					
-					<f:selectItems value	=	"#{searchItemConfigMB.itemSituacao}" ></f:selectItems>
+					<f:selectItems value	=	"#{searchCategoriaAlarmeMB.itemSituacao}" ></f:selectItems>
 									
 				</p:selectOneMenu>
 							
@@ -77,33 +77,29 @@
         	<h:panelGrid id="panelGridTable">
         		
         		 <p:dataTable 	var					=	"item" 
-        		 				value				=	"#{searchItemConfigMB.objectList}" 
+        		 				value				=	"#{searchCategoriaAlarmeMB.objectList}" 
         		 			  	id					=	"tablePesquisa"
         		 			  	emptyMessage		=	"Nenhum registro"
         		 			  	paginator			=	"true"
         		 			  	rows				=	"10"
         		 			  	selectionMode		=	"single"
-        		 			  	rowKey				=	"#{item.idFuncaoConfig}"
-        		 			  	selection			=	"#{searchItemConfigMB.objectSelected}"
+        		 			  	rowKey				=	"#{item.idCategoria}"
+        		 			  	selection			=	"#{searchCategoriaAlarmeMB.objectSelected}"
         		 			  	paginatorPosition	=	"bottom"
 								scrollable			=	"true"
-	   		 			  		scrollHeight		=	"250">
+	   		 			  		scrollHeight		=	"250"
+        		 			  	>
 	
 					<p:ajax event		=	"rowSelect"
-							listener	=	"#{searchItemConfigMB.setSelectedObject()}"/>
+							listener	=	"#{searchCategoriaAlarmeMB.setSelectedObject()}"/>
 					
+					<c:forEach var="filter" items="#{searchCategoriaAlarmeMB.filterParams}">
 					
-                	<p:column headerText	=	"Descrição">
-                    	<h:outputText value	=	"#{item.descricao}" />
-                	</p:column>
-
-                	<p:column headerText	=	"Menu">
-                    	<h:outputText value	=	"#{item.menuConfig.descricao}" />
-                	</p:column>
-                	
-                	<p:column headerText	=	"Tipo Componente">
-                    	<h:outputText value	=	"#{item.tipoComponente.descricao}" />
-                	</p:column>
+	                	<p:column headerText	=	"#{filter.name}">
+	                    	<h:outputText value	=	"#{item[filter.fieldName]}" />
+	                	</p:column>
+	                	
+					</c:forEach>
 	                	
                 	
                 </p:dataTable>
