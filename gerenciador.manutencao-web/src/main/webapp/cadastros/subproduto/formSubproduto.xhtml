@@ -96,7 +96,7 @@
 		                            </p:panelGrid>
 		                            
 		                            <p:panelGrid 	columns				=	"2" 
-		                            				layout				=	"grid" 
+		                            				layout				=	"grid"
 		                            			 	styleClass			=	"ui-panelgrid-blank"
 		                            			 	columnClasses		=	"ui-grid-col-3, ui-grid-col-8">
 										
@@ -108,7 +108,11 @@
 											<p:inputText	value			=	"#{subprodutoMB.entityBean.codigoSap}"
 															id				=	"codSap" 
 														 	requiredMessage	=	"Código SAP requerido"
-															required		=	"true"/>
+															required		=	"true">
+												
+												<pe:keyFilter regEx="/[0-9]/i" />
+											
+											</p:inputText>
 															
 										</h:panelGroup>
 										

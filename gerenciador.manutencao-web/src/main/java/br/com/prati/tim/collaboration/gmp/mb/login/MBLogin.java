@@ -62,7 +62,7 @@ public class MBLogin implements Serializable{
 		parametros.setAcao          (ETipoAcesso.AUTENTICAR);
 		parametros.setNomeFuncao	("AUTENTICAR");
 		parametros.setCrachaUsuario	(cracha);
-		parametros.setNomeSistema	("PCP");
+		parametros.setNomeSistema	("GMP");
 		parametros.setUsuarioSenha	(MD5Gen.getMD5(senha));
 		
 		UsuarioWS usuarioWS = null;

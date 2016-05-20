@@ -16,7 +16,7 @@ import br.prati.tim.collaboration.gp.jpa.VariaveisClp;
 public class VariaveisClpEJBImpl extends AbstractCrudEJB<VariaveisClp> implements VariaveisClpEJB{
 
 	@Inject
-	private VariaveisClpDAO variaveisClpDAO; 
+	private VariaveisClpDAO variaveisClpDAO;
 	
 	@Override
 	public VariaveisClp save(VariaveisClp entityBean) throws Exception {
@@ -26,15 +26,6 @@ public class VariaveisClpEJBImpl extends AbstractCrudEJB<VariaveisClp> implement
 	@Override
 	public GenericDAO<VariaveisClp> getCrudDAO() {
 		return variaveisClpDAO;
-	}
-
-	@Override
-	public void save(List<VariaveisClp> list) throws Exception {
-		
-		for (VariaveisClp var : list) {
-			save(var);
-		}
-		
 	}
 
 	@Override

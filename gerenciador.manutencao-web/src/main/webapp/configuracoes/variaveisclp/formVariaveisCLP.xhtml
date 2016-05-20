@@ -2,6 +2,7 @@
 				xmlns:h="http://java.sun.com/jsf/html"
 				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:pe="http://primefaces.org/ui/extensions"
 				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
 	<ui:define name="content">
@@ -113,7 +114,8 @@
 											
 											<p:inputText 	requiredMessage	=	"Variável requerida"
 															value			=	"#{variaveisClpMB.variaveisClp.variavel}"
-															id				=	"variavel" />
+															id				=	"variavel" 
+															maxlength		=	"255"/>
                            			 		
                            			 	</h:panelGroup>
 
@@ -124,7 +126,8 @@
 											
 											<p:inputText 	requiredMessage	=	"Descrição requerida"
 															value			=	"#{variaveisClpMB.variaveisClp.descricao}"
-															id				=	"descricao" />
+															id				=	"descricao" 
+															maxlength		=	"255"/>
                            			 		
                            			 	</h:panelGroup>
 		                            			 	
@@ -149,8 +152,6 @@
 														process		=	"paTipoValor"
 														update		=	"paValor"/>
 												
-												<f:selectItem itemLabel="Selecione o tipo de valor" />
-												
 												<f:selectItems value="#{variaveisClpMB.tiposValor}" var="a"
 													itemValue="#{a}"/>
 													
@@ -161,11 +162,27 @@
 										<h:panelGroup	id	=	"paValor">
                            			 		
                            			 		<p:outputLabel 	value			=	"Valor" 		
-															for				=	"valor"/>
+															for				=	"#{variaveisClpMB.tipoInteiro ? 'valorInput' : 'valorSelect'}"/>
 											
 											<p:inputText 	requiredMessage	=	"Valor requerido"
 															value			=	"#{variaveisClpMB.variaveisClp.valor}"
-															id				=	"valor" />
+															id				=	"valorInput" 
+															rendered		=	"#{variaveisClpMB.tipoInteiro}"
+															maxlength		=	"255">
+											
+												<pe:keyFilter regEx="/[0-9]/i" />
+												
+											</p:inputText>
+
+											<p:selectOneMenu 	id				=	"valorSelect"
+																value			=	"#{variaveisClpMB.variaveisClp.valor}"
+																rendered		=	"#{!variaveisClpMB.tipoInteiro}">
+																
+												<f:selectItem itemLabel="True" itemValue="true"/>
+
+												<f:selectItem itemLabel="False" itemValue="false"/>
+												
+											</p:selectOneMenu>
                            			 		
                            			 	</h:panelGroup>														
 										

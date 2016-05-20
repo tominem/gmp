@@ -3,7 +3,9 @@ package br.com.prati.tim.collaboration.gmp.mb.variaveisclp;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 import javax.faces.event.ComponentSystemEvent;
@@ -35,9 +37,14 @@ public class VariaveisClpMB extends AbstractBaseMB implements Serializable {
 	@Inject
 	private VariaveisClpEJB ejb;
 	
+	@Inject
+	private TimeZone defaultTimeZone;
+	
 	private VariaveisClp variaveisClp;
 	
 	private List<VariaveisClp> variaveis;
+
+	private List<VariaveisClp> variaveisRem;
 	
 	@PostConstruct
 	public void init(){
@@ -49,8 +56,11 @@ public class VariaveisClpMB extends AbstractBaseMB implements Serializable {
 		
 		var.setMaquina(new Maquina());
 		var.setEquipamento(new Equipamento());
+		var.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
 		
 		setVariaveisClp(var);
+		
+		variaveisRem = new ArrayList<VariaveisClp>();
 		
 	}
 	
@@ -121,6 +131,10 @@ public class VariaveisClpMB extends AbstractBaseMB implements Serializable {
 		
 		
 	}
+	
+	public boolean getTipoInteiro(){
+		return variaveisClp.getTipoValor() == ETipoValorVariaveis.INTEGER;
+	}
 
 	private void selectCLP(Object object) {
 		variaveisClp.setEquipamento((Equipamento) object);
@@ -166,6 +180,7 @@ public class VariaveisClpMB extends AbstractBaseMB implements Serializable {
 		
 		var.setMaquina(getMaquina());
 		var.setEquipamento(getCLP());
+		var.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
 		
 		setVariaveisClp(var);
 		
@@ -177,9 +192,13 @@ public class VariaveisClpMB extends AbstractBaseMB implements Serializable {
 			
 			if (variaveis != null && variaveis.size() > 0) {
 				
-				ejb.save(variaveisClp);
+				savePerform();
+				
+				deletePerform();
 				
 				clean();
+				
+				addInfoMessage("Variáveis configuradas com sucesso!");
 				
 			}
 			
@@ -189,6 +208,24 @@ public class VariaveisClpMB extends AbstractBaseMB implements Serializable {
 			
 		}
 		
+	}
+
+	private void deletePerform() throws Exception {
+		for (VariaveisClp var : variaveisRem) {
+			
+			if (var.getIdVariaveisCLP() != null) {
+				ejb.exclude(var);
+			}
+			
+		}
+	}
+
+	private void savePerform() throws Exception {
+		for (VariaveisClp var : variaveis) {
+			
+			ejb.save(var);
+			
+		}
 	}
 	
 	@Override
@@ -229,6 +266,7 @@ public class VariaveisClpMB extends AbstractBaseMB implements Serializable {
 
 	public void remove(VariaveisClp variaveisClp){
 		variaveis.remove(variaveisClp);
+		variaveisRem.add(variaveisClp);
 	}
 
 	public List<VariaveisClp> getVariaveis() {

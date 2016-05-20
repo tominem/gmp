@@ -9,8 +9,6 @@ import br.prati.tim.collaboration.gp.jpa.VariaveisClp;
 
 public interface VariaveisClpEJB extends CrudEJB<VariaveisClp>{
 
-	void save(List<VariaveisClp> list) throws Exception;
-
 	List<VariaveisClp> findVariaveisClpByMaquinaAndCLP(Maquina maquina,	Equipamento clp);
 	
 }
