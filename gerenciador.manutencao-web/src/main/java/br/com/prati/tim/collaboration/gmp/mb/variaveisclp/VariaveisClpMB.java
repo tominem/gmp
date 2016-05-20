@@ -58,7 +58,27 @@ public class VariaveisClpMB extends AbstractBaseMB implements Serializable {
 	public boolean validate(ComponentSystemEvent event) {
 		return false;
 	}
+	
+	public void loadVariaveis(){
+		
+		if (getMaquina().getIdMaquina() != null && getCLP().getIdEquipamento() != null) {
+			
+			variaveis = ejb.findVariaveisClpByMaquinaAndCLP(getMaquina(), getCLP());
+			
+			addInfoMessage("Variáveis carregadas com sucesso!");
+			
+		}
+		
+	}
+	
+	private Equipamento getCLP() {
+		return variaveisClp.getEquipamento();
+	}
 
+	public Maquina getMaquina(){
+		return variaveisClp.getMaquina();
+	}
+	
 
 	@Override
 	public ValidateComponent[] getValidaComponents() {
@@ -83,18 +103,39 @@ public class VariaveisClpMB extends AbstractBaseMB implements Serializable {
 
 		if (object != null	&& object.getClass().getName().equals(Maquina.class.getName())) {
 			
-			variaveisClp.setMaquina((Maquina) object);
+			Maquina maquina = (Maquina) object;
 			
-			addInfoMessage("Linha informada com sucesso.");
+			if (maquina.equals(getMaquina())) return;
+			
+			selectMaquina(maquina);
 		}
 
 		else if (object != null	&& object.getClass().getName().equals(Equipamento.class.getName())) {
 			
-			variaveisClp.setEquipamento((Equipamento) object);
+			Equipamento clp = (Equipamento) object;
 			
-			addInfoMessage("Equipamento informado com sucesso.");
+			if (clp.equals(getCLP())) return;
+			
+			selectCLP(object);
 		}
 		
+		
+	}
+
+	private void selectCLP(Object object) {
+		variaveisClp.setEquipamento((Equipamento) object);
+		
+		loadVariaveis();
+
+		addInfoMessage("CLP informado com sucesso.");
+	}
+
+	private void selectMaquina(Maquina maquina) {
+		variaveisClp.setMaquina(maquina);
+		
+		loadVariaveis();
+		
+		addInfoMessage("Máquina informada com sucesso.");
 	}
 	
 	public void add(){
@@ -109,7 +150,7 @@ public class VariaveisClpMB extends AbstractBaseMB implements Serializable {
 			
 			variaveis.add(variaveisClp);
 			
-			load();
+			loadAfterAdd();
 			
 		} catch (FacesValidateException e) {
 			
@@ -119,8 +160,67 @@ public class VariaveisClpMB extends AbstractBaseMB implements Serializable {
 		
 	}
 	
+	private void loadAfterAdd() {
+		
+		VariaveisClp var = new VariaveisClp();
+		
+		var.setMaquina(getMaquina());
+		var.setEquipamento(getCLP());
+		
+		setVariaveisClp(var);
+		
+	}
+
+	public void save(){
+		
+		try {
+			
+			if (variaveis != null && variaveis.size() > 0) {
+				
+				ejb.save(variaveisClp);
+				
+				clean();
+				
+			}
+			
+		} catch (Exception e) {
+			
+			addErrorMessage(e.getMessage());
+			
+		}
+		
+	}
+	
+	@Override
+	public void clean() {
+		
+		load();
+		
+		if (variaveis != null) {
+			variaveis.clear();
+		}
+		
+		super.clean();
+	}
+	
 	private void validateAdd() throws FacesValidateException {
 
+		if (variaveisClp.getVariavel() == null || variaveisClp.getVariavel().isEmpty()) {
+			throw new FacesValidateException("Variável requerida!", "formCad:variavel");
+		}
+
+		if (variaveisClp.getTipoValor() == null) {
+			throw new FacesValidateException("Tipo Valor requerido!", "formCad:tipoValor");
+		}
+		
+		if (variaveisClp.getDescricao() == null || variaveisClp.getDescricao().isEmpty()) {
+			throw new FacesValidateException("Descrição requerida!", "formCad:descricao");
+		}
+
+		if (variaveisClp.getValor() == null || variaveisClp.getValor().isEmpty()) {
+			throw new FacesValidateException("Descrição requerida!", "formCad:valor");
+		}
+		
 		if (variaveis.stream().filter(e -> e.getDescricao().equalsIgnoreCase(variaveisClp.getDescricao())).findFirst().isPresent()){
 			throw new FacesValidateException("Já existe um item com a mesma descrição na tabela, vinculado a mesma máquina e CLP!", "formCad:descricao");
 		}

@@ -45,6 +45,7 @@ public class FacesUtis {
 	}
 	
 	public static String translateMessage(String message){
+		message = message.replace("Detail", "Detalhe");
 		message = message.replace("Key", "A chave");
 		message = message.replace("is still referenced from table", "ainda está referenciado na tabela");
 		

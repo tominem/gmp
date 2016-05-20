@@ -63,7 +63,7 @@
 													
 													<p:ajax 	event		=	"dialogReturn"
 																listener	=	"#{variaveisClpMB.select}"
-																update		=	"paMaquina"/>
+																update		=	"paMaquina paTableVariaveis"/>
 											
 											</p:commandButton>
 											
@@ -74,7 +74,7 @@
 											<p:outputLabel 	value			=	"CLP" 		
 															for				=	"clp"/>
 											
-											<p:inputText 	requiredMessage	=	"Equipamento requerido"
+											<p:inputText 	requiredMessage	=	"CLP requerido"
 															value			=	"#{variaveisClpMB.variaveisClp.equipamento.descricao}"
 															id				=	"clp" 
 															required		=	"true"
@@ -92,7 +92,7 @@
 													
 													<p:ajax 	event		=	"dialogReturn"
 																listener	=	"#{variaveisClpMB.select}"
-																update		=	"paCLP"/>
+																update		=	"paCLP paTableVariaveis"/>
 											
 											</p:commandButton>
 											
@@ -113,8 +113,7 @@
 											
 											<p:inputText 	requiredMessage	=	"Variável requerida"
 															value			=	"#{variaveisClpMB.variaveisClp.variavel}"
-															id				=	"variavel" 
-															required		=	"true"/>
+															id				=	"variavel" />
                            			 		
                            			 	</h:panelGroup>
 
@@ -125,8 +124,7 @@
 											
 											<p:inputText 	requiredMessage	=	"Descrição requerida"
 															value			=	"#{variaveisClpMB.variaveisClp.descricao}"
-															id				=	"descricao" 
-															required		=	"true"/>
+															id				=	"descricao" />
                            			 		
                            			 	</h:panelGroup>
 		                            			 	
@@ -145,7 +143,6 @@
 														
 											<p:selectOneMenu 	id				=	"tipoValor"
 																value			=	"#{variaveisClpMB.variaveisClp.tipoValor}"
-																required		=	"true"
 																requiredMessage	=	"Tipo do valor requerido">
 																
 												<p:ajax event		=	"change"
@@ -168,8 +165,7 @@
 											
 											<p:inputText 	requiredMessage	=	"Valor requerido"
 															value			=	"#{variaveisClpMB.variaveisClp.valor}"
-															id				=	"valor" 
-															required		=	"true"/>
+															id				=	"valor" />
                            			 		
                            			 	</h:panelGroup>														
 										
@@ -188,15 +184,16 @@
 																emptyMessage		=	"Nenhum registro" 
 																rows				=	"10"
 																rowKey				=	"#{item.hashCode()}"
-																selectionMode		=	"single" 
+																selectionMode		=	"single"
+																paginator			=	"true" 
 																paginatorPosition	=	"bottom" 
 																scrollable			=	"true"
-																scrollHeight		=	"250"
+																scrollHeight		=	"370"
 																reflow				=	"true"
 																resizableColumns	=	"true">
 													
 													<f:facet name	=	"header">
-														Equipamentos
+														Variáveis
 														<h:panelGroup layout="block" styleClass="AddButton">
 			                            		
 						                            		<p:commandButton	icon				=	"fa fa-plus"
@@ -254,12 +251,7 @@
 		                    	</div>
 		                 	</div>
 		                    
-		                    <!-- 
-	                    	<ui:include src="/cadastros/templatefooter.xhtml">
-	                    		<ui:param name="nomeFormulario" value="#{variaveisClpMB.formName}" />
-	                    		<ui:param name="crudBean" value="#{variaveisClpMB}" />
-	                    	</ui:include>
-		                     -->
+	                    	<ui:include src="/configuracoes/variaveisclp/footerVariaveis.xhtml" />
 		                    
 	                    </div>
 	                    

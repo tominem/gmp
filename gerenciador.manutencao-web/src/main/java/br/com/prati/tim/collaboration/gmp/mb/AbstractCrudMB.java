@@ -71,6 +71,16 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 			
 		} catch (Exception e) {
 			
+			int cutIndex = (e.getMessage().indexOf("Detalhe:")-1);
+			
+			if(cutIndex == -1) {
+				cutIndex = (e.getMessage().indexOf("Detail:")-1);
+			}
+			
+			if (cutIndex == -1) {
+				cutIndex = 0;
+			}
+			
 			addErrorMessage(
 					"Não foi possível excluir " + getEntityBean().getClass().getSimpleName()
 					+ e.getMessage().substring(e.getMessage().indexOf("Detalhe:")-1));
