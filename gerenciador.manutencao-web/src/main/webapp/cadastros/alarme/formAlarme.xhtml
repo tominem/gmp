@@ -113,7 +113,8 @@
 											<p:inputText 	requiredMessage	=	"Título requerida"
 															value			=	"#{alarmeMB.entityBean.titulo}"
 															id				=	"titulo" 
-															required		=	"true"/>
+															required		=	"true"
+															maxlength		=	"255"/>
 										</p:column>
 										
 										<p:column>
@@ -125,7 +126,8 @@
 											<p:inputText 	value			=	"#{alarmeMB.entityBean.descricao}"
 															id				=	"descricao"
 															required		=	"true"
-															requiredMessage	=	"Descrição requerida"/>
+															requiredMessage	=	"Descrição requerida"
+															maxlength		=	"255"/>
 										</p:column>				
 										
 		                            </p:panelGrid>
@@ -181,7 +183,8 @@
 															id				=	"tagSistema" 
 															required		=	"true"
 															autocomplete	=	"off"
-															style			=	"text-transform: uppercase"/>
+															style			=	"text-transform: uppercase"
+															maxlength		=	"20"/>
 														
 										</h:panelGroup>
 
@@ -222,7 +225,8 @@
 															value			=	"#{alarmeMB.entityBean.codigoAlarme}"
 															id				=	"codigoAlarme" 
 															required		=	"#{!alarmeMB.alarmeManual}"
-															disabled		=	"#{alarmeMB.alarmeManual}">
+															disabled		=	"#{alarmeMB.alarmeManual}"
+															maxlength		=	"6">
 												
 												<pe:keyFilter regEx="/[0-9]/i" />
 												
@@ -262,7 +266,8 @@
 															id				=	"reset" 
 															required		=	"#{!alarmeMB.alarmeManual}"
 															requiredMessage	=	"Código do Reset requerido!"
-															disabled		=	"#{alarmeMB.alarmeManual}">
+															disabled		=	"#{alarmeMB.alarmeManual}"
+															maxlength		=	"6">
 												
 												<pe:keyFilter regEx="/[0-9]/i" />
 												
@@ -276,7 +281,8 @@
 															for				=	"criticidade"/>
 											
 											<p:inputText 	value			=	"#{alarmeMB.entityBean.criticidade}"
-															id				=	"criticidade">
+															id				=	"criticidade"
+															maxlength		=	"6">
 											
 												<pe:keyFilter regEx="/[0-9]/i" />
 											
@@ -338,7 +344,11 @@
 											<p:column>
 											
 												<p:outputLabel id			=	"labelUpload"
-												   		   	   value		=	"#{alarmeMB.entityBean.arquivo.nome}"/>
+												   		   	   value		=	"#{alarmeMB.entityBean.arquivo.nome}">
+												
+														<pe:keyFilter regEx="/[0-9]/i" />
+														
+												</p:outputLabel>
 												   		   		
 											</p:column>
 											
@@ -370,7 +380,8 @@
 															for				=	"alarmeNotificacao"/>
 											
 											<p:inputText 	value			=	"#{alarmeMB.entityBean.quantidadeNotificacao}"
-															id				=	"alarmeNotificacao" />
+															id				=	"alarmeNotificacao" 
+															maxlength		=	"6"/>
 										
 										</p:column>
 										

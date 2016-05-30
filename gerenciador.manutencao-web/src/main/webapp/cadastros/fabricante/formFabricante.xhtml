@@ -45,20 +45,23 @@
 										<p:inputText	id				=	"nome" 
 													 	value			=	"#{fabricanteMB.entityBean.nome}"
 														requiredMessage	=	"Nome requerido"
-														required		=	"true"/>
+														required		=	"true"
+														maxlength		=	"255"/>
 										
 										<p:outputLabel 	value			=	"E-mail" 		
 														for				=	"email"/>
 														
 										<p:inputText 	value			=	"#{fabricanteMB.entityBean.email}"
 														id				=	"email" 
-														validator		=	"emailValidator"/>
+														validator		=	"emailValidator"
+														maxlength		=	"255"/>
 
 										<p:outputLabel 	value			=	"Telefone" 		
 														for				=	"telefone"/>
 														
 										<p:inputText  	value			=	"#{fabricanteMB.entityBean.telefone}" 
-														id				=	"telefone">
+														id				=	"telefone"
+														maxlength		=	"30">
 											
 											<pe:keyFilter regEx="/[0-9-()]/i" />
 											
@@ -68,7 +71,8 @@
 														for				=	"observacoes"/>
 																								
 										<p:inputTextarea id				=	"observacoes" 
-														value			=	"#{fabricanteMB.entityBean.observacoes}"/>
+														value			=	"#{fabricanteMB.entityBean.observacoes}"
+														maxlength		=	"255"/>
 										
 										
 		                            </p:panelGrid>

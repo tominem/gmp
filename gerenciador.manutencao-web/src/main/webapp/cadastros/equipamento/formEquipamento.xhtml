@@ -49,7 +49,8 @@
 											<p:inputText 	requiredMessage	=	"Nome requerido"
 															value			=	"#{equipamentoMB.entityBean.nome}"
 															id				=	"nome" 
-															required		=	"true"/>
+															required		=	"true"
+															maxlength		=	"255"/>
 															
 										</h:panelGroup>
 
@@ -77,7 +78,8 @@
 															for				=	"descricao"/>
 											
 											<p:inputText 	value			=	"#{equipamentoMB.entityBean.descricao}"
-															id				=	"descricao" />
+															id				=	"descricao" 
+															maxlength		=	"255"/>
 										
 									</p:panelGrid>
 									
@@ -104,7 +106,8 @@
 															for				=	"porta"/>
 											
 											<p:inputText	value			=	"#{equipamentoMB.entityBean.portaTcp}"
-															id				=	"porta" />
+															id				=	"porta" 
+															maxlength		=	"6"/>
 															
 										</h:panelGroup>
 										
@@ -123,7 +126,8 @@
 															for				=	"serial"/>
 											
 											<p:inputText 	value			=	"#{equipamentoMB.entityBean.serial}"
-															id				=	"serial" />
+															id				=	"serial" 
+															maxlength		=	"40"/>
 															
 										</h:panelGroup>
 
@@ -133,7 +137,8 @@
 															for				=	"modelo"/>
 											
 											<p:inputText	value			=	"#{equipamentoMB.entityBean.modelo}"
-															id				=	"modelo" />
+															id				=	"modelo" 
+															maxlength		=	"50"/>
 															
 										</h:panelGroup>
 										
@@ -243,7 +248,8 @@
 																	for				=	"descricaoIO"/>
 												
 													<p:inputText 	value			=	"#{equipamentoMB.ioEquipamentoInserted.descricao}"
-																	id				=	"descricaoIO" />
+																	id				=	"descricaoIO" 
+																	maxlength		=	"100"/>
 																									
 				                            	</p:column>
 			                            	
@@ -294,7 +300,8 @@
 																	for				=	"variavelIO"/>
 												
 													<p:inputText 	value			=	"#{equipamentoMB.ioEquipamentoInserted.variavel}"
-																	id				=	"variavelIO" />
+																	id				=	"variavelIO" 
+																	maxlength		=	"60"/>
 																									
 												</h:panelGroup>
 	
@@ -305,7 +312,8 @@
 												
 													<p:inputText 	value			=	"#{equipamentoMB.ioEquipamentoInserted.variavelRetorno}"
 																	id				=	"variavelPulsoIO" 
-																	disabled		=	"#{equipamentoMB.saida}"/>
+																	disabled		=	"#{equipamentoMB.saida}"
+																	maxlength		=	"60"/>
 																									
 												</h:panelGroup>
 	
@@ -425,7 +433,8 @@
 											<p:column headerText="Ordem" width="80">
 													
 													<p:inputText value		=	"#{item.ordem}"
-																 styleClass	=	"TexAlCenter">
+																 styleClass	=	"TexAlCenter"
+																 maxlength	=	"6">
 														
 														<pe:keyFilter regEx="/[0-9]/i" />
 													

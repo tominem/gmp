@@ -2,6 +2,7 @@
 				xmlns:h="http://java.sun.com/jsf/html"
 				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:pe="http://primefaces.org/ui/extensions"
 				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 				
 	<ui:define name="content">
@@ -46,7 +47,8 @@
 										<p:inputText 	required		=	"true" 
 														requiredMessage	=	"Descrição requerida"
 														value			=	"#{itemConfigMB.entityBean.descricao}"
-														id				=	"descricao" />
+														id				=	"descricao" 
+														maxlength		=	"255"/>
 														
 														
 										
@@ -101,7 +103,8 @@
 										<p:inputText 	required		=	"true" 
 														requiredMessage	=	"Comando requerido"
 														value			=	"#{itemConfigMB.entityBean.comando}"
-														id				=	"comando" />
+														id				=	"comando" 
+														maxlength		=	"255"/>
 														
 		                            </p:panelGrid>
 		                            
@@ -166,7 +169,12 @@
 																			for				=	"valorMinimo"/>
 				
 															<p:inputText 	value			=	"#{itemConfigMB.entityBean.valorMinimo}"
-																			id				=	"valorMinimo" />
+																			id				=	"valorMinimo"
+																			maxlength		=	"10">
+															
+																<pe:keyFilter regEx="/[0-9.,]/i" />
+															
+															</p:inputText>
 																			
 				                            	
 				                            	</h:panelGroup>
@@ -179,7 +187,12 @@
 																			for				=	"valorMaximo"/>
 																
 															<p:inputText 	value			=	"#{itemConfigMB.entityBean.valorMaximo}"
-																			id				=	"valorMaximo" />
+																			id				=	"valorMaximo"
+																			maxlength		=	"10">
+															
+																<pe:keyFilter regEx="/[0-9.,]/i" />
+																
+															</p:inputText>
 												
 												</h:panelGroup>							                            			 		
 														
@@ -190,7 +203,12 @@
 																			for				=	"escala"/>
 																	
 															<p:inputText 	value			=	"#{itemConfigMB.entityBean.escala}"
-																			id				=	"escala" />			
+																			id				=	"escala"
+																			maxlength		=	"10">
+																
+																<pe:keyFilter regEx="/[0-9.,]/i" />
+																
+															</p:inputText>			
 			                            			
 			                            		</h:panelGroup>			                            		
 			                            		
@@ -216,7 +234,8 @@
 							
 																	<!-- line 2 -->							
 																	<p:inputText 		value			=	"#{itemConfigMB.valorFuncaoInserted.valor}"
-																						id				=	"valorDaLista"/>
+																						id				=	"valorDaLista"
+																						maxlength		=	"255"/>
 																						
 					                            		</h:panelGroup>
 					                            		

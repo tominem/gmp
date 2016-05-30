@@ -46,7 +46,8 @@
 										<p:inputText 	requiredMessage	=	"Descrição requerida"
 														value			=	"#{salaMB.entityBean.descricao}"
 														id				=	"descricao" 
-														required		=	"true"/>
+														required		=	"true"
+														maxlength		=	"255"/>
 										
 										<p:outputLabel 	value			=	"Setor" 		
 														for				=	"setor"/>
@@ -81,7 +82,8 @@
 										<p:inputText 	requiredMessage	=	"Número padrão de colaboradores requerido"
 														value			=	"#{salaMB.entityBean.numeroColaboradores}"
 														id				=	"numeroPadrao"
-														required		=	"true">
+														required		=	"true"
+														maxlength		=	"6">
 											
 											<pe:keyFilter regEx="/[0-9]/i" />
 											

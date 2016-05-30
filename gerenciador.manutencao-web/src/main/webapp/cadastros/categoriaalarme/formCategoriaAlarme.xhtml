@@ -46,7 +46,8 @@
 										<p:inputText 	requiredMessage	=	"Descrição requerida"
 														value			=	"#{categoriaAlarmeMB.entityBean.descricao}"
 														id				=	"descricao" 
-														required		=	"true"/>
+														required		=	"true"
+														maxlength		=	"255"/>
 
 										<p:outputLabel 	value			=	"Função do G.U.M." 		
 														for				=	"funcao"/>
@@ -54,7 +55,8 @@
 										<p:inputText 	requiredMessage	=	"Função do G.U.M. requerida"
 														value			=	"#{categoriaAlarmeMB.entityBean.funcaoGum}"
 														id				=	"funcao" 
-														required		=	"true"/>
+														required		=	"true"
+														maxlength		=	"60"/>
 										
 		                            </p:panelGrid>
 											                        
