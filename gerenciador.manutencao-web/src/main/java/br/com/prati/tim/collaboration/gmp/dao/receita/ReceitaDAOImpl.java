@@ -4,15 +4,12 @@ import static com.uaihebert.uaicriteria.UaiCriteriaFactory.createQueryCriteria;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
-
 import br.com.prati.tim.collaboration.gmp.dao.AbstractJPADAO;
 import br.prati.tim.collaboration.gp.jpa.Equipamento;
 import br.prati.tim.collaboration.gp.jpa.Maquina;
 import br.prati.tim.collaboration.gp.jpa.Receita;
 import br.prati.tim.collaboration.gp.jpa.TipoInspecao;
 
-@Stateless
 public class ReceitaDAOImpl extends AbstractJPADAO<Receita> implements ReceitaDAO{
 
 	public ReceitaDAOImpl() {

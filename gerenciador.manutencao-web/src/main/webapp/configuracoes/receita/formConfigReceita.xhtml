@@ -1,0 +1,158 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:pe="http://primefaces.org/ui/extensions"
+				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		
+		<h:form id			=	"formCad" 
+				prependId	=	"false">      
+	       
+	       <p:growl autoUpdate	=	"true"/>
+	       
+	       <p:focus context		=	"contentPane" />
+	       
+	        <div class="Container100">
+	          
+	            <div class="ContainerIndent">
+	                
+	                <p:panel styleClass="Card ShadowEffect" id	=	"contentPane">
+	                    
+	                    <div class="Container ui-fluid">
+	                    
+	                    	<div class="ContainerIndent">
+		                    	
+		                    	<div class="Container60 Responsive100">
+		                        
+		                            <div class="BigTopic Fs18">
+										<i class="fa fa fa-bookmark"/> Configurar Receitas
+									</div>
+									
+									<div class="Separator"></div>
+									
+	                            	<!-- register a PostValidateEvent -->
+									<f:event listener="#{configReceitaMB.validate}" type="postValidate" />
+									
+									<p:panelGrid 	columns				=	"2" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank SearchButtonGrid"
+		                            			 	columnClasses		=	"ui-grid-col-10, ui-grid-col-1 SearchButtonPadding">
+		                            			 	
+										
+										<h:panelGroup id	=	"paTipoInspecao">
+										
+											<p:outputLabel 	value			=	"Tipo inspeção" 		
+															for				=	"tpInspecao"/>
+											
+											<p:inputText 	requiredMessage	=	"Tipo de Inspeção requerida"
+															value			=	"#{configReceitaMB.tipoInspecao.descricao}"
+															id				=	"tpInspecao" 
+															required		=	"true"
+															readonly		=	"#{facesContext.renderResponse}"/>
+										
+										</h:panelGroup>
+										
+										<h:panelGroup>
+										
+											<p:commandButton	icon				=	"fa fa-search"
+																styleClass			=	"PurpleTextButton RaisedButton"
+																actionListener		=	"#{configReceitaMB.openDialog('/cadastros/tipoinspecao/searchTipoInspecao.xhtml', true)}"
+																immediate			=	"true"
+																process				=	"@this paTipoInspecao">
+													
+													<p:ajax 	event		=	"dialogReturn"
+																listener	=	"#{configReceitaMB.select}"
+																update		=	"paTipoInspecao"/>
+											
+											</p:commandButton>
+											
+										</h:panelGroup>
+
+											
+		                            </p:panelGrid>
+
+									<p:panelGrid 	columns				=	"2" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank SearchButtonGrid"
+		                            			 	columnClasses		=	"ui-grid-col-10, ui-grid-col-1 SearchButtonPadding">
+		                            			 	
+										
+										<h:panelGroup id	=	"paSubproduto">
+										
+											<p:outputLabel 	value			=	"Subproduto" 		
+															for				=	"subproduto"/>
+											
+											<p:inputText 	requiredMessage	=	"Tipo de Inspeção requerida"
+															value			=	"#{configReceitaMB.subproduto.descricao}"
+															id				=	"subproduto" 
+															required		=	"true"
+															readonly		=	"#{facesContext.renderResponse}"/>
+										
+										</h:panelGroup>
+										
+										<h:panelGroup>
+										
+											<p:commandButton	icon				=	"fa fa-search"
+																styleClass			=	"PurpleTextButton RaisedButton"
+																actionListener		=	"#{configReceitaMB.openDialog('/cadastros/subproduto/searchSubproduto.xhtml', true)}"
+																immediate			=	"true"
+																process				=	"@this paSubproduto">
+													
+													<p:ajax 	event		=	"dialogReturn"
+																listener	=	"#{configReceitaMB.select}"
+																update		=	"paSubproduto"/>
+											
+											</p:commandButton>
+											
+										</h:panelGroup>
+
+											
+		                            </p:panelGrid>
+		                            
+		                            <div class="EmptyBox20" />
+		                            
+		                            <p:panelGrid 	columns				=	"1" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank">
+									
+										<div class="BigTopic Fs18">
+											<i class="fa fa-video-camera"/> Configuração dos Valores da Receita
+										</div>
+										
+										<div class="Separator"></div>
+									
+									</p:panelGrid>
+		                            
+		                            <!-- Lista de componentes da receita -->
+		                            
+		                            <p:panelGrid 	columns				=	"1" 
+		                            				layout				=	"grid" 
+		                            				styleClass="ui-panelgrid-blank">
+		                            
+		                            	<h:panelGroup id="paSpinner">
+		                            		
+		                            		<p:spinner 	id			="spinner" 
+		                            					stepFactor	="2.50" />
+		                            		
+		                            	</h:panelGroup>
+		                            
+		                            </p:panelGrid>
+											                        
+		                    	</div>
+		                 	</div>
+		                    
+	                    	<ui:include src="/configuracoes/variaveisclp/footerVariaveis.xhtml" />
+		                    
+	                    </div>
+	                    
+	                </p:panel>
+	                
+	            </div>
+	            
+	        </div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
