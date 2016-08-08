@@ -30,13 +30,13 @@ public class ConfigReceitaMB extends AbstractBaseMB implements Serializable {
 
 	
 	@Inject
-	private ConfigReceitaEJB ejb;
-	
-	private TipoInspecao tipoInspecao;
-	
-	private Subproduto subproduto;
-	
-	private List<ValorReceita> valoresReceita;
+	private ConfigReceitaEJB	ejb;
+
+	private TipoInspecao		tipoInspecao;
+
+	private Subproduto			subproduto;
+
+	private List<ValorReceita>	valoresReceita;
 	
 	@PostConstruct
 	public void init(){

@@ -33,7 +33,7 @@ public class EquipamentoEJBImpl extends AbstractCrudEJB<Equipamento> implements 
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
 			entityBean.setStatus(Boolean.TRUE);
 		}
-		
+	
 		return equipamentoDAO.update(entityBean);
 	}
 
