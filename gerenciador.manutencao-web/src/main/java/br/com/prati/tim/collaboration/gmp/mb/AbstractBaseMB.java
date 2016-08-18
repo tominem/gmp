@@ -67,6 +67,7 @@ public abstract class AbstractBaseMB implements BaseMB, Serializable{
         options.put("width"			,	780);
         options.put("contentWidth"	, 	738);
         options.put("responsive"	, 	true);
+        options.put("height"		, 	"450");
         
 		return options;
 		

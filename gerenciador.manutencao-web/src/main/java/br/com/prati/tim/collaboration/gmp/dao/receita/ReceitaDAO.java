@@ -12,4 +12,5 @@ public interface ReceitaDAO extends GenericDAO<Receita>{
 
 	List<Receita> findReceitasFetchByMaquinaAndEquipamentoAndTipoInspecao(Maquina maquina, Equipamento equipamento, TipoInspecao tipoInspecao);
 
+	List<Receita> findByMaquinaAndTipoInspecao(Maquina maquina, TipoInspecao tipoInspecao);
 }

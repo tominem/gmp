@@ -1,0 +1,88 @@
+<ui:composition 
+    xmlns		=	"http://www.w3.org/1999/xhtml"
+    xmlns:h		=	"http://java.sun.com/jsf/html"
+	xmlns:f		=	"http://java.sun.com/jsf/core"
+	xmlns:p		=	"http://primefaces.org/ui"
+    xmlns:ui	=	"http://java.sun.com/jsf/facelets">
+    
+	<p:dialog widgetVar		=	"configuracaoDialogWidget" 
+			  modal			=	"true" 
+			  closable		=	"false" 
+			  resizable		=	"false"
+			  draggable		=	"false"
+			  hideEffect	=	"fade"
+			  showEffect	=	"fade"
+			  appendTo		=	"@(body)"
+			  width			=	"500" 
+			  header		=	"Edição de Configuração">
+			   
+		<h:form id		=	"configuracaoEditForm">
+			
+			<div class	=	"ContainerIndent Responsive100">
+
+				<div class	=	"Container100 ui-fluid">
+					
+					<p:growl 	id			=	"messagesForm" 
+								autoUpdate	=	"false"/>
+					
+					<p:panelGrid id				=	"panelConfiguracoesInput" 
+								 columns		=	"2" 
+								 layout			=	"grid"
+						 		 style			=	"border:0px none;background:none"
+						 		 columnClasses	=	"Container20, Container70">
+					
+						<p:outputLabel	for		=	"chave"
+										value	=	"Chave"/>
+						
+						<p:inputText id			=	"chave"
+									 value		=	"#{mbConfiguracoesGerais.configuracao.chaveConfig}"
+									 styleClass	=	"Wid98"/>
+						
+						<p:outputLabel	for		=	"valor"
+										value	=	"Valor"/>
+						
+						<p:inputText id			=	"valor"
+									 value		=	"#{mbConfiguracoesGerais.configuracao.valor}"
+									 styleClass	=	"Wid98"/>
+							
+					</p:panelGrid>
+					
+				</div>
+				
+			</div>
+			
+			<p:remoteCommand 	actionListener	=	"#{mbConfiguracoesGerais.salvarEdicao}" 
+								update			=	"configuracoesForm:configuracoesTable"
+								process			=	"configuracaoEditForm"
+								name			=	"salvar"/>
+			
+		</h:form>
+		
+		<f:facet name	=	"footer">
+			
+			<p:commandButton id				=	"btnSalvar"
+							 value			=	"Salvar" 
+							 icon			=	"fa fa-save"
+							 onclick		=	"salvar();"
+							 style			=	"margin-right: 5px; width: 110px"
+							 styleClass		=	"PurpleButton RaisedButton"/>
+		
+		
+			<p:commandButton value			=	"Sair" 
+							 icon			=	"fa fa-times-circle"
+							 actionListener	=	"#{mbConfiguracoesGerais.limpar}"
+							 onclick		=	"PF('configuracaoDialogWidget').hide()"
+							 update			=	"configuracoesForm:configuracoesTable"
+							 style			=	"margin-right: 5px; width: 110px"
+							 process		=	"configuracaoEditForm"
+							 styleClass		=	"PurpleButton RaisedButton"/>
+		
+		</f:facet>
+		
+		
+		<p:ajax event	=	"close" 
+				listener=	"#{mbConfiguracoesGerais.clearConfig}" />
+		
+	</p:dialog>
+    
+</ui:composition>

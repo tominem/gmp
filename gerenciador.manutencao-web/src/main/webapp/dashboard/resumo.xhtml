@@ -2,123 +2,122 @@
 				xmlns:h="http://java.sun.com/jsf/html"
 				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:ui="http://java.sun.com/jsf/facelets"
-				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+				xmlns:p="http://primefaces.org/ui" 
+				template="/WEB-INF/template.xhtml">
 
 	<ui:define name="content">
-		
+
 		<style type="text/css">
-			.FontBold {font-weight: bold !important}
+			
+			.PurpleHeader.ui-datatable-subtable-header, .ui-datatable .ui-datatable-summaryrow  {
+				background-color: #9C27B0;
+			}
+			
+			.TealHeader.ui-datatable-subtable-header, .ui-datatable .ui-datatable-summaryrow  {
+				background-color: #009688
+			}
+		
 		</style>
-		
-		<h:form id	=	"formDashboard" >
-			
-			<p:poll interval	=	"300" 
-					update		=	"formDashboard:pgContent"
-					listener	=	"#{mbDashboard.monitorar()}"/>
+
+		<div class="Container100">
+
+			<div class="ContainerIndent ui-fluid">
+
+				<div class="Card ShadowEffect TexAlCenter">
 					
-			
-			<h:panelGroup id="pgContent">
-			
-				<ui:repeat var			=	"cardItem" 
-		   				   value		=	"#{mbDashboard.cardList}">
-
-					<div class="Container33 Responsive100">
-
-						<div class="ContainerIndent">
-
-							<div class="Card ShadowEffect HoverEffect" style="min-height: 260px">
-
-								<div class="Container100">
-
-									<div class="CardTopic Fs25 ">
-
-										<h:panelGroup>
-
-											<i class="MarRight10 #{cardItem.colorStyleClass} #{cardItem.iconTitleStyleClass}" style="padding-left: 5px"></i>
-
-											<label title="#{cardItem.titulo}">#{cardItem.titulo}</label>
-
-										</h:panelGroup>
-
-										<div class="Separator"></div>
-
-									</div>
-
-									<div class="ContainerIndent">
-
-										<div class="ui-grid">
-
-
-											<ui:repeat var="item" value="#{cardItem.values}">
-
-												<div class="ui-grid-row">
-
-													<div class="ui-grid-col-11">
-
-														<h:panelGroup>
-
-															<i class="FontBold Fs20 MarRight10 #{item.styleIcon} #{item.styleColorItem} " />
-															<p:outputLabel value="#{item.descricao}" styleClass="Fs20" />
-
-														</h:panelGroup>
-
-													</div>
-
-													<div class="ui-grid-col-1">
-														<p:outputLabel value="#{item.total}" styleClass="Fright FontBold Fs20" />
-													</div>
-
-												</div>
-
-											</ui:repeat>
-
-											<h:panelGroup rendered="#{cardItem.values.size() lt 4}">
-
-												<div class="ui-grid-row">
-													<div class="ui-grid-col-12">
-														<div class="EmptyBox25"></div>
-													</div>
-												</div>
-
-											</h:panelGroup>
-
-										</div>
-
-									</div>
-
-									<div class="Separator"></div>
-
-									<div class="ui-grid Fs25 FontBold #{cardItem.colorStyleClass}">
-
-										<div class="ui-grid-row">
-
-											<div class="ui-grid-col-11">
-												<label title="Total" style="padding-left: 5px">Total</label>
-											</div>
-
-											<div class="ui-grid-col-1">
-												<label class="Fright MarRight10 ShowOnDesktop">#{cardItem.total}</label> <label
-													class="Fright MarRight5 ShowOnMobile">#{cardItem.total}</label>
-											</div>
-
-										</div>
-
-									</div>
-
-								</div>
-
-							</div>
-
+					<div class="ui-g-12 ui-md-12 ui-lg-12">
+					
+					
+						<div class="ui-g-12 ui-md-12 ui-lg-6">
+						
+							<p:panel header			=	"Notas PM"
+									 styleClass		=	"PurpleHeader">
+							
+								<p:dataTable 	var					=	"nota"
+												value				=	"#{mbResumo.notasPm}" 
+												emptyMessage		=	"Nenhuma Nota PM em aberto."
+												rows				= 	"10"
+												rowKey				=	"#{nota.idNotaPmMaquina}"
+												paginator			=	"true"
+												paginatorPosition	=	"bottom"
+												scrollable			=	"true"
+												scrollHeight		=	"250"
+												rowSelectMode		=	"checkbox"
+												reflow				=	"true"
+												selection			=	"#{mbResumo.notasPm}"
+												id					=	"tableNotas"
+												widgetVar			=	"tableNotas"
+												styleClass			=	"">
+									
+									<p:column headerText	=	"Máquina">
+										<h:outputText value	=	"#{nota.maquina.tag}" />
+									</p:column>
+									
+									<p:column headerText	=	"Número">
+										<h:outputText value	=	"#{nota.notaPm}" />
+									</p:column>
+									
+									<p:column headerText	=	"Dt. Abertura">
+										
+										<p:outputLabel value		=	"#{nota.dataRegistro}">
+								  			
+								  			<f:convertDateTime  timeZone	=	"America/Sao_Paulo" 
+								  								pattern		=	"dd/MM HH:mm" />
+								  		</p:outputLabel>
+								  		
+									</p:column>
+									
+									
+									<p:column headerText	=	"Fechar">
+									
+										<p:commandButton	actionListener	=	"#{mbResumo.fecharNotaPM()}"
+															icon			=	"fa fa-close"
+															styleClass		=	"RedButton RaisedButton"
+															immediate		=	"true"
+															update			=	"tableNotas"
+															process			=	"@this"
+															title			=	"Fechar Nota PM"/>
+																		
+									
+									</p:column>
+									
+								</p:dataTable>
+								
+							</p:panel>
+						
 						</div>
-
-					</div>
+						
+						
+						<div class="ui-g-12 ui-md-12 ui-lg-6">
+							
+							<p:panel header			=	"Notificações Pendentes"
+									 styleClass		=	"TealHeader">
+							
+								<div class = "EmptyBox30"/>
+								
+							</p:panel>
+						
+						</div>
+						
+						
+						<div class="ui-g-12 ui-md-12 ui-lg-12">
+							
+							<p:panel header	=	"Programação da Manutenção - PPCP">
+							
+								<div class = "EmptyBox30"/>
+								
+							</p:panel>
+						
+						</div>
 					
-				</ui:repeat>
-				
-			</h:panelGroup>
-			
-		</h:form>
-		
+					
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+
 	</ui:define>
 	
 </ui:composition>   

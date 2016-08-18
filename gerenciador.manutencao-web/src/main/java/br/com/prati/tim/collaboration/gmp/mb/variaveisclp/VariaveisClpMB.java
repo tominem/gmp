@@ -60,7 +60,7 @@ public class VariaveisClpMB extends AbstractBaseMB implements Serializable {
 		
 		setVariaveisClp(var);
 		
-		variaveisRem = new ArrayList<VariaveisClp>();
+		setVariaveisRem(new ArrayList<VariaveisClp>());
 		
 	}
 	
@@ -200,6 +200,20 @@ public class VariaveisClpMB extends AbstractBaseMB implements Serializable {
 				
 				addInfoMessage("Variáveis configuradas com sucesso!");
 				
+			} else{
+				
+				if (getVariaveisRem() != null && getVariaveisRem().size() > 0 ){					
+					
+					deletePerform();
+					
+					clean();
+					
+					addInfoMessage("Variáveis configuradas com sucesso!");
+					
+				}else{
+					addErrorMessage("Nenhuma variável adicionada.");
+				}
+				
 			}
 			
 		} catch (Exception e) {
@@ -211,7 +225,7 @@ public class VariaveisClpMB extends AbstractBaseMB implements Serializable {
 	}
 
 	private void deletePerform() throws Exception {
-		for (VariaveisClp var : variaveisRem) {
+		for (VariaveisClp var : getVariaveisRem()) {
 			
 			if (var.getIdVariaveisCLP() != null) {
 				ejb.exclude(var);
@@ -266,7 +280,7 @@ public class VariaveisClpMB extends AbstractBaseMB implements Serializable {
 
 	public void remove(VariaveisClp variaveisClp){
 		variaveis.remove(variaveisClp);
-		variaveisRem.add(variaveisClp);
+		getVariaveisRem().add(variaveisClp);
 	}
 
 	public List<VariaveisClp> getVariaveis() {
@@ -275,6 +289,14 @@ public class VariaveisClpMB extends AbstractBaseMB implements Serializable {
 
 	public void setVariaveis(List<VariaveisClp> variaveis) {
 		this.variaveis = variaveis;
+	}
+
+	public List<VariaveisClp> getVariaveisRem() {
+		return variaveisRem;
+	}
+
+	public void setVariaveisRem(List<VariaveisClp> variaveisRem) {
+		this.variaveisRem = variaveisRem;
 	}
 
 }

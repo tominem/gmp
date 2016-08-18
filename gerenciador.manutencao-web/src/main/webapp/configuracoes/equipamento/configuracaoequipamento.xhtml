@@ -4,8 +4,9 @@
 				xmlns:ui="http://java.sun.com/jsf/facelets"
 				xmlns:pe="http://primefaces.org/ui/extensions"
 				xmlns:o="http://omnifaces.org/ui"
-				xmlns:c		=	"http://java.sun.com/jsp/jstl/core"
-				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+				xmlns:c="http://java.sun.com/jsp/jstl/core"
+				xmlns:p="http://primefaces.org/ui" 
+				template="/WEB-INF/template.xhtml">
 
 	<ui:define name="content">
 		
@@ -56,7 +57,7 @@
 	                    					<p:commandButton	icon			=	"fa fa-search Fs16 White" 
 				                           						styleClass		=	"ButtonPesquisar PurpleButton"
 				                           						title			=	"Pesquisar Equipamento"
-				                           						actionListener	=	"#{configReceitaMB.openDialog('/cadastros/equipamento/searchEquipamento.xhtml', true)}"
+				                           						actionListener	=	"#{mbConfigEquipamento.openDialog('/cadastros/equipamento/searchEquipamento.xhtml', true)}"
 				                           						immediate		=	"true"
 				                           						process			=	"@this pnlGrpEquipamento"
 			                           							update			=	"formCad">
@@ -81,7 +82,7 @@
 											
 											
 											<div class="BigTopic Fs18 Gray #{mbConfigEquipamento.configEquipamentoList.size() > 0 ? 'hide' : 'show'}" >
-												<i class="fa fa-exclamation-circle"/> 
+												<i class="fa fa-exclamation-triangle Yellow"/> 
 												<p:outputLabel styleClass="Gray Fs18" style="white-space: pre-wrap;" value="  Selecione um equipamento com itens de configuração"/> 
 											</div>
 											
@@ -100,11 +101,11 @@
 													
 													<ui:fragment rendered = "#{configEquipamento.funcaoConfig.tipoComponente.nomeComponente == ETipoComponente.SPINNER.value}" >
 														
-														<p:outputLabel	value	=	"#{configEquipamento.funcaoConfig.descricao}"/>
-														<p:spinner 		max		=	"#{configEquipamento.funcaoConfig.valorMaximo}"
-																		min		=	"#{configEquipamento.funcaoConfig.valorMinimo}"
-																		value	=	"#{configEquipamento.valorConfigEquip.valor == null ? configEquipamento.funcaoConfig.valorMinimo : configEquipamento.valorConfigEquip.valor}"
-																		id		=	"spinner-#{configEquipamento.idConfigEquipamento}"/>
+														<p:outputLabel	value		=	"#{configEquipamento.funcaoConfig.descricao}"/>
+														<p:spinner 		max			=	"#{configEquipamento.funcaoConfig.valorMaximo}"
+																		min			=	"#{configEquipamento.funcaoConfig.valorMinimo}"
+																		value		=	"#{configEquipamento.valorConfigEquip.valor == null ? configEquipamento.funcaoConfig.valorMinimo : configEquipamento.valorConfigEquip.valor}"
+																		stepFactor	=	"#{configEquipamento.funcaoConfig.escala}"/>
 														
 													</ui:fragment>
 													
@@ -125,9 +126,6 @@
 														<p:outputLabel	value	=	"#{configEquipamento.funcaoConfig.descricao}"/>
 														
 														<p:selectOneMenu value				=	"#{configEquipamento.valorConfigEquip.valor}">
-												            
-												            <f:selectItem itemLabel			=	"Selecione" 
-												            			  itemValue			=	"" />
 												            
 												            <f:selectItems 	value			=	"#{configEquipamento.funcaoConfig.valoresFuncaos}" 
 												            				var				=	"item"
@@ -154,6 +152,8 @@
 																		maxValue		=	"#{configEquipamento.funcaoConfig.valorMaximo}"/>
 														
 													</ui:fragment>
+													
+													<div class="EmptyBox5"/>
 													
 												</c:forEach>
 											

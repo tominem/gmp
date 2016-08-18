@@ -1,0 +1,205 @@
+<ui:composition 
+    xmlns		=	"http://www.w3.org/1999/xhtml"
+    xmlns:h		=	"http://java.sun.com/jsf/html"
+	xmlns:f		=	"http://java.sun.com/jsf/core"
+	xmlns:p		=	"http://primefaces.org/ui"
+    xmlns:ui	=	"http://java.sun.com/jsf/facelets"
+    template	=	"/WEB-INF/template.xhtml">
+	
+	<ui:define name="content">
+
+		<h:form id="consultaAuditoriaForm">
+
+			 <div class="Container100">
+	          
+	            <div class="ContainerIndent">
+	            
+	            	 <p:panel rendered = "#{mbAuditoria.exibirFiltros}">
+	                    
+	                    <div class="Container ui-fluid">
+	                    
+	                        <div class="ContainerIndent">
+	                        
+	                        	<div class="BigTopic Fs18">
+									<i class = "fa fa-eye"/> Auditoria
+								</div>
+								
+								<div class="EmptyBox5" />
+
+								<p:separator styleClass="Wid100" />
+		
+								<div class="EmptyBox20" />
+								
+								<p:growl id="messagesForm" autoUpdate="true"/>
+	                        	
+	                        	<p:panelGrid 	columns			=	"2" 
+												columnClasses	=	"ui-grid-col-3, ui-grid-col-3" 
+												layout			=	"grid" 
+												styleClass		=	"ui-panelgrid-blank"
+												id				=	"panelGridLicencas" >
+									<h:panelGroup styleClass="Wid100">
+								
+										<p:outputLabel for					=	"dataInicialButton" 
+													   value				=	"Data Inicial" />
+										
+										<p:calendar id						=	"dataInicialButton"  
+						      						showOn					=	"button"
+						      						value					=	"#{mbAuditoria.dataInicial}"
+													pattern					=	"dd/MM/yyyy HH:mm"
+						      						locale					=	"pt_BR"
+						      						showButtonPanel			=	"true"
+						      						required				=	"true"
+						      						styleClass				=	""
+						      						requiredMessage			=	"A data inicial deve ser informada.">
+											
+											<p:ajax 	event				=	"dateSelect" 
+														update				=	"dataFinalButton" />
+											
+											<f:convertDateTime pattern		=	"dd/MM/yyyy HH:mm" 
+															   timeZone		=	"America/Sao_Paulo" />
+											
+						      			</p:calendar>
+					      			
+					      			</h:panelGroup>
+					      			
+					      			<h:panelGroup styleClass="Wid100">
+					      			
+						      			<p:outputLabel for					=	"dataFinalButton" 
+													   value				=	"Data Final" />
+													   
+										<p:calendar id						=	"dataFinalButton"  
+						      						showOn					=	"button"
+						      						value					=	"#{mbAuditoria.dataFinal}"
+													pattern					=	"dd/MM/yyyy HH:mm"
+						      						locale					=	"pt_BR"
+						      						showButtonPanel			=	"true"
+						      						required				=	"true"
+						      						requiredMessage			=	"A data final deve ser informada."
+						      						style					=	"float : left">
+											
+											<p:ajax event					=	"dateSelect" />
+											
+											<f:convertDateTime pattern		=	"dd/MM/yyyy HH:mm" 
+															   timeZone		=	"America/Sao_Paulo" />
+						      			</p:calendar>
+						      			
+									</h:panelGroup>
+									
+									<h:panelGroup styleClass="Wid100">
+										
+										<p:outputLabel for					=	"tabelas" 
+													   value				=	"Entidade" />
+													   
+										<p:selectOneMenu id					=	"tabelas" 
+														 value				=	"#{mbAuditoria.tabelaSelecionada}"
+														 required			=	"true"
+														 requiredMessage	=	"A tabela deve ser informada.">
+								            
+								            <f:selectItem itemLabel			=	"Selecione a tabela" 
+								            			  itemValue			=	"" />
+								            
+								            <f:selectItems value			=	"#{mbAuditoria.tabelasAuditaveis}" />
+								            
+								        </p:selectOneMenu>
+							        			
+							        </h:panelGroup>
+							        
+							        <h:panelGroup styleClass="Wid100">				        
+								        
+								        <p:outputLabel id					=	"vazio" 
+													   value				=	" "
+													   style				=	"white-space: pre;" />
+								        
+								        <p:commandButton value				=	"Consultar"  
+									        			 update				=	"consultaAuditoriaForm panelResultadoPesquisa detalhesAuditoriaForm messagesForm"
+									        			 icon				=	"fa fa-search white"
+									        			 styleClass			=	"PurpleButton"
+									        			 actionListener 	= 	"#{mbAuditoria.consultar}"/>
+					      			
+					      			</h:panelGroup>
+					      			
+								</p:panelGrid>
+								        			 
+	                        </div>
+	                        
+						</div>
+						
+					</p:panel>
+					
+					<div class="EmptyBox20"/>
+					
+					<p:panel id		  	= "panelResultadoPesquisa"
+							 rendered 	= "#{mbAuditoria.exibirResultadoPesquisa}" >
+						
+						<p:dataTable id					=	"auditoriaTable"
+									 widgetVar			=	"auditoriaTableWidget"
+									 value				=	"#{mbAuditoria.registros}" 
+									 var				=	"registro"
+									 emptyMessage		=	"Nenhum registro encontrado." 
+									 paginator			=	"true" 
+									 paginatorPosition	=	"bottom"
+									 rows				=	"10"
+									 paginatorTemplate	=	"{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+				
+							<f:facet name	=	"header">
+								Registros Versionados
+							</f:facet>
+										
+							<p:columns value			=	"#{mbAuditoria.columnNames}"  
+									   var				=	"coluna" 
+									   resizable		=	"true"
+									   filterBy			=	"#{registro[coluna]}">
+									   
+					            <f:facet name			=	"header">
+					                <h:outputText value		=	"#{coluna}" />
+					            </f:facet>
+					            
+					            <h:outputText value		=	"#{registro[coluna]}" />
+					            
+				        	</p:columns>
+							
+							<p:column resizable	=	"false"
+									  width		=	"40" >
+								
+								<p:commandButton action			=	"#{mbAuditoria.consultarDetalhes}"
+												 icon			=	"fa fa-eye white"
+												 ajax			=	"true"
+												 update			=   "consultaAuditoriaForm detalhesAuditoriaForm"
+												 styleClass		=	"PurpleButton">
+									
+									<f:setPropertyActionListener value	=	"#{registro[mbAuditoria.chaveTabela]}" 
+																 target	=	"#{mbAuditoria.idEntidadeSelecionada}" />
+									<p:resetInput target	=	"detalhesAuditoriaForm" />
+								
+								</p:commandButton>
+										 		 
+							</p:column>
+							
+						</p:dataTable>
+						
+						
+					</p:panel>
+					
+				</div>
+				
+			</div>
+			
+		</h:form>
+		
+		<ui:include src="/componentes/status-dialog/statusdialog.xhtml" />
+			
+		<ui:include src="/auditoria/detalhamento.xhtml" />
+		
+		<script type="text/javascript">
+			function showStatus() {
+				PF('statusDialog').show();
+			}
+			 
+			function hideStatus() {
+				PF('statusDialog').hide();
+			}
+		</script>
+		
+	</ui:define>
+	
+</ui:composition>

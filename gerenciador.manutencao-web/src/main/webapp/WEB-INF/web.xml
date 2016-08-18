@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
 	<welcome-file-list>
-		<welcome-file>index.xhtml</welcome-file>
+		<welcome-file>/dashboard/resumo.xhtml</welcome-file>
 	</welcome-file-list>
 	<context-param>
 		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
@@ -106,7 +106,7 @@
 		<url-pattern>/index.xhtml</url-pattern>
 		<url-pattern>/auditoria/*</url-pattern>
 		<url-pattern>/cadastros/*</url-pattern>
-		<url-pattern>/configuracao/*</url-pattern>
+		<url-pattern>/configuracoes/*</url-pattern>
 		<url-pattern>/dashboard/*</url-pattern>
 		<url-pattern>/lancamento/*</url-pattern>
 		<url-pattern>/monitoramento/*</url-pattern>

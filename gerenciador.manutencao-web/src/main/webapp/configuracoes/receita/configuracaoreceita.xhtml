@@ -1,0 +1,415 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:pe="http://primefaces.org/ui/extensions"
+				xmlns:p="http://primefaces.org/ui"
+				xmlns:c="http://java.sun.com/jsp/jstl/core"
+				xmlns:o="http://omnifaces.org/ui" 
+				template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		
+		<o:importConstants type="br.prati.tim.collaboration.gp.jpa.TipoComponente.ETipoComponente" />
+		
+		<style type="text/css">
+			
+			.ui-tabs-top .ui-tabs-nav li a {
+    			color: #ffffff !important;
+    		}
+    		
+    		.ui-tabs-top .ui-tabs-nav {
+			    background-color: #9c27b0;
+			    border-bottom: #9c27b0;
+			}
+		
+		</style>
+		
+		<h:form id			=	"formCad" 
+				prependId	=	"false">      
+	       
+	       <p:growl autoUpdate	=	"true"/>
+	       
+	       <p:focus context		=	"contentPane" />
+	       
+	        <div class="Container100">
+	          
+	            <div class="ContainerIndent">
+	                
+	                <p:panel styleClass="Card ShadowEffect" id	=	"contentPane">
+	                    
+	                    <div class="Container ui-fluid">
+	                    
+	                    	<div class="ContainerIndent">
+		                    	
+		                    	<div class="Container60 Responsive100">
+		                        
+		                            <div class="BigTopic Fs18">
+										<i class="fa fa-book"/> Configurar Receitas
+									</div>
+									
+									<div class="Separator"></div>
+									
+									<p:panelGrid 	columns				=	"1" 
+			                           				layout				=	"grid" 
+			                           			 	styleClass			=	"ui-panelgrid-blank"
+			                           			 	style				=	"border:0px none;background:none"
+			                           			 	columnClasses		=	"ui-grid-col-10">
+		                            	
+		                            	<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpMaquina">
+												
+											<p:outputLabel 		value		=	"Máquina"	for =	"maquina" />
+											
+											<p:inputText		value		= 	"#{mbConfigReceita.maquina.tag}"
+		                  										id			=	"maquina"
+		                  										required	=	"true"
+		                  										immediate	=	"true"
+		                  										readonly	=	"true"/>
+			                    					
+	                    					<p:commandButton	icon			=	"fa fa-search Fs16 White" 
+				                           						styleClass		=	"ButtonPesquisar PurpleButton"
+				                           						title			=	"Pesquisar Máquina"
+				                           						actionListener	=	"#{mbConfigReceita.openDialog('/cadastros/maquina/searchMaquina.xhtml', false)}"
+				                           						immediate		=	"true"
+				                           						process			=	"@this pnlGrpMaquina"
+			                           							update			=	"formCad">
+				                           						
+				                           		<p:ajax 	event		=	"dialogReturn"
+															listener	=	"#{mbConfigReceita.select}"
+															update		=	"formCad" />
+					
+			                           		</p:commandButton>
+										
+										</h:panelGroup>
+		                            			 	
+										<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpProduto">
+												
+											<p:outputLabel 		value		=	"Produto"	for =	"produto" />
+											
+											<p:selectOneMenu value				=	"#{mbConfigReceita.produto}"
+															 filter				=	"true"
+															 filterMatchMode	=	"contains"
+															 id					=	"produto"
+															 converter			=	"produtoConverter"
+															 required			=	"true">
+												
+												<f:selectItem 	itemValue		=	""
+																itemLabel		=	"Selecione"/>	
+																            
+									            <f:selectItems 	value			=	"#{mbConfigReceita.produtos}" 
+									            				var				=	"item"
+									            				itemValue		=	"#{item}"
+									            				itemLabel		=	"#{item.codigoSap} - #{item.descricao}"/>
+									            
+									            <p:ajax event		=	"change" 
+									            		update		=	"formCad"
+									            		listener	=	"#{mbConfigReceita.selectProduto}" />
+									            
+									        </p:selectOneMenu>
+										
+										</h:panelGroup>
+										
+										<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpTipoInspecao">
+												
+											<p:outputLabel 		value		=	"Tipo Inspeção"	for =	"tpinspecao" />
+											
+											<p:selectOneMenu value				=	"#{mbConfigReceita.tipoInspecao}"
+															 filter				=	"true"
+															 filterMatchMode	=	"contains"
+															 id					=	"tpinspecao"
+															 converter			=	"tipoInspecaoConverter"
+															 required			=	"true">
+												
+												<f:selectItem 	itemValue		=	""
+																itemLabel		=	"Selecione"/>	
+																            
+									            <f:selectItems 	value			=	"#{mbConfigReceita.tiposInspecao}" 
+									            				var				=	"item"
+									            				itemValue		=	"#{item}"
+									            				itemLabel		=	"#{item.descricao}"/>
+									            
+									            <p:ajax event		=	"change" 
+									            		update		=	"formCad"
+									            		listener	=	"#{mbConfigReceita.selectTipoInspecao}" />
+									            
+									        </p:selectOneMenu>
+										
+										</h:panelGroup>
+										
+										
+										<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpSubProduto">
+												
+											<p:outputLabel 		value		=	"Subproduto"	for =	"subproduto" />
+											
+											<p:selectOneMenu value				=	"#{mbConfigReceita.subproduto}"
+															 filter				=	"true"
+															 filterMatchMode	=	"contains"
+															 id					=	"subproduto"
+															 converter			=	"subprodutoConverter"
+															 required			=	"true">
+												
+												<f:selectItem 	itemValue		=	""
+																itemLabel		=	"Selecione"/>	
+																            
+									            <f:selectItems 	value			=	"#{mbConfigReceita.subprodutosReceita}" 
+									            				var				=	"item"
+									            				itemValue		=	"#{item}"
+									            				itemLabel		=	"#{item.descricao}"/>
+									            
+									            <p:ajax event		=	"change" 
+									            		update		=	"formCad"
+									            		listener	=	"#{mbConfigReceita.selectSubproduto}" />
+									            
+									        </p:selectOneMenu>
+										
+										</h:panelGroup>
+
+
+										<div class="EmptyBox10"/>
+										
+										<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpConfigEquipamento">
+										
+											<div class="BigTopic Fs18">
+												<i class="fa fa-gear"/> Receita
+											</div>
+											
+											<p:separator styleClass="Wid100" />	
+											
+											<p:tabView id	=	"tabView">
+        										
+        										<p:tab title	=	"Configração Receita"
+        											   id		=	"tabConfig">
+            				
+													<div class="BigTopic Fs18 Gray #{mbConfigReceita.valoresReceita.size() > 0 ? 'hide' : 'show'}" >
+														<i class="fa fa-exclamation-triangle Yellow"/> 
+														<p:outputLabel styleClass="Gray Fs18" style="white-space: pre-wrap;" value="  Selecione um subproduto com receita"/> 
+													</div>
+													
+													<p:outputPanel id="panelComponentes">
+													
+														<c:forEach	items	=	"#{mbConfigReceita.valoresReceita}" 
+																	var		=	"valorReceita">
+															
+															
+															
+															<ui:fragment rendered = "#{valorReceita.receita.configEquipamento.funcaoConfig.tipoComponente.nomeComponente == ETipoComponente.REGION.value}" >
+																
+																<p:fieldset styleClass	=	"FieldsetSimple"
+																			legend		=	"#{valorReceita.receita.configEquipamento.funcaoConfig.descricao}">
+																	
+																	<p:panelGrid 	columns				=	"8" 
+											                           				layout				=	"grid" 
+											                           			 	styleClass			=	"ui-panelgrid-blank"
+											                           			 	style				=	"border:0px none;background:none"
+											                           			 	columnClasses		=	"ui-grid-col-1, ui-grid-col-2, ui-grid-col-1, ui-grid-col-2, ui-grid-col-1, ui-grid-col-2, ui-grid-col-1, ui-grid-col-2">
+											                        	
+											                        	<p:outputLabel	value	=	"X1"/>
+											                        	<p:inputText 	value				=	"#{mbConfigReceita.mapRegiao[valorReceita.receita.idReceita].x1}"
+											                        					maxlength			=	"3"
+											                        					validatorMessage	=	"Valor deve estar entre 0 e 100"
+											                        					style				=	"text-align: right;">
+											                        					
+											                        		<f:validateLongRange minimum="0" maximum="100" />
+											                        		
+											                        	</p:inputText>
+											                        	
+											                        	<p:outputLabel	value	=	"X2"/>
+											                        	<p:inputText 	value				=	"#{mbConfigReceita.mapRegiao[valorReceita.receita.idReceita].x2}"
+											                        					maxlength			=	"3"
+											                        					validatorMessage	=	"Valor deve estar entre 0 e 100"
+											                        					style				=	"text-align: right;">
+											                        					
+											                        		<f:validateLongRange minimum="0" maximum="100" />
+											                        		
+											                        	</p:inputText>
+											                        	
+											                        	<p:outputLabel	value	=	"Y1"/>
+											                        	<p:inputText 	value				=	"#{mbConfigReceita.mapRegiao.get(valorReceita.receita.idReceita).y1}"
+											                        					maxlength			=	"3"
+											                        					validatorMessage	=	"Valor deve estar entre 0 e 100"
+											                        					style				=	"text-align: right;">
+											                        					
+											                        		<f:validateLongRange minimum="0" maximum="100" />
+											                        		
+											                        	</p:inputText>
+											                        	
+											                        	<p:outputLabel	value	=	"Y2"/>
+											                        	<p:inputText 	value				=	"#{mbConfigReceita.mapRegiao.get(valorReceita.receita.idReceita).y2}"
+											                        					maxlength			=	"3"
+											                        					validatorMessage	=	"Valor deve estar entre 0 e 100"
+											                        					style				=	"text-align: right;">
+											                        					
+											                        		<f:validateLongRange minimum="0" maximum="100" />
+											                        		
+											                        	</p:inputText>
+											                           			 	
+																	</p:panelGrid>
+																
+																</p:fieldset>
+																
+															</ui:fragment>
+															
+															<ui:fragment rendered = "#{valorReceita.receita.configEquipamento.funcaoConfig.tipoComponente.nomeComponente == ETipoComponente.TEXTFIELD.value}">
+																
+																<p:outputLabel	value	=	"#{valorReceita.receita.configEquipamento.funcaoConfig.descricao}"/>
+																<p:inputText 	value	=	"#{valorReceita.valor}"/>
+																
+															</ui:fragment>
+															
+															<ui:fragment rendered = "#{valorReceita.receita.configEquipamento.funcaoConfig.tipoComponente.nomeComponente == ETipoComponente.SPINNER.value}" >
+																
+																<p:outputLabel	value		=	"#{valorReceita.receita.configEquipamento.funcaoConfig.descricao}"/>
+																<p:spinner 		max			=	"#{valorReceita.receita.configEquipamento.funcaoConfig.valorMaximo}"
+																				min			=	"#{valorReceita.receita.configEquipamento.funcaoConfig.valorMinimo}"
+																				value		=	"#{valorReceita.valor == null ? valorReceita.receita.configEquipamento.funcaoConfig.valorMinimo : valorReceita.valor}"
+																				stepFactor	=	"#{valorReceita.receita.configEquipamento.funcaoConfig.escala}"/>
+																
+															</ui:fragment>
+															
+															<ui:fragment rendered = "#{valorReceita.receita.configEquipamento.funcaoConfig.tipoComponente.nomeComponente == ETipoComponente.CHECKBOX.value}">
+																
+																<div class	=	"EmptyBox10"/>
+																
+																<p:selectBooleanCheckbox value	=	"#{valorReceita.valor}" />
+																
+																<p:outputLabel			 value	=	"#{valorReceita.receita.configEquipamento.funcaoConfig.descricao}"/> 
+																
+																<div class	=	"EmptyBox10"/>
+																
+															</ui:fragment>
+															
+															<ui:fragment rendered = "#{valorReceita.receita.configEquipamento.funcaoConfig.tipoComponente.nomeComponente == ETipoComponente.COMBOBOX.value}">
+																
+																<p:outputLabel	value	=	"#{valorReceita.receita.configEquipamento.funcaoConfig.descricao}"/>
+																
+																<p:selectOneMenu value				=	"#{valorReceita.valor}">
+														            
+														            <f:selectItems 	value			=	"#{valorReceita.receita.configEquipamento.funcaoConfig.valoresFuncaos}" 
+														            				var				=	"item"
+														            				itemValue		=	"#{item.identificador}"
+														            				itemLabel		=	"#{item.valor}"/>
+														            
+														        </p:selectOneMenu>
+																
+															</ui:fragment>
+															
+															
+															<ui:fragment rendered = "#{valorReceita.receita.configEquipamento.funcaoConfig.tipoComponente.nomeComponente == ETipoComponente.SLIDER.value}">
+																
+																<p:outputLabel	id		=	"output-#{valorReceita.hashCode()}" 
+																				value	=	"#{valorReceita.receita.configEquipamento.funcaoConfig.descricao} : #{valorReceita.receita.configEquipamento.valorConfigEquip.valor}"/>
+																
+																<h:inputHidden 	id		=	"text-#{valorReceita.hashCode()}" 
+																				value	=	"#{valorReceita.valor}" />
+							
+																<p:slider 		for				=	"text-#{valorReceita.hashCode()}" 
+																				display			=	"output-#{valorReceita.hashCode()}" 
+																				displayTemplate	=	"#{valorReceita.receita.configEquipamento.funcaoConfig.descricao} : {value}" 
+																				minValue		=	"#{valorReceita.receita.configEquipamento.funcaoConfig.valorMinimo}"
+																				maxValue		=	"#{valorReceita.receita.configEquipamento.funcaoConfig.valorMaximo}"/>
+																
+															</ui:fragment>
+															
+															<div class="EmptyBox5"/>
+															
+														</c:forEach>
+													
+													</p:outputPanel>
+													
+												</p:tab>
+												
+												<p:tab title	=	"Exportar" 
+													   disabled	=	"#{mbConfigReceita.subproduto == null}"
+        											   id		=	"tabExport">
+												
+													<p:dataTable id				=	"exportDataTable"
+																 widgetVar		=	"exportDataTable" 
+																 var			=	"prodSubprod" 
+																 value			=	"#{mbConfigReceita.produtoSubprodutos}"
+																 rowKey			=	"#{prodSubprod.idSubprodutoProduto}" 
+																 style			=	"margin-bottom:0"
+																 scrollable		=	"true"
+																 scrollHeight	=	"250"
+																 selection		=	"#{mbConfigReceita.produtoSubprodutosSelected}">
+													
+														<f:facet name="header">
+												            Subprodutos
+												        </f:facet>
+													
+														<p:column selectionMode		=	"multiple" 
+																  style				=	"width:16px;text-align:center"/>
+														
+														<p:column headerText		=	"Produto" 
+																  filterBy			=	"#{prodSubprod.produto.descricao}"
+																  filterMatchMode	=	"in">
+																  
+															<f:facet name	=	"filter">
+												                
+												                <p:selectCheckboxMenu label			=	"Produtos" 
+												                					  onchange		=	"PF('exportDataTable').filter()"
+												                					  scrollHeight	=	"150">
+												                					  
+												                    <f:selectItems  value		=	"#{mbConfigReceita.produtosExport}"
+												                    				var			=	"prod" 
+												                    				itemLabel	=	"#{prod.codigoSap} - #{prod.descricao}"
+												                    				itemValue	=	"#{prod.descricao}"/>
+												                    
+												                </p:selectCheckboxMenu>
+												                
+												            </f:facet>
+												            
+												            <h:outputText value		=	"#{prodSubprod.produto.descricao}" 	/>
+												            
+												        </p:column>
+														
+														<p:column headerText		=	"Subproduto" 
+																  filterBy			=	"#{prodSubprod.subproduto.descricao}"
+																  filterMatchMode	=	"contains">
+												            <h:outputText value		=	"#{prodSubprod.subproduto.codigoSap} - #{prodSubprod.subproduto.descricao}" />
+												        </p:column>
+														
+													</p:dataTable>
+													
+													<div class="EmptyBox5"/>
+													
+													<div class="Container50 " style="float:right !important">
+															
+														<p:commandButton value			=	"Exportar" 
+																		 icon			=	"fa fa-save"
+																		 actionListener	=	"#{mbConfigReceita.exportar()}"
+																		 process		=	"@this tabView:exportDataTable"
+																		 styleClass		=	"PurpleButton RaisedButton"
+																		 update			=	"formCad"/>
+													</div>		
+													
+													<div class="EmptyBox5"/>
+												
+												</p:tab>
+												
+											</p:tabView>
+											
+										</h:panelGroup>
+											
+		                            </p:panelGrid>  
+									
+									
+											                        
+		                    	</div>
+		                    	
+		                 	</div>
+		                    
+	                    	<ui:include src="/configuracoes/receita/footerconfigreceita.xhtml" />
+		                    
+	                    </div>
+	                    
+	                </p:panel>
+	                
+	            </div>
+	            
+	        </div>
+	        
+		</h:form>
+		
+	</ui:define>
+
+</ui:composition>

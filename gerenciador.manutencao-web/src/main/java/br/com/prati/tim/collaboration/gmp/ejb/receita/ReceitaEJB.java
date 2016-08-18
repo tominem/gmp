@@ -14,6 +14,8 @@ import br.prati.tim.collaboration.gp.jpa.TipoInspecao;
 public interface ReceitaEJB {
 
 	List<Receita> findReceitasFetchByMaquinaAndEquipamentoAndTipoInspecao(Maquina maquina, Equipamento equipamento, TipoInspecao tipoInspecao);
+	
+	List<Receita> findByMaquinaAndTipoInspecao(Maquina maquina, TipoInspecao tipoInspecao);
 
 	List<FuncaoConfig> findAllFuncaoConfig();
 

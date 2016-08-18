@@ -24,11 +24,30 @@ public class ReceitaDAOImpl extends AbstractJPADAO<Receita> implements ReceitaDA
 			.innerJoinFetch("configEquipamento")
 			.innerJoinFetch("configEquipamento.funcaoConfig")
 			
+			
 			.andEquals("maquina", maquina)
 			.andEquals("configEquipamento.equipamento", equipamento)
 			.andEquals("tipoInspecao", tipoInspecao)
 			
 			.getResultList();	
+	}
+
+	@Override
+	public List<Receita> findByMaquinaAndTipoInspecao(Maquina maquina, TipoInspecao tipoInspecao) {
+		
+		return createQueryCriteria(getEntityManager(), getEntityClass())
+				
+				.innerJoinFetch("maquina")
+				.innerJoinFetch("tipoInspecao")
+				.innerJoinFetch("configEquipamento")
+				.innerJoinFetch("configEquipamento.funcaoConfig")
+				.leftJoinFetch ("valorReceitas")
+				.leftJoinFetch("valorReceitas.subproduto")
+				
+				.andEquals("maquina", maquina)
+				.andEquals("tipoInspecao", tipoInspecao)
+				
+				.getResultList();
 	}
 
 }

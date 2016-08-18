@@ -8,27 +8,33 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import org.primefaces.event.SelectEvent;
 
+import br.com.prati.tim.collaboration.gmp.converters.ConverterComp;
 import br.com.prati.tim.collaboration.gmp.converters.DoubleValueToHexConverter;
 import br.com.prati.tim.collaboration.gmp.converters.LectorComboBoxConverter;
 import br.com.prati.tim.collaboration.gmp.converters.LectorFtpFieldConverter;
 import br.com.prati.tim.collaboration.gmp.converters.LectorHexFiedConverter;
-import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.valorconfigequip.IValorConfigEquipEJB;
-import br.com.prati.tim.collaboration.gmp.mb.AbstractCrudMB;
+import br.com.prati.tim.collaboration.gmp.mb.AbstractBaseMB;
+import br.com.prati.tim.collaboration.gmp.mb.ValidateComponent;
 import br.prati.tim.collaboration.gp.jpa.ConfigEquipamento;
 import br.prati.tim.collaboration.gp.jpa.Equipamento;
 import br.prati.tim.collaboration.gp.jpa.Receita;
+import br.prati.tim.collaboration.gp.jpa.TipoComponente;
+import br.prati.tim.collaboration.gp.jpa.TipoComponente.ETipoComponente;
 import br.prati.tim.collaboration.gp.jpa.ValorConfigEquip;
+import br.prati.tim.collaboration.gp.jpa.ValoresFuncao;
 import br.prati.tim.collaboration.gp.jpa.enumerator.EComponentConverter;
 
 @Named("mbConfigEquipamento")
 @ViewScoped
-public class MBConfigEquipamento implements Serializable{
+public class MBConfigEquipamento extends AbstractBaseMB implements Serializable{
 
 	private static final long		serialVersionUID	= 1L;
 
@@ -36,8 +42,6 @@ public class MBConfigEquipamento implements Serializable{
 
 	@EJB
 	private IValorConfigEquipEJB	ejb;
-
-	private List<ValorConfigEquip>	valorConfigEquipamento;
 
 	private List<ConfigEquipamento>	configEquipamentoList;
 
@@ -70,20 +74,51 @@ public class MBConfigEquipamento implements Serializable{
 	private void selectEquipamento (Equipamento equipamento){
 		setEquipamento(equipamento);
 	}
+	
 	@PostConstruct
 	public void load(){
 		
-		this.setValorConfigEquipamento(new ArrayList<ValorConfigEquip>());
 		this.setConfigEquipamentoList(new ArrayList<ConfigEquipamento>());
 		
 	}
 	
 	public void save(){
 		
+		for (ConfigEquipamento configEquipamento : configEquipamentoList) {
+			
+			if (configEquipamento.getValorConfigEquip() != null){
+				
+				try {
+					
+					ValorConfigEquip valorConfigEquip = getValorConfig(configEquipamento, false); 
+					
+					if (valorConfigEquip 			!= null && 
+						valorConfigEquip.getValor() != null && 
+						!valorConfigEquip.getValor().isEmpty()){
+						
+						ejb.save(valorConfigEquip);
+						
+					}
+					
+				} catch (Exception e) {
+					addErrorMessage("Erro ao persistir o valor da configuração. Erro: " + e.getMessage());
+					return;
+				}
+			}
+			
+		}
+		
+		clean();
+		
+		addInfoMessage("Configuração salva com sucessos.");
 		
 	}
-	
+
 	public void clean(){
+		
+		load();
+		
+		FacesContext.getCurrentInstance().getViewRoot().getViewMap().clear();
 		
 	}
 	
@@ -111,37 +146,7 @@ public class MBConfigEquipamento implements Serializable{
 				configEquipamento.setValorConfigEquip(valorConfigEquip);
 			}
 			
-			EComponentConverter converter 	= configEquipamento.getFuncaoConfig().getConverter();
-			String 				valor 		= valorConfigEquip.getValor();
-			
-			if (valor != null && converter != null){
-				
-				if (converter == EComponentConverter.DOUBLE_VALUE_TO_HEX_CONVERTER){
-					
-					DoubleValueToHexConverter 	doubleConverter = new DoubleValueToHexConverter();
-					Double 						valorDouble 	= doubleConverter.display(valor);
-					
-					valorConfigEquip.setValor(valorDouble.toString());
-				} else if (converter == EComponentConverter.LECTOR_COMBOBOX_CONVERTER){
-						
-					LectorComboBoxConverter 	lectorConverter = new LectorComboBoxConverter();
-					String 						valorConvertido = lectorConverter.display(valor);
-					
-					valorConfigEquip.setValor(valorConvertido);
-				} else if (converter == EComponentConverter.LECTOR_FTP_FIELD_CONVERTER){
-						
-					LectorFtpFieldConverter 	lectorConverter = new LectorFtpFieldConverter();
-					String 						valorConvertido = lectorConverter.display(valor);
-					
-					valorConfigEquip.setValor(valorConvertido);
-				} else if (converter == EComponentConverter.LECTOR_HEX_FIELD_CONVERTER){
-					
-					LectorHexFiedConverter 	lectorConverter = new LectorHexFiedConverter();
-					String 					valorConvertido = lectorConverter.display(valor);
-					
-					valorConfigEquip.setValor(valorConvertido);
-				}
-			} 
+			valorConfigEquip = getValorConfig(configEquipamento, true);
 			
 			
 			getConfigEquipamentoList().add(configEquipamento);
@@ -167,20 +172,80 @@ public class MBConfigEquipamento implements Serializable{
 		);
 	}
 	
+	private ValorConfigEquip getValorConfig(ConfigEquipamento configEquipamento, boolean isToDisplay) {
+		
+		TipoComponente 		tipoComponente 		= configEquipamento.getFuncaoConfig().getTipoComponente();
+		EComponentConverter componentConverter 	= configEquipamento.getFuncaoConfig().getConverter();
+		List<ValoresFuncao> valoresFuncaos 		= configEquipamento.getFuncaoConfig().getValoresFuncaos();
+		String 				valor 				= configEquipamento.getValorConfigEquip().getValor();
+		
+		if (valor != null){
+			
+			if (tipoComponente.getNomeComponente().equals(ETipoComponente.CHECKBOX.getValue())){
+				
+				String valorBoolean = null;
+				
+				if (valor.equals(Boolean.TRUE.toString()) || valor.equals("1")){
+					valorBoolean = isToDisplay ? Boolean.TRUE.toString()  : "1";
+				} else{
+					valorBoolean = isToDisplay ? Boolean.FALSE.toString() : "0";
+				}
+				
+				configEquipamento.getValorConfigEquip().setValor(valorBoolean);
+				
+			} else if (valoresFuncaos != null){
+				
+				configEquipamento.getValorConfigEquip().setValor(valor);
+				
+			} else if (componentConverter != null){
+				
+				ConverterComp converter = null;
+				Object		  valorConvertido = null;
+				
+				if (componentConverter == EComponentConverter.DOUBLE_VALUE_TO_HEX_CONVERTER){
+					converter = new DoubleValueToHexConverter();
+				} else if (componentConverter == EComponentConverter.LECTOR_COMBOBOX_CONVERTER){
+					converter 	= new LectorComboBoxConverter();
+				} else if (componentConverter == EComponentConverter.LECTOR_FTP_FIELD_CONVERTER){
+					converter 	= new LectorFtpFieldConverter();
+				} else if (componentConverter == EComponentConverter.LECTOR_HEX_FIELD_CONVERTER){
+					converter 	= new LectorHexFiedConverter();
+				}
+				
+				if (isToDisplay){
+					valorConvertido = converter.display(valor);
+				}else{
+					valorConvertido = converter.convert(valor);
+				}
+				
+				configEquipamento.getValorConfigEquip().setValor(valorConvertido.toString());
+				
+			}
+			
+			return configEquipamento.getValorConfigEquip();
+			
+		}
+		return null;
+	}
+	
+	@Override
+	public boolean validate(ComponentSystemEvent event) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ValidateComponent[] getValidaComponents() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	public Equipamento getEquipamento() {
 		return equipamento;
 	}
 
 	public void setEquipamento(Equipamento equipamento) {
 		this.equipamento = equipamento;
-	}
-
-	public List<ValorConfigEquip> getValorConfigEquipamento() {
-		return valorConfigEquipamento;
-	}
-
-	public void setValorConfigEquipamento(List<ValorConfigEquip> valorConfigEquipamento) {
-		this.valorConfigEquipamento = valorConfigEquipamento;
 	}
 
 	public List<ConfigEquipamento> getConfigEquipamentoList() {
@@ -190,6 +255,5 @@ public class MBConfigEquipamento implements Serializable{
 	public void setConfigEquipamentoList(List<ConfigEquipamento> configEquipamentoList) {
 		this.configEquipamentoList = configEquipamentoList;
 	}
-
-
+	
 }

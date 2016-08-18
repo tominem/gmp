@@ -14,6 +14,7 @@ import br.com.prati.tim.collaboration.gmp.dao.GenericDAO;
 import br.com.prati.tim.collaboration.gmp.dao.produto.ProdutoDAO;
 import br.com.prati.tim.collaboration.gmp.dao.subproduto.SubprodutoDAO;
 import br.com.prati.tim.collaboration.gmp.ejb.AbstractCrudEJB;
+import br.prati.tim.collaboration.gp.jpa.Maquina;
 import br.prati.tim.collaboration.gp.jpa.Produto;
 import br.prati.tim.collaboration.gp.jpa.ProdutoSubproduto;
 import br.prati.tim.collaboration.gp.jpa.Subproduto;
@@ -94,6 +95,16 @@ public class ProdutoEJBImpl extends AbstractCrudEJB<Produto> implements ProdutoE
 		});	
 		
 		return result;
+	}
+
+	@Override
+	public List<Produto> findByMaquina(Maquina maquina) throws Exception {
+		return produtoDAO.findByMaquina(maquina);
+	}
+
+	@Override
+	public List<ProdutoSubproduto> findProdutoSubproduto(Produto produto) throws Exception {
+		return produtoDAO.findProdutoSubproduto(produto);
 	}
 
 }

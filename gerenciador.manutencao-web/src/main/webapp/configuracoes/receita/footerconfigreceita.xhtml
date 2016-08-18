@@ -10,34 +10,40 @@
 		<div class="Container">
 
 			<div class="Container75 Responsive100">
-
+			
 				<div class="MarRight025Em MarBottom1 Container15 Responsive50">
+					
 					<ui:insert name="limpar">
 						
 						<p:commandButton 	value			=	"Limpar" 
 											update			=	"formCad"
 											process			=	"@this" 
-											actionListener	=	"#{variaveisClpMB.clean()}"
+											actionListener	=	"#{mbConfigReceita.clean()}"
 											icon			=	"fa fa-eraser white"
-											styleClass		=	"Wid100 PurpleButton RaisedButton">
-						</p:commandButton>
-						
-					</ui:insert>
-				</div>
-
-				<div class="MarRight025Em MarBottom1 Container15 Responsive50">
-					<ui:insert name="contentSalvar">
-						
-						<p:commandButton 	value			=	"Salvar" 
-											icon			=	"fa fa-floppy-o white"
-											id				=	"salvarUsuario" 
-											actionListener	=	"#{variaveisClpMB.save()}"
-											validateClient	=	"true"
-											update			=	"formCad"
 											styleClass		=	"Wid100 PurpleButton RaisedButton"/>
 						
 					</ui:insert>
+					
 				</div>
+			
+				<div class="MarRight025Em MarBottom1 Container15 Responsive50">
+				
+					<ui:insert name="contentSalvar">
+						
+						<p:commandButton 	value			=	"Salvar" 
+											icon			=	"fa fa-floppy-o white" 
+											actionListener	=	"#{mbConfigReceita.save()}"
+											validateClient	=	"true"
+											update			=	"formCad"
+											styleClass		=	"Wid100 PurpleButton RaisedButton"
+											disabled		=	"#{mbConfigReceita.valoresReceita == null or mbConfigReceita.valoresReceita.size() == 0}"/>
+						
+					</ui:insert>
+					
+				</div>
+
+				
+				
 
 			</div>
 

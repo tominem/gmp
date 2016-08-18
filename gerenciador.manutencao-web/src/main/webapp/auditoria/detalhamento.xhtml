@@ -1,0 +1,87 @@
+<ui:composition 
+    xmlns		=	"http://www.w3.org/1999/xhtml"
+    xmlns:h		=	"http://java.sun.com/jsf/html"
+	xmlns:f		=	"http://java.sun.com/jsf/core"
+	xmlns:p		=	"http://primefaces.org/ui"
+    xmlns:ui	=	"http://java.sun.com/jsf/facelets">
+    
+   <div class="ContainerIndent">
+        
+		<h:form id		 =	"detalhesAuditoriaForm" >
+			
+			<p:panel rendered = "#{mbAuditoria.exibirDetalhes}" >
+				
+				<p:dataTable id					=	"auditoriaDetailTable"
+							 widgetVar			=	"auditoriaDetailTableWidget"
+							 value				=	"#{mbAuditoria.detalhamentoRegistros}" 
+							 var				=	"registro"
+							 emptyMessage		=	"Nenhum registro encontrado." 
+							 paginator			=	"true" 
+							 paginatorPosition	=	"bottom"
+							 rows				=	"10"
+							 paginatorTemplate	=	"{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+					
+					<f:facet name="header">
+							<h:outputText value="Detalhamento" styleClass="FontBold Fs18 White Fleft"/>
+							
+							<p:commandButton id			=	"toggler" 
+											 type		=	"button" 
+											 value		=	"Colunas" 
+											 icon		=	"fa fa-navicon white"
+											 styleClass	=	"PurpleButton RaisedButton"/>
+				            
+				            <p:columnToggler datasource		=	"auditoriaDetailTable" 
+				            				 trigger		=	"toggler"/>
+						
+										 
+					</f:facet>
+					
+					<p:columns value			=	"#{mbAuditoria.columnNamesDetail}"  
+							   var				=	"coluna" 
+							   resizable		=	"true"
+							   filterBy			=	"#{registro[coluna]}">
+							   
+			            <f:facet name		=	"header">
+			                <h:outputText value		=	"#{coluna}" />
+			            </f:facet>
+			            
+			            <h:outputText value		=	"#{registro[coluna]}" />
+			            
+		        	</p:columns>
+					
+				</p:dataTable>
+				
+				
+				<f:facet name	=	"footer">
+					
+					<div align	=	"center">
+						
+						<div class="Container">
+							
+							<div class="Container100 Responsive100">
+								
+								<div class="MarRight5 MarBottom1 Container25 Responsive50">
+									
+									<p:commandButton value			=	"Voltar" 
+													 icon			=	"fa fa-arrow-circle-left white"
+													 actionListener	=	"#{mbAuditoria.resetarDetalhes}"
+													 styleClass		=	"Wid100 RaisedButton PurpleButton"
+													 update			=	"consultaAuditoriaForm detalhesAuditoriaForm"/>
+					
+								</div>
+					
+							</div>
+						
+						</div>
+						
+					</div>
+						
+				</f:facet>
+				
+			</p:panel>
+	
+		</h:form>
+	
+	</div>
+	
+</ui:composition>

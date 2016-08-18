@@ -7,27 +7,28 @@ public class DoubleValueToHexConverter  implements ConverterComp{
 		
 		String sourceStr = (String) source;
 		
-		int result = Integer.parseInt(sourceStr.trim(), 16);
-		
-		return Double.valueOf(result);
+		try{
+			int result = Integer.parseInt(sourceStr.trim(), 16);
+			return Double.valueOf(result);
+		}catch(NumberFormatException e){
+			Double result = Double.parseDouble(sourceStr);
+			return result;
+		}
 	}
 
 	@Override
 	public String convert(Object displayed) {
 		
-		Double newValue = (double) displayed;
-
-		Integer value = 0;
-
-		if (newValue.intValue() % 2 != 0){
-
-			value = (int) (newValue.intValue() + 1);
-
-		}else{
-
-			value = (int) newValue.intValue();
-
+		Double newValue = null;
+		
+		try{
+			newValue = (double) displayed;
+		}catch(Exception e){
+			newValue = new Double(displayed.toString());
 		}
+		
+		Integer value = (int) newValue.intValue();
+
 		
 		return Integer.toHexString(value).toUpperCase();
 	}

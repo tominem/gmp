@@ -71,5 +71,10 @@ public class ReceitaEJBImpl implements ReceitaEJB{
 	public void remove(Receita receita) throws Exception {
 		receitaDAO.delete(receita);
 	}
+
+	@Override
+	public List<Receita> findByMaquinaAndTipoInspecao(Maquina maquina, TipoInspecao tipoInspecao) {
+		return receitaDAO.findByMaquinaAndTipoInspecao(maquina, tipoInspecao);
+	}
 	
 }

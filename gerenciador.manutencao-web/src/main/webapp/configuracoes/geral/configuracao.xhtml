@@ -1,0 +1,292 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h		=	"http://java.sun.com/jsf/html"
+	xmlns:f		=	"http://java.sun.com/jsf/core"
+	xmlns:ui	=	"http://java.sun.com/jsf/facelets"
+	xmlns:p		=	"http://primefaces.org/ui" 
+	template	=	"/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+
+		<style type="text/css">
+			
+			.ui-fluid .ButtonPesquisarMaquina {
+				margin: 0px 0px 0px -82px !important;
+				border-radius: 0px !important;
+				-webkit-border-radius: 0px !important;
+				-moz-border-radius: 0px !important;
+				min-width: 41px !important;
+			}
+			
+			.ui-fluid .ButtonLimparMaquina {
+				margin: 0px 0px 0px 0px !important;
+			    border-radius: 0px !important;
+			    -webkit-border-radius: 0px !important;
+			    -moz-border-radius: 0px !important;
+			    min-width: 41px !important;
+			}
+		
+		
+		</style>
+
+		<h:form id="configuracoesForm">
+
+			<div class="ContainerIndent Responsive100 ui-fluid">
+
+				<div class="Container100">
+
+					<p:panel id			=	"panelConfiguracoes"
+							 styleClass	=	"Card ShadowEffect">
+					
+						<p:focus context="panelConfiguracoes"/>
+
+
+						<div class="Container100">
+							<div class="ContainerIndent">
+								<i class="fa fa-gears FontBold Fs18 Purple" />
+								<h:outputText 	value		=	" Configurações Gerais"
+												styleClass	=	"FontBold Fs18 Purple" />
+							</div>
+						</div>
+
+						<div class="EmptyBox5" />
+
+						<p:separator styleClass="Wid100" />
+
+						<div class="EmptyBox20" />
+						
+						<p:growl id="messageCategoria" autoUpdate="true"/>
+										
+						<p:panelGrid id				=	"panelConfiguracoesInput" 
+									 columns		=	"2" 
+									 layout			=	"grid"
+							 		 styleClass		=	"ui-panelgrid-blank ui-fluid"
+							 		 columnClasses	=	"ui-grid-col-6, ui-grid-col-6">
+						
+							<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpMaquina">
+												
+								<p:outputLabel 		value		=	"Máquina"	for =	"maquina" />
+								
+								<p:inputText		value		= 	"#{mbConfiguracoesGerais.maquina.tag}"
+               										id			=	"maquina"
+               										required	=	"true"
+               										immediate	=	"true"
+               										readonly	=	"true"/>
+                    					
+                 				<p:commandButton	icon			=	"fa fa-search Fs16 White" 
+                           							styleClass		=	"ButtonPesquisarMaquina PurpleButton"
+                           							title			=	"Pesquisar Máquina"
+                           							actionListener	=	"#{mbConfiguracoesGerais.openDialog('/cadastros/maquina/searchMaquina.xhtml', false)}"
+                           							immediate		=	"true"
+                           							process			=	"@this pnlGrpMaquina"
+                          							update			=	"pnlGrpMaquina panelGrpSistema panelConfiguracoesDados">
+                           						
+	                           		<p:ajax 	event		=	"dialogReturn"
+												listener	=	"#{mbConfiguracoesGerais.select}"
+												update		=	"pnlGrpMaquina panelGrpSistema panelConfiguracoesDados" />
+		
+                           		</p:commandButton>
+                           		
+                           		<p:commandButton	icon			=	"fa fa-close Fs16 White" 
+                           							styleClass		=	"ButtonLimparMaquina CyanButton"
+                           							title			=	"Limpar Filtro Máquina"
+                           							actionListener	=	"#{mbConfiguracoesGerais.limparMaquina()}"
+                           							immediate		=	"true"
+                           							process			=	"@this pnlGrpMaquina"
+                          							update			=	"pnlGrpMaquina panelGrpSistema panelConfiguracoesDados"/>
+								
+							</h:panelGroup>
+							
+							<h:panelGroup id = "panelGrpSistema">
+							
+								<p:outputLabel 	value	=	"Sistema"	
+												for 	=	"sistema" />
+												
+								<p:selectOneMenu id						=	"sistema"
+												 value					=	"#{mbConfiguracoesGerais.tagSistema}"> 
+									
+									<f:selectItem itemLabel	=	"Geral"
+												  itemValue	=	"#{null}"/>
+												  
+									<f:selectItem itemLabel	=	"Gerenciador de Manutenção da Produção"
+												  itemValue	=	"GMP"/>
+									
+									<f:selectItem itemLabel	=	"Inspeção de Embalagens"
+												  itemValue	=	"IEM"/>
+												  
+									<p:ajax listener	=	"#{mbConfiguracoesGerais.selectSistema}" 
+											update		=	"pnlGrpMaquina panelGrpSistema panelConfiguracoesDados" 
+											process		=	"@this" />			  
+									
+												  
+								</p:selectOneMenu>
+						
+							</h:panelGroup>
+							
+							<h:panelGroup id = "pgChave">
+							
+								<p:outputLabel	for		=	"chave"
+												value	=	"Chave"/>
+								
+								<p:inputText id			=	"chave"
+											 value		=	"#{mbConfiguracoesGerais.configuracao.chaveConfig}"
+											 styleClass	=	"Wid98"/>
+											 
+							</h:panelGroup>
+							
+							<h:panelGroup id = "pgValor">
+							
+								<p:outputLabel	id 		=	"vazio"
+												value	=	""/>
+								
+								<p:outputLabel	for		=	"valor"
+												value	=	"Valor"/>
+								
+								<p:inputText id			=	"valor"
+											 value		=	"#{mbConfiguracoesGerais.configuracao.valor}"
+											 styleClass	=	"Wid98"/>
+							
+								<p:commandButton icon			=	"fa fa-plus Fs16 White"
+												 actionListener	=	"#{mbConfiguracoesGerais.adicionar}"
+												 styleClass		=	"ButtonPesquisar PurpleButton"
+												 title			=	"Adicionar"
+												 oncomplete		=	"$(function(){PrimeFaces.focus('configuracoesForm:panelConfiguracoes');});"
+												 update			=	"panelConfiguracoesDados panelConfiguracoesInput"
+												 process		=	"configuracoesForm:pgChave
+												 					 configuracoesForm:pgValor"/>
+												 
+							</h:panelGroup>
+								
+						</p:panelGrid>
+						
+						<div class="EmptyBox20"/>
+						
+						<p:panelGrid id				=	"panelConfiguracoesDados" 
+									 columns		=	"1" 
+									 layout			=	"grid"
+							 		 style			=	"border:0px none;background:none;"
+							 		 styleClass		=	"Container95">
+						
+							<p:dataTable id					=	"configuracoesTable"
+										 widgetVar			=	"configuracoesTableWidget"
+										 value				=	"#{mbConfiguracoesGerais.configuracoes}" 
+										 var				=	"config"
+										 emptyMessage		=	"Nenhuma registro encontrado." 
+										 paginator			=	"true"
+										 paginatorTemplate	=	"{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+										 resizableColumns	=	"true" 
+										 reflow				=	"true"
+										 paginatorPosition	=	"bottom"
+										 rows				=	"8">
+											
+								<f:facet name="header">
+									Configurações Gerais
+								</f:facet>
+								
+								<p:column resizable			=	"false"  
+										  headerText		=	"Chave"
+										  width				=	"25%">
+										  
+									<h:outputText value		=	"#{config.chaveConfig}" />
+									
+								</p:column>
+								
+								<p:column resizable			=	"false"  
+										  headerText		=	"Valor"
+										  width				=	"40%">
+										  
+									<h:outputText value		=	"#{config.valor}" />
+									
+								</p:column>
+				
+								<p:column resizable			=	"false"  
+										  headerText		=	"Data / Hora" 
+										  width				=	"15%">
+										  
+									<h:outputText value		=	"#{config.dataRegistro}">
+									
+										<f:convertDateTime type="both" pattern="dd/MM/yyyy HH:mm:ss"/>
+										  
+									</h:outputText>
+									
+								</p:column>
+								
+								<p:column resizable			=	"false"  
+										  headerText		=	"Editar"
+										  width				=	"10%">
+										  
+									<div align="center">	  
+										
+										<p:commandButton icon			=	"fa fa-edit Fs16 White"
+														 actionListener	=	"#{mbConfiguracoesGerais.editar}"
+														 styleClass		=	"RaisedButton PurpleButton"
+														 update			=	"configuracaoEditForm"
+														 process		=	"@this"
+														 title			=	"Editar">
+											
+											<f:setPropertyActionListener value	=	"#{config}" 
+																		 target	=	"#{mbConfiguracoesGerais.configuracao}" />
+									
+										</p:commandButton>
+										
+									</div>
+											
+								</p:column>
+								
+								<p:column resizable			=	"false"  
+										  headerText		=	"Remover"
+										  width				=	"10%">
+									
+									<div align="center">	  
+										
+										<p:commandButton icon			=	"fa fa-trash Fs16 White"
+														 action			=	"#{mbConfiguracoesGerais.remover}"
+														 styleClass		=	"RedButton RaisedButton"
+														 title			=	"Remover"
+														 update			=	"configuracoesForm:configuracoesTable">
+											
+											<f:setPropertyActionListener value	=	"#{config}" 
+																		target	=	"#{mbConfiguracoesGerais.configuracao}" />
+																		
+										</p:commandButton>				 
+									</div>
+											
+								</p:column>
+							    
+							</p:dataTable>
+							
+						</p:panelGrid>
+						
+						<f:facet name="footer">
+
+							<div class="Container">
+					
+								<div class="Container50 Responsive100">
+					
+									<div class="MarRight5 MarBottom1 Container40 Responsive50">
+				
+										<p:commandButton value			=	"Salvar"
+														 actionListener	=	"#{mbConfiguracoesGerais.salvar}" 
+														 icon			=	"fa fa-file-o"
+														 update			=	"configuracoesForm"
+														 styleClass		=	"Wid100 RaisedButton PurpleButton"/>
+									</div>
+							
+								</div>
+							
+							</div>
+									 
+						</f:facet>			
+								
+					</p:panel>	
+
+				</div>
+
+			</div>
+
+		</h:form>
+		
+		<ui:include src="/configuracoes/geral/configuracaogeraledit.xhtml" />
+
+	</ui:define>
+
+</ui:composition>

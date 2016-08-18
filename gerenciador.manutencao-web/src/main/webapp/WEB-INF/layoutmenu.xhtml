@@ -23,7 +23,7 @@
 				
 				<p:separator />
 				
-	        	<p:submenu id	=	"sm_menu_cadastros" label	="Cadastros" 			icon="fa fa-folder">
+	        	<p:submenu id	=	"sm_menu_cadastros" label	="Cadastros" 			icon="icon-folder215">
 
 	                <p:menuitem id="tipoComponente"		value="Tipo Componente"			icon="fa fa-tag"					outcome="/cadastros/tipocomponente/formTipoComponente.xhtml"	/>
 	                <p:menuitem id="menuconfig"			value="Menus de Configuração"	icon="fa fa-th-large"				outcome="/cadastros/menuconfig/formMenuConfig.xhtml"			/>
@@ -48,14 +48,22 @@
 
 				<p:separator />
 				
-	        	<p:submenu id	=	"sm_menu_config" 	label	="Configurações" 		icon="fa fa-gears">
+	        	<p:submenu id	=	"sm_menu_config" 	label	="Configurações" 		icon="icon-settings49">
 
-	                <p:menuitem id="variaveisclp"		value="Variáveis de CLP"		icon="fa fa-tag"					outcome="/configuracoes/variaveisclp/formVariaveisCLP.xhtml"	/>
-	                <p:menuitem id="receitasConfig"		value="Valor Receita"			icon="fa fa-tag"					outcome="/configuracoes/receita/formConfigReceita.xhtml"		/>
+	                <p:menuitem id="variaveisclp"		value="Variáveis de CLP"		icon="fa fa-server"					outcome="/configuracoes/variaveisclp/formVariaveisCLP.xhtml"	/>
+	                <p:menuitem id="receitasConfig"		value="Valor Receita"			icon="fa fa fa-book"				outcome="/configuracoes/receita/configuracaoreceita.xhtml"		/>
 	                <p:menuitem	id="configEquipamento"	value="Equipamento"				icon="fa fa-wrench"					outcome="/configuracoes/equipamento/configuracaoequipamento"	/>
+	                <p:menuitem	id="configGeral"		value="Configuração Geral"		icon="fa fa-gears"					outcome="/configuracoes/geral/configuracao.xhtml"	/>
 	                
 	            </p:submenu>
 
+				<p:separator />
+				
+				<p:menuitem id		=	"auditoria" 				
+            				value	=	"Auditoria" 
+            				icon	=	"fa fa-eye" 
+            				outcome	=	"/auditoria/auditoria.xhtml" />
+				
 				<p:separator />
 				
 	        </pr:menu>

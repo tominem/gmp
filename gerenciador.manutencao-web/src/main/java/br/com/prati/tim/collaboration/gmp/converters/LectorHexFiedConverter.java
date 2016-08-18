@@ -9,7 +9,10 @@ public class LectorHexFiedConverter implements ConverterComp{
 
 	@Override
 	public String convert(Object displayed) {
-		return Integer.toHexString(Integer.parseInt((String) displayed)).toUpperCase();
+		int 	parseInt 	= Integer.parseInt((String) displayed);
+		String 	upperCase 	= Integer.toHexString(parseInt).toUpperCase();
+		return upperCase;
+				
 	}
 
 	@Override
