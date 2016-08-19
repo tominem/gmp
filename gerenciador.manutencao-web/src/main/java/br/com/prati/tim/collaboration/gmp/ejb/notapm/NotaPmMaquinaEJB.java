@@ -9,4 +9,6 @@ import br.prati.tim.collaboration.gp.jpa.enumerator.EStatusNotaPm;
 public interface NotaPmMaquinaEJB extends CrudEJB<NotaPmMaquina> {
 
 	List<NotaPmMaquina> findByStatus(EStatusNotaPm status);
+	
+	void updateStatusNota(NotaPmMaquina nota, EStatusNotaPm status) throws Exception ;
 }

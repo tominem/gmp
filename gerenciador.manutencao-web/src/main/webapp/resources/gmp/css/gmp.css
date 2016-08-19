@@ -281,3 +281,31 @@
 Table .TexAlCenter {
 	text-align: center;
 }
+
+.BorderBottomPurple {
+	border-bottom: 5px solid #9C27B0 !important;
+}
+
+.BorderBottomGreen {
+	border-bottom: 5px solid #66BB6A !important;
+}
+
+.BorderBottomRed {
+	border-bottom: 5px solid #EF5350 !important;
+}
+
+.BorderBottomYellow {
+	border-bottom: 5px solid #F7D100 !important;
+}
+
+.BorderBottomCyan {
+	border-bottom: 5px solid #26C6DA !important;
+}
+
+.BorderBottomOrange {
+	border-bottom: 5px solid #FFA726 !important;
+}
+
+.BorderBottomGray {
+	border-bottom: 5px solid #90A4AE !important;
+}

@@ -1,0 +1,54 @@
+<ui:composition xmlns		=	"http://www.w3.org/1999/xhtml"
+                xmlns:h		=	"http://java.sun.com/jsf/html"
+                xmlns:f		=	"http://java.sun.com/jsf/core"
+                xmlns:ui	=	"http://java.sun.com/jsf/facelets"
+                xmlns:p		=	"http://primefaces.org/ui">
+
+
+	<p:dialog 	id				=	"dlgFecharNota" 
+	    		widgetVar		=	"dlgFecharNota" 
+	    		closable		=	"false" 
+	    		showHeader		=	"false" 
+	    		closeOnEscape	=	"false"
+	    		modal			=	"true"
+	    		width			=	"424"
+	    		responsive		=	"true"
+	    		resizable		=	"false">
+	     
+	    <p:focus context	=	"pnlDlgFecharNota" />
+	    
+		<p:panelGrid id			=	"pnlDlgFecharNota" 
+					 layout		=	"grid" 
+					 styleClass	=	"panelGridBorder" 
+					 columns	=	"1">
+		
+			<p:outputLabel 	value	=	"Confirma fechamento de Nota PM?"/>
+	 					   		   	
+		     <div class	=	"EmptyBox20"/>
+		     
+		</p:panelGrid>        
+	
+		<f:facet name	=	"footer">
+	
+	    	<p:commandButton 	value			=	"Confirmar"
+	           					process			=	"@this"
+	           					actionListener	=	"#{mbResumo.fecharNotaPM}"
+	           					update			=	"tableNotas"  
+	           					oncomplete		=	"PF('dlgFecharNota').hide()"
+	           					icon			=	"fa fa-check"
+	           					style			=	"margin-right: 5px; width: 110px" 
+	           					styleClass		=	"Wid100 PurpleButton RaisedButton"/>
+
+	    	<p:commandButton 	value			=	"Cancelar"
+	    						process			=	"@this"
+	           					update			=	"tableNotas"
+	           					icon			=	"fa fa-close" 
+								style			=	"width: 110px"
+	           					styleClass		=	"Wid100 PurpleButton RaisedButton"
+	           					oncomplete		=	"PF('dlgFecharNota').hide()"/>
+	    </f:facet>
+	     
+	     	 
+	</p:dialog>
+        	
+</ui:composition>

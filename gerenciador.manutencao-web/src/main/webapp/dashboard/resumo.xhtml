@@ -9,113 +9,211 @@
 
 		<style type="text/css">
 			
-			.PurpleHeader.ui-datatable-subtable-header, .ui-datatable .ui-datatable-summaryrow  {
-				background-color: #9C27B0;
+			.AmbarHeader.ui-datatable .ui-datagrid-header, 
+			.AmbarHeader.ui-datatable .ui-datatable-header, 
+			.AmbarHeader.ui-datatable .ui-datatable-subtable-header, 
+			.AmbarHeader.ui-datatable .ui-datatable-summaryrow{
+				background-color: #FFC107;
+				font-weight: bold;
 			}
 			
-			.TealHeader.ui-datatable-subtable-header, .ui-datatable .ui-datatable-summaryrow  {
-				background-color: #009688
+			.PurpleHeader.ui-datatable .ui-datagrid-header, 
+			.PurpleHeader.ui-datatable .ui-datatable-header, 
+			.PurpleHeader.ui-datatable .ui-datatable-subtable-header, 
+			.PurpleHeader.ui-datatable .ui-datatable-summaryrow{
+				background-color: #9C27B0;
+				font-weight: bold;
 			}
-		
+			
+			
 		</style>
 
-		<div class="Container100">
-
-			<div class="ContainerIndent ui-fluid">
-
-				<div class="Card ShadowEffect TexAlCenter">
-					
-					<div class="ui-g-12 ui-md-12 ui-lg-12">
-					
-					
-						<div class="ui-g-12 ui-md-12 ui-lg-6">
-						
-							<p:panel header			=	"Notas PM"
-									 styleClass		=	"PurpleHeader">
-							
-								<p:dataTable 	var					=	"nota"
-												value				=	"#{mbResumo.notasPm}" 
-												emptyMessage		=	"Nenhuma Nota PM em aberto."
-												rows				= 	"10"
-												rowKey				=	"#{nota.idNotaPmMaquina}"
-												paginator			=	"true"
-												paginatorPosition	=	"bottom"
-												scrollable			=	"true"
-												scrollHeight		=	"250"
-												rowSelectMode		=	"checkbox"
-												reflow				=	"true"
-												selection			=	"#{mbResumo.notasPm}"
-												id					=	"tableNotas"
-												widgetVar			=	"tableNotas"
-												styleClass			=	"">
-									
-									<p:column headerText	=	"Máquina">
-										<h:outputText value	=	"#{nota.maquina.tag}" />
-									</p:column>
-									
-									<p:column headerText	=	"Número">
-										<h:outputText value	=	"#{nota.notaPm}" />
-									</p:column>
-									
-									<p:column headerText	=	"Dt. Abertura">
+		<div class="ui-fluid">
+			
+			<div class="ui-g-12 ui-md-12 ui-lg-12">
 										
-										<p:outputLabel value		=	"#{nota.dataRegistro}">
-								  			
-								  			<f:convertDateTime  timeZone	=	"America/Sao_Paulo" 
-								  								pattern		=	"dd/MM HH:mm" />
-								  		</p:outputLabel>
-								  		
-									</p:column>
-									
-									
-									<p:column headerText	=	"Fechar">
-									
-										<p:commandButton	actionListener	=	"#{mbResumo.fecharNotaPM()}"
-															icon			=	"fa fa-close"
-															styleClass		=	"RedButton RaisedButton"
-															immediate		=	"true"
-															update			=	"tableNotas"
-															process			=	"@this"
-															title			=	"Fechar Nota PM"/>
-																		
-									
-									</p:column>
-									
-								</p:dataTable>
-								
-							</p:panel>
+				<p:growl autoUpdate	=	"true"/>
+				
+				<div class="ui-g-12 ui-md-12 ui-lg-12">
+				
+					<div class	=	"Card ShadowEffect TexAlCenter BorderBottomGray" >
+											
+						<i class="fa fa-dashboard Fs50 "/>
+						<span class="FontRobotoRegular Fs40 FontBold" style="WHITE-SPACE: pre;"> RESUMO INFORMAÇÕES</span>
 						
-						</div>
-						
-						
-						<div class="ui-g-12 ui-md-12 ui-lg-6">
-							
-							<p:panel header			=	"Notificações Pendentes"
-									 styleClass		=	"TealHeader">
-							
-								<div class = "EmptyBox30"/>
-								
-							</p:panel>
-						
-						</div>
-						
-						
-						<div class="ui-g-12 ui-md-12 ui-lg-12">
-							
-							<p:panel header	=	"Programação da Manutenção - PPCP">
-							
-								<div class = "EmptyBox30"/>
-								
-							</p:panel>
-						
-						</div>
-					
-					
 					</div>
-
+				
 				</div>
-
+			
+				<div class="ui-g-12 ui-md-12 ui-lg-6">
+				
+					<div class="Card ShadowEffect BorderBottomYellow">
+					
+						<p:dataTable 	var					=	"nota"
+										value				=	"#{mbResumo.notasPm}" 
+										emptyMessage		=	"Nenhuma Nota PM em aberto."
+										rows				= 	"100"
+										scrollable			=	"true"
+										scrollHeight		=	"280"
+										id					=	"tableNotas"
+										widgetVar			=	"tableNotas" 
+										styleClass			=	"AmbarHeader">
+										
+							<f:facet name="header">
+								<i class="icon-menu"/> Notas PM
+							</f:facet>
+							
+							<p:column headerText	=	"Máquina"
+									  width			=	"25%"
+									  style			=	"text-align:center">
+								<h:outputText value	=	"#{nota.maquina.tag}" />
+							</p:column>
+							
+							<p:column headerText	=	"Número"
+									  width			=	"25%"
+									  style			=	"text-align:center">
+								<h:outputText value	=	"#{nota.notaPm}" />
+							</p:column>
+							
+							<p:column headerText	=	"Dt. Abertura"
+									  width			=	"30%"
+									  style			=	"text-align:center">
+								
+								<p:outputLabel value		=	"#{nota.dataRegistro}">
+						  			
+						  			<f:convertDateTime  timeZone	=	"America/Sao_Paulo" 
+						  								pattern		=	"dd/MM/yyyy HH:mm" />
+						  		</p:outputLabel>
+						  		
+							</p:column>
+							
+							
+							<p:column headerText	=	"Fechar"
+									  width			=	"20%"
+									  style			=	"text-align:center">
+							
+								<p:commandButton	icon			=	"fa fa-close"
+													styleClass		=	"RedButton RaisedButton"
+													oncomplete		=	"PF('dlgFecharNota').show()"
+													immediate		=	"true"
+													update			=	"tableNotas"
+													process			=	"@this"
+													title			=	"Fechar Nota PM">
+													
+									<f:setPropertyActionListener value	=	"#{nota}" 
+																 target	=	"#{mbResumo.notaPm}"/>
+									
+								</p:commandButton>
+							
+							</p:column>
+							
+						</p:dataTable>
+						
+					</div>
+					
+				</div>
+				
+				
+				<div class="ui-g-12 ui-md-12 ui-lg-6">
+					
+					<div class="Card ShadowEffect BorderBottomYellow">
+					
+						<p:dataTable 	var					=	"notificacao"
+										value				=	"#{mbResumo.notificacoes}" 
+										emptyMessage		=	"Nenhuma Notificação Não Visualizada."
+										rows				= 	"100"
+										scrollable			=	"true"
+										scrollHeight		=	"280"
+										id					=	"tableNotificacoes"
+										widgetVar			=	"tableNotificacoes" 
+										styleClass			=	"AmbarHeader">
+										
+							<f:facet name	=	"header">
+								<i class="icon-notifications "/> Notificações Pendentes
+							</f:facet>
+							
+							<p:column headerText	=	"Descrição"
+									  width			=	"75%">
+								<h:outputText value	=	"#{notificacao.descricao}" />
+							</p:column>
+							
+							<p:column headerText	=	"Máquina"
+									  width			=	"25%"
+									  style			=	"text-align:center">
+								<h:outputText value	=	"#{notificacao.maquina.tag}" />
+							</p:column>
+							
+						</p:dataTable>
+				
+					</div>
+				
+				</div>
+				
+				
+				<div class="ui-g-12 ui-md-12 ui-lg-12">
+					
+					<div class="Card ShadowEffect BorderBottomPurple">
+					
+						<p:dataTable 	var					=	"programacao"
+										value				=	"#{mbResumo.programacoes}" 
+										emptyMessage		=	"Nenhuma Notificação Não Visualizada."
+										rows				= 	"100"
+										scrollable			=	"true"
+										scrollHeight		=	"250"
+										id					=	"tableProgramacoes"
+										widgetVar			=	"tableProgramacoes" 
+										styleClass			=	"PurpleHeader"
+										reflow				=	"true">
+										
+							<f:facet name	=	"header">
+								<i class="icon-schedule2"/> Programação da Manutenção - PPCP
+							</f:facet>
+							
+							<p:column headerText	=	"Descrição"
+									  width			=	"50%">
+								<h:outputText value	=	"#{programacao.servico.descricao}" />
+							</p:column>
+							
+							<p:column headerText	=	"Máquina"
+									  width			=	"10%"
+									  style			=	"text-align:center">
+								<h:outputText value	=	"#{programacao.maquina.tag}" />
+							</p:column>
+							
+							<p:column headerText	=	"Início"
+									  width			=	"20%"
+									  style			=	"text-align:center">
+								
+								<p:outputLabel value		=	"#{programacao.dataHoraInicio}">
+						  			
+						  			<f:convertDateTime  timeZone	=	"America/Sao_Paulo" 
+						  								pattern		=	"dd/MM/yyyy HH:mm" />
+						  		</p:outputLabel>
+						  		
+							</p:column>
+							
+							<p:column headerText	=	"Fim"
+									  width			=	"20%"
+									  style			=	"text-align:center">
+								
+								<p:outputLabel value		=	"#{programacao.dataHoraFim}">
+						  			
+						  			<f:convertDateTime  timeZone	=	"America/Sao_Paulo" 
+						  								pattern		=	"dd/MM/yyyy HH:mm" />
+						  		</p:outputLabel>
+						  		
+							</p:column>
+							
+						</p:dataTable>
+				
+					</div>
+					
+				</div>
+			
+				<ui:include src="/dashboard/dlgfecharnota.xhtml" />
+			
 			</div>
+
 		</div>
 
 	</ui:define>

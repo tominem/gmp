@@ -49,6 +49,7 @@
 		<class>br.prati.tim.collaboration.gp.jpa.Sala</class>
 		<class>br.prati.tim.collaboration.gp.jpa.Servico</class>
 		<class>br.prati.tim.collaboration.gp.jpa.ServicoMaquina</class>
+		<class>br.prati.tim.collaboration.gp.jpa.ServicoProdutoMaquina</class>
 		<class>br.prati.tim.collaboration.gp.jpa.Setor</class>
 		<class>br.prati.tim.collaboration.gp.jpa.SubprodTipoInsp</class>
 		<class>br.prati.tim.collaboration.gp.jpa.Subproduto</class>

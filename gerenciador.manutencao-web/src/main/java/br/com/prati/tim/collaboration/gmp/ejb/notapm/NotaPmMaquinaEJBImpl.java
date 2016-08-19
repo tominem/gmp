@@ -34,4 +34,10 @@ public class NotaPmMaquinaEJBImpl extends AbstractCrudEJB<NotaPmMaquina> impleme
 		return notaPmMaquinaDAO.findByStatus(status);
 	}
 
+	@Override
+	public void updateStatusNota(NotaPmMaquina nota, EStatusNotaPm status) throws Exception {
+		nota.setStatus(status);
+		notaPmMaquinaDAO.update(nota);
+	}
+
 }
