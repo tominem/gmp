@@ -1,0 +1,187 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui" 
+				template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		
+		<h:form id			=	"formCad" 
+				prependId	=	"false">      
+	       
+	       <p:growl autoUpdate	=	"true"/>
+	       
+	       <p:focus context		=	"contentPane" />
+	       
+	        <div class="Container100">
+	          
+	            <div class="ContainerIndent">
+	                
+	                <p:panel styleClass="Card ShadowEffect" id	=	"contentPane">
+	                    
+	                    <div class="Container ui-fluid">
+	                    
+	                    	<div class="ContainerIndent">
+		                    	
+		                    	<div class="Container60 Responsive100">
+		                        
+		                            <div class="BigTopic Fs18">
+										<i class="fa fa-image"/> Imagens Inspeção Pós Selagem
+									</div>
+									
+									<div class="Separator"></div>
+									
+									<p:panelGrid 	columns				=	"2" 
+			                           				layout				=	"grid" 
+			                           			 	styleClass			=	"ui-panelgrid-blank"
+			                           			 	style				=	"border:0px none;background:none"
+			                           			 	columnClasses		=	"ui-grid-col-10, ui-grid-col-2">
+			                        	
+			                        	<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpLote">
+												
+											<p:outputLabel 		value		=	"Lote"	for =	"lote" />
+											
+											<p:inputText		value			= 	"#{mbImagemPosSelagem.lote}"
+		                  										id				=	"lote"
+		                  										required		=	"true"
+		                  										requiredMessage	=	"O lote é requerido. "/>
+										
+										</h:panelGroup>
+										
+										<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpPesquisar">
+										
+											<p:outputLabel 		value			=	" " 
+																style			=	"white-space: pre-wrap;"/>
+											
+											<p:commandButton	icon			=	"fa fa-search Fs16 White" 
+				                           						styleClass		=	"PurpleButton RaisedButton Wid100"
+				                           						title			=	"Pesquisar Lote"
+				                           						actionListener	=	"#{mbImagemPosSelagem.find()}"
+				                           						process			=	"@this pnlGrpLote"
+			                           							update			=	"formCad"
+			                           							value			=	"Pesquisar" />
+		                           							
+										</h:panelGroup>
+										
+			                        </p:panelGrid>  
+			                        
+			                        
+			                        <p:panelGrid 	columns				=	"2" 
+			                           				layout				=	"grid" 
+			                           			 	styleClass			=	"ui-panelgrid-blank"
+			                           			 	style				=	"border:0px none;background:none"
+			                           			 	columnClasses		=	"ui-grid-col-6, ui-grid-col-6">
+			                        	
+			                        	<p:dataTable 	id					=	"tableCam1"
+														var					=	"item"
+														value				=	"#{mbImagemPosSelagem.inspecoesCamera1}" 
+														emptyMessage		=	"Nenhum registro" 
+														rows				=	"10"
+														rowKey				=	"#{item.idInspecao}"
+														selectionMode		=	"single"
+														scrollable			=	"true"
+														scrollHeight		=	"400"
+														reflow				=	"true"
+														resizableColumns	=	"true">
+											
+											<f:facet name	=	"header">
+												Câmera 01
+											</f:facet>
+										
+											<p:column 	headerText	=	"Data/Hora" styleClass	=	"TexAlCenter">
+												<h:outputText value		=	"#{item.dataHoraRegistro}" >
+													<f:convertDateTime type="both" pattern="dd/MM/yyyy HH:mm:ss"/>
+												</h:outputText>
+											</p:column>
+											
+											<p:column 	headerText	=	"Retorno" styleClass	=	"TexAlCenter">
+												<p:outputLabel value	=	"#{item.retorno}" />
+											</p:column>
+											
+											<p:column 	headerText	=	"Visualizar" width="50">
+											
+												<div align	=	"center">
+											
+													<p:commandButton 	styleClass		=	"RaisedButton PurpleButton"
+																		icon			=	"fa fa-eye Fs16 White"
+																		actionListener	=	"#{mbImagemPosSelagem.openImageCamera(item, 1)}"
+																		immediate		=	"true"
+																		update			=	"tableCam1 imageDialogWidget"
+																		process			=	"@this"/>
+												
+												</div>
+													
+											</p:column>
+												
+										</p:dataTable>
+										
+										
+										<p:dataTable 	id					=	"tableCam2"
+														var					=	"item"
+														value				=	"#{mbImagemPosSelagem.inspecoesCamera2}" 
+														emptyMessage		=	"Nenhum registro" 
+														rows				=	"10"
+														rowKey				=	"#{item.idInspecao}"
+														selectionMode		=	"single"
+														scrollable			=	"true"
+														scrollHeight		=	"400"
+														reflow				=	"true"
+														resizableColumns	=	"true" >
+											
+											<f:facet name	=	"header">
+												Câmera 02
+											</f:facet>
+											
+											<p:column 	headerText	=	"Data/Hora" styleClass	=	"TexAlCenter">
+												
+												<h:outputText value		=	"#{item.dataHoraRegistro}" >
+									
+													<f:convertDateTime type="both" pattern="dd/MM/yyyy HH:mm:ss"/>
+													  
+												</h:outputText>
+												
+											</p:column>
+											
+											<p:column 	headerText	=	"Retorno" styleClass	=	"TexAlCenter">
+												<p:outputLabel value	=	"#{item.retorno}" />
+											</p:column>
+											
+											<p:column 	headerText	=	"Visualizar" width="50">
+											
+												<div align	=	"center">
+												
+													<p:commandButton 	styleClass		=	"RaisedButton PurpleButton"
+																		icon			=	"fa fa-eye Fs16 White"
+																		actionListener	=	"#{mbImagemPosSelagem.openImageCamera(item, 2)}"
+																		immediate		=	"true"
+																		update			=	"tableCam2 imageDialogWidget"
+																		process			=	"@this"/>
+												
+												</div>
+												
+											</p:column>
+												
+										</p:dataTable>
+			                        		
+									</p:panelGrid>
+			                        
+		                    	</div>
+		                    	
+		                 	</div>
+		                    
+	                    </div>
+	                    
+	                </p:panel>
+	                
+	            </div>
+	            
+	        </div>
+	        
+	        <ui:include src="/utilidades/posselagem/imageviewer.xhtml" />
+	        
+		</h:form>
+		
+	</ui:define>
+	
+</ui:composition>   

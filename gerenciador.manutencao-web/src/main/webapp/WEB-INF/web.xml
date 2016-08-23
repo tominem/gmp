@@ -83,6 +83,10 @@
 		<mime-type>image/svg+xml</mime-type>
 	</mime-mapping>
 	<mime-mapping>
+	   <extension>xhtml</extension>
+	   <mime-type>image/svg+xml</mime-type>
+	</mime-mapping>
+	<mime-mapping>
 		<extension>xls</extension>
 		<mime-type>application/vnd.ms-excel</mime-type>
 	</mime-mapping>
@@ -111,6 +115,7 @@
 		<url-pattern>/lancamento/*</url-pattern>
 		<url-pattern>/monitoramento/*</url-pattern>
 		<url-pattern>/programacao/*</url-pattern>
+		<url-pattern>/utilidades/*</url-pattern>
 	</filter-mapping>
 	 
 </web-app>

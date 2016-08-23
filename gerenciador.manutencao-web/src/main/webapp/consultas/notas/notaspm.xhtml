@@ -1,0 +1,189 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui" 
+				template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		
+		<h:form id			=	"formCad" 
+				prependId	=	"false">      
+	       
+	       <p:growl autoUpdate	=	"true"/>
+	       
+	       <p:focus context		=	"contentPane" />
+	       
+	        <div class="Container100">
+	          
+	            <div class="ContainerIndent">
+	                
+	                <p:panel styleClass="Card ShadowEffect" id	=	"contentPane">
+	                    
+	                    <div class="Container ui-fluid">
+	                    
+	                    	<div class="ContainerIndent">
+		                    	
+		                    	<div class="Container60 Responsive100">
+		                        
+		                            <div class="BigTopic Fs18">
+										<i class="fa fa-file-text"/> Consultar Notas PM
+									</div>
+									
+									<div class="Separator"/>
+									
+									<p:panelGrid 	columns				=	"2" 
+			                           				layout				=	"grid" 
+			                           			 	styleClass			=	"ui-panelgrid-blank"
+			                           			 	style				=	"border:0px none;background:none"
+			                           			 	columnClasses		=	"ui-grid-col-4, ui-grid-col-4" >
+			                        	
+			                        	<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpDtInicial">
+												
+											<p:outputLabel 		value		=	"Dt. Inicial"	for =	"inicial" />
+											
+											<p:calendar id					=	"inicial"
+							      						showButtonPanel		=	"true"
+							      						value				=	"#{mbNotaPmConsluta.dataInical}"
+														pattern				=	"dd/MM/yyyy HH:mm"
+							      						locale				=	"pt_BR">
+												
+												<p:ajax event			=	"dateSelect" 
+														update			=	"final" />
+												
+												<f:convertDateTime pattern	=	"dd/MM/yyyy HH:mm" 
+																   timeZone	=	"America/Sao_Paulo" />
+												
+							      			</p:calendar>
+										
+										</h:panelGroup>
+										
+										<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpDtFinal">
+												
+											<p:outputLabel 		value		=	"Dt. Final"	for =	"final" />
+											
+											<p:calendar id					=	"final"
+							      						showButtonPanel		=	"true"
+							      						value				=	"#{mbNotaPmConsluta.dataFinal}"
+														pattern				=	"dd/MM/yyyy HH:mm"
+							      						locale				=	"pt_BR">
+												
+												<f:convertDateTime pattern	=	"dd/MM/yyyy HH:mm" 
+																   timeZone	=	"America/Sao_Paulo" />
+												
+							      			</p:calendar>
+										
+										</h:panelGroup>
+										
+			                        </p:panelGrid>  
+			                        
+			                        <p:panelGrid 	columns				=	"1" 
+			                           				layout				=	"grid" 
+			                           			 	styleClass			=	"ui-panelgrid-blank"
+			                           			 	style				=	"border:0px none;background:none"
+			                           			 	columnClasses		=	"ui-grid-col-10">
+			                        
+			                        	<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpMaquinas">
+												
+											<p:outputLabel 		value		=	"Máquinas"	for =	"maquinas" />
+											
+				                        	<p:selectCheckboxMenu id				=	"maquinas" 
+									        					  value				=	"#{mbNotaPmConsluta.maquinasSelecionadas}" 
+									        					  label				=	"Selecione"
+									                              filter			=	"false" 
+									                              filterMatchMode	=	"contains" 
+									                              converter			=	"maquinaConverter">
+									            
+									            <f:selectItems 	value		=	"#{mbNotaPmConsluta.maquinas}" 
+									            				var			=	"maquina" 
+									            				itemLabel	=	"#{maquina.tag}"
+									            				itemValue	=	"#{maquina}"/>
+									            				
+									        </p:selectCheckboxMenu>
+										     
+										</h:panelGroup>
+										
+			                       	</p:panelGrid>
+			                        
+			                     </div>
+		                    	
+		                 	</div>
+		                    
+	                    </div>
+	                    
+	                    <ui:include src="/consultas/notas/footernotaspm.xhtml" />
+	                    
+	                </p:panel>   
+			        
+			        <div class	=	"EmptyBox10"/>
+			        
+			        <p:panel styleClass	=	"Card ShadowEffect">
+	                    
+                        <p:panelGrid 	columns				=	"1" 
+                           				layout				=	"grid" 
+                           			 	styleClass			=	"ui-panelgrid-blank"
+                           			 	style				=	"border:0px none;background:none"
+                           			 	columnClasses		=	"ui-grid-col-12">
+                        	
+							<p:dataTable 	id					=	"tableMaquinas"
+											var					=	"item"
+											value				=	"#{mbNotaPmConsluta.notasPm}" 
+											emptyMessage		=	"Nenhum registro" 
+											scrollable			=	"true"
+											scrollHeight		=	"400"
+											reflow				=	"true"
+											resizableColumns	=	"true" >
+								
+								<f:facet name	=	"header">
+									Notas PM
+								</f:facet>
+								
+								<p:column 	headerText	=	"Número" styleClass	=	"TexAlCenter">
+									<p:outputLabel value	=	"#{item.notaPm}" />
+								</p:column>
+								
+								<p:column 	headerText	=	"Título" >
+									<p:outputLabel value	=	"#{item.titulo}" />
+								</p:column>
+								
+								<p:column 	headerText	=	"Causa" >
+									<p:outputLabel value	=	"#{item.causa}" />
+								</p:column>
+								
+								<p:column 	headerText	=	"Máquina" styleClass	=	"TexAlCenter">
+									<p:outputLabel value	=	"#{item.maquina.tag}" />
+								</p:column>
+								
+								<p:column 	headerText	=	"Crachá" styleClass	=	"TexAlCenter">
+									<p:outputLabel value	=	"#{item.maquina.tag}" />
+								</p:column>
+								
+								<p:column 	headerText	=	"Status" styleClass	=	"TexAlCenter">
+									<p:outputLabel value	=	"#{item.status.descricao}" />
+								</p:column>
+								
+								<p:column 	headerText	=	"Data/Hora" styleClass	=	"TexAlCenter">
+									
+									<h:outputText value		=	"#{item.dataRegistro}" >
+						
+										<f:convertDateTime type="both" pattern="dd/MM/yyyy HH:mm:ss"/>
+										  
+									</h:outputText>
+									
+								</p:column>
+									
+							</p:dataTable>
+                        		
+						</p:panelGrid>
+						
+	                </p:panel>
+	                
+	            </div>
+	            
+	        </div>
+	        
+		</h:form>
+		
+	</ui:define>
+	
+</ui:composition>   

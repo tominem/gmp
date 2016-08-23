@@ -1,0 +1,99 @@
+<html 	xmlns	="http://www.w3.org/1999/xhtml"
+		xmlns:h	="http://java.sun.com/jsf/html"
+		xmlns:f	="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:c= "http://java.sun.com/jsp/jstl/core"
+		xmlns:p	="http://primefaces.org/ui">
+
+    <h:head>
+
+        <f:facet name="first">
+    		<meta charset	=	"UTF-8" />
+        </f:facet>
+        
+        <title>#{mbSearchLote.title}</title>
+    </h:head>
+    
+     
+    <h:body>
+
+	    <style type="text/css">
+	    
+	    	.Wid10	{ width:10%;}
+	    	.Wid90	{ width:90%;}
+	    	
+	    	.nt		{ color: red; font-style: italic; }
+	    	.center { text-align: center;}
+	    	.left 	{ text-align: left;}
+	    
+	    </style>
+
+		
+        <h:form id	=	"#{mbSearchLote.formName}">
+			
+			<p:focus context	=	"panelGridBusca" />
+						
+			
+			<h:panelGrid 		columns			=	"1"
+								id				= 	"panelGridBusca"
+								columnClasses	=	"Wid100">
+				
+				<p:outputLabel	for				=	"criterioBusca" 
+								value			=	"Informe o nome para consultar o #{mbSearchLote.entityName} desejado"></p:outputLabel>
+
+				
+				<p:inputText 	id				=	"criterioBusca" 
+								value			=	"#{mbSearchLote.pattern}"
+								required		=	"false"
+								style			=	"width: 100%"
+								maxlength		=	"255">
+					
+					<p:ajax		event			=	"keyup" 
+								update			=	"panelGridTable" 
+								listener		=	"#{mbSearchLote.search()}">
+					</p:ajax>
+					
+				</p:inputText>
+				
+							
+			</h:panelGrid>
+			
+        	<h:panelGrid id="panelGridTable">
+        		
+        		 <p:dataTable 	var					=	"item" 
+        		 				value				=	"#{mbSearchLote.objectList}" 
+        		 			  	id					=	"tablePesquisa"
+        		 			  	emptyMessage		=	"Nenhum registro"
+        		 			  	paginator			=	"true"
+        		 			  	rows				=	"10"
+        		 			  	selectionMode		=	"single"
+        		 			  	rowKey				=	"#{item.idLote}"
+        		 			  	selection			=	"#{mbSearchLote.objectSelected}"
+        		 			  	paginatorPosition	=	"bottom"
+								scrollable			=	"true"
+	   		 			  		scrollHeight		=	"250">
+	
+					<p:ajax event		=	"rowSelect"
+							listener	=	"#{mbSearchLote.setSelectedObject()}" />
+					
+					<p:column headerText	=	"Número" >
+	                    <h:outputText value	=	"#{item.numeroLote}" />
+	                </p:column>
+
+					<p:column headerText	=	"Ordem Produção" >
+	                    <h:outputText value	=	"#{item.ordemProducao}" />
+	                </p:column>
+	                
+	                <p:column headerText	=	"Máquina" >
+	                	<h:outputText value	=	"#{item.status.desc}" />
+                	</p:column>
+	                
+                </p:dataTable>
+                
+        	</h:panelGrid>
+        		
+        </h:form>
+        
+	</h:body>
+	
+</html>

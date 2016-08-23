@@ -15,7 +15,7 @@ public interface CrudEJB<T> {
 
 	void exclude(T entityBean) throws Exception;
 	
-	List<T> findAllWithLimit(Optional<Boolean> status, FilterParam<?> ... filterParams);
+	List<T> findAllWithLimit(Integer limit, Optional<Boolean> status, FilterParam<?> ... filterParams);
 	
 	List<T> findLikeOrNotLikeWithLimit(String pattern, Optional<Integer> limit, Optional<Boolean> active, FilterParam<?> ... filterParams);
 

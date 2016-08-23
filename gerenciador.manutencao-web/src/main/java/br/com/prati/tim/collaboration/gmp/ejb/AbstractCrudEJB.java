@@ -18,8 +18,8 @@ public abstract class AbstractCrudEJB<T> implements CrudEJB<T> {
 	}
 	
 	@Override
-	public List<T> findAllWithLimit(Optional<Boolean> status, FilterParam<?> ... filterParams) {
-		return getCrudDAO().findAllWithLimit(status, filterParams);
+	public List<T> findAllWithLimit(Integer limit, Optional<Boolean> status, FilterParam<?> ... filterParams) {
+		return getCrudDAO().findAllWithLimit(limit,  status, filterParams);
 	}
 
 	@Override

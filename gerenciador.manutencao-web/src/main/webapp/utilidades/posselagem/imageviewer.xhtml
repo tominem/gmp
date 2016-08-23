@@ -1,0 +1,51 @@
+<ui:composition 
+    xmlns		=	"http://www.w3.org/1999/xhtml"
+    xmlns:h		=	"http://java.sun.com/jsf/html"
+	xmlns:f		=	"http://java.sun.com/jsf/core"
+	xmlns:p		=	"http://primefaces.org/ui"
+	xmlns:o		=	"http://omnifaces.org/ui"
+    xmlns:ui	=	"http://java.sun.com/jsf/facelets">
+    
+    <style type="text/css">
+    	.disable-scroll .ui-dialog-content {
+		  overflow: hidden !important;
+		  background-color: black;
+		}
+    </style>
+    
+	<p:dialog widgetVar		=	"imageDialogWidget"
+			  id			=	"imageDialogWidget" 
+			  modal			=	"true" 
+			  closable		=	"true" 
+			  resizable		=	"fa	lse"
+			  draggable		=	"false"
+			  hideEffect	=	"fade"
+			  showEffect	=	"fade"
+			  appendTo		=	"@(body)"
+			  width			=	"840" 
+			  height		=	"550"
+			  header		=	"Visualização Imagem - Lote: #{mbImagemPosSelagem.lote}"
+			  styleClass	=	"disable-scroll">
+		
+		<p:ajax event		=	"close"
+				listener	=	"#{mbImagemPosSelagem.close()}" />
+			 
+		<div align="center">	 
+			
+			<p:commandButton 	styleClass		=	"RaisedButton RedButton ShowOnMobile"
+								icon			=	"fa fa-close Fs16 White"
+								immediate		=	"true"
+								onclick			=	"PF('imageDialogWidget').hide();"
+								update			=	"imageDialogWidget"
+								process			=	"@this"/>
+		</div>
+		
+		<o:graphicImage value		=	"#{mbImagemPosSelagem.image}"
+						rendered	=	"#{mbImagemPosSelagem.image != null}" 
+						type		=	"svg"
+						dataURI		=	"true"
+						style		=	"background-color: black;" />
+		
+	</p:dialog>
+    
+</ui:composition>

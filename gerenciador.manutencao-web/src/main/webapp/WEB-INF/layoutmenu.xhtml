@@ -8,6 +8,7 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <div class="Animated05" id="layout-menu-cover">
+        
         <ul class="layout-menu">
 
         </ul>
@@ -16,10 +17,10 @@
         
 	        <pr:menu>
 				
-			<p:menuitem id		=	"monitoramentoDashboard"  			
-	         			value	=	"Inicio" 				
-	            		icon	=	"icon-home149" 
-	            		outcome	=	"/dashboard/resumo.xhtml" />
+			<p:menuitem id			=	"monitoramentoDashboard"  			
+	         			value		=	"Inicio" 				
+	            		icon		=	"icon-home149" 
+	            		outcome		=	"/dashboard/resumo.xhtml" />
 				
 				<p:separator />
 				
@@ -45,7 +46,24 @@
 	                
 	            </p:submenu>
 
-
+				<p:separator />
+				
+				<p:submenu id	=	"sm_consultas" 	label	="Consultas" 			icon="icon-search100">
+				
+					<p:menuitem id="consultanotaspm"	value="Notas PM"				icon="fa fa-file-text"				outcome="/consultas/notas/notaspm.xhtml"/>
+					<p:menuitem id="consultamanuten"	value="Manutenções"				icon="fa fa-wrench "				outcome="/utilidades/statuslote/statuslote.xhtml"/>
+					
+				</p:submenu>
+				
+				<p:separator />
+				
+				<p:submenu id	=	"sm_utilidades" 	label	="Utilidades" 			icon="icon-world96">
+				
+					<p:menuitem id="updatestatuslote"	value="Alterar Status Lote"		icon="fa fa-edit"					outcome="/utilidades/statuslote/statuslote.xhtml"/>
+					<p:menuitem id="imagemposselagem"	value="Imagem Pós Selagem"		icon="fa fa-image"					outcome="/utilidades/posselagem/imagens.xhtml"/>
+				
+				</p:submenu>
+				
 				<p:separator />
 				
 	        	<p:submenu id	=	"sm_menu_config" 	label	="Configurações" 		icon="icon-settings49">
@@ -56,13 +74,13 @@
 	                <p:menuitem	id="configGeral"		value="Configuração Geral"		icon="fa fa-gears"					outcome="/configuracoes/geral/configuracao.xhtml"	/>
 	                
 	            </p:submenu>
-
+	            
 				<p:separator />
 				
-				<p:menuitem id		=	"auditoria" 				
-            				value	=	"Auditoria" 
-            				icon	=	"fa fa-eye" 
-            				outcome	=	"/auditoria/auditoria.xhtml" />
+				<p:menuitem id			=	"auditoria" 				
+            				value		=	"Auditoria" 
+            				icon		=	"fa fa-eye" 
+            				outcome		=	"/auditoria/auditoria.xhtml" />
 				
 				<p:separator />
 				

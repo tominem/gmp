@@ -10,12 +10,10 @@ import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
-import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.context.RequestContext;
 
 import br.com.prati.tim.collaboration.gmp.dao.FilterParam;
 import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
-import br.com.prati.tim.collaboration.gmp.utis.FacesUtis;
 
 public abstract class SearchableMB<T extends Serializable> implements Serializable {
 
@@ -64,7 +62,7 @@ public abstract class SearchableMB<T extends Serializable> implements Serializab
 		List<T> objectList;
 
 		if (getPattern() == null || getPattern().trim().isEmpty()) {
-			objectList = getCrudEJB().findAllWithLimit(Optional.ofNullable(getStatusSituation()), getFilterParams());
+			objectList = getCrudEJB().findAllWithLimit(MAX_RESULTS, Optional.ofNullable(getStatusSituation()), getFilterParams());
 
 		} else {
 

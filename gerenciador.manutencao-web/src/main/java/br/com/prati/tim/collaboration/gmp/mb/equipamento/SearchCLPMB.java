@@ -30,6 +30,8 @@ public class SearchCLPMB extends SearchableMB<Equipamento> implements Serializab
 	 */
 	private static final long serialVersionUID = 632087411912461081L;
 
+	private static final int MAX_RESULTS = 20;
+	
 	@Inject
 	private EquipamentoEJB ejb;
 	
@@ -58,7 +60,7 @@ public class SearchCLPMB extends SearchableMB<Equipamento> implements Serializab
 		List<Equipamento> objectList;
 
 		if (getPattern() == null || getPattern().trim().isEmpty()) {
-			objectList = getCrudEJB().findAllWithLimit(Optional.ofNullable(getStatusSituation()), getFilterParams());
+			objectList = getCrudEJB().findAllWithLimit(MAX_RESULTS, Optional.ofNullable(getStatusSituation()), getFilterParams());
 
 		} else {
 

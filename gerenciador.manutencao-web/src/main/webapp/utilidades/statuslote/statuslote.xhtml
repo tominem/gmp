@@ -1,0 +1,154 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui" 
+				template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		
+		<h:form id			=	"formCad" 
+				prependId	=	"false">      
+	       
+	       <p:growl autoUpdate	=	"true"/>
+	       
+	       <p:focus context		=	"contentPane" />
+	       
+	        <div class="Container100">
+	          
+	            <div class="ContainerIndent">
+	                
+	                <p:panel styleClass="Card ShadowEffect" id	=	"contentPane">
+	                    
+	                    <div class="Container ui-fluid">
+	                    
+	                    	<div class="ContainerIndent">
+		                    	
+		                    	<div class="Container60 Responsive100">
+		                        
+		                            <div class="BigTopic Fs18">
+										<i class="fa fa-edit"/> Alterar Status do Lote
+									</div>
+									
+									<div class="Separator"></div>
+									
+									<p:panelGrid 	columns				=	"1" 
+			                           				layout				=	"grid" 
+			                           			 	styleClass			=	"ui-panelgrid-blank"
+			                           			 	style				=	"border:0px none;background:none"
+			                           			 	columnClasses		=	"ui-grid-col-10">
+			                        	
+			                        	<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpLote">
+												
+											<p:outputLabel 		value		=	"Lote"	for =	"lote" />
+											
+											<p:inputText		value		= 	"#{mbStatusLote.lote.numeroLote}"
+		                  										id			=	"lote"
+		                  										required	=	"true"
+		                  										immediate	=	"true"
+		                  										readonly	=	"true"/>
+			                    					
+	                    					<p:commandButton	icon			=	"fa fa-search Fs16 White" 
+				                           						styleClass		=	"ButtonPesquisar PurpleButton"
+				                           						title			=	"Pesquisar Lote"
+				                           						actionListener	=	"#{mbStatusLote.openDialog('/utilidades/statuslote/searchLote.xhtml', false)}"
+				                           						immediate		=	"true"
+				                           						process			=	"@this pnlGrpLote"
+			                           							update			=	"formCad">
+				                           						
+				                           		<p:ajax 	event		=	"dialogReturn"
+															listener	=	"#{mbStatusLote.select}"
+															update		=	"formCad" />
+					
+			                           		</p:commandButton>
+										
+										</h:panelGroup>
+										   			 	
+			                        </p:panelGrid>  
+			                        
+			                        
+			                        <p:panelGrid 	columns				=	"1" 
+			                           				layout				=	"grid" 
+			                           			 	styleClass			=	"ui-panelgrid-blank"
+			                           			 	style				=	"border:0px none;background:none"
+			                           			 	columnClasses		=	"ui-grid-col-10">
+			                        	
+			                        	<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpProduto">
+											
+											<p:outputLabel 		value		=	"Produto"	for =	"produto" />
+											
+											<p:inputText		value		= 	"#{mbStatusLote.lote.produto.descricao}"
+		                  										id			=	"produto"
+		                  										readonly	=	"true"/>
+											
+										</h:panelGroup>
+										
+										<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpStatusAtual">
+											
+											<p:outputLabel 		value		=	"Status Atual"	for =	"statusAtual" />
+											
+											<p:inputText		value		= 	"#{mbStatusLote.lote.status.desc}"
+		                  										id			=	"statusAtual"
+		                  										readonly	=	"true"/>
+											
+										</h:panelGroup>
+										
+										<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpNovoStatus">
+											
+											<p:outputLabel 		value		=	"Novo Status"	for =	"novoStatus" />
+											
+											<p:selectOneMenu id					=	"novoStatus" 
+															 value				=	"#{mbStatusLote.novoStatusLote}"
+															 required			=	"true"
+															 requiredMessage	=	"Status do Lote requerido!">
+									            
+									            <f:selectItem itemLabel			=	"Selecione o Status do Lote" 
+									            			  itemValue			=	"#{null}" />
+									            
+									            <f:selectItems 	value			=	"#{mbStatusLote.statusLotes}" 
+									            				var				=	"statusLote"
+									            				itemValue		=	"#{statusLote}"
+									            				itemLabel		=	"#{statusLote.desc}"/>
+									            
+									            <p:ajax event		=	"change" 
+									            		update		=	"btnSalvar" />
+									            
+									        </p:selectOneMenu>
+											
+										</h:panelGroup>
+										
+										<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpJustificativa">
+											
+											<p:outputLabel 		value		=	"Justificativa"	for =	"justificativa" />
+											
+											<p:inputTextarea	value			= 	"#{mbStatusLote.justificativa}"
+		                  										id				=	"justificativa"
+		                  										required		=	"true"
+		                  										requiredMessage	=	"Justificativa requerida!"
+		                  										rows			=	"5"
+		                  										maxlength		=	"255"
+		                  										autoResize		=	"true"/>
+											
+										</h:panelGroup>
+			                        		
+									</p:panelGrid>
+			                        
+		                    	</div>
+		                    	
+		                 	</div>
+		                    
+	                    	<ui:include src="/utilidades/statuslote/footerstatuslote.xhtml" />
+		                    
+	                    </div>
+	                    
+	                </p:panel>
+	                
+	            </div>
+	            
+	        </div>
+	        
+		</h:form>
+		
+	</ui:define>
+	
+</ui:composition>   

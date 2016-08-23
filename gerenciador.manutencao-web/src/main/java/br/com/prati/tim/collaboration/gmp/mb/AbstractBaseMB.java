@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.context.FacesContext;
 import javax.persistence.PersistenceException;
 
 import org.hibernate.exception.ConstraintViolationException;
@@ -112,6 +113,10 @@ public abstract class AbstractBaseMB implements BaseMB, Serializable{
 			return new PersistenceException(t.getCause().getMessage());
 		}
 		else return null;
+	}
+	
+	public void cleanForm(){
+		FacesContext.getCurrentInstance().getViewRoot().getViewMap().clear();
 	}
 
 }
