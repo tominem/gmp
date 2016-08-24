@@ -11,6 +11,8 @@
 			.ui-datatable tbody td.wrap {
 			    white-space: normal; 
 			} 
+			
+			
 		</style> 
 		
 		<h:form id			=	"formConsulta" 
@@ -31,7 +33,7 @@
 		                    	<div class="Container60 Responsive100">
 		                        
 		                            <div class="BigTopic Fs18">
-										<i class="fa fa-file-text"/> Consulta de Notas PM
+										<i class="fa fa-wrench"/> Consulta de Manutenções Realizadas
 									</div>
 									
 									<div class="Separator"/>
@@ -48,7 +50,7 @@
 											
 											<p:calendar id					=	"inicial"
 							      						showButtonPanel		=	"true"
-							      						value				=	"#{mbNotaPmConsluta.dataInicial}"
+							      						value				=	"#{mbManutencaoConsulta.dataInicial}"
 														pattern				=	"dd/MM/yyyy HH:mm"
 							      						locale				=	"pt_BR"
 							      						required			=	"true"
@@ -70,12 +72,12 @@
 											
 											<p:calendar id					=	"final"
 							      						showButtonPanel		=	"true"
-							      						value				=	"#{mbNotaPmConsluta.dataFinal}"
+							      						value				=	"#{mbManutencaoConsulta.dataFinal}"
 														pattern				=	"dd/MM/yyyy HH:mm"
 							      						locale				=	"pt_BR"
 							      						required			=	"true"
 							      						requiredMessage		=	"A data final é requerida."
-							      						mindate				=	"#{mbNotaPmConsluta.dataInicial}">
+							      						mindate				=	"#{mbManutencaoConsulta.dataInicial}">
 												
 												<f:convertDateTime pattern	=	"dd/MM/yyyy HH:mm" 
 																   timeZone	=	"America/Sao_Paulo" />
@@ -97,13 +99,13 @@
 											<p:outputLabel 		value		=	"Máquinas"	for =	"maquinas" />
 											
 				                        	<p:selectCheckboxMenu id				=	"maquinas" 
-									        					  value				=	"#{mbNotaPmConsluta.maquinasSelecionadas}" 
+									        					  value				=	"#{mbManutencaoConsulta.maquinasSelecionadas}" 
 									        					  label				=	"Selecione"
 									                              filter			=	"false" 
 									                              filterMatchMode	=	"contains" 
 									                              converter			=	"maquinaConverter">
 									            
-									            <f:selectItems 	value		=	"#{mbNotaPmConsluta.maquinas}" 
+									            <f:selectItems 	value		=	"#{mbManutencaoConsulta.maquinas}" 
 									            				var			=	"maquina" 
 									            				itemLabel	=	"#{maquina.tag}"
 									            				itemValue	=	"#{maquina}"/>
@@ -122,7 +124,7 @@
 	                    
 	                    <div class	=	"EmptyBox10"/>
 	                    
-	                    <ui:include src="/consultas/notas/footernotaspm.xhtml" />
+	                    <ui:include src="/consultas/manutencao/footermanutencoes.xhtml" />
 	                    
 	                </p:panel>   
 			        
@@ -136,58 +138,59 @@
                            			 	style				=	"border:0px none;background:none"
                            			 	columnClasses		=	"ui-grid-col-12">
                         	
-							<p:dataTable 	id					=	"tableNotas"
-											widgetVar			=	"tableNotas"
+							<p:dataTable 	id					=	"tableManutencoes"
+											widgetVar			=	"tableManutencoes"
 											var					=	"item"
-											value				=	"#{mbNotaPmConsluta.notasPm}" 
+											value				=	"#{mbManutencaoConsulta.logServicos}" 
 											emptyMessage		=	"Nenhum registro" 
 											scrollable			=	"true"
 											scrollHeight		=	"400"
 											reflow				=	"true"
-											resizableColumns	=	"true"
-											filteredValue		=	"#{mbNotaPmConsluta.notasPmFiltradas}">
+											resizableColumns	=	"true">
 								
 								<f:facet name	=	"header">
-									Notas PM
+									Manutenções Efetuadas
 								</f:facet>
 								
-								<p:column 	headerText		=	"Número" 
-											styleClass		=	"TexAlCenter"
+								<p:column 	headerText		=	"Responsável" 
+											styleClass		=	"TexAlCenter FilterCenter"
 											width			=	"10%"
-											filterBy		=	"#{item.notaPm}"
+											filterBy		=	"#{item.cracha}"
 											filterMatchMode	=	"exact">
-											
+									
 									<f:facet name="filter">
-						                <p:inputText onkeyup	=	"PF('tableNotas').filter()" 
-						                			 styleClass	=	"TexAlCenter Wid80" />
+						                <p:inputText onkeyup	=	"PF('tableManutencoes').filter()" 
+						                			 styleClass	=	"TexAlCenter">
+						                    <f:converter converterId="javax.faces.Integer" />
+						                </p:inputText> 
 						            </f:facet>
 											
-									<p:outputLabel value	=	"#{item.notaPm}" />
+									<p:outputLabel value	=	"#{item.cracha}" />
 									
 								</p:column>
 								
-								<p:column 	headerText		=	"Título"
-											width			=	"15%" 
-											styleClass		=	"wrap"
-											filterBy		=	"#{item.titulo}"
-											filterMatchMode	=	"contains">
-											
-									<p:outputLabel value	=	"#{item.titulo}" />
+								<p:column 	headerText		=	"Início" 
+											styleClass		=	"TexAlCenter wrap"
+											width			=	"10%">
+									
+									<h:outputText value		=	"#{item.dataHorainicio}" >
+						
+										<f:convertDateTime type="both" pattern="dd/MM/yyyy HH:mm:ss"/>
+										  
+									</h:outputText>
 									
 								</p:column>
 								
-								<p:column 	headerText		=	"Causa" 
-											width			=	"35%"
-											styleClass		=	"wrap "
-											filterBy		=	"#{item.causa}"
-											filterMatchMode	=	"contains">
+								
+								<p:column 	headerText		=	"Fim" 
+											styleClass		=	"TexAlCenter wrap"
+											width			=	"10%">
 									
-									<f:facet name="filter">
-						                <p:inputText onkeyup	=	"PF('tableNotas').filter()" 
-						                			 styleClass	=	"TexAlLeft Wid90" />
-						            </f:facet>
-											
-									<p:outputLabel value	=	"#{item.causa}" />
+									<h:outputText value		=	"#{item.dataHorafim}" >
+						
+										<f:convertDateTime type="both" pattern="dd/MM/yyyy HH:mm:ss"/>
+										  
+									</h:outputText>
 									
 								</p:column>
 								
@@ -199,50 +202,30 @@
 									
 								</p:column>
 								
-								<p:column 	headerText		=	"Crachá" 
-											styleClass		=	"TexAlCenter"
+								
+								<p:column 	headerText		=	"Duração"
+											width			=	"10%" 
+											styleClass		=	"TexAlCenter wrap">
+											
+									<p:outputLabel value	=	"#{mbManutencaoConsulta.getDuracaoServico(item.dataHorainicio, item.dataHorafim)}" />
+									
+								</p:column>
+								
+								<p:column 	headerText		=	"Nota PM" 
 											width			=	"10%"
-											filterBy		=	"#{item.crachaResponsavel}"
+											styleClass		=	"wrap TexAlCenter"
+											filterBy		=	"#{item.notaPm}"
 											filterMatchMode	=	"exact">
 									
-									<f:facet name="filter">
-						                <p:inputText onkeyup	=	"PF('tableNotas').filter()" 
-						                			 styleClass	=	"TexAlCenter Wid80">
-						                    <f:converter converterId="javax.faces.Integer" />
-						                </p:inputText> 
+									<f:facet name	=	"filter">
+						                <p:inputText onkeyup	=	"PF('tableManutencoes').filter()" 
+						                			 styleClass	=	"TexAlCenter"/>
 						            </f:facet>
 											
-									<p:outputLabel value	=	"#{item.crachaResponsavel}" />
+									<p:outputLabel value	=	"#{item.notaPm}" />
 									
 								</p:column>
 								
-								<p:column 	headerText		=	"Status" 
-											styleClass		=	"TexAlCenter"
-											width			=	"10%"
-											filterBy		=	"#{item.status.descricao}"
-											filterMatchMode	=	"contains">
-									
-									<f:facet name="filter">
-						                <p:inputText onkeyup	=	"PF('tableNotas').filter()" 
-						                			 styleClass	=	"TexAlCenter Wid80"/>
-						            </f:facet>
-											
-									<p:outputLabel value	=	"#{item.status.descricao}" />
-									
-								</p:column>
-								
-								<p:column 	headerText		=	"Data/Hora" 
-											styleClass		=	"TexAlCenter wrap"
-											width			=	"10%">
-									
-									<h:outputText value		=	"#{item.dataRegistro}" >
-						
-										<f:convertDateTime type="both" pattern="dd/MM/yyyy HH:mm:ss"/>
-										  
-									</h:outputText>
-									
-								</p:column>
-									
 							</p:dataTable>
                         		
 						</p:panelGrid>

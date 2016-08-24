@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import br.com.prati.tim.collaboration.gmp.dao.GenericDAO;
 import br.com.prati.tim.collaboration.gmp.dao.notapm.NotaPmMaquinaDAO;
 import br.com.prati.tim.collaboration.gmp.ejb.AbstractCrudEJB;
+import br.prati.tim.collaboration.gp.jpa.Maquina;
 import br.prati.tim.collaboration.gp.jpa.NotaPmMaquina;
 import br.prati.tim.collaboration.gp.jpa.enumerator.EStatusNotaPm;
 
@@ -38,6 +39,11 @@ public class NotaPmMaquinaEJBImpl extends AbstractCrudEJB<NotaPmMaquina> impleme
 	public void updateStatusNota(NotaPmMaquina nota, EStatusNotaPm status) throws Exception {
 		nota.setStatus(status);
 		notaPmMaquinaDAO.update(nota);
+	}
+
+	@Override
+	public List<NotaPmMaquina> findByPeriodoAndMaquinas(Date dataInicial, Date dataFinal, List<Maquina> maquinas) {
+		return notaPmMaquinaDAO.findByPeriodoAndMaquinas(dataInicial, dataFinal, maquinas);
 	}
 
 }

@@ -15,7 +15,7 @@
 					
 					<ui:insert name="limpar">
 						
-						<p:commandButton	actionListener	=	"#{mbNotaPmConsluta.consultar()}" 
+						<p:commandButton	actionListener	=	"#{mbManutencaoConsulta.find()}" 
                     						icon			=	"fa fa-search white"
                     						styleClass		=	"PurpleButton RaisedButton Wid100"
                     						value			=	"Pesquisar"
@@ -30,7 +30,7 @@
 				
 					<ui:insert name="contentSalvar">
 						
-						<p:commandButton	actionListener	=	"#{mbNotaPmConsluta.cleanForm()}" 
+						<p:commandButton	actionListener	=	"#{mbManutencaoConsulta.cleanForm()}" 
                     						icon			=	"fa fa-eraser white"
                     						styleClass		=	"PurpleButton RaisedButton Wid100"
                     						value			=	"Limpar Filtros"
