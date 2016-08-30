@@ -2,6 +2,7 @@
 				xmlns:h="http://java.sun.com/jsf/html"
 				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:pe="http://primefaces.org/ui/extensions"
 				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 	
 	<ui:define name="head">
@@ -72,28 +73,51 @@
 		                            </p:panelGrid>
 									
 									<!-- descriptionPanel -->
-									<p:panelGrid 	columns				=	"1" 
+									<p:panelGrid 	columns				=	"2" 
 		                            				layout				=	"grid" 
 		                            			 	styleClass			=	"ui-panelgrid-blank"
-		                            			 	columnClasses		=	"ui-grid-col-12">
+		                            			 	columnClasses		=	"ui-grid-col-9, ui-grid-col-3">
 		                            			 	
+										<h:panelGroup 	id			=	"pnlGrpDescricao"
+														styleClass	=	"Wid100">
 										
-										<p:outputLabel 	value			=	"Descrição" 		
-														for				=	"descricao"/>
+											<p:outputLabel 	value			=	"Descrição" 		
+															for				=	"descricao"/>
+											
+											<p:inputText 	requiredMessage	=	"Descrição requerida"
+															value			=	"#{maquinaMB.entityBean.descricao}"
+															id				=	"descricao" 
+															required		=	"true"
+															maxlength		=	"255"/>
+											
+										</h:panelGroup>
 										
-										<p:inputText 	requiredMessage	=	"Descrição requerida"
-														value			=	"#{maquinaMB.entityBean.descricao}"
-														id				=	"descricao" 
-														required		=	"true"
-														maxlength		=	"255"/>
-
+										<h:panelGroup 	id			=	"pnlGrpVel"
+														styleClass	=	"Wid100">
+										
+											<p:outputLabel 	value			=	"Velocidade Máxima" 		
+															for				=	"velocidade"/>
+															
+											<p:inputText 	value			=	"#{maquinaMB.entityBean.velocidadeMaxima}"
+															id				=	"velocidade"
+															required		=	"true"
+															maxlength		=	"3"
+															requiredMessage	=	"Velocidade Máxima requerida"
+															styleClass		=	"TexAlRight">
+											
+													<pe:keyFilter regEx="/[0-9]/i" />
+													
+											</p:inputText> 
+												
+										
+										</h:panelGroup>
 		                            </p:panelGrid>
 		                            
 		                            <!-- searchItens Panel -->
-									<p:panelGrid 	columns				=	"2" 
+									<p:panelGrid 	columns				=	"1" 
 		                            				layout				=	"grid" 
 		                            			 	styleClass			=	"ui-panelgrid-blank SearchButtonGrid"
-		                            			 	columnClasses		=	"ui-grid-col-10, ui-grid-col-1 SearchButtonPadding">
+		                            			 	columnClasses		=	"ui-grid-col-12">
 		                            			 	
 		                            	<h:panelGroup id="paLinha">
 
@@ -105,13 +129,9 @@
 															id				=	"linha"
 															readonly		=	"#{facesContext.renderResponse}"
 															required		=	"true"/>
-		                            	
-		                            	</h:panelGroup>
-		                            	
-		                            	<h:panelGroup>
 		                            		
 		                            		<p:commandButton	icon				=	"fa fa-search"
-																styleClass			=	"PurpleTextButton RaisedButton"
+																styleClass			=	"ButtonPesquisar PurpleButton"
 																actionListener		=	"#{maquinaMB.openDialog('/cadastros/linha/searchLinha.xhtml', true)}"
 																immediate			=	"true"
 																process				=	"@this paLinha">
@@ -134,13 +154,9 @@
 															id				=	"sala"
 															readonly		=	"#{facesContext.renderResponse}"
 															required		=	"true"/>
-		                            	
-		                            	</h:panelGroup>
-		                            	
-		                            	<h:panelGroup>
-		                            		
+		                            			
 		                            		<p:commandButton	icon				=	"fa fa-search"
-																styleClass			=	"PurpleTextButton RaisedButton"
+																styleClass			=	"ButtonPesquisar PurpleButton"
 																actionListener		=	"#{maquinaMB.openDialog('/cadastros/sala/searchSala.xhtml', true)}"
 																immediate			=	"true"
 																process				=	"@this paSala">
@@ -232,10 +248,10 @@
 		                           	</p:panelGrid>
 		                           	
 		                           	<!-- searchItens2 Panel -->
-									<p:panelGrid 	columns				=	"2" 
+									<p:panelGrid 	columns				=	"1" 
 		                            				layout				=	"grid" 
 		                            			 	styleClass			=	"ui-panelgrid-blank SearchButtonGrid"
-		                            			 	columnClasses		=	"ui-grid-col-10, ui-grid-col-1 SearchButtonPadding, ui-grid-col-1">
+		                            			 	columnClasses		=	"ui-grid-col-12">
 		                            			 	
 		                            	<h:panelGroup id="paEquipamento">
 
@@ -246,13 +262,9 @@
 															value			=	"#{maquinaMB.equipamentoSelected.nome}"
 															id				=	"equipamento"
 															readonly		=	"true" />
-		                            	
-		                            	</h:panelGroup>
-		                            	
-		                            	<h:panelGroup>
 		                            		
 		                            		<p:commandButton	icon				=	"fa fa-search"
-																styleClass			=	"PurpleTextButton RaisedButton"
+																styleClass			=	"ButtonPesquisar PurpleButton"
 																actionListener		=	"#{maquinaMB.openDialog('/cadastros/equipamento/searchEquipamento.xhtml', true)}"
 																immediate			=	"true"
 																process				=	"@this paEquipamento">
@@ -274,13 +286,9 @@
 															value			=	"#{maquinaMB.tipoInspecaoSelected.descricao}"
 															id				=	"tipoInspecao"
 															readonly		=	"true" />
-		                            	
-		                            	</h:panelGroup>
-		                            	
-		                            	<h:panelGroup>
 		                            		
 		                            		<p:commandButton	icon				=	"fa fa-search"
-																styleClass			=	"PurpleTextButton RaisedButton"
+																styleClass			=	"ButtonPesquisar PurpleButton"
 																actionListener		=	"#{maquinaMB.openDialog('/cadastros/tipoinspecao/searchTipoInspecao.xhtml', true)}"
 																immediate			=	"true"
 																process				=	"@this paTipoInspecao">
@@ -296,10 +304,10 @@
 		                            </p:panelGrid>
 		                            <!-- END - searchItens2 Panel -->
 		                            
-		                            <p:panelGrid	columns				=	"3" 
+		                            <p:panelGrid	columns				=	"2" 
 		                            				layout				=	"grid" 
 		                            			 	styleClass			=	"ui-panelgrid-blank SearchButtonGrid"
-		                            			 	columnClasses		=	"ui-grid-col-10, ui-grid-col-1 SearchButtonPadding, ui-grid-col-1 AddButton">
+		                            			 	columnClasses		=	"ui-grid-col-9, ui-grid-col-3">
 		                            	
 		                            	<h:panelGroup id="paTipoComunicacao">
 
@@ -310,13 +318,9 @@
 															value			=	"#{maquinaMB.tipoComunicacaoSelected.descricao}"
 															id				=	"tipoComunicacao"
 															readonly		=	"true" />
-		                            	
-		                            	</h:panelGroup>
-		                            	
-		                            	<h:panelGroup>
 		                            		
 		                            		<p:commandButton	icon				=	"fa fa-search"
-																styleClass			=	"PurpleTextButton RaisedButton SearchButton"
+																styleClass			=	"ButtonPesquisar PurpleButton"
 																actionListener		=	"#{maquinaMB.openDialog('/cadastros/tipocomunicacao/searchTipoComunicacao.xhtml', true)}"
 																immediate			=	"true"
 																process				=	"@this paTipoComunicacao">
@@ -329,7 +333,24 @@
 		                            		
 		                            	</h:panelGroup>
 		                            	
+		                            	<h:panelGroup	id	=	"pgButton">
+                           			 	
+                           			 		<p:outputLabel 	value			=	" "
+                           			 						style			=	"white-space: pre-wrap;"/>
+                           			 		
+		                            	
+			                            	<p:commandButton	icon				=	"fa fa-plus"
+																styleClass			=	"GreenButton RaisedButton"
+																actionListener		=	"#{maquinaMB.addEquipamento()}"
+																process				=	"@this paEquipamento paTipoInspecao paTipoComunicacao"
+																update				=	"paEquipamento paTipoInspecao paTipoComunicacao paTableEquipamentos"
+																value				=	"Adicionar"/>
+										
+										</h:panelGroup>
+										
+		                            	
 		                            </p:panelGrid>
+		                            
 		                            
 		                            <div class="EmptyBox10" />
 		                            
@@ -353,17 +374,6 @@
 													
 													<f:facet name	=	"header">
 														Equipamentos
-														<h:panelGroup layout="block" styleClass="AddButton">
-			                            		
-						                            		<p:commandButton	icon				=	"fa fa-plus"
-																				styleClass			=	"PurpleTextButton RaisedButton"
-																				actionListener		=	"#{maquinaMB.addEquipamento()}"
-																				process				=	"@this paEquipamento paTipoInspecao paTipoComunicacao"
-																				update				=	"paEquipamento paTipoInspecao paTipoComunicacao paTableEquipamentos">
-																	
-															</p:commandButton>
-			                            		
-			                           					 </h:panelGroup>
 													</f:facet>
 													
 													<p:column headerText="Equipamento">

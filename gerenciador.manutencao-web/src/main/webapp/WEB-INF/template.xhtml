@@ -10,15 +10,18 @@
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <meta name="apple-mobile-web-app-capable" 			content="yes" />
+            <meta name="theme-color" 							content="#8e24aa"/>
+            <meta name="msapplication-navbutton-color" 			content="#8e24aa"/>
+			<meta name="apple-mobile-web-app-status-bar-style" 	content="#8e24aa"/>
         </f:facet>
-        <title>G.M.P.</title>
+        <title>G.M.P</title>
         <h:outputScript name="js/traducao.js" 			library="gmp" />
         <h:outputScript name="js/ripple-effect.js" 		library="rio-layout" />
         <h:outputScript name="js/perfect-scrollbar.js" 	library="rio-layout" />
         <h:outputScript name="js/layout.js" 			library="rio-layout" />
         <h:outputScript name="js/layout.js" 			library="rio-layout" />
-
+		<h:outputScript name="js/pace.min.js" 			library="gmp" />
         <ui:insert name="head" />
     </h:head>
 
@@ -51,14 +54,17 @@
             </div>
         </div>
 
-        <h:outputStylesheet name="css/gmp.css" library="gmp" />
-        <h:outputStylesheet name="css/core-layout.css" library="rio-layout" />
-        <h:outputStylesheet name="css/animate.css" library="rio-layout" />
-        <h:outputStylesheet name="css/rio-font.css" library="rio-layout" />
-        <h:outputStylesheet name="css/ripple-effect.css" library="rio-layout" />
-        <h:outputStylesheet name="css/perfect-scrollbar.css" library="rio-layout" />
-        <h:outputStylesheet name="css/font-awesome.css" library="rio-layout" />
-        <h:outputStylesheet name="css/rio-layout.css" library="rio-layout" />
+        <h:outputStylesheet name="css/core-layout.css" 				library="rio-layout" />
+        <h:outputStylesheet name="css/animate.css" 					library="rio-layout" />
+        <h:outputStylesheet name="css/rio-font.css" 				library="rio-layout" />
+        <h:outputStylesheet name="css/ripple-effect.css" 			library="rio-layout" />
+        <h:outputStylesheet name="css/perfect-scrollbar.css" 		library="rio-layout" />
+        <h:outputStylesheet name="css/font-awesome.css" 			library="rio-layout" />
+        <h:outputStylesheet name="css/rio-layout.css" 				library="rio-layout" />
+        <h:outputStylesheet name="css/gmp.css" 						library="gmp" />
+        <h:outputStylesheet name="css/pace-theme-flash.tmpl.css" 	library="gmp" />
+        <h:outputStylesheet name="css/pace-theme-flash.css" 		library="gmp" />
+        
         <ui:include src="/componentes/confirm-dialog/confirmdialog.xhtml" />
         
     </h:body>

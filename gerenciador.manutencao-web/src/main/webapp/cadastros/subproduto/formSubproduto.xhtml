@@ -205,10 +205,10 @@
 									
 									</p:panelGrid>
 									
-									 <p:panelGrid 	columns				=	"2" 
+									 <p:panelGrid 	columns				=	"1" 
 		                            				layout				=	"grid" 
 		                            			 	styleClass			=	"ui-panelgrid-blank SearchButtonGrid"
-		                            			 	columnClasses		=	"ui-grid-col-10, ui-grid-col-1 SearchButtonPadding">
+		                            			 	columnClasses		=	"ui-grid-col-12">
 		                            	
 		                            	<h:panelGroup id	=	"paTipoInspecao">
 		                            	
@@ -218,13 +218,9 @@
 											<p:inputText 	value			=	"#{subprodutoMB.tipoInspecao.descricao}"
 															id				=	"tpInspecao"
 															readonly		=	"true" />
-									        
-		                            	</h:panelGroup>
-		                            	
-		                            	<h:panelGroup>
-		                            		
-		                            		<p:commandButton	icon				=	"fa fa-search"
-																styleClass			=	"PurpleTextButton RaisedButton"
+									    	
+									    	<p:commandButton	icon				=	"fa fa-search"
+																styleClass			=	"ButtonPesquisar PurpleButton"
 																actionListener		=	"#{subprodutoMB.openDialog('/cadastros/tipoinspecao/searchTipoInspecao.xhtml', true)}"
 																immediate			=	"true"
 																process				=	"@this paTipoInspecao">
@@ -239,10 +235,10 @@
 		                            	
 		                            </p:panelGrid>
 		                            
-		                            <p:panelGrid 	columns				=	"1" 
+		                            <p:panelGrid 	columns				=	"2" 
 		                            				layout				=	"grid" 
 		                            			 	styleClass			=	"ui-panelgrid-blank"
-		                            			 	columnClasses		=	"ui-grid-col-10">
+		                            			 	columnClasses		=	"ui-grid-col-9,	ui-grid-col-3">
 		                            	
 		                            	<h:panelGroup id	=	"paCodigoInspecao">
 		                            	
@@ -254,6 +250,21 @@
 									        
 		                            	</h:panelGroup>
 		                            	
+		                            	<h:panelGroup	id	=	"pgButton">
+                           			 	
+                           			 		<p:outputLabel 	value			=	" "
+                           			 						style			=	"white-space: pre-wrap;"/>
+                           			 		
+		                            	
+			                            	<p:commandButton	icon				=	"fa fa-plus"
+																styleClass			=	"GreenButton RaisedButton"
+																actionListener		=	"#{subprodutoMB.addItem()}"
+																process				=	"@this paTipoInspecao paCodigoInspecao"
+																update				=	"paTipoInspecao paCodigoInspecao tableTiposInspecao"
+																value				=	"Adicionar"/>
+										
+										</h:panelGroup>
+																						
 		                            </p:panelGrid>
 		                            
 		                            <div class="EmptyBox10" />
@@ -280,13 +291,7 @@
 													Tipos de Inspeção
 													<h:panelGroup layout="block" styleClass="AddButton">
 		                            		
-					                            		<p:commandButton	icon				=	"fa fa-plus"
-																			styleClass			=	"PurpleTextButton RaisedButton"
-																			actionListener		=	"#{subprodutoMB.addItem()}"
-																			process				=	"@this paTipoInspecao paCodigoInspecao"
-																			update				=	"paTipoInspecao paCodigoInspecao tableTiposInspecao">
-																
-														</p:commandButton>
+					                            		
 		                            		
 		                           					 </h:panelGroup>
 												</f:facet>

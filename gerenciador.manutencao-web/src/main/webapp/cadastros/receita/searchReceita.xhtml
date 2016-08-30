@@ -100,12 +100,19 @@
 	                	
 					</c:forEach>
 	                	
+                	<p:column 	headerText	=	"Situação" 
+                				width		=	"12%"
+                			  	styleClass	=	"center">
+                    	<h:outputText value	=	"#{item.status ? 'Ativo' : 'Inativo'}" />
+                	</p:column>	
                 	
                 </p:dataTable>
                 
         	</h:panelGrid>
         		
         </h:form>
+        
+        <h:outputStylesheet name="css/core-layout.css" 			library="rio-layout" />
         
 	</h:body>
 	

@@ -40,7 +40,7 @@
 									<p:panelGrid 	columns				=	"3" 
 		                            				layout				=	"grid" 
 		                            			 	styleClass			=	"ui-panelgrid-blank"
-		                            			 	columnClasses		=	"ui-grid-col-4, ui-grid-col-1 SearchButtonPadding, ui-grid-col-6">
+		                            			 	columnClasses		=	"ui-grid-col-6, ui-grid-col-6">
 		                            			 	
 										
 										<h:panelGroup id="paMaquina">
@@ -54,19 +54,15 @@
 															required		=	"true"
 															readonly		=	"true"/>
 											
-										</h:panelGroup>
-
-										<h:panelGroup id="paMaquinaButton">
-											
 											<p:commandButton	icon				=	"fa fa-search"
-																styleClass			=	"PurpleTextButton RaisedButton"
+																styleClass			=	"PurpleButton ButtonPesquisar"
 																actionListener		=	"#{receitaMB.openDialog('/cadastros/maquina/searchMaquina.xhtml', true)}"
 																immediate			=	"true"
 																process				=	"@this paMaquina paEquipamento">
 													
 													<p:ajax 	event		=	"dialogReturn"
 																listener	=	"#{receitaMB.selectMaquina}"
-																update		=	"paMaquina paMaquinaButton paEquipamento paTipoInspecao"/>
+																update		=	"paMaquina paEquipamento paTipoInspecao"/>
 											
 											</p:commandButton>
 															
@@ -107,7 +103,7 @@
 									<p:panelGrid 	columns				=	"1" 
 		                            				layout				=	"grid" 
 		                            			 	styleClass			=	"ui-panelgrid-blank"
-		                            			 	columnClasses		=	"ui-grid-col-5">
+		                            			 	columnClasses		=	"ui-grid-col-6">
 		                            			 	
 			                            <h:panelGroup id="paTipoInspecao">
 			                            	

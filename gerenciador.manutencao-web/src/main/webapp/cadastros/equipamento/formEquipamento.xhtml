@@ -117,7 +117,7 @@
 									<p:panelGrid 	columns				=	"2" 
 		                            				layout				=	"grid" 
 		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
-		                            			 	columnClasses		=	"ui-grid-col-6, ui-grid-col-6">
+		                            			 	columnClasses		=	"ui-grid-col-8, ui-grid-col-4">
 		                            			 	
 										
 										<h:panelGroup>
@@ -145,10 +145,10 @@
 										
 		                            </p:panelGrid>
 
-									<p:panelGrid 	columns				=	"3" 
+									<p:panelGrid 	columns				=	"1" 
 		                            				layout				=	"grid" 
 		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
-		                            			 	columnClasses		=	"ui-grid-col-8, ui-grid-col-1, ui-grid-col-3">
+		                            			 	columnClasses		=	"ui-grid-col-8">
 		                            			 	
 										
 										<h:panelGroup	id			=	"fabPane">
@@ -161,29 +161,22 @@
 															requiredMessage	=	"Fabricante requerido"
 															required		=	"true"
 															readonly		=	"true"/>
-															
-										</h:panelGroup>
-
-										
-										<h:panelGroup>
-										
-											<div class="EmptyBox20"/>
-	
-											<p:commandButton	icon				=	"fa fa-search"
-																styleClass			=	"PurpleTextButton RaisedButton"
-																actionListener		=	"#{equipamentoMB.openDialog('/cadastros/fabricante/searchFabricante.xhtml', true)}"
-																immediate			=	"true"
-																process				=	"@this">
-												
-												<p:ajax 	event		=	"dialogReturn"
+											
+											<p:commandButton	icon			=	"fa fa-search Fs16 White" 
+				                           						styleClass		=	"ButtonPesquisar PurpleButton"
+				                           						title			=	"Pesquisar Fabricante"
+				                           						actionListener	=	"#{equipamentoMB.openDialog('/cadastros/fabricante/searchFabricante.xhtml', true)}"
+				                           						immediate		=	"true"
+				                           						process			=	"@this fabPane">
+				                           						
+				                           		<p:ajax 	event		=	"dialogReturn"
 															listener	=	"#{equipamentoMB.selectFabricante}"
 															update		=	"fabPane"/>
-											
-											</p:commandButton>
+					
+			                           		</p:commandButton>
+										
 															
 										</h:panelGroup>
-										
-										<div class="EmptyBox20"/>
 										
 										<h:panelGroup id	=	"paTipoEquipamento">
 										
@@ -201,19 +194,15 @@
 												
 												<f:selectItem itemLabel="Selecione o tipo de equipamento" />
 												
-												<f:selectItems value="#{equipamentoMB.tiposEquipamentos}" var="a"
-													itemValue="#{a}"/>
+												<f:selectItems 	value		=	"#{equipamentoMB.tiposEquipamentos}" 
+																var			=	"a"
+																itemValue	=	"#{a}"/>
 													
 											</p:selectOneMenu>									
 										
 										</h:panelGroup>
-										
-										<div class="EmptyBox20"/>
-										
-										<div class="EmptyBox20"/>
 
 		                            </p:panelGrid>
-		                            
 		                            
 		                            <h:panelGroup id	=	"paEntradasLabel">
 		                            

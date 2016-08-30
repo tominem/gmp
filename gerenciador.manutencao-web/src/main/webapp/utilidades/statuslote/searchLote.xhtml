@@ -41,7 +41,7 @@
 								styleClass		=	"Wid100">
 				
 				<p:outputLabel	for				=	"criterioBusca" 
-								value			=	"Informe o nome para consultar o #{mbSearchLote.entityName} desejado"></p:outputLabel>
+								value			=	"Informe o número do lote desejado"></p:outputLabel>
 
 				
 				<p:inputText 	id				=	"criterioBusca" 
@@ -78,16 +78,25 @@
 					<p:ajax event		=	"rowSelect"
 							listener	=	"#{mbSearchLote.setSelectedObject()}" />
 					
-					<p:column headerText	=	"Número" >
+					<p:column 	headerText	=	"Número" 
+								styleClass	=	"center">
+								
 	                    <h:outputText value	=	"#{item.numeroLote}" />
+	                    
 	                </p:column>
 
-					<p:column headerText	=	"Ordem Produção" >
+					<p:column 	headerText	=	"Ordem Produção" 
+							 	styleClass	=	"center">
+							 	
 	                    <h:outputText value	=	"#{item.ordemProducao}" />
+	                    
 	                </p:column>
 	                
-	                <p:column headerText	=	"Máquina" >
+	                <p:column 	headerText	=	"Situação" 
+	                			styleClass	=	"center">
+	                			
 	                	<h:outputText value	=	"#{item.status.desc}" />
+	                	
                 	</p:column>
 	                
                 </p:dataTable>
@@ -95,6 +104,7 @@
         	</h:panelGrid>
         		
         </h:form>
+        
         
 	</h:body>
 	

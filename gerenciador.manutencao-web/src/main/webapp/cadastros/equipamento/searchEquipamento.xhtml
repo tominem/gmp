@@ -114,6 +114,11 @@
                     	<h:outputText value	=	"#{item.fabricante.nome}" />
                 	</p:column>
                 	
+                	<p:column 	headerText	=	"Situação" 
+                				width		=	"12%"
+                			  	styleClass	=	"center">
+                    	<h:outputText value	=	"#{item.status ? 'Ativo' : 'Inativo'}" />
+                	</p:column>	
                 	
                 </p:dataTable>
                 

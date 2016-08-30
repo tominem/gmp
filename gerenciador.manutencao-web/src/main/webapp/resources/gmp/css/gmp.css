@@ -309,3 +309,27 @@ Table .TexAlCenter {
 .BorderBottomGray {
 	border-bottom: 5px solid #90A4AE !important;
 }
+
+.layout-menu > li ul li a:focus {
+    color: #9c27b0 !important;
+}
+
+.ui-inputfield.ui-state-hover,
+.ui-inputfield.ui-state-focus {
+    color: #9c27b0 !important;
+    border-bottom: solid 1px #9c27b0 !important;
+}
+
+::selection {
+    color: white;
+    background: #9c27b0;
+}
+
+::-moz-selection{
+    color: white;
+    background: #9c27b0;
+}
+
+#layout-menu-cover i.icon-ellipsis1 {
+    display: none !important;
+}
