@@ -15,6 +15,12 @@ public class ConnectionUtil {
 		return getJNDIConnection("java:jboss/datasources/PosSelagemXADS");
 		
 	}
+	
+	public static Connection getJNDIConnectionGestaoProducao() {
+		
+		return getJNDIConnection("java:jboss/datasources/GestaoProducaoXADS");
+		
+	}
 		
 	private static Connection getJNDIConnection(String dataSourceContext){
 		

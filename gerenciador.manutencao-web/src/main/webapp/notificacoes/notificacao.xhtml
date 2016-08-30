@@ -1,0 +1,111 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui" 
+				template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		
+		<h:form id			=	"formCad" 
+				prependId	=	"false">      
+	       
+	       <p:growl autoUpdate	=	"true"/>
+	       
+	       <p:focus context		=	"contentPane" />
+	       
+	        <div class="Container100">
+	          
+	            <div class="ContainerIndent">
+	                
+	                <p:panel styleClass="Card ShadowEffect" id	=	"contentPane">
+	                    
+	                    <div class="Container ui-fluid">
+	                    
+	                    	<div class="ContainerIndent">
+		                    	
+		                    	<div class="Container60 Responsive100">
+		                        
+		                            <div class="BigTopic Fs18">
+										<i class="fa fa-send"/> Enviar Notificação
+									</div>
+									
+									<div class="Separator"></div>
+									
+									<p:panelGrid 	columns				=	"1" 
+			                           				layout				=	"grid" 
+			                           			 	styleClass			=	"ui-panelgrid-blank"
+			                           			 	style				=	"border:0px none;background:none"
+			                           			 	columnClasses		=	"ui-grid-col-10">
+			                        	
+			                        			
+										<p:outputLabel 		value		=	"Mensagem"	
+															for 		=	"mensagem" />
+										
+										<p:inputTextarea 	rows		=	"6" 
+															autoResize	=	"true"
+															id			=	"mensagem"
+															value		=	"#{mbNotificacao.mensagem}"/>
+										
+										<p:outputLabel 		for			=	"tempo" 
+															value		=	"Tempo " />
+        								
+        								<p:inputMask 		id			=	"tempo" 
+        													value		=	"#{mbNotificacao.tempoExibicaoStr}" 
+        													mask		=	"99:99"/>										   			 	
+											
+										<p:outputLabel 		value		=	"Máquinas"	
+															for 		=	"maquinas" />
+										
+										<p:selectCheckboxMenu id				=	"maquinas" 
+								        					  value				=	"#{mbNotificacao.maquinasSelecionadas}" 
+								        					  label				=	"Selecione"
+								                              filter			=	"false" 
+								                              filterMatchMode	=	"contains" 
+								                              converter			=	"maquinaConverter">
+								            
+								            <f:selectItems 	value		=	"#{mbNotificacao.maquinas}" 
+								            				var			=	"maquina" 
+								            				itemLabel	=	"#{maquina.tag}"
+								            				itemValue	=	"#{maquina}"/>
+								            				
+								        </p:selectCheckboxMenu>
+										
+										<p:outputLabel 		value		=	"Papéis"	
+															for 		=	"papeis" />
+										
+										<p:selectCheckboxMenu id				=	"papeis" 
+								        					  value				=	"#{mbNotificacao.papeisSelecionados}" 
+								        					  label				=	"Selecione"
+								                              filter			=	"false" 
+								                              filterMatchMode	=	"contains" 
+								                              converter			=	"papelViewConverter">
+								            
+								            <f:selectItems 	value		=	"#{mbNotificacao.papeis}" 
+								            				var			=	"papel" 
+								            				itemLabel	=	"#{papel.nome}"
+								            				itemValue	=	"#{papel}"/>
+								            				
+								        </p:selectCheckboxMenu>
+			                        		
+									</p:panelGrid>
+			                        
+		                    	</div>
+		                    	
+		                 	</div>
+		                    
+	                    	<ui:include src="/notificacoes/footernotificacao.xhtml" />
+		                    
+	                    </div>
+	                    
+	                </p:panel>
+	                
+	            </div>
+	            
+	        </div>
+	        
+		</h:form>
+		
+	</ui:define>
+	
+</ui:composition>   

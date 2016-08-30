@@ -23,7 +23,18 @@ public class LectorComboBoxConverter  implements ConverterComp{
 
 	@Override
 	public String convert(Object displayed) {
-		return displayed+"";
+		
+		if (displayed.toString().equals("Desligado")){
+			return "0";
+		} else if (displayed.toString().equals("Vermelho")){
+			return "1";
+		} else if (displayed.toString().equals("Azul")){
+			return "2";
+		} else if (displayed.toString().equals("Ambos")){
+			return "3";
+		}
+		
+		return "5";
 	}
 
 	@Override

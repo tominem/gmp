@@ -1,10 +1,13 @@
 package br.com.prati.tim.collaboration.gmp.ejb.historicoprod;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import br.prati.tim.collaboration.gp.jpa.enumerator.EStatusMaquina;
 
-public class RegistroProducao {
+public class RegistroProducao implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String			identificador;
 
@@ -14,10 +17,14 @@ public class RegistroProducao {
 
 	private String			descricao;
 
-	private Long			cracha;
+	private Integer			cracha;
 
 	private EStatusMaquina	statusMaquina;
 
+	public RegistroProducao (){
+		
+	}
+	
 	public String getIdentificador() {
 		return identificador;
 	}
@@ -50,11 +57,11 @@ public class RegistroProducao {
 		this.descricao = descricao;
 	}
 
-	public Long getCracha() {
+	public Integer getCracha() {
 		return cracha;
 	}
 
-	public void setCracha(Long cracha) {
+	public void setCracha(Integer cracha) {
 		this.cracha = cracha;
 	}
 

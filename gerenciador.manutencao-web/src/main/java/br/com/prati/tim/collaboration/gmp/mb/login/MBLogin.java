@@ -1,6 +1,7 @@
 package br.com.prati.tim.collaboration.gmp.mb.login;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -19,6 +20,7 @@ import br.prati.tim.collaboration.gp.jpa.ConfiguracaoGeral;
 import br.prati.tim.gmp.ws.usuario.AlterarSenhaParams;
 import br.prati.tim.gmp.ws.usuario.AutParams;
 import br.prati.tim.gmp.ws.usuario.ETipoAcesso;
+import br.prati.tim.gmp.ws.usuario.Papel;
 import br.prati.tim.gmp.ws.usuario.RecuperacaoSenhaParams;
 import br.prati.tim.gmp.ws.usuario.RetornoAutenticacao;
 import br.prati.tim.gmp.ws.usuario.StatusAut;
@@ -114,6 +116,18 @@ public class MBLogin implements Serializable{
 		SessionUtil.getSession().setAttribute("cracha", cracha);
 		return "/dashboard/resumo?faces-redirect=true";
 		
+	}
+	
+	public List<Papel> getPapeisSistema(String sistema){
+		
+		try {
+			UsuarioWS usuarioWS =  getUsuarioService();
+			return usuarioWS.retornaPapeisPorSistema(sistema);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	private UsuarioWS getUsuarioService() throws Exception {

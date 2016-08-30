@@ -15,12 +15,13 @@
 					
 					<ui:insert name="limpar">
 						
-						<p:commandButton	actionListener	=	"#{mbManutencaoConsulta.find()}" 
+						<p:commandButton	actionListener	=	"#{mbHistoricoProducao.find()}" 
                     						icon			=	"fa fa-search white"
                     						styleClass		=	"PurpleButton RaisedButton Wid100"
                     						value			=	"Pesquisar"
-                    						update			=	"formConsulta"
-                    						id				=	"btConsultar"/>
+                    						update			=	"formConsulta tableHistorico"
+                    						id				=	"btConsultar"
+                    						/>
 					
 					</ui:insert>
 					
@@ -30,11 +31,11 @@
 				
 					<ui:insert name="contentSalvar">
 						
-						<p:commandButton	actionListener	=	"#{mbManutencaoConsulta.cleanForm()}" 
+						<p:commandButton	actionListener	=	"#{mbHistoricoProducao.cleanForm()}" 
                     						icon			=	"fa fa-eraser white"
                     						styleClass		=	"PurpleButton RaisedButton Wid100"
                     						value			=	"Limpar Filtros"
-                    						update			=	"formConsulta"
+                    						update			=	"formConsulta tableHistorico"
                     						validateClient	=	"false"
                     						id				=	"btLimpar"/>
 						

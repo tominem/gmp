@@ -193,7 +193,7 @@ public class MBConfigEquipamento extends AbstractBaseMB implements Serializable{
 				
 				configEquipamento.getValorConfigEquip().setValor(valorBoolean);
 				
-			} else if (valoresFuncaos != null){
+			} else if (valoresFuncaos != null && !valoresFuncaos.isEmpty()){
 				
 				configEquipamento.getValorConfigEquip().setValor(valor);
 				

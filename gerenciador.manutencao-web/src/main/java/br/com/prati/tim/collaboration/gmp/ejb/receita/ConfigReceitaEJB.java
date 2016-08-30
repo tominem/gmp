@@ -26,5 +26,5 @@ public interface ConfigReceitaEJB {
 			 				  List<Receita> 				receitas,
 			 				  List<ValorReceita> 			valoresReceita) throws Exception;
 	
-	void saveValoresReceita(List<ValorReceita> valoresReceita, Map<Long, Region>	mapRegiao) throws Exception;
+	void saveValoresReceita(List<ValorReceita> valoresReceita, Map<Long, Region> mapRegiao) throws Exception;
 }

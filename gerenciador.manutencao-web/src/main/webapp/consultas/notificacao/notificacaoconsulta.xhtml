@@ -31,7 +31,7 @@
 		                    	<div class="Container60 Responsive100">
 		                        
 		                            <div class="BigTopic Fs18">
-										<i class="fa fa-file-text"/> Consulta de Notas PM
+										<i class="fa fa-comments-o"/> Consulta de Notificações Enviadas
 									</div>
 									
 									<div class="Separator"/>
@@ -40,7 +40,7 @@
 			                           				layout				=	"grid" 
 			                           			 	styleClass			=	"ui-panelgrid-blank"
 			                           			 	style				=	"border:0px none;background:none"
-			                           			 	columnClasses		=	"ui-grid-col-4, ui-grid-col-4" >
+			                           			 	columnClasses		=	"ui-grid-col-5, ui-grid-col-5" >
 			                        	
 			                        	<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpDtInicial">
 												
@@ -48,7 +48,7 @@
 											
 											<p:calendar id					=	"inicial"
 							      						showButtonPanel		=	"true"
-							      						value				=	"#{mbNotaPmConsluta.dataInicial}"
+							      						value				=	"#{mbNotificacaoConsulta.filtros.dataInicial}"
 														pattern				=	"dd/MM/yyyy HH:mm"
 							      						locale				=	"pt_BR"
 							      						required			=	"true"
@@ -70,17 +70,44 @@
 											
 											<p:calendar id					=	"final"
 							      						showButtonPanel		=	"true"
-							      						value				=	"#{mbNotaPmConsluta.dataFinal}"
+							      						value				=	"#{mbNotificacaoConsulta.filtros.dataFinal}"
 														pattern				=	"dd/MM/yyyy HH:mm"
 							      						locale				=	"pt_BR"
 							      						required			=	"true"
 							      						requiredMessage		=	"A data final é requerida."
-							      						mindate				=	"#{mbNotaPmConsluta.dataInicial}">
+							      						mindate				=	"#{mbNotificacaoConsulta.filtros.dataInicial}">
 												
 												<f:convertDateTime pattern	=	"dd/MM/yyyy HH:mm" 
 																   timeZone	=	"America/Sao_Paulo" />
 												
 							      			</p:calendar>
+										
+										</h:panelGroup>
+										
+										<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpDescricao">
+										
+											<p:outputLabel 		value		=	"Mensagem"	for =	"mensagem" />
+			                        		
+			                        		<p:inputText		value		=	"#{mbNotificacaoConsulta.filtros.descricao}"
+			                        							id			=	"mensagem"
+			                        							placeholder	=	"Que contenha o texto..."/>
+										
+										</h:panelGroup>
+										
+										<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpVisualizado">
+										
+											<p:outputLabel 		value		=	"Visualizada"	for =	"visualizado" />
+											
+			                        		<p:selectOneMenu 	value		=	"#{mbNotificacaoConsulta.filtros.visualizado}" 
+			                        							id			=	"visualizado">
+			                        			
+			                        			<f:selectItem 	itemValue	=	"false"
+			                        							itemLabel	=	"Não"/>
+			                        							
+			                        			<f:selectItem 	itemValue	=	"true"
+			                        							itemLabel	=	"Sim"/>				
+			                        							
+			                        		</p:selectOneMenu>
 										
 										</h:panelGroup>
 										
@@ -90,28 +117,41 @@
 			                           				layout				=	"grid" 
 			                           			 	styleClass			=	"ui-panelgrid-blank"
 			                           			 	style				=	"border:0px none;background:none"
-			                           			 	columnClasses		=	"ui-grid-col-8">
-			                        
-			                        	<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpMaquinas">
-												
-											<p:outputLabel 		value		=	"Máquinas"	for =	"maquinas" />
-											
-				                        	<p:selectCheckboxMenu id				=	"maquinas" 
-									        					  value				=	"#{mbNotaPmConsluta.maquinasSelecionadas}" 
-									        					  label				=	"Selecione"
-									                              filter			=	"false" 
-									                              filterMatchMode	=	"contains" 
-									                              converter			=	"maquinaConverter">
-									            
-									            <f:selectItems 	value		=	"#{mbNotaPmConsluta.maquinas}" 
-									            				var			=	"maquina" 
-									            				itemLabel	=	"#{maquina.tag}"
-									            				itemValue	=	"#{maquina}"/>
-									            				
-									        </p:selectCheckboxMenu>
-										     
-										</h:panelGroup>
+			                           			 	columnClasses		=	"ui-grid-col-10">
 										
+										<p:outputLabel 		value		=	"Máquinas"	for =	"maquinas" />
+										
+			                        	<p:selectCheckboxMenu id				=	"maquinas" 
+								        					  value				=	"#{mbNotificacaoConsulta.filtros.maquinasSelecionadas}" 
+								        					  label				=	"Selecione"
+								                              filter			=	"true" 
+								                              filterMatchMode	=	"contains" 
+								                              converter			=	"maquinaConverter">
+								            
+								            <f:selectItems 	value		=	"#{mbNotificacaoConsulta.maquinas}" 
+								            				var			=	"maquina" 
+								            				itemLabel	=	"#{maquina.tag}"
+								            				itemValue	=	"#{maquina}"/>
+								            				
+								        </p:selectCheckboxMenu>
+								        
+								        
+								        <p:outputLabel 		value		=	"Papéis"	for =	"papeis" />
+										
+			                        	<p:selectCheckboxMenu id				=	"papeis" 
+								        					  value				=	"#{mbNotificacaoConsulta.filtros.papeisSelecionados}" 
+								        					  label				=	"Selecione"
+								                              filter			=	"true" 
+								                              filterMatchMode	=	"contains" 
+								                              converter			=	"papelViewConverter">
+								            
+								            <f:selectItems 	value		=	"#{mbNotificacaoConsulta.papeis}" 
+								            				var			=	"papel" 
+								            				itemLabel	=	"#{papel.nome}"
+								            				itemValue	=	"#{papel}"/>
+								            				
+								        </p:selectCheckboxMenu>
+								        
 			                       	</p:panelGrid>
 			                        
 			                     </div>
@@ -122,7 +162,7 @@
 	                    
 	                    <div class	=	"EmptyBox10"/>
 	                    
-	                    <ui:include src="/consultas/notas/footernotaspm.xhtml" />
+	                    <ui:include src="/consultas/notificacao/footerconsultanotificacao.xhtml" />
 	                    
 	                </p:panel>   
 			        
@@ -136,105 +176,90 @@
                            			 	style				=	"border:0px none;background:none"
                            			 	columnClasses		=	"ui-grid-col-12">
                         	
-							<p:dataTable 	id					=	"tableNotas"
-											widgetVar			=	"tableNotas"
+							<p:dataTable 	id					=	"tableNotificacoes"
+											widgetVar			=	"tableNotificacoes"
 											var					=	"item"
-											value				=	"#{mbNotaPmConsluta.notasPm}" 
+											value				=	"#{mbNotificacaoConsulta.notificacoes}" 
 											emptyMessage		=	"Nenhum registro" 
 											scrollable			=	"true"
 											scrollHeight		=	"400"
 											reflow				=	"true"
 											resizableColumns	=	"true"
-											filteredValue		=	"#{mbNotaPmConsluta.notasPmFiltradas}"
 											paginator			=	"true"
 											paginatorPosition	=	"bottom"
 											rows				=	"15">
 								
 								<f:facet name	=	"header">
-									Notas PM
+									Notificações
 								</f:facet>
-								
-								<p:column 	headerText		=	"Número" 
-											styleClass		=	"TexAlCenter"
-											width			=	"10%"
-											filterBy		=	"#{item.notaPm}"
-											filterMatchMode	=	"exact">
-											
-									<f:facet name="filter">
-						                <p:inputText onkeyup	=	"PF('tableNotas').filter()" 
-						                			 styleClass	=	"TexAlCenter Wid80" />
-						            </f:facet>
-											
-									<p:outputLabel value	=	"#{item.notaPm}" />
-									
-								</p:column>
-								
-								<p:column 	headerText		=	"Título"
-											width			=	"15%" 
-											styleClass		=	"wrap"
-											filterBy		=	"#{item.titulo}"
-											filterMatchMode	=	"contains">
-											
-									<p:outputLabel value	=	"#{item.titulo}" />
-									
-								</p:column>
-								
-								<p:column 	headerText		=	"Causa" 
-											width			=	"35%"
-											styleClass		=	"wrap "
-											filterBy		=	"#{item.causa}"
-											filterMatchMode	=	"contains">
-									
-									<f:facet name="filter">
-						                <p:inputText onkeyup	=	"PF('tableNotas').filter()" 
-						                			 styleClass	=	"TexAlLeft Wid90" />
-						            </f:facet>
-											
-									<p:outputLabel value	=	"#{item.causa}" />
-									
-								</p:column>
 								
 								<p:column 	headerText		=	"Máquina" 
 											styleClass		=	"TexAlCenter"
-											width			=	"10%">
+											width			=	"10%" >
 											
 									<p:outputLabel value	=	"#{item.maquina.tag}" />
 									
 								</p:column>
 								
-								<p:column 	headerText		=	"Crachá" 
+								<p:column 	headerText		=	"Papel"
+											width			=	"15%" 
+											styleClass		=	"wrap">
+											
+									<p:outputLabel value	=	"#{item.nomePapel}" />
+									
+								</p:column>
+								
+								<p:column 	headerText		=	"Mensagem" 
+											width			=	"35%"
+											styleClass		=	"wrap">
+											
+									<p:outputLabel value	=	"#{item.descricao}" />
+									
+								</p:column>
+								
+								<p:column 	headerText		=	"Visualizada" 
+											styleClass		=	"TexAlCenter"
+											width			=	"10%">
+											
+									<p:outputLabel value	=	"#{item.visualizada ? 'Sim' : 'Não'}" />
+									
+								</p:column>
+								
+								<p:column 	headerText		=	"Criado Por" 
 											styleClass		=	"TexAlCenter"
 											width			=	"10%"
-											filterBy		=	"#{item.crachaResponsavel}"
+											filterBy		=	"#{item.crachaCriador}"
 											filterMatchMode	=	"exact">
 									
 									<f:facet name="filter">
-						                <p:inputText onkeyup	=	"PF('tableNotas').filter()" 
+						                <p:inputText onkeyup	=	"PF('tableNotificacoes').filter()" 
 						                			 styleClass	=	"TexAlCenter Wid80">
 						                    <f:converter converterId="javax.faces.Integer" />
 						                </p:inputText> 
 						            </f:facet>
 											
-									<p:outputLabel value	=	"#{item.crachaResponsavel}" />
+									<p:outputLabel value	=	"#{item.crachaCriador}" />
 									
 								</p:column>
 								
-								<p:column 	headerText		=	"Status" 
+								<p:column 	headerText		=	"Visualizado Por" 
 											styleClass		=	"TexAlCenter"
 											width			=	"10%"
-											filterBy		=	"#{item.status.descricao}"
-											filterMatchMode	=	"contains">
+											filterBy		=	"#{item.crachaVisualizador}"
+											filterMatchMode	=	"exact">
 									
 									<f:facet name="filter">
-						                <p:inputText onkeyup	=	"PF('tableNotas').filter()" 
-						                			 styleClass	=	"TexAlCenter Wid80"/>
+						                <p:inputText onkeyup	=	"PF('tableNotificacoes').filter()" 
+						                			 styleClass	=	"TexAlCenter Wid80">
+						                    <f:converter converterId="javax.faces.Integer" />
+						                </p:inputText> 
 						            </f:facet>
 											
-									<p:outputLabel value	=	"#{item.status.descricao}" />
+									<p:outputLabel value	=	"#{item.crachaVisualizador}" />
 									
 								</p:column>
 								
-								<p:column 	headerText		=	"Data/Hora" 
+								<p:column 	headerText		=	"Data Criação" 
 											styleClass		=	"TexAlCenter wrap"
 											width			=	"10%">
 									

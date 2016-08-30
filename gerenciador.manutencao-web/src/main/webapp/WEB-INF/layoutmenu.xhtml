@@ -10,8 +10,25 @@
     <div class="Animated05" id="layout-menu-cover">
         
         <ul class="layout-menu">
-
+            <li>
+                <a class="menulink ripplelink">
+                    <i class="icon-round58 Fs40"></i>
+                    <span class="Fs18">#{mbLogin.nomeUsuario}
+<!--                     	<i class="icon-downwards Fright Fs20"/> -->
+                    	<br/>
+                    	<span class="Fs12 FontRobotoLight">Crachá: #{mbLogin.cracha}</span>
+                    </span>
+                </a>
+<!--                 <ul>	 -->
+<!--                     <li><a href="#" class="menulink ripplelink"><i class="fa fa-star Fs16 Yellow"></i> Favorito 1</a></li> -->
+<!--                     <li><a href="#" class="menulink ripplelink"><i class="fa fa-star Fs16 Yellow"></i> Favorito 2</a></li> -->
+<!--                     <li><a href="#" class="menulink ripplelink"><i class="fa fa-star Fs16 Yellow"></i> Favorito 3</a></li> -->
+<!--                     <li><a href="#" class="menulink ripplelink"><i class="fa fa-star Fs16 Yellow"></i> Favorito 4</a></li> -->
+<!--                 </ul> -->
+            </li>
         </ul>
+        
+        <div class="Separator"></div>
         
         <h:form>
         
@@ -52,6 +69,16 @@
 				
 					<p:menuitem id="consultanotaspm"	value="Notas PM"				icon="fa fa-file-text"				outcome="/consultas/notas/notaspm.xhtml"/>
 					<p:menuitem id="consultamanuten"	value="Manutenções"				icon="fa fa-wrench"					outcome="/consultas/manutencao/manutencoes.xhtml"/>
+					<p:menuitem id="consulthistprod"	value="Histórico Produção"		icon="fa fa-history"				outcome="/consultas/historico/historicoproducao.xhtml"/>
+					<p:menuitem id="notificacoesenv"	value="Notificações Enviadas"	icon="fa fa-comments-o"				outcome="/consultas/notificacao/notificacaoconsulta.xhtml"/>
+					
+				</p:submenu>
+				
+				<p:separator />
+					
+				<p:submenu id	=	"sm_notificacoes" 	label	="Notificações" 			icon="icon-notifications">
+				
+					<p:menuitem id="enviarnotificacao"	value="Enviar Notificação"			icon="fa fa-send"				outcome="/notificacoes/notificacao.xhtml"/>
 					
 				</p:submenu>
 				
@@ -80,6 +107,13 @@
 				<p:menuitem id			=	"auditoria" 				
             				value		=	"Auditoria" 
             				icon		=	"fa fa-eye" 
+            				outcome		=	"/auditoria/auditoria.xhtml" />
+				
+				<p:separator />
+				
+				<p:menuitem id			=	"help" 				
+            				value		=	"Ajuda" 
+            				icon		=	"icon-help18" 
             				outcome		=	"/auditoria/auditoria.xhtml" />
 				
 				<p:separator />

@@ -23,9 +23,8 @@ import br.prati.tim.collaboration.gp.jpa.ProdutoSubproduto;
 import br.prati.tim.collaboration.gp.jpa.Receita;
 import br.prati.tim.collaboration.gp.jpa.Subproduto;
 import br.prati.tim.collaboration.gp.jpa.TipoComponente;
-import br.prati.tim.collaboration.gp.jpa.ValorReceita;
-import br.prati.tim.collaboration.gp.jpa.ValoresFuncao;
 import br.prati.tim.collaboration.gp.jpa.TipoComponente.ETipoComponente;
+import br.prati.tim.collaboration.gp.jpa.ValorReceita;
 import br.prati.tim.collaboration.gp.jpa.enumerator.EComponentConverter;
 
 @Stateless
@@ -134,11 +133,10 @@ public class ConfigReceitaEJBImpl implements ConfigReceitaEJB {
 	@Override
 	public ValorReceita getValorReceitaConverted(ValorReceita valorReceita, Map<Long, Region>	mapRegiao, boolean isToDisplay) {
 		
-		ConfigEquipamento 	configEquipamento 	= valorReceita.getReceita().getConfigEquipamento();
-		TipoComponente 		tipoComponente 		= configEquipamento.getFuncaoConfig().getTipoComponente();
-		EComponentConverter componentConverter 	= configEquipamento.getFuncaoConfig().getConverter();
-		List<ValoresFuncao> valoresFuncaos 		= configEquipamento.getFuncaoConfig().getValoresFuncaos();
-		String 				valor 				= valorReceita.getValor();
+		ConfigEquipamento 	configEquipamento 		= 	valorReceita.getReceita().getConfigEquipamento();
+		TipoComponente 		tipoComponente 			= 	configEquipamento.getFuncaoConfig().getTipoComponente();
+		EComponentConverter componentConverter 		= 	configEquipamento.getFuncaoConfig().getConverter();
+		String 				valor 					= 	valorReceita.getValor();
 			
 		if (valor != null && tipoComponente.getNomeComponente().equals(ETipoComponente.CHECKBOX.getValue())){
 			
@@ -151,11 +149,7 @@ public class ConfigReceitaEJBImpl implements ConfigReceitaEJB {
 			}
 			
 			valorReceita.setValor(valorBoolean);
-			
-		} else if (valoresFuncaos != null && tipoComponente.getNomeComponente().equals(ETipoComponente.COMBOBOX.getValue())){
-			
-			valorReceita.setValor(valor);
-			
+				
 		} else if (componentConverter != null){
 			
 			ConverterComp 	converter 			= null;

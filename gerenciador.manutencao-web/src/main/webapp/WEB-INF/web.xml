@@ -117,6 +117,7 @@
 		<url-pattern>/programacao/*</url-pattern>
 		<url-pattern>/utilidades/*</url-pattern>
 		<url-pattern>/consultas/*</url-pattern>
+		<url-pattern>/notificacoes/*</url-pattern>
 	</filter-mapping>
 	 
 </web-app>

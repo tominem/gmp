@@ -15,7 +15,7 @@
 					
 					<ui:insert name="limpar">
 						
-						<p:commandButton	actionListener	=	"#{mbManutencaoConsulta.find()}" 
+						<p:commandButton	actionListener	=	"#{mbNotificacaoConsulta.find}" 
                     						icon			=	"fa fa-search white"
                     						styleClass		=	"PurpleButton RaisedButton Wid100"
                     						value			=	"Pesquisar"
@@ -30,12 +30,12 @@
 				
 					<ui:insert name="contentSalvar">
 						
-						<p:commandButton	actionListener	=	"#{mbManutencaoConsulta.cleanForm()}" 
+						<p:commandButton	actionListener	=	"#{mbNotificacaoConsulta.cleanForm}" 
                     						icon			=	"fa fa-eraser white"
                     						styleClass		=	"PurpleButton RaisedButton Wid100"
                     						value			=	"Limpar Filtros"
-                    						update			=	"formConsulta"
                     						validateClient	=	"false"
+                    						update			=	"formConsulta"
                     						id				=	"btLimpar"/>
 						
 					</ui:insert>

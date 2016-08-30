@@ -1,4 +1,4 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 				xmlns:h="http://java.sun.com/jsf/html"
 				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -33,7 +33,7 @@
 		                    	<div class="Container60 Responsive100">
 		                        
 		                            <div class="BigTopic Fs18">
-										<i class="fa fa-wrench"/> Consulta de Manutenções Realizadas
+										<i class="fa fa-history"/> Consulta de Histórico de Produção
 									</div>
 									
 									<div class="Separator"/>
@@ -50,7 +50,7 @@
 											
 											<p:calendar id					=	"inicial"
 							      						showButtonPanel		=	"true"
-							      						value				=	"#{mbManutencaoConsulta.dataInicial}"
+							      						value				=	"#{mbHistoricoProducao.dataInicial}"
 														pattern				=	"dd/MM/yyyy HH:mm"
 							      						locale				=	"pt_BR"
 							      						required			=	"true"
@@ -72,12 +72,12 @@
 											
 											<p:calendar id					=	"final"
 							      						showButtonPanel		=	"true"
-							      						value				=	"#{mbManutencaoConsulta.dataFinal}"
+							      						value				=	"#{mbHistoricoProducao.dataFinal}"
 														pattern				=	"dd/MM/yyyy HH:mm"
 							      						locale				=	"pt_BR"
 							      						required			=	"true"
 							      						requiredMessage		=	"A data final é requerida."
-							      						mindate				=	"#{mbManutencaoConsulta.dataInicial}">
+							      						mindate				=	"#{mbHistoricoProducao.dataInicial}">
 												
 												<f:convertDateTime pattern	=	"dd/MM/yyyy HH:mm" 
 																   timeZone	=	"America/Sao_Paulo" />
@@ -94,53 +94,56 @@
 			                           			 	style				=	"border:0px none;background:none"
 			                           			 	columnClasses		=	"ui-grid-col-8">
 			                        
-			                        	<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpLote">
-												
-											<p:outputLabel 		value		=	"Lote"	for =	"lote" />
-											
-											<p:inputText		value		= 	"#{mbStatusLote.lote.numeroLote}"
-		                  										id			=	"lote"
-		                  										required	=	"true"
-		                  										immediate	=	"true"
-		                  										readonly	=	"true"/>
-			                    					
-	                    					<p:commandButton	icon			=	"fa fa-search Fs16 White" 
-				                           						styleClass		=	"ButtonPesquisar PurpleButton"
-				                           						title			=	"Pesquisar Lote"
-				                           						actionListener	=	"#{mbStatusLote.openDialog('/utilidades/statuslote/searchLote.xhtml', false)}"
-				                           						immediate		=	"true"
-				                           						process			=	"@this pnlGrpLote"
-			                           							update			=	"formCad">
-				                           						
-				                           		<p:ajax 	event		=	"dialogReturn"
-															listener	=	"#{mbStatusLote.select}"
-															update		=	"formCad" />
-					
-			                           		</p:commandButton>
-										
-										</h:panelGroup>
-										
-										<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpMaquina">
+			                        
+			                        	<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpMaquina">
 												
 											<p:outputLabel 		value		=	"Máquina"	for =	"maquina" />
 											
-											<p:inputText		value		= 	"#{mbConfigReceita.maquina.tag}"
+											<p:inputText		value		= 	"#{mbHistoricoProducao.maquina.tag}"
 		                  										id			=	"maquina"
 		                  										required	=	"true"
+		                  										requiredMessage	=	"A máquina é requerida."
 		                  										immediate	=	"true"
 		                  										readonly	=	"true"/>
 			                    					
 	                    					<p:commandButton	icon			=	"fa fa-search Fs16 White" 
 				                           						styleClass		=	"ButtonPesquisar PurpleButton"
 				                           						title			=	"Pesquisar Máquina"
-				                           						actionListener	=	"#{mbConfigReceita.openDialog('/cadastros/maquina/searchMaquina.xhtml', false)}"
+				                           						actionListener	=	"#{mbHistoricoProducao.openDialog('/cadastros/maquina/searchMaquina.xhtml', false)}"
 				                           						immediate		=	"true"
 				                           						process			=	"@this pnlGrpMaquina"
-			                           							update			=	"formCad">
+			                           							update			=	"pnlGrpMaquina">
 				                           						
 				                           		<p:ajax 	event		=	"dialogReturn"
-															listener	=	"#{mbConfigReceita.select}"
-															update		=	"formCad" />
+															listener	=	"#{mbHistoricoProducao.select}"
+															update		=	"pnlGrpMaquina" />
+					
+			                           		</p:commandButton>
+										
+										</h:panelGroup>
+
+										
+			                        
+			                        	<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpLote">
+												
+											<p:outputLabel 		value		=	"Lote"	for =	"lote" />
+											
+											<p:inputText		value		= 	"#{mbHistoricoProducao.lote.numeroLote}"
+		                  										id			=	"lote"
+		                  										immediate	=	"true"
+		                  										readonly	=	"true"/>
+			                    					
+	                    					<p:commandButton	icon			=	"fa fa-search Fs16 White" 
+				                           						styleClass		=	"ButtonPesquisar PurpleButton"
+				                           						title			=	"Pesquisar Lote"
+				                           						actionListener	=	"#{mbHistoricoProducao.openDialog('/utilidades/statuslote/searchLote.xhtml', false)}"
+				                           						immediate		=	"true"
+				                           						process			=	"@this pnlGrpLote"
+			                           							update			=	"pnlGrpLote">
+				                           						
+				                           		<p:ajax 	event		=	"dialogReturn"
+															listener	=	"#{mbHistoricoProducao.select}"
+															update		=	"pnlGrpLote" />
 					
 			                           		</p:commandButton>
 										
@@ -156,7 +159,7 @@
 	                    
 	                    <div class	=	"EmptyBox10"/>
 	                    
-	                    <ui:include src="/consultas/manutencao/footermanutencoes.xhtml" />
+	                    <ui:include src="/consultas/historico/footerhistoricoproducao.xhtml" />
 	                    
 	                </p:panel>   
 			        
@@ -173,89 +176,116 @@
 							<p:dataTable 	id					=	"tableHistorico"
 											widgetVar			=	"tableHistorico"
 											var					=	"item"
-											value				=	"#{mbHistoricoProducao}" 
+											value				=	"#{mbHistoricoProducao.historico}" 
 											emptyMessage		=	"Nenhum registro" 
 											scrollable			=	"true"
 											scrollHeight		=	"400"
 											reflow				=	"true"
-											resizableColumns	=	"true">
+											resizableColumns	=	"true"
+											paginator			=	"true"
+											paginatorPosition	=	"bottom"
+											rows				=	"15">
 								
 								<f:facet name	=	"header">
-									Manutenções Efetuadas
+									Histórico
 								</f:facet>
 								
-								<p:column 	headerText		=	"Responsável" 
-											styleClass		=	"TexAlCenter FilterCenter"
+								
+								<p:column 	headerText		=	"Identificador" 
+											styleClass		=	"TexAlCenter"
 											width			=	"10%"
+											filterBy		=	"#{item.identificador}"
+											filterMatchMode	=	"startsWith">
+											
+									
+									<f:facet name="filter">
+						                <p:inputText onkeyup	=	"PF('tableHistorico').filter()" 
+						                			 styleClass	=	"TexAlCenter Wid80" /> 
+						            </f:facet>		
+									
+									<h:outputText value		=	"#{item.identificador}" />
+												
+								</p:column>
+								
+								<p:column 	headerText		=	"Ação" 
+											styleClass		=	"TexAlLeft wrap"
+											width			=	"20%"
+											filterBy		=	"#{item.acao}"
+											filterMatchMode	=	"contains">
+											
+									
+									<f:facet name="filter">
+						                <p:inputText onkeyup	=	"PF('tableHistorico').filter()" 
+						                			 styleClass	=	"TexAlLeft Wid90" /> 
+						            </f:facet>		
+									
+									<h:outputText value		=	"#{item.acao}" />
+												
+								</p:column>
+								
+								
+								<p:column 	headerText		=	"Data/Hora" 
+											styleClass		=	"TexAlCenter wrap"
+											width			=	"10%">
+									
+									<h:outputText value		=	"#{item.dataHora}" >
+						
+										<f:convertDateTime 	type		=	"both" 
+															pattern		=	"dd/MM/yyyy HH:mm:ss"
+															timeZone	=	"America/Sao_Paulo"/>
+										  
+									</h:outputText>
+									
+								</p:column>
+								
+								<p:column 	headerText		=	"Descrição" 
+											styleClass		=	"TexAlCenter wrap"
+											width			=	"15%"
+											filterBy		=	"#{item.descricao}"
+											filterMatchMode	=	"contains">
+											
+									
+									<f:facet name="filter">
+						                <p:inputText onkeyup	=	"PF('tableHistorico').filter()" 
+						                			 styleClass	=	"TexAlCenter Wid80" /> 
+						            </f:facet>		
+									
+									<h:outputText value		=	"#{item.descricao}" />
+												
+								</p:column>
+								
+								<p:column 	headerText		=	"Crachá" 
+											width			=	"10%"
+											styleClass		=	"TexAlCenter"
 											filterBy		=	"#{item.cracha}"
 											filterMatchMode	=	"exact">
 									
-									<f:facet name="filter">
-						                <p:inputText onkeyup	=	"PF('tableManutencoes').filter()" 
-						                			 styleClass	=	"TexAlCenter">
-						                    <f:converter converterId="javax.faces.Integer" />
-						                </p:inputText> 
+									<f:facet name	=	"filter">
+						                <p:inputText onkeyup	=	"PF('tableHistorico').filter()" 
+						                			 styleClass	=	"TexAlCenter Wid80">		 
+						                	<f:converter converterId="javax.faces.Integer" />
+						                </p:inputText>
+						                			 
 						            </f:facet>
 											
 									<p:outputLabel value	=	"#{item.cracha}" />
 									
 								</p:column>
 								
-								<p:column 	headerText		=	"Início" 
-											styleClass		=	"TexAlCenter wrap"
-											width			=	"10%">
-									
-									<h:outputText value		=	"#{item.dataHorainicio}" >
-						
-										<f:convertDateTime type="both" pattern="dd/MM/yyyy HH:mm:ss"/>
-										  
-									</h:outputText>
-									
-								</p:column>
-								
-								
-								<p:column 	headerText		=	"Fim" 
-											styleClass		=	"TexAlCenter wrap"
-											width			=	"10%">
-									
-									<h:outputText value		=	"#{item.dataHorafim}" >
-						
-										<f:convertDateTime type="both" pattern="dd/MM/yyyy HH:mm:ss"/>
-										  
-									</h:outputText>
-									
-								</p:column>
-								
-								<p:column 	headerText		=	"Máquina" 
+								<p:column 	headerText		=	"Status Máquina" 
 											styleClass		=	"TexAlCenter"
-											width			=	"10%">
+											width			=	"15%"
+											filterBy		=	"#{item.statusMaquina.descricao}"
+											filterMatchMode	=	"startsWith">
 											
-									<p:outputLabel value	=	"#{item.maquina.tag}" />
 									
-								</p:column>
-								
-								
-								<p:column 	headerText		=	"Duração"
-											width			=	"10%" 
-											styleClass		=	"TexAlCenter wrap">
-											
-									<p:outputLabel value	=	"#{mbManutencaoConsulta.getDuracaoServico(item.dataHorainicio, item.dataHorafim)}" />
+									<f:facet name="filter">
+						                <p:inputText onkeyup	=	"PF('tableHistorico').filter()" 
+						                			 styleClass	=	"TexAlCenter Wid80" /> 
+						            </f:facet>		
 									
-								</p:column>
-								
-								<p:column 	headerText		=	"Nota PM" 
-											width			=	"10%"
-											styleClass		=	"wrap TexAlCenter"
-											filterBy		=	"#{item.notaPm}"
-											filterMatchMode	=	"exact">
-									
-									<f:facet name	=	"filter">
-						                <p:inputText onkeyup	=	"PF('tableManutencoes').filter()" 
-						                			 styleClass	=	"TexAlCenter"/>
-						            </f:facet>
-											
-									<p:outputLabel value	=	"#{item.notaPm}" />
-									
+									<h:outputText value		=	"#{item.statusMaquina.descricao}" />
+												
 								</p:column>
 								
 							</p:dataTable>

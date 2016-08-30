@@ -21,6 +21,7 @@
 	    
 	    	.Wid10	{ width:10%;}
 	    	.Wid90	{ width:90%;}
+	    	.Wid100	{ width:100%;}
 	    	
 	    	.nt		{ color: red; font-style: italic; }
 	    	.center { text-align: center;}
@@ -36,7 +37,8 @@
 			
 			<h:panelGrid 		columns			=	"1"
 								id				= 	"panelGridBusca"
-								columnClasses	=	"Wid100">
+								columnClasses	=	"Wid100"
+								styleClass		=	"Wid100">
 				
 				<p:outputLabel	for				=	"criterioBusca" 
 								value			=	"Informe o nome para consultar o #{mbSearchLote.entityName} desejado"></p:outputLabel>

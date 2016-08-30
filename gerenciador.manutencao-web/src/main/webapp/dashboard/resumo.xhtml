@@ -17,6 +17,11 @@
 				font-weight: bold;
 			}
 			
+			.AmbarBottom .ui-paginator-bottom {
+			    background-color: #FFC107;
+			    border-radius: 1px;
+			}
+			
 			.PurpleHeader.ui-datatable .ui-datagrid-header, 
 			.PurpleHeader.ui-datatable .ui-datatable-header, 
 			.PurpleHeader.ui-datatable .ui-datatable-subtable-header, 
@@ -52,12 +57,13 @@
 						<p:dataTable 	var					=	"nota"
 										value				=	"#{mbResumo.notasPm}" 
 										emptyMessage		=	"Nenhuma Nota PM em aberto."
-										rows				= 	"100"
 										scrollable			=	"true"
-										scrollHeight		=	"280"
+										scrollHeight		=	"337"
 										id					=	"tableNotas"
 										widgetVar			=	"tableNotas" 
-										styleClass			=	"AmbarHeader">
+										styleClass			=	"AmbarHeader"
+										paginator			=	"false"
+										rows				=	"100">
 										
 							<f:facet name="header">
 								<i class="icon-menu"/> Notas PM
@@ -121,12 +127,14 @@
 						<p:dataTable 	var					=	"notificacao"
 										value				=	"#{mbResumo.notificacoes}" 
 										emptyMessage		=	"Nenhuma Notificação Não Visualizada."
-										rows				= 	"100"
 										scrollable			=	"true"
 										scrollHeight		=	"280"
 										id					=	"tableNotificacoes"
 										widgetVar			=	"tableNotificacoes" 
-										styleClass			=	"AmbarHeader">
+										styleClass			=	"AmbarHeader AmbarBottom"
+										paginator			=	"true"
+										paginatorPosition	=	"bottom"
+										rows				=	"15">
 										
 							<f:facet name	=	"header">
 								<i class="icon-notifications "/> Notificações Pendentes
@@ -156,14 +164,16 @@
 					
 						<p:dataTable 	var					=	"programacao"
 										value				=	"#{mbResumo.programacoes}" 
-										emptyMessage		=	"Nenhuma Notificação Não Visualizada."
-										rows				= 	"100"
+										emptyMessage		=	"Nenhuma programação de manutenção."
 										scrollable			=	"true"
 										scrollHeight		=	"250"
 										id					=	"tableProgramacoes"
 										widgetVar			=	"tableProgramacoes" 
 										styleClass			=	"PurpleHeader"
-										reflow				=	"true">
+										reflow				=	"true"
+										paginator			=	"true"
+										paginatorPosition	=	"bottom"
+										rows				=	"15">
 										
 							<f:facet name	=	"header">
 								<i class="icon-schedule2"/> Programação da Manutenção - PPCP
