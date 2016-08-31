@@ -12,9 +12,13 @@ import br.com.prati.tim.collaboration.gmp.dao.itemconfig.FuncaoConfigDAO;
 import br.com.prati.tim.collaboration.gmp.dao.menuconfig.MenuConfigDAO;
 import br.com.prati.tim.collaboration.gmp.dao.tipocomponente.TipoComponenteDAO;
 import br.com.prati.tim.collaboration.gmp.ejb.AbstractCrudEJB;
+import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
+import br.com.prati.tim.collaboration.gmp.mb.login.SessionUtil;
 import br.prati.tim.collaboration.gp.jpa.FuncaoConfig;
 import br.prati.tim.collaboration.gp.jpa.MenuConfig;
 import br.prati.tim.collaboration.gp.jpa.TipoComponente;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
+import br.prati.tim.gmp.ws.usuario.ETipoAcesso;
 
 @Stateless
 public class FuncaoConfigEJBImpl extends AbstractCrudEJB<FuncaoConfig> implements FuncaoConfigEJB{
@@ -33,6 +37,10 @@ public class FuncaoConfigEJBImpl extends AbstractCrudEJB<FuncaoConfig> implement
 	
 	@Override
 	public FuncaoConfig save(FuncaoConfig entityBean) throws Exception {
+		
+		ETipoAcessoGUM tipoAcesso = entityBean.getIdFuncaoConfig() == null ? ETipoAcessoGUM.INCLUSAO : ETipoAcessoGUM.ALTERACAO;
+		
+		validatePermission(tipoAcesso);
 		
 		if (entityBean.getIdFuncaoConfig() == null) {
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
@@ -65,5 +73,7 @@ public class FuncaoConfigEJBImpl extends AbstractCrudEJB<FuncaoConfig> implement
 	public List<FuncaoConfig> findByComandoAndMenuConfig(String comando, MenuConfig menuConfig) {
 		return funcaoConfigDAO.findByComandoAndMenuConfig(comando, menuConfig);
 	}
+	
+	
 	
 }

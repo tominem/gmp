@@ -16,6 +16,7 @@ import br.com.prati.tim.collaboration.gmp.mb.notificacao.NotificacaoFiltros;
 import br.com.prati.tim.collaboration.gmp.ws.DynamicServiceLocator;
 import br.prati.tim.collaboration.gp.jpa.ConfiguracaoGeral;
 import br.prati.tim.collaboration.gp.jpa.Notificacao;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 import br.prati.tim.gmp.ws.usuario.Papel;
 import br.prati.tim.gmp.ws.usuario.UsuarioService;
 import br.prati.tim.gmp.ws.usuario.UsuarioWS;
@@ -32,6 +33,10 @@ public class NotificacaoEJBImpl extends AbstractCrudEJB<Notificacao> implements 
 	@Override
 	public Notificacao save(Notificacao entityBean) throws Exception {
 
+		ETipoAcessoGUM tipoAcesso = entityBean.getIdNotificacao() == null ? ETipoAcessoGUM.INCLUSAO : ETipoAcessoGUM.ALTERACAO;
+		
+		validatePermission(tipoAcesso);
+		
 		if (entityBean.getIdNotificacao() != null && entityBean.getIdNotificacao() > 0) {
 			return notificacaoDAO.update(entityBean);
 		} else {

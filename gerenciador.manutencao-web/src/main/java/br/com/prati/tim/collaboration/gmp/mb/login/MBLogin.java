@@ -9,6 +9,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
 
@@ -26,6 +27,7 @@ import br.prati.tim.gmp.ws.usuario.RetornoAutenticacao;
 import br.prati.tim.gmp.ws.usuario.StatusAut;
 import br.prati.tim.gmp.ws.usuario.UsuarioService;
 import br.prati.tim.gmp.ws.usuario.UsuarioWS;
+import br.prati.tim.gmp.ws.usuario.ViewAcesso;
 
 @Named("mbLogin")
 @SessionScoped
@@ -51,6 +53,8 @@ public class MBLogin implements Serializable{
 	private Integer					codigoSeguranca;
 
 	private String					nomeUsuario;
+	
+	private List<ViewAcesso>		acessosUsuario;
 
 	private String					msgAlerta;
 
@@ -76,6 +80,10 @@ public class MBLogin implements Serializable{
 			RetornoAutenticacao autenticarUsuario = usuarioWS.autenticarUsuario(parametros);
 			
 			this.nomeUsuario = autenticarUsuario.getCadUsuario().getNome();
+			this.acessosUsuario = autenticarUsuario.getAcessoList();
+			
+			HttpSession session = SessionUtil.getSession();
+			session.setAttribute("acessosUsuario", acessosUsuario);
 			
 			if (autenticarUsuario.getStatusAutenticacao() == StatusAut.AUTORIZADO){
 				return redirect();
@@ -342,6 +350,14 @@ public class MBLogin implements Serializable{
 
 	public void setNomeUsuario(String nomeUsuario) {
 		this.nomeUsuario = nomeUsuario;
+	}
+
+	public List<ViewAcesso> getAcessosUsuario() {
+		return acessosUsuario;
+	}
+
+	public void setAcessosUsuario(List<ViewAcesso> acessosUsuario) {
+		this.acessosUsuario = acessosUsuario;
 	}
 	
 }

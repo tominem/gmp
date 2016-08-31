@@ -10,6 +10,7 @@ import br.com.prati.tim.collaboration.gmp.dao.GenericDAO;
 import br.com.prati.tim.collaboration.gmp.dao.tipocomponente.TipoComponenteDAO;
 import br.com.prati.tim.collaboration.gmp.ejb.AbstractCrudEJB;
 import br.prati.tim.collaboration.gp.jpa.TipoComponente;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Stateless
 public class TipoComponenteEJBImpl extends AbstractCrudEJB<TipoComponente> implements TipoComponenteEJB{
@@ -22,6 +23,10 @@ public class TipoComponenteEJBImpl extends AbstractCrudEJB<TipoComponente> imple
 	
 	@Override
 	public TipoComponente save(TipoComponente entityBean) throws Exception {
+		
+		ETipoAcessoGUM tipoAcesso = entityBean.getIdTipoComponente() == null ? ETipoAcessoGUM.INCLUSAO : ETipoAcessoGUM.ALTERACAO;
+		
+		validatePermission(tipoAcesso);
 		
 		if (entityBean.getIdTipoComponente() == null) {
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());

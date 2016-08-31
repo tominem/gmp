@@ -13,6 +13,7 @@ import br.com.prati.tim.collaboration.gmp.dao.maquina.MaquinaDAO;
 import br.com.prati.tim.collaboration.gmp.ejb.AbstractCrudEJB;
 import br.prati.tim.collaboration.gp.jpa.EquipamentoMaquina;
 import br.prati.tim.collaboration.gp.jpa.Maquina;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Stateless
 public class MaquinaEJBImpl extends AbstractCrudEJB<Maquina> implements MaquinaEJB{
@@ -28,6 +29,11 @@ public class MaquinaEJBImpl extends AbstractCrudEJB<Maquina> implements MaquinaE
 	
 	@Override
 	public Maquina save(Maquina entityBean) throws Exception {
+		
+		ETipoAcessoGUM tipoAcesso = entityBean.getIdMaquina() == null ? ETipoAcessoGUM.INCLUSAO : ETipoAcessoGUM.ALTERACAO;
+		
+		validatePermission(tipoAcesso);
+		
 		if (entityBean.getIdMaquina() == null) {
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
 			entityBean.setStatus(Boolean.TRUE);

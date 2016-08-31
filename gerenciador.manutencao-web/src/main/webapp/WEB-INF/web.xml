@@ -104,6 +104,10 @@
 			<param-name>paginaInicial</param-name>
 			<param-value>/login.xhtml</param-value>
 		</init-param>
+		<init-param>
+	      <param-name>paginaPermissaoNegada</param-name>
+	      <param-value>/acesso-negado.xhtml</param-value>
+	    </init-param>
 	</filter>
 	<filter-mapping>
 		<filter-name>FilterSecurity</filter-name>

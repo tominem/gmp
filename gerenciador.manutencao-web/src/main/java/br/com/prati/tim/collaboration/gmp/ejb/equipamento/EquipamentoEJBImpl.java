@@ -13,6 +13,7 @@ import br.com.prati.tim.collaboration.gmp.dao.itemconfig.FuncaoConfigDAO;
 import br.com.prati.tim.collaboration.gmp.ejb.AbstractCrudEJB;
 import br.prati.tim.collaboration.gp.jpa.Equipamento;
 import br.prati.tim.collaboration.gp.jpa.FuncaoConfig;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Stateless
 public class EquipamentoEJBImpl extends AbstractCrudEJB<Equipamento> implements EquipamentoEJB{
@@ -28,6 +29,10 @@ public class EquipamentoEJBImpl extends AbstractCrudEJB<Equipamento> implements 
 	
 	@Override
 	public Equipamento save(Equipamento entityBean) throws Exception {
+		
+		ETipoAcessoGUM tipoAcesso = entityBean.getIdEquipamento() == null ? ETipoAcessoGUM.INCLUSAO : ETipoAcessoGUM.ALTERACAO;
+		
+		validatePermission(tipoAcesso);
 		
 		if (entityBean.getIdEquipamento() == null) {
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());

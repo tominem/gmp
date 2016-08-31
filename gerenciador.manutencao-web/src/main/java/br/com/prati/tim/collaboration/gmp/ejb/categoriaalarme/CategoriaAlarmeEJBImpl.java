@@ -10,6 +10,7 @@ import br.com.prati.tim.collaboration.gmp.dao.GenericDAO;
 import br.com.prati.tim.collaboration.gmp.dao.categoriaalarme.CategoriaAlarmeDAO;
 import br.com.prati.tim.collaboration.gmp.ejb.AbstractCrudEJB;
 import br.prati.tim.collaboration.gp.jpa.CategoriaAlarme;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Stateless
 public class CategoriaAlarmeEJBImpl extends AbstractCrudEJB<CategoriaAlarme> implements CategoriaAlarmeEJB{
@@ -22,6 +23,11 @@ public class CategoriaAlarmeEJBImpl extends AbstractCrudEJB<CategoriaAlarme> imp
 	
 	@Override
 	public CategoriaAlarme save(CategoriaAlarme entityBean) throws Exception {
+		
+		ETipoAcessoGUM tipoAcesso = entityBean.getIdCategoria() == null ? ETipoAcessoGUM.INCLUSAO : ETipoAcessoGUM.ALTERACAO;
+		
+		validatePermission(tipoAcesso);
+		
 		if (entityBean.getIdCategoria() == null) {
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
 			entityBean.setStatus(Boolean.TRUE);

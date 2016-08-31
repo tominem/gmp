@@ -11,6 +11,7 @@ import br.com.prati.tim.collaboration.gmp.dao.GenericDAO;
 import br.com.prati.tim.collaboration.gmp.dao.menuconfig.MenuConfigDAO;
 import br.com.prati.tim.collaboration.gmp.ejb.AbstractCrudEJB;
 import br.prati.tim.collaboration.gp.jpa.MenuConfig;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Stateless
 public class MenuConfigEJBImpl extends AbstractCrudEJB<MenuConfig> implements MenuConfigEJB{
@@ -23,6 +24,10 @@ public class MenuConfigEJBImpl extends AbstractCrudEJB<MenuConfig> implements Me
 	
 	@Override
 	public MenuConfig save(MenuConfig entityBean) throws Exception {
+		
+		ETipoAcessoGUM tipoAcesso = entityBean.getIdMenuConfig() == null ? ETipoAcessoGUM.INCLUSAO : ETipoAcessoGUM.ALTERACAO;
+		
+		validatePermission(tipoAcesso);
 		
 		if (entityBean.getIdMenuConfig() == null) {
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());

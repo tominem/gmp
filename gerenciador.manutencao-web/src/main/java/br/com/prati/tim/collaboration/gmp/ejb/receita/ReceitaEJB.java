@@ -21,10 +21,10 @@ public interface ReceitaEJB {
 
 	List<EquipamentoMaquina> findEquipamentoMaquinaByMaquina(Maquina maquina);
 
-	void save(Receita r) throws Exception;
-
 	List<ConfigEquipamento> findConfigEquipamentoFetchByEquipamento(Equipamento equipamento) throws Exception;
 
 	void remove(Receita receita) throws Exception;
+	
+	Receita save(Receita entityBean) throws Exception;
 
 }

@@ -18,6 +18,7 @@ import br.prati.tim.collaboration.gp.jpa.Maquina;
 import br.prati.tim.collaboration.gp.jpa.Produto;
 import br.prati.tim.collaboration.gp.jpa.ProdutoSubproduto;
 import br.prati.tim.collaboration.gp.jpa.Subproduto;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 import br.prati.tim.gmp.ws.ordemproducao.OrdemProducaoMateriais;
 
 @Stateless
@@ -34,6 +35,11 @@ public class ProdutoEJBImpl extends AbstractCrudEJB<Produto> implements ProdutoE
 	
 	@Override
 	public Produto save(Produto entityBean) throws Exception {
+		
+		ETipoAcessoGUM tipoAcesso = entityBean.getIdProduto() == null ? ETipoAcessoGUM.INCLUSAO : ETipoAcessoGUM.ALTERACAO;
+		
+		validatePermission(tipoAcesso);
+		
 		if (entityBean.getIdProduto() == null) {
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
 			entityBean.setStatus(Boolean.TRUE);

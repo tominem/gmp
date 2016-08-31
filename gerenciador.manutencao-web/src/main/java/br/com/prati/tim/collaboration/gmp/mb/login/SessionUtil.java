@@ -1,12 +1,18 @@
 package br.com.prati.tim.collaboration.gmp.mb.login;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import br.com.prati.tim.collaboration.gmp.filter.PaginaSistema;
+import br.com.prati.tim.collaboration.gmp.filter.PaginaSistemaUtil;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
+import br.prati.tim.gmp.ws.usuario.ViewAcesso;
 
 @Named("mbSession")
 @ViewScoped 
@@ -26,7 +32,7 @@ public class SessionUtil implements Serializable{
 
 		if (FacesContext.getCurrentInstance() != null) {
 
-			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+			HttpSession session = getSession();
 
 			if (session != null && session.getAttribute("cracha") != null) {
 				return Integer.parseInt(session.getAttribute("cracha").toString());
@@ -36,5 +42,39 @@ public class SessionUtil implements Serializable{
 
 		return null;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static boolean temPermissaoGUM(ETipoAcessoGUM tipoAcesso){
+		
+    	List<PaginaSistema> 	paginas 	= PaginaSistemaUtil.getPaginasSistema();
+    	HttpServletRequest 		request 	= getRequest();
+    	String 					url 		= request.getRequestURL().toString();
+    	HttpSession 			session 	= request.getSession(false);
+        PaginaSistema			pagina		= null;
+    	
+        for (PaginaSistema paginaSistema : paginas) {
+			if (url.contains(paginaSistema.getPagina())){
+				pagina = paginaSistema;
+				continue;
+			}
+		}
+        
+        if (pagina == null){
+        	return true;
+        }else{
+        	
+        	List<ViewAcesso> acessosUsuario = (List<ViewAcesso>) session.getAttribute("acessosUsuario");
+			
+            for (ViewAcesso viewAcesso : acessosUsuario) {
+            	if (viewAcesso.getNomeFuncao().equals(pagina.getFuncaoGUM())){
+            		if (viewAcesso.getTipoAcesso().equals(tipoAcesso.getTipoAcesso())){
+            			return true;
+            		}
+            	}
+			}
+        }
+    	
+    	return false;
+    }
     
 }

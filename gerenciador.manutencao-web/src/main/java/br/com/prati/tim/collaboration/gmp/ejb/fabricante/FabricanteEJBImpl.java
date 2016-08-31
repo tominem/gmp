@@ -10,6 +10,7 @@ import br.com.prati.tim.collaboration.gmp.dao.GenericDAO;
 import br.com.prati.tim.collaboration.gmp.dao.fabricante.FabricanteDAO;
 import br.com.prati.tim.collaboration.gmp.ejb.AbstractCrudEJB;
 import br.prati.tim.collaboration.gp.jpa.Fabricante;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Stateless
 public class FabricanteEJBImpl extends AbstractCrudEJB<Fabricante> implements FabricanteEJB{
@@ -22,6 +23,11 @@ public class FabricanteEJBImpl extends AbstractCrudEJB<Fabricante> implements Fa
 	
 	@Override
 	public Fabricante save(Fabricante entityBean) throws Exception {
+		
+		ETipoAcessoGUM tipoAcesso = entityBean.getIdFabricante() == null ? ETipoAcessoGUM.INCLUSAO : ETipoAcessoGUM.ALTERACAO;
+		
+		validatePermission(tipoAcesso);
+		
 		if (entityBean.getIdFabricante() == null) {
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
 			entityBean.setStatus(Boolean.TRUE);

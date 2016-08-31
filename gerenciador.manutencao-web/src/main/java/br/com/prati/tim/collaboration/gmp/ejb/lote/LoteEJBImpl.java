@@ -7,6 +7,7 @@ import br.com.prati.tim.collaboration.gmp.dao.GenericDAO;
 import br.com.prati.tim.collaboration.gmp.dao.lote.LoteDAO;
 import br.com.prati.tim.collaboration.gmp.ejb.AbstractCrudEJB;
 import br.prati.tim.collaboration.gp.jpa.Lote;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Stateless
 public class LoteEJBImpl extends AbstractCrudEJB<Lote> implements LoteEJB{
@@ -16,6 +17,11 @@ public class LoteEJBImpl extends AbstractCrudEJB<Lote> implements LoteEJB{
 
 	@Override
 	public Lote save(Lote entityBean) throws Exception {
+		
+		ETipoAcessoGUM tipoAcesso = entityBean.getIdLote() == null ? ETipoAcessoGUM.INCLUSAO : ETipoAcessoGUM.ALTERACAO;
+		
+		validatePermission(tipoAcesso);
+		
 		return loteDAO.update(entityBean);
 	}
 

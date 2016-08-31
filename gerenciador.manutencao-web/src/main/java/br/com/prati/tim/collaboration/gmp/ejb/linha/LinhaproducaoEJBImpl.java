@@ -10,6 +10,7 @@ import br.com.prati.tim.collaboration.gmp.dao.GenericDAO;
 import br.com.prati.tim.collaboration.gmp.dao.linha.LinhaproducaoDAO;
 import br.com.prati.tim.collaboration.gmp.ejb.AbstractCrudEJB;
 import br.prati.tim.collaboration.gp.jpa.Linhaproducao;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Stateless
 public class LinhaproducaoEJBImpl extends AbstractCrudEJB<Linhaproducao> implements LinhaproducaoEJB{
@@ -22,6 +23,11 @@ public class LinhaproducaoEJBImpl extends AbstractCrudEJB<Linhaproducao> impleme
 	
 	@Override
 	public Linhaproducao save(Linhaproducao entityBean) throws Exception {
+		
+		ETipoAcessoGUM tipoAcesso = entityBean.getIdLinhaproducao() == null ? ETipoAcessoGUM.INCLUSAO : ETipoAcessoGUM.ALTERACAO;
+		
+		validatePermission(tipoAcesso);
+		
 		if (entityBean.getIdLinhaproducao() == null) {
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
 			entityBean.setStatus(Boolean.TRUE);

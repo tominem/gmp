@@ -10,6 +10,7 @@ import br.com.prati.tim.collaboration.gmp.dao.GenericDAO;
 import br.com.prati.tim.collaboration.gmp.dao.setor.SetorDAO;
 import br.com.prati.tim.collaboration.gmp.ejb.AbstractCrudEJB;
 import br.prati.tim.collaboration.gp.jpa.Setor;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Stateless
 public class SetorEJBImpl extends AbstractCrudEJB<Setor> implements SetorEJB{
@@ -22,6 +23,11 @@ public class SetorEJBImpl extends AbstractCrudEJB<Setor> implements SetorEJB{
 	
 	@Override
 	public Setor save(Setor entityBean) throws Exception {
+		
+		ETipoAcessoGUM tipoAcesso = entityBean.getIdSetor() == null ? ETipoAcessoGUM.INCLUSAO : ETipoAcessoGUM.ALTERACAO;
+		
+		validatePermission(tipoAcesso);
+		
 		if (entityBean.getIdSetor() == null) {
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
 			entityBean.setStatus(Boolean.TRUE);

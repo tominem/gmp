@@ -11,10 +11,8 @@ import br.com.prati.tim.collaboration.gmp.dao.GenericDAO;
 import br.com.prati.tim.collaboration.gmp.dao.programacaomaquina.ProgramacaoMaquinaDAO;
 import br.com.prati.tim.collaboration.gmp.ejb.AbstractCrudEJB;
 import br.prati.tim.collaboration.gp.jpa.ConfiguracaoGeral;
-import br.prati.tim.collaboration.gp.jpa.NotaPmMaquina;
 import br.prati.tim.collaboration.gp.jpa.ProgramacaoMaquina;
 import br.prati.tim.collaboration.gp.jpa.enumerator.DefConfiguracaoGeralKeys;
-import br.prati.tim.collaboration.gp.jpa.enumerator.EStatusNotaPm;
 
 @Stateless
 public class ProgramacaoMaquinaEJBImpl extends AbstractCrudEJB<ProgramacaoMaquina> implements ProgramacaoMaquinaEJB {

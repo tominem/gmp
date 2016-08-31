@@ -11,6 +11,7 @@ import br.com.prati.tim.collaboration.gmp.ejb.AbstractCrudEJB;
 import br.prati.tim.collaboration.gp.jpa.Equipamento;
 import br.prati.tim.collaboration.gp.jpa.Maquina;
 import br.prati.tim.collaboration.gp.jpa.VariaveisClp;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Stateless
 public class VariaveisClpEJBImpl extends AbstractCrudEJB<VariaveisClp> implements VariaveisClpEJB{
@@ -20,6 +21,11 @@ public class VariaveisClpEJBImpl extends AbstractCrudEJB<VariaveisClp> implement
 	
 	@Override
 	public VariaveisClp save(VariaveisClp entityBean) throws Exception {
+		
+		ETipoAcessoGUM tipoAcesso = entityBean.getIdVariaveisCLP() == null ? ETipoAcessoGUM.INCLUSAO : ETipoAcessoGUM.ALTERACAO;
+		
+		validatePermission(tipoAcesso);
+		
 		return variaveisClpDAO.update(entityBean);
 	}
 

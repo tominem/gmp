@@ -10,6 +10,7 @@ import br.com.prati.tim.collaboration.gmp.dao.GenericDAO;
 import br.com.prati.tim.collaboration.gmp.dao.tipocodigo.TipoCodigoDAO;
 import br.com.prati.tim.collaboration.gmp.ejb.AbstractCrudEJB;
 import br.prati.tim.collaboration.gp.jpa.TipoCodigo;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Stateless
 public class TipoCodigoEJBImpl extends AbstractCrudEJB<TipoCodigo> implements TipoCodigoEJB{
@@ -22,6 +23,11 @@ public class TipoCodigoEJBImpl extends AbstractCrudEJB<TipoCodigo> implements Ti
 	
 	@Override
 	public TipoCodigo save(TipoCodigo entityBean) throws Exception {
+		
+		ETipoAcessoGUM tipoAcesso = entityBean.getIdTipoCodigo() == null ? ETipoAcessoGUM.INCLUSAO : ETipoAcessoGUM.ALTERACAO;
+		
+		validatePermission(tipoAcesso);
+		
 		if (entityBean.getIdTipoCodigo() == null) {
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
 			entityBean.setStatus(Boolean.TRUE);

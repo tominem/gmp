@@ -13,6 +13,7 @@ import br.com.prati.tim.collaboration.gmp.dao.alarme.AlarmeDAO;
 import br.com.prati.tim.collaboration.gmp.ejb.AbstractCrudEJB;
 import br.com.prati.tim.collaboration.gmp.utis.FileUtis;
 import br.prati.tim.collaboration.gp.jpa.Alarme;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAlarme;
 
 @Stateless
@@ -28,6 +29,11 @@ public class AlarmeEJBImpl extends AbstractCrudEJB<Alarme> implements AlarmeEJB{
 	
 	@Override
 	public Alarme save(Alarme entityBean) throws Exception {
+	
+		ETipoAcessoGUM tipoAcesso = entityBean.getIdAlarme() == null ? ETipoAcessoGUM.INCLUSAO : ETipoAcessoGUM.ALTERACAO;
+		
+		validatePermission(tipoAcesso);
+		
 		if (entityBean.getIdAlarme() == null) {
 			
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());

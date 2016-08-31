@@ -10,6 +10,7 @@ import br.com.prati.tim.collaboration.gmp.dao.GenericDAO;
 import br.com.prati.tim.collaboration.gmp.dao.tipoinspecao.TipoInspecaoDAO;
 import br.com.prati.tim.collaboration.gmp.ejb.AbstractCrudEJB;
 import br.prati.tim.collaboration.gp.jpa.TipoInspecao;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Stateless
 public class TipoInspecaoEJBImpl extends AbstractCrudEJB<TipoInspecao> implements TipoInspecaoEJB{
@@ -22,6 +23,11 @@ public class TipoInspecaoEJBImpl extends AbstractCrudEJB<TipoInspecao> implement
 	
 	@Override
 	public TipoInspecao save(TipoInspecao entityBean) throws Exception {
+		
+		ETipoAcessoGUM tipoAcesso = entityBean.getIdTipoInspecao() == null ? ETipoAcessoGUM.INCLUSAO : ETipoAcessoGUM.ALTERACAO;
+		
+		validatePermission(tipoAcesso);
+		
 		try {
 			
 			if (entityBean.getIdTipoInspecao() == null) {

@@ -21,6 +21,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
+import br.com.prati.tim.collaboration.gmp.mb.login.SessionUtil;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
+
 /**
  * Crud Bean Base to conventional crud Form
  * 
@@ -92,6 +95,11 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 	}
 
 	private void excludePerform() throws Exception {
+		
+		if (!temAcesso(ETipoAcessoGUM.EXCLUSAO)){
+    		return;
+    	}
+		
 		getCrudEJB().exclude(this.entityBean);
 
 		clean();
@@ -100,6 +108,11 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 	}
 
 	public void activateOrInactivate(){
+		
+		if (!temAcesso(ETipoAcessoGUM.ALTERACAO)){
+    		return;
+    	}
+		
 		try {
 			
 			entityBean = getCrudEJB().activateOrInactivate(getEntityBean());
@@ -294,12 +307,26 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
 	
     public void search() {
         
+    	if (!temAcesso(ETipoAcessoGUM.CONSULTA)){
+    		return;
+    	}
+    	
         clean();
 
         Map<String, Object> options = getParamsDialogPesquisa();
         
         RequestContext.getCurrentInstance().openDialog(getResourceDialogPath(), options, null);
         
+    }
+    
+    private boolean temAcesso(ETipoAcessoGUM tipoAcesso){
+    	
+    	if (!SessionUtil.temPermissaoGUM(tipoAcesso)){
+    		UtilsMessage.addErrorMessage("Usuário sem permissão de " + tipoAcesso.getDescricao() + ".");
+    		return false;
+    	}
+    	
+    	return true;
     }
 
 }

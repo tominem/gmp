@@ -6,13 +6,16 @@
 	xmlns:p="http://primefaces.org/ui">
 
     <h:head>
+    	
+    	<link rel="shortcut icon" type="image/x-icon" href="#{resource['gmp/images/favicon.png']}" />
+    	
         <f:facet name="first">
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
             <meta name="apple-mobile-web-app-capable" content="yes" />
         </f:facet>
-        <title>G.M.P. - Acesso negado</title>
+        <title>G.M.P.</title>
         <ui:insert name="head" />
     </h:head>
 
@@ -24,12 +27,20 @@
                 <div class="Card ShadowEffect">
                     <div class="EmptyBox40"></div>
                     <i class="icon-virtual2 Fs100 Orange"></i> 
-                    <div class="Wid100 OvHidden Fs30 Orange">Acesso negado. <br/>Por favor verifique suas permissões.</div>
-                    <div class="EmptyBox20"></div>
-                    <div class="Separator"></div>
-                    <div class="EmptyBox10"></div>
-                    <div class="Wid100"><p:button value="Inicio" icon="fa icon-home149" 
-                    styleClass="OrangeButton Wid60 Fs18 White RaisedButton" href="index.xhtml"/></div>
+                    <div class="Wid100 OvHidden Fs40 Orange">ACESSO NEGADO</div>
+                    <div class="Wid100 OvHidden Fs20 Orange">POR FAVOR, VERIFIQUE SUAS PERMISSÕES!</div>
+                    <div class="EmptyBox10"/>
+                    <div class="Wid100 OvHidden Fs16 BoldGray">Desculpe, você não tem permissão para acessar esta página.</div>
+                    <div class="EmptyBox20"/>
+                    <div class="Separator"/>
+                    <div class="EmptyBox10"/>
+                    <div class="Wid100">
+                    	<p:button value			=	"Página Inicial" 
+                    			  icon			=	"fa fa-home" 
+                    			  styleClass	=	"OrangeButton Wid60 Fs18 White RaisedButton" 
+                    			  outcome		=	"/dashboard/resumo.xhtml"/>
+                    </div>
+                    
                     <div class="EmptyBox20"></div>
                 </div>
             </div>

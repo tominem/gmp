@@ -5,6 +5,9 @@ import java.util.Map;
 import java.util.Optional;
 
 import br.com.prati.tim.collaboration.gmp.dao.FilterParam;
+import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
+import br.com.prati.tim.collaboration.gmp.mb.login.SessionUtil;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 public abstract class AbstractCrudEJB<T> implements CrudEJB<T> {
 
@@ -45,5 +48,12 @@ public abstract class AbstractCrudEJB<T> implements CrudEJB<T> {
 	public boolean checkIfExistsBoolean(Map<String, Object> params){
 		return getCrudDAO().checkIfExistsBoolean(params);
 	}
+	
+	protected void validatePermission(ETipoAcessoGUM tipoAcesso) throws Exception {
+    	
+		if (!SessionUtil.temPermissaoGUM(tipoAcesso)){
+    		throw new Exception("Usuário sem permissão de " + tipoAcesso.getDescricao() + ".");
+    	}
+    }
 	
 }

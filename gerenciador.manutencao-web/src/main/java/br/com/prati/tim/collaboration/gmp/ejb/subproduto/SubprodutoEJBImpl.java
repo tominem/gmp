@@ -13,6 +13,7 @@ import br.com.prati.tim.collaboration.gmp.dao.unidade.UnidadeDAO;
 import br.com.prati.tim.collaboration.gmp.ejb.AbstractCrudEJB;
 import br.prati.tim.collaboration.gp.jpa.Subproduto;
 import br.prati.tim.collaboration.gp.jpa.Unidade;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Stateless
 public class SubprodutoEJBImpl extends AbstractCrudEJB<Subproduto> implements SubprodutoEJB{
@@ -28,6 +29,11 @@ public class SubprodutoEJBImpl extends AbstractCrudEJB<Subproduto> implements Su
 	
 	@Override
 	public Subproduto save(Subproduto entityBean) throws Exception {
+		
+		ETipoAcessoGUM tipoAcesso = entityBean.getIdSubproduto() == null ? ETipoAcessoGUM.INCLUSAO : ETipoAcessoGUM.ALTERACAO;
+		
+		validatePermission(tipoAcesso);
+		
 		if (entityBean.getIdSubproduto() == null) {
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
 			entityBean.setStatus(Boolean.TRUE);
