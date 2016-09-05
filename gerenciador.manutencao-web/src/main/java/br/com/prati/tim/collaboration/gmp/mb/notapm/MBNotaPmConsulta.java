@@ -13,9 +13,12 @@ import javax.inject.Named;
 import br.com.prati.tim.collaboration.gmp.ejb.maquina.MaquinaEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.notapm.NotaPmMaquinaEJB;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractBaseMB;
+import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
 import br.com.prati.tim.collaboration.gmp.mb.ValidateComponent;
+import br.com.prati.tim.collaboration.gmp.mb.login.SessionUtil;
 import br.prati.tim.collaboration.gp.jpa.Maquina;
 import br.prati.tim.collaboration.gp.jpa.NotaPmMaquina;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Named("mbNotaPmConsluta")
 @ViewScoped
@@ -51,6 +54,11 @@ public class MBNotaPmConsulta extends AbstractBaseMB {
 	}
 	
 	public void consultar(){
+		
+		if (!SessionUtil.temPermissaoGUM(ETipoAcessoGUM.CONSULTA)){
+			UtilsMessage.addErrorMessage("Usuário sem permissão de " + ETipoAcessoGUM.CONSULTA.getDescricao() + ".");
+			return;
+		}
 		
 		notasPm = ejbNotaPm.findByPeriodoAndMaquinas(dataInicial, dataFinal, maquinasSelecionadas);
 		

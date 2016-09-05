@@ -5,9 +5,13 @@ import java.util.List;
 
 public class PaginaSistemaUtil {
 	
+	private static List<PaginaSistema> paginas = new ArrayList<PaginaSistema>();
+	
 	public static List<PaginaSistema> getPaginasSistema() {
 		
-		List<PaginaSistema> paginas = new ArrayList<PaginaSistema>();
+		if (!paginas.isEmpty()){
+			return paginas;
+		}
 	
 		// Cadastros
 		paginas.add(new PaginaSistema("cadastros/tipocomponente/formTipoComponente.xhtml", 		"CADASTRO_TIPO_COMPONENTE"));

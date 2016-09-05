@@ -31,6 +31,7 @@ import br.prati.tim.collaboration.gp.jpa.EquipamentoMaquina;
 import br.prati.tim.collaboration.gp.jpa.Maquina;
 import br.prati.tim.collaboration.gp.jpa.Receita;
 import br.prati.tim.collaboration.gp.jpa.TipoInspecao;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Named("receitaMB")
 @ViewScoped
@@ -39,35 +40,35 @@ public class ReceitaCrudMB extends AbstractBaseMB implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6966525816419190286L;
+	private static final long			serialVersionUID		= -6966525816419190286L;
 
-	private final String COMBOBOX_EQUIPAMENTO_ID 	= "formCad:equipamento";
+	private final String				COMBOBOX_EQUIPAMENTO_ID	= "formCad:equipamento";
 
-	private final String INPUT_TIPO_INSPECAO_ID 	= "formCad:tipoInspecao";
+	private final String				INPUT_TIPO_INSPECAO_ID	= "formCad:tipoInspecao";
 
-	private final String MAQUINA_COMPONENT_ID 		= "formCad:maquina";
+	private final String				MAQUINA_COMPONENT_ID	= "formCad:maquina";
 
 	@Inject
-	private ReceitaEJB ejb;
+	private ReceitaEJB					ejb;
 
-	private Maquina maquina;
-	
-	private Equipamento equipamento;
+	private Maquina						maquina;
 
-	private TipoInspecao tipoInspecao;
+	private Equipamento					equipamento;
 
-	private List<Equipamento> equipamentos;
+	private TipoInspecao				tipoInspecao;
 
-	private List<Receita> selectedReceitas;
+	private List<Equipamento>			equipamentos;
 
-	private List<Receita> receitas;
+	private List<Receita>				selectedReceitas;
 
-	private List<EquipamentoMaquina> filteredEquipamentoMaquinas;
+	private List<Receita>				receitas;
+
+	private List<EquipamentoMaquina>	filteredEquipamentoMaquinas;
 
 	/**
-	 * Receitas to delete 
+	 * Receitas to delete
 	 */
-	private List<Receita> receitasDel;
+	private List<Receita>				receitasDel;
 
 
 
@@ -254,7 +255,7 @@ public class ReceitaCrudMB extends AbstractBaseMB implements Serializable {
 				
 				Equipamento equipamento = em.getEquipamento();
 				
-				if (equipamento != null){
+				if (equipamento != null && equipamento.getStatus()){
 					equipamentos.add(equipamento);
 				}
 				
@@ -278,6 +279,13 @@ public class ReceitaCrudMB extends AbstractBaseMB implements Serializable {
 	}
 	
 	public void onChangeEquipamento() {
+		
+		try {
+			validatePermission(ETipoAcessoGUM.CONSULTA);
+		} catch (Exception e) {
+			addErrorMessage(e.getMessage());
+			return;
+		}
 		
 		try {
 			

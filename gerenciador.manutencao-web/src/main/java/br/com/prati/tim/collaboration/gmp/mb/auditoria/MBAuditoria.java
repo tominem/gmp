@@ -12,6 +12,10 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
+import br.com.prati.tim.collaboration.gmp.mb.login.SessionUtil;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
+
 @Named("mbAuditoria")
 @ViewScoped
 public class MBAuditoria implements Serializable{
@@ -55,6 +59,12 @@ public class MBAuditoria implements Serializable{
 			
 	}
 	public void consultar(){
+		
+		if (!SessionUtil.temPermissaoGUM(ETipoAcessoGUM.CONSULTA)){
+			UtilsMessage.addErrorMessage("Usuário sem permissão de " + ETipoAcessoGUM.CONSULTA.getDescricao() + ".");
+			return;
+		}
+		
 		chaveTabela = auditoriaHelper.retornarColunaPK(tabelaSelecionada);
 		registros = auditoriaHelper.retornaRegistrosMaster(tabelaSelecionada, dataInicial, dataFinal);
 		exibicaoPanels(true, true, false);

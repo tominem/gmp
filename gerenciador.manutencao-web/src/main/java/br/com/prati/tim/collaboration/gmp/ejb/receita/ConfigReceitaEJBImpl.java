@@ -166,61 +166,72 @@ public class ConfigReceitaEJBImpl implements ConfigReceitaEJB {
 				converter 	= new LectorHexFiedConverter();
 			}
 			
-			if (valor != null && !isRegionComponent){
+			if (converter == null){
 				
-				if (isToDisplay){
-					valorConvertido = converter.display(valor);
-				}else{
-					valorConvertido = converter.convert(valor);
+				if (valor == null){
+					valor = "";
 				}
-				
+				valorConvertido = valor;
 			} else {
 				
-				if(isToDisplay){
+				if (valor != null && !isRegionComponent){
 					
-					if (valor == null){
-						valor = "";
+					if (isToDisplay){
+						valorConvertido = converter.display(valor);
+					}else{
+						valorConvertido = converter.convert(valor);
 					}
 					
-					Region   region 	 = new Region();
-					String[] regionArray = valor.split(" ");
+				} else {
 					
-					if (regionArray == null || regionArray.length != 4){
-						return valorReceita;
-					}
-					
-					Object	x1 = converter.display(regionArray[0]);
-					Object	x2 = converter.display(regionArray[1]);
-					Object	y1 = converter.display(regionArray[2]);
-					Object	y2 = converter.display(regionArray[3]);
-					
-					region.setX1((int)Double.parseDouble(x1.toString()));
-					region.setX2((int)Double.parseDouble(x2.toString()));
-					region.setY1((int)Double.parseDouble(y1.toString()));
-					region.setY2((int)Double.parseDouble(y2.toString()));
-					
-					mapRegiao.put(valorReceita.getReceita().getIdReceita(), region);
-					
-					valorConvertido = "";
-					
-				} else{
-					
-					for (Entry<Long, Region> regiaoItem : mapRegiao.entrySet()){
+					if(isToDisplay){
 						
-						if (regiaoItem.getKey().equals(valorReceita.getReceita().getIdReceita())){
+						if (valor == null){
+							valor = "";
+						}
+						
+						Region   region 	 = new Region();
+						String[] regionArray = valor.split(" ");
+						
+						if (regionArray == null || regionArray.length != 4){
+							return valorReceita;
+						}
+						
+						Object	x1 = converter.display(regionArray[0]);
+						Object	x2 = converter.display(regionArray[1]);
+						Object	y1 = converter.display(regionArray[2]);
+						Object	y2 = converter.display(regionArray[3]);
+						
+						region.setX1((int)Double.parseDouble(x1.toString()));
+						region.setX2((int)Double.parseDouble(x2.toString()));
+						region.setY1((int)Double.parseDouble(y1.toString()));
+						region.setY2((int)Double.parseDouble(y2.toString()));
+						
+						mapRegiao.put(valorReceita.getReceita().getIdReceita(), region);
+						
+						valorConvertido = "";
+						
+					} else {
+						
+						for (Entry<Long, Region> regiaoItem : mapRegiao.entrySet()){
 							
-							converter 	= new LectorHexFiedConverter();
-							
-							Object x1 = converter.convert(String.valueOf(regiaoItem.getValue().getX1()));
-							Object x2 = converter.convert(String.valueOf(regiaoItem.getValue().getX2()));
-							Object y1 = converter.convert(String.valueOf(regiaoItem.getValue().getY1()));
-							Object y2 = converter.convert(String.valueOf(regiaoItem.getValue().getY2()));
-							
-							valorConvertido = x1 + " " + x2 + " " + y1 + " " + y2;
-							
+							if (regiaoItem.getKey().equals(valorReceita.getReceita().getIdReceita())){
+								
+								converter 	= new LectorHexFiedConverter();
+								
+								Object x1 = converter.convert(String.valueOf(regiaoItem.getValue().getX1()));
+								Object x2 = converter.convert(String.valueOf(regiaoItem.getValue().getX2()));
+								Object y1 = converter.convert(String.valueOf(regiaoItem.getValue().getY1()));
+								Object y2 = converter.convert(String.valueOf(regiaoItem.getValue().getY2()));
+								
+								valorConvertido = x1 + " " + x2 + " " + y1 + " " + y2;
+								
+							}
 						}
 					}
+				
 				}
+			
 			}
 
 			valorReceita.setValor(valorConvertido.toString());

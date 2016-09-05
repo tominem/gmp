@@ -16,9 +16,12 @@ import org.joda.time.Period;
 import br.com.prati.tim.collaboration.gmp.ejb.maquina.MaquinaEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.servico.LogServicoEJB;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractBaseMB;
+import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
 import br.com.prati.tim.collaboration.gmp.mb.ValidateComponent;
+import br.com.prati.tim.collaboration.gmp.mb.login.SessionUtil;
 import br.prati.tim.collaboration.gp.jpa.LogServico;
 import br.prati.tim.collaboration.gp.jpa.Maquina;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Named("mbManutencaoConsulta")
 @ViewScoped
@@ -51,6 +54,11 @@ public class MBManutencaoConsulta extends AbstractBaseMB {
 	}
 	
 	public void find(){
+		
+		if (!SessionUtil.temPermissaoGUM(ETipoAcessoGUM.CONSULTA)){
+			UtilsMessage.addErrorMessage("Usuário sem permissão de " + ETipoAcessoGUM.CONSULTA.getDescricao() + ".");
+			return;
+		}
 		
 		logServicos = ejbLogServico.findByPeriodoMaquinasAndServicos(dataInicial, dataFinal, maquinasSelecionadas);
 		

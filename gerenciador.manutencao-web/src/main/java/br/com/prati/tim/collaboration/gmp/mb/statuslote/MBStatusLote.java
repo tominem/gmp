@@ -17,12 +17,14 @@ import org.primefaces.event.SelectEvent;
 import br.com.prati.tim.collaboration.gmp.ejb.lote.LogLoteEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.lote.LoteEJB;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractBaseMB;
+import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
 import br.com.prati.tim.collaboration.gmp.mb.ValidateComponent;
 import br.com.prati.tim.collaboration.gmp.mb.login.SessionUtil;
 import br.prati.tim.collaboration.gp.jpa.LogLote;
 import br.prati.tim.collaboration.gp.jpa.Lote;
 import br.prati.tim.collaboration.gp.jpa.enumerator.EAcao;
 import br.prati.tim.collaboration.gp.jpa.enumerator.EStatusLote;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Named("mbStatusLote")
 @ViewScoped
@@ -54,6 +56,11 @@ public class MBStatusLote extends AbstractBaseMB implements Serializable {
 	}
 	
 	public void save(){
+		
+		if (!SessionUtil.temPermissaoGUM(ETipoAcessoGUM.ALTERACAO)){
+			UtilsMessage.addErrorMessage("Usuário sem permissão de " + ETipoAcessoGUM.ALTERACAO.getDescricao() + ".");
+			return;
+		}
 		
 		lote.setStatus(novoStatusLote);
 		

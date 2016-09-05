@@ -1,0 +1,149 @@
+<ui:composition 
+    xmlns		=	"http://www.w3.org/1999/xhtml"
+    xmlns:h		=	"http://java.sun.com/jsf/html"
+	xmlns:f		=	"http://java.sun.com/jsf/core"
+	xmlns:p		=	"http://primefaces.org/ui"
+	xmlns:pe	=	"http://primefaces.org/ui/extensions"
+    xmlns:ui	=	"http://java.sun.com/jsf/facelets">
+    
+	<p:dialog widgetVar		=	"variavelClpDialogWidget" 
+			  modal			=	"true" 
+			  closable		=	"false" 
+			  resizable		=	"false"
+			  draggable		=	"false"
+			  hideEffect	=	"fade"
+			  showEffect	=	"fade"
+			  appendTo		=	"@(body)"
+			  width			=	"500" 
+			  header		=	"Edição de Variável CLP">
+			   
+		<h:form id		=	"variavelClpEditForm">
+			
+			<div class	=	"ContainerIndent Responsive100">
+
+				<div class	=	"Container100 ui-fluid">
+					
+					<p:panelGrid columns		=	"1" 
+								 layout			=	"grid"
+						 		 style			=	"border:0px none;background:none"
+						 		 columnClasses	=	"Container100">
+					
+						<h:panelGroup>
+                        
+                        	<p:outputLabel 	value			=	"Variável" 		
+											for				=	"variavel"/>
+
+							<p:inputText 	requiredMessage	=	"Variável requerida"
+											value			=	"#{variaveisClpMB.variaveisClpEdit.variavel}"
+											id				=	"variavel" 
+											maxlength		=	"255"/>
+							                			 		
+						</h:panelGroup>
+						
+						<h:panelGroup>
+							
+							<p:outputLabel 	value			=	"Descrição" 		
+											for				=	"descricao"/>
+											
+							<p:inputText 	requiredMessage	=	"Descrição requerida"
+											value			=	"#{variaveisClpMB.variaveisClpEdit.descricao}"
+											id				=	"descricao" 
+											maxlength		=	"255"/>
+                        			 		
+						</h:panelGroup>
+							
+					</p:panelGrid>
+					
+					<p:panelGrid columns		=	"2" 
+								 layout			=	"grid"
+						 		 style			=	"border:0px none;background:none"
+						 		 columnClasses	=	"Container50, Container50">
+					
+						<h:panelGroup	id	=	"paTipoValor">
+										
+							<p:outputLabel 	value			=	"Tipo do Valor" 		
+											for				=	"tipoValor"/>
+										
+							<p:selectOneMenu 	id					=	"tipoValor"
+												value				=	"#{variaveisClpMB.variaveisClpEdit.tipoValor}"
+												requiredMessage		=	"Tipo do valor requerido"
+												valueChangeListener	=	"#{variaveisClpMB.tipoValorChange}">
+												
+								<p:ajax event		=	"change"
+										update		=	"paValor"/>
+								
+								<f:selectItems value="#{variaveisClpMB.tiposValor}" var="a"
+									itemValue="#{a}"/>
+									
+							</p:selectOneMenu>
+						
+						</h:panelGroup>
+						
+						<h:panelGroup	id	=	"paValor">
+	                      	
+	                      	<p:outputLabel 	value			=	"Valor" 		
+											for				=	"#{variaveisClpMB.tipoInteiro ? 'valorInput' : 'valorSelect'}"/>
+							
+							<p:inputText 	requiredMessage	=	"Valor requerido"
+											value			=	"#{variaveisClpMB.variaveisClpEdit.valor}"
+											id				=	"valorInput" 
+											rendered		=	"#{variaveisClpMB.tipoInteiro}"
+											required		=	"#{variaveisClpMB.tipoInteiro}"
+											maxlength		=	"5"
+											styleClass		=	"TexAlRight">
+							
+								<pe:keyFilter regEx="/[0-9]/i" />
+								
+							</p:inputText>
+	
+							<p:selectOneMenu 	id				=	"valorSelect"
+												value			=	"#{variaveisClpMB.variaveisClpEdit.valor}"
+												rendered		=	"#{!variaveisClpMB.tipoInteiro}">
+												
+								<f:selectItem itemLabel="True" itemValue="true"/>
+	
+								<f:selectItem itemLabel="False" itemValue="false"/>
+								
+							</p:selectOneMenu>
+							
+						</h:panelGroup>
+					
+					</p:panelGrid>
+					
+				</div>
+				
+			</div>
+			
+			<p:remoteCommand 	actionListener	=	"#{variaveisClpMB.saveEdit()}" 
+								update			=	"tableVariaveis"
+								process			=	"variavelClpEditForm"
+								name			=	"salvar"/>
+		</h:form>
+		
+		<f:facet name	=	"footer">
+			
+			<p:commandButton id				=	"btnSalvar"
+							 value			=	"Salvar" 
+							 icon			=	"fa fa-save"
+							 onclick		=	"save();"
+							 process		=	"variavelClpEditForm"
+							 style			=	"margin-right: 5px; width: 110px"
+							 styleClass		=	"PurpleButton RaisedButton"/>
+		
+		
+			<p:commandButton value			=	"Sair" 
+							 icon			=	"fa fa-times-circle"
+							 actionListener	=	"#{variaveisClpMB.limparEdicao()}"
+							 update			=	"tableVariaveis" 
+							 style			=	"margin-right: 5px; width: 110px"
+							 styleClass		=	"PurpleButton RaisedButton"/>
+		
+		</f:facet>
+		
+		
+		<p:ajax event	=	"close" 
+				listener=	"#{mbConfiguracoesGerais.clearConfig}" />
+		
+	</p:dialog>
+    
+</ui:composition>

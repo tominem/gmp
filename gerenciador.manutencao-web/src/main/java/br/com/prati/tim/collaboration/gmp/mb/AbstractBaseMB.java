@@ -12,13 +12,15 @@ import javax.persistence.PersistenceException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.primefaces.context.RequestContext;
 
+import br.com.prati.tim.collaboration.gmp.mb.login.SessionUtil;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
+
 public abstract class AbstractBaseMB implements BaseMB, Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5009617321552805539L;
-	
 	
 	@Override
 	public void clean() {
@@ -118,5 +120,12 @@ public abstract class AbstractBaseMB implements BaseMB, Serializable{
 	public void cleanForm(){
 		FacesContext.getCurrentInstance().getViewRoot().getViewMap().clear();
 	}
+	
+	protected void validatePermission(ETipoAcessoGUM tipoAcesso) throws Exception {
+    	
+		if (!SessionUtil.temPermissaoGUM(tipoAcesso)){
+    		throw new Exception("Usuário sem permissão de " + tipoAcesso.getDescricao() + ".");
+    	}
+    }
 
 }

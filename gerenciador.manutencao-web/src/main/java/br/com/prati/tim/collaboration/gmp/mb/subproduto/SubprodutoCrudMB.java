@@ -179,8 +179,9 @@ public class SubprodutoCrudMB extends AbstractCrudMB<Subproduto, Long>	implement
 		if (tipoInspecao == null) 
 			throw new FacesValidateException("Tipo de Inspeção requerida", INPUT_TIPOINSPECAO_ID);
 
-		if (codigoInspecionado == null || codigoInspecionado.isEmpty()) 
-			throw new FacesValidateException("Código requerido", INPUT_CODIGO_INSPECIONADO_ID);
+		// issues #31 - Solicitada remoção dessa validação 
+		//	if (codigoInspecionado == null || codigoInspecionado.isEmpty()) 
+		//		throw new FacesValidateException("Código requerido", INPUT_CODIGO_INSPECIONADO_ID);
 		
 		//seek if tipoinspecao is already present
 		if (subprodTipoInsps != null && subprodTipoInsps.size() > 0) {

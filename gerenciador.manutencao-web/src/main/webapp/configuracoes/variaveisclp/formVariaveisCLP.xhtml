@@ -41,6 +41,7 @@
 		                            			 	styleClass			=	"ui-panelgrid-blank SearchButtonGrid"
 		                            			 	columnClasses		=	"ui-grid-col-12">
 		                            	
+		                            	
 										<h:panelGroup id	=	"paMaquina">
 										
 											<p:outputLabel 	value			=	"Máquina" 		
@@ -150,9 +151,10 @@
 											<p:outputLabel 	value			=	"Tipo do Valor" 		
 															for				=	"tipoValor"/>
 														
-											<p:selectOneMenu 	id				=	"tipoValor"
-																value			=	"#{variaveisClpMB.variaveisClp.tipoValor}"
-																requiredMessage	=	"Tipo do valor requerido">
+											<p:selectOneMenu 	id					=	"tipoValor"
+																value				=	"#{variaveisClpMB.variaveisClp.tipoValor}"
+																requiredMessage		=	"Tipo do valor requerido"
+																valueChangeListener	=	"#{variaveisClpMB.tipoValorChange}">
 																
 												<p:ajax event		=	"change"
 														process		=	"paTipoValor"
@@ -230,6 +232,8 @@
 																reflow				=	"true"
 																resizableColumns	=	"true">
 													
+													<p:ajax event="filter" ignoreAutoUpdate="true" />
+													
 													<f:facet name	=	"header">
 														Variáveis
 														<h:panelGroup layout="block" styleClass="AddButton">
@@ -263,6 +267,21 @@
 													
 													</p:column>
 													
+													<p:column headerText		=	"Editar"
+															  width				=	"45">
+															
+														<p:commandButton icon			=	"fa fa-edit Fs16 White"
+																		 actionListener	=	"#{variaveisClpMB.edit(item)}"
+																		 styleClass		=	"RaisedButton PurpleButton"
+																		 update			=	"paTableVariaveis variavelClpEditForm"
+																		 process		=	"@this"
+																		 title			=	"Editar">
+															
+													
+														</p:commandButton>
+															
+													</p:column>
+													
 													<p:column headerText="Excluir" width="45">
 														
 														<p:commandButton 	styleClass		=	"RedButton RaisedButton"
@@ -293,7 +312,15 @@
 	            </div>
 	            
 	        </div>
+
 		</h:form>
+		
+	        
+        <ui:include src="/configuracoes/variaveisclp/variavelClpEdit.xhtml" />
+	        
+		
 	</ui:define>
+
+	
 
 </ui:composition>

@@ -14,10 +14,12 @@ import br.com.prati.tim.collaboration.gmp.ejb.notificacao.NotificacaoEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.programacaomaquina.ProgramacaoMaquinaEJB;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractBaseMB;
 import br.com.prati.tim.collaboration.gmp.mb.ValidateComponent;
+import br.com.prati.tim.collaboration.gmp.mb.login.SessionUtil;
 import br.prati.tim.collaboration.gp.jpa.NotaPmMaquina;
 import br.prati.tim.collaboration.gp.jpa.Notificacao;
 import br.prati.tim.collaboration.gp.jpa.ProgramacaoMaquina;
 import br.prati.tim.collaboration.gp.jpa.enumerator.EStatusNotaPm;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Named("mbResumo")
 @ViewScoped
@@ -53,6 +55,13 @@ public class MBResumo extends AbstractBaseMB implements Serializable {
 	}
 	
 	public void fecharNotaPM(){
+		
+		String funcao = "FECHAR_NOTA_PM";
+		if (!SessionUtil.temPermissaoGUM(funcao , ETipoAcessoGUM.INCLUSAO)){
+			addErrorMessage("Usuário sem permissão de " + ETipoAcessoGUM.INCLUSAO.getDescricao() + " para a função " + funcao);
+			return;
+		}
+		
 		try {
 			ejbNotaPM.updateStatusNota(notaPm, EStatusNotaPm.ENCERRADA);
 			addInfoMessage("Nota PM fechada com sucesso!");

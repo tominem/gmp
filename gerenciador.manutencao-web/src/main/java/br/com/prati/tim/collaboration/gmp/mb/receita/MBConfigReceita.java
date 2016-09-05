@@ -22,7 +22,9 @@ import br.com.prati.tim.collaboration.gmp.ejb.receita.ConfigReceitaEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.receita.ReceitaEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.tipoinspecao.TipoInspecaoEJB;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractBaseMB;
+import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
 import br.com.prati.tim.collaboration.gmp.mb.ValidateComponent;
+import br.com.prati.tim.collaboration.gmp.mb.login.SessionUtil;
 import br.prati.tim.collaboration.gp.jpa.EquipamentoMaquina;
 import br.prati.tim.collaboration.gp.jpa.Maquina;
 import br.prati.tim.collaboration.gp.jpa.Produto;
@@ -32,17 +34,14 @@ import br.prati.tim.collaboration.gp.jpa.SubprodTipoInsp;
 import br.prati.tim.collaboration.gp.jpa.Subproduto;
 import br.prati.tim.collaboration.gp.jpa.TipoInspecao;
 import br.prati.tim.collaboration.gp.jpa.ValorReceita;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Named("mbConfigReceita")
 @ViewScoped
 public class MBConfigReceita extends AbstractBaseMB implements Serializable {
-
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -5144587074129076687L;
 
-	
 	@Inject
 	private ConfigReceitaEJB			ejbConfigReceita;
 
@@ -97,6 +96,11 @@ public class MBConfigReceita extends AbstractBaseMB implements Serializable {
 	
 	public void save(){
 		
+		if (!SessionUtil.temPermissaoGUM(ETipoAcessoGUM.ALTERACAO)){
+			UtilsMessage.addErrorMessage("Usuário sem permissão de " + ETipoAcessoGUM.ALTERACAO.getDescricao() + ".");
+			return;
+		}
+		
 		try {
 			ejbConfigReceita.saveValoresReceita(valoresReceita, mapRegiao);
 		} catch (Exception e) {
@@ -118,13 +122,11 @@ public class MBConfigReceita extends AbstractBaseMB implements Serializable {
 	
 	@Override
 	public boolean validate(ComponentSystemEvent event) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public ValidateComponent[] getValidaComponents() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -156,6 +158,11 @@ public class MBConfigReceita extends AbstractBaseMB implements Serializable {
 	}
 	
 	public void selectSubproduto(final AjaxBehaviorEvent event)  {
+		
+		if (!SessionUtil.temPermissaoGUM(ETipoAcessoGUM.CONSULTA)){
+			UtilsMessage.addErrorMessage("Usuário sem permissão de " + ETipoAcessoGUM.CONSULTA.getDescricao() + ".");
+			return;
+		}
 		
 		setValoresReceita(ejbConfigReceita.retornaValoresReceitas(receitas, mapRegiao, subproduto));
 		

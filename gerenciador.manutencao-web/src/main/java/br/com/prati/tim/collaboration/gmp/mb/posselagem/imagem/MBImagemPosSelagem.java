@@ -24,7 +24,10 @@ import org.xml.sax.SAXException;
 import br.com.prati.tim.collaboration.gmp.ejb.posselagem.imagem.ImagemPosSelagemEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.posselagem.imagem.InspecaoBlister;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractBaseMB;
+import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
 import br.com.prati.tim.collaboration.gmp.mb.ValidateComponent;
+import br.com.prati.tim.collaboration.gmp.mb.login.SessionUtil;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Named("mbImagemPosSelagem")
 @ViewScoped
@@ -63,11 +66,17 @@ public class MBImagemPosSelagem extends AbstractBaseMB {
 	
 	public void find() throws SQLException{
 		
+		if (!SessionUtil.temPermissaoGUM(ETipoAcessoGUM.CONSULTA)){
+			UtilsMessage.addErrorMessage("Usuário sem permissão de " + ETipoAcessoGUM.CONSULTA.getDescricao() + ".");
+			return;
+		}
+		
 		inspecoesCamera1 = ejbImagem.getInspecaoBlisterList(lote, 1);
 		inspecoesCamera2 = ejbImagem.getInspecaoBlisterList(lote, 2);
 		
 	}
 	
+	@SuppressWarnings("static-access")
 	public void close() throws IOException{
 		
 		if (image != null){

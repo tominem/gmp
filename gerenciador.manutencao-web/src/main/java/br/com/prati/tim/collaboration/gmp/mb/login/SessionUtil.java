@@ -55,7 +55,7 @@ public class SessionUtil implements Serializable{
         for (PaginaSistema paginaSistema : paginas) {
 			if (url.contains(paginaSistema.getPagina())){
 				pagina = paginaSistema;
-				continue;
+				break;
 			}
 		}
         
@@ -66,7 +66,7 @@ public class SessionUtil implements Serializable{
         	List<ViewAcesso> acessosUsuario = (List<ViewAcesso>) session.getAttribute("acessosUsuario");
 			
             for (ViewAcesso viewAcesso : acessosUsuario) {
-            	if (viewAcesso.getNomeFuncao().equals(pagina.getFuncaoGUM())){
+            	if (viewAcesso.getNomeFuncao().equals(pagina.getFuncaoGUM())&& viewAcesso.getNomeSistema().equals("GMP") ){
             		if (viewAcesso.getTipoAcesso().equals(tipoAcesso.getTipoAcesso())){
             			return true;
             		}
@@ -76,5 +76,25 @@ public class SessionUtil implements Serializable{
     	
     	return false;
     }
+	
+	@SuppressWarnings("unchecked")
+	public static boolean temPermissaoGUM(String funcao, ETipoAcessoGUM tipoAcesso){
+		
+		HttpServletRequest 		request 	= getRequest();
+    	HttpSession 			session 	= request.getSession(false);
+    	
+		List<ViewAcesso> acessosUsuario = (List<ViewAcesso>) session.getAttribute("acessosUsuario");
+		
+        for (ViewAcesso viewAcesso : acessosUsuario) {
+        	if (viewAcesso.getNomeFuncao().equals(funcao)&& viewAcesso.getNomeSistema().equals("GMP") ){
+        		if (viewAcesso.getTipoAcesso().equals(tipoAcesso.getTipoAcesso())){
+        			return true;
+        		}
+        	}
+		}
+        
+        return false;
+		
+	}
     
 }

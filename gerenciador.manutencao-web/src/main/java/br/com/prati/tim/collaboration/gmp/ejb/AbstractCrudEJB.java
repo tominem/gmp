@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import br.com.prati.tim.collaboration.gmp.dao.FilterParam;
-import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
 import br.com.prati.tim.collaboration.gmp.mb.login.SessionUtil;
 import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 

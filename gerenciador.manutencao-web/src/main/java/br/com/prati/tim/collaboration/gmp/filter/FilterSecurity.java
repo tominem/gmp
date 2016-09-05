@@ -87,6 +87,7 @@ public class FilterSecurity implements Filter{
         for (PaginaSistema paginaSistema : paginas) {
 			if (url.contains(paginaSistema.getPagina())){
 				pagina = paginaSistema;
+				break;
 			}
 		}
         
@@ -97,7 +98,7 @@ public class FilterSecurity implements Filter{
         	List<ViewAcesso> acessosUsuario = (List<ViewAcesso>) session.getAttribute("acessosUsuario");
 			
             for (ViewAcesso viewAcesso : acessosUsuario) {
-            	if (viewAcesso.getNomeFuncao().equals(pagina.getFuncaoGUM())){
+            	if (viewAcesso.getNomeFuncao().equals(pagina.getFuncaoGUM()) && viewAcesso.getNomeSistema().equals("GMP")){
             		return true;
             	}
 			}

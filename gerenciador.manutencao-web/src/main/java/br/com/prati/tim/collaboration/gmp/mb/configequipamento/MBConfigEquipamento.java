@@ -22,7 +22,9 @@ import br.com.prati.tim.collaboration.gmp.converters.LectorFtpFieldConverter;
 import br.com.prati.tim.collaboration.gmp.converters.LectorHexFiedConverter;
 import br.com.prati.tim.collaboration.gmp.ejb.valorconfigequip.IValorConfigEquipEJB;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractBaseMB;
+import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
 import br.com.prati.tim.collaboration.gmp.mb.ValidateComponent;
+import br.com.prati.tim.collaboration.gmp.mb.login.SessionUtil;
 import br.prati.tim.collaboration.gp.jpa.ConfigEquipamento;
 import br.prati.tim.collaboration.gp.jpa.Equipamento;
 import br.prati.tim.collaboration.gp.jpa.Receita;
@@ -31,6 +33,7 @@ import br.prati.tim.collaboration.gp.jpa.TipoComponente.ETipoComponente;
 import br.prati.tim.collaboration.gp.jpa.ValorConfigEquip;
 import br.prati.tim.collaboration.gp.jpa.ValoresFuncao;
 import br.prati.tim.collaboration.gp.jpa.enumerator.EComponentConverter;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Named("mbConfigEquipamento")
 @ViewScoped
@@ -66,6 +69,11 @@ public class MBConfigEquipamento extends AbstractBaseMB implements Serializable{
 			
 			selectEquipamento(equipamentoSelecionado);
 			
+			if (!SessionUtil.temPermissaoGUM(ETipoAcessoGUM.CONSULTA)){
+				UtilsMessage.addErrorMessage("Usuário sem permissão de " + ETipoAcessoGUM.CONSULTA.getDescricao() + ".");
+				return;
+			}
+			
 			loadValorConfigEquipamento();
 		}
 		
@@ -83,6 +91,11 @@ public class MBConfigEquipamento extends AbstractBaseMB implements Serializable{
 	}
 	
 	public void save(){
+		
+		if (!SessionUtil.temPermissaoGUM(ETipoAcessoGUM.ALTERACAO)){
+			UtilsMessage.addErrorMessage("Usuário sem permissão de " + ETipoAcessoGUM.ALTERACAO.getDescricao() + ".");
+			return;
+		}
 		
 		for (ConfigEquipamento configEquipamento : configEquipamentoList) {
 			

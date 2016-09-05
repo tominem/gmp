@@ -19,9 +19,12 @@ import org.primefaces.event.SelectEvent;
 
 import br.com.prati.tim.collaboration.gmp.configuracaogeral.ConfiguracaoGeralEJB;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractBaseMB;
+import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
 import br.com.prati.tim.collaboration.gmp.mb.ValidateComponent;
+import br.com.prati.tim.collaboration.gmp.mb.login.SessionUtil;
 import br.prati.tim.collaboration.gp.jpa.ConfiguracaoGeral;
 import br.prati.tim.collaboration.gp.jpa.Maquina;
+import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 
 @Named("mbConfiguracoesGerais")
@@ -46,9 +49,19 @@ public class MBConfiguracoesGerais extends AbstractBaseMB implements Serializabl
 	@PostConstruct
 	public void init() throws Exception{
 		
-		configuracoes = configEJB.getByMaquinaAndSistema(maquina, tagSistema);
+		loadVariables();
 		
 		limpar();
+	}
+
+	private void loadVariables() throws Exception {
+		
+		if (!SessionUtil.temPermissaoGUM(ETipoAcessoGUM.CONSULTA)){
+			UtilsMessage.addErrorMessage("Usuário sem permissão de " + ETipoAcessoGUM.CONSULTA.getDescricao() + ".");
+			return;
+		}
+		
+		configuracoes = configEJB.getByMaquinaAndSistema(maquina, tagSistema);
 	}
 		
 	public void select(SelectEvent event){
@@ -77,7 +90,7 @@ public class MBConfiguracoesGerais extends AbstractBaseMB implements Serializabl
 		setMaquina(maquina);
 		
 		try {
-			configuracoes = configEJB.getByMaquinaAndSistema(maquina, tagSistema);
+			loadVariables();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -96,14 +109,14 @@ public class MBConfiguracoesGerais extends AbstractBaseMB implements Serializabl
 	public void limparMaquina() throws Exception{
 		setMaquina(null);
 		
-		configuracoes = configEJB.getByMaquinaAndSistema(maquina, tagSistema);
+		loadVariables();
 	}
 	
 	public void salvar(){
 		
 		configEJB.salvar(configuracoes, configuracoesRemover);
 		
-		configuracoes = configEJB.listActives();
+		//configuracoes = configEJB.listActives();
 		
 		FacesContext.getCurrentInstance().getViewRoot().getViewMap().clear();
 		
@@ -112,6 +125,11 @@ public class MBConfiguracoesGerais extends AbstractBaseMB implements Serializabl
 	}
 	
 	public void adicionar(){
+		
+		if (!SessionUtil.temPermissaoGUM(ETipoAcessoGUM.INCLUSAO)){
+			UtilsMessage.addErrorMessage("Usuário sem permissão de " + ETipoAcessoGUM.INCLUSAO.getDescricao() + ".");
+			return;
+		}
 		
 		if (!isConfiguracaoValida(false)){
 			return;
@@ -178,6 +196,11 @@ public class MBConfiguracoesGerais extends AbstractBaseMB implements Serializabl
 	
 	public void remover(){
 	
+		if (!SessionUtil.temPermissaoGUM(ETipoAcessoGUM.EXCLUSAO)){
+			UtilsMessage.addErrorMessage("Usuário sem permissão de " + ETipoAcessoGUM.EXCLUSAO.getDescricao() + ".");
+			return;
+		}
+		
 		if (configuracao.getIdConfiguracao() != null){
 			configuracoesRemover.add(configuracao);
 		}
@@ -189,6 +212,11 @@ public class MBConfiguracoesGerais extends AbstractBaseMB implements Serializabl
 	}
 	
 	public void editar(){
+		
+		if (!SessionUtil.temPermissaoGUM(ETipoAcessoGUM.ALTERACAO)){
+			UtilsMessage.addErrorMessage("Usuário sem permissão de " + ETipoAcessoGUM.ALTERACAO.getDescricao() + ".");
+			return;
+		}
 		
 		RequestContext.getCurrentInstance().execute("PF('configuracaoDialogWidget').show()");
 		
