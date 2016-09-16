@@ -11,7 +11,7 @@
 
 			<div class="Container75 Responsive100">
 			
-				<div class="MarRight025Em MarBottom1 Container15 Responsive50">
+				<div class="MarRight025Em MarBottom1 Container20 Responsive50">
 					
 					<ui:insert name="limpar">
 						
@@ -20,19 +20,18 @@
                     						styleClass		=	"PurpleButton RaisedButton Wid100"
                     						value			=	"Pesquisar"
                     						update			=	"formConsulta tableHistorico"
-                    						id				=	"btConsultar"
-                    						/>
+                    						id				=	"btConsultar" />
 					
 					</ui:insert>
 					
 				</div>
 			
-				<div class="MarRight025Em MarBottom1 Container15 Responsive50">
+				<div class="MarRight025Em MarBottom1 Container20 Responsive50">
 				
 					<ui:insert name="contentSalvar">
 						
 						<p:commandButton	actionListener	=	"#{mbHistoricoProducao.cleanForm()}" 
-                    						icon			=	"fa fa-eraser white"
+                    						icon			=	"fa fa-eraser white"	
                     						styleClass		=	"PurpleButton RaisedButton Wid100"
                     						value			=	"Limpar Filtros"
                     						update			=	"formConsulta tableHistorico"

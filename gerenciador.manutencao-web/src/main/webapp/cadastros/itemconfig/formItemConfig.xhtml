@@ -220,40 +220,34 @@
 		                            <h:panelGroup	id	= 	"contentPaLista">
 			                            
 			                            <p:panelGrid 		id					=	"paLista"
-				                            				columns				=	"2" 
+				                            				columns				=	"1" 
 					                            			layout				=	"grid" 
 					                            			styleClass			=	"ui-panelgrid-blank ui-fluid"
-					                            			columnClasses		=	"ui-grid-col-11,ui-grid-col-1"
+					                            			columnClasses		=	"ui-grid-col-12"
 					                            			rendered			=	"#{itemConfigMB.showList}">
 					                            	
-					                            		<h:panelGroup id="contentValorDaLista">
-					                            		
-								                            		<!-- line 1 -->
-								                            		<p:outputLabel 		value			=	"Valor da Lista"
-																						for				=	"valorDaLista"/>
-							
-																	<!-- line 2 -->							
-																	<p:inputText 		value			=	"#{itemConfigMB.valorFuncaoInserted.valor}"
-																						id				=	"valorDaLista"
-																						maxlength		=	"255"/>
-																						
-					                            		</h:panelGroup>
-					                            		
-					                            		
-					                            		<h:panelGroup id="contentButtonValorDaLista">
-					                            			
-						                            		<div class="EmptyBox20" />
-						                            		
-					                            			<p:commandButton 	styleClass		=	"PurpleTextButton RaisedButton"	
-							                            						icon			=	"fa fa-plus Fs16 White" 
-							                            						style 			= 	"float:right;"
-							                            						update			=	"tableValores paLista"
-							                            						actionListener	=	"#{itemConfigMB.addValorFuncao()}"
-							                            						process			=	"paLista">
-							                            	</p:commandButton>
-					                            			
-					                            		</h:panelGroup>
-		                            								
+		                            		<h:panelGroup id="contentValorDaLista">
+		                            		
+			                            		<!-- line 1 -->
+			                            		<p:outputLabel 		value			=	"Valor da Lista"
+																	for				=	"valorDaLista"/>
+		
+												<!-- line 2 -->							
+												<p:inputText 		value			=	"#{itemConfigMB.valorFuncaoInserted.valor}"
+																	id				=	"valorDaLista"
+																	maxlength		=	"255"/>
+																	
+                            					<p:commandButton	icon				=	"fa fa-plus"
+																	styleClass			=	"ButtonPesquisar GreenButton"
+																	update				=	"tableValores paLista"
+																	actionListener		=	"#{itemConfigMB.addValorFuncao()}"
+																	process				=	"@this paLista"
+																	title				=	"Adicionar">
+												
+												</p:commandButton>
+														
+														
+		                            		</h:panelGroup>
 					                            		
 										</p:panelGrid>
 										

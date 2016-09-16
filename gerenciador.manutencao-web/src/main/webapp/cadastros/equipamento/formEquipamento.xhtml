@@ -251,10 +251,10 @@
 		                            <h:panelGroup id	=	"contentPanelInsert">
 		                            
 			                            <p:panelGrid 	id					=	"paIOInsert"
-			                            				columns				=	"4" 
+			                            				columns				=	"3" 
 			                            				layout				=	"grid" 
 			                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
-			                            			 	columnClasses		=	"ui-grid-col-5, ui-grid-col-5, ui-grid-col-5, ui-grid-col-1"
+			                            			 	columnClasses		=	"ui-grid-col-4, ui-grid-col-4, ui-grid-col-4"
 			                            			 	rendered			=	"#{equipamentoMB.clp}">
 			                            			 	
 											
@@ -274,9 +274,9 @@
 														
 														<f:selectItem itemLabel="Selecione o tipo de IO" />
 														
-														<f:selectItems 	value="#{equipamentoMB.tiposIoEquipamentos}" 
-																		var="a"
-																		itemValue="#{a}"/>
+														<f:selectItems 	value		=	"#{equipamentoMB.tiposIoEquipamentos}" 
+																		var			=	"a"
+																		itemValue	=	"#{a}"/>
 															
 													</p:selectOneMenu>
 													
@@ -303,19 +303,14 @@
 																	id				=	"variavelPulsoIO" 
 																	disabled		=	"#{equipamentoMB.saida}"
 																	maxlength		=	"60"/>
-																									
-												</h:panelGroup>
-	
-												<h:panelGroup>
-												
-													<div class="EmptyBox20"/>
-												
-													<p:commandButton icon			=	"fa fa-plus Fs16 White"
-																	 styleClass		=	"PurpleTextButton RaisedButton"
-																	 actionListener	=	"#{equipamentoMB.addIOIntoTable()}"
-																	 update			=	"tableIOValores paIOInsert contentPaneDescricao contentPanelInsert"
-																	 process		=	"contentPaneDescricao contentPanelInsert">
-																	 
+													
+													<p:commandButton	icon				=	"fa fa-plus"
+																		styleClass			=	"ButtonPesquisar GreenButton"
+																		update				=	"tableIOValores paIOInsert contentPaneDescricao contentPanelInsert"
+																		actionListener		=	"#{equipamentoMB.addIOIntoTable()}"
+																		process				=	"contentPaneDescricao contentPanelInsert"
+																		title				=	"Adicionar">
+													
 													</p:commandButton>
 																									
 												</h:panelGroup>

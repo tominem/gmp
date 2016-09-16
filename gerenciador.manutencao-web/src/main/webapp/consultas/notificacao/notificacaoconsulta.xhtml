@@ -176,6 +176,15 @@
                            			 	style				=	"border:0px none;background:none"
                            			 	columnClasses		=	"ui-grid-col-12">
                         	
+                        	<p:contextMenu for	=	"tableNotificacoes"	id = "contextMenu">
+					        			
+						        <p:menuitem value			=	"Marcar como visualizada"
+						        			update			=	"tableNotificacoes"
+						        			actionListener	=	"#{mbNotificacaoConsulta.atualizaVisualizacao}"
+						        			rendered		=	"#{!mbNotificacaoConsulta.notificacao.visualizada}"/>
+						        			
+						    </p:contextMenu>
+                        	
 							<p:dataTable 	id					=	"tableNotificacoes"
 											widgetVar			=	"tableNotificacoes"
 											var					=	"item"
@@ -187,7 +196,12 @@
 											resizableColumns	=	"true"
 											paginator			=	"true"
 											paginatorPosition	=	"bottom"
-											rows				=	"15">
+											rows				=	"15"
+											selectionMode		=	"single"
+											selection			=	"#{mbNotificacaoConsulta.notificacao}"
+											rowKey				=	"#{item.idNotificacao}">
+								
+								<p:ajax event="rowSelect" update="contextMenu"  /> 
 								
 								<f:facet name	=	"header">
 									Notificações
@@ -197,7 +211,7 @@
 											styleClass		=	"TexAlCenter"
 											width			=	"10%" >
 											
-									<p:outputLabel value	=	"#{item.maquina.tag}" />
+									<h:outputText value	=	"#{item.maquina.tag}" />
 									
 								</p:column>
 								
@@ -205,7 +219,7 @@
 											width			=	"15%" 
 											styleClass		=	"wrap">
 											
-									<p:outputLabel value	=	"#{item.nomePapel}" />
+									<h:outputText value	=	"#{item.nomePapel}" />
 									
 								</p:column>
 								
@@ -213,15 +227,7 @@
 											width			=	"35%"
 											styleClass		=	"wrap">
 											
-									<p:outputLabel value	=	"#{item.descricao}" />
-									
-								</p:column>
-								
-								<p:column 	headerText		=	"Visualizada" 
-											styleClass		=	"TexAlCenter"
-											width			=	"10%">
-											
-									<p:outputLabel value	=	"#{item.visualizada ? 'Sim' : 'Não'}" />
+									<h:outputText value	=	"#{item.descricao}" />
 									
 								</p:column>
 								
@@ -238,7 +244,7 @@
 						                </p:inputText> 
 						            </f:facet>
 											
-									<p:outputLabel value	=	"#{item.crachaCriador}" />
+									<h:outputText value	=	"#{item.crachaCriador}" />
 									
 								</p:column>
 								
@@ -255,7 +261,7 @@
 						                </p:inputText> 
 						            </f:facet>
 											
-									<p:outputLabel value	=	"#{item.crachaVisualizador}" />
+									<h:outputText value	=	"#{item.crachaVisualizador}" />
 									
 								</p:column>
 								
@@ -272,7 +278,16 @@
 									</h:outputText>
 									
 								</p:column>
+								
+								
+								<p:column 	headerText		=	"Visualizado" 
+											styleClass		=	"TexAlCenter"
+											width			=	"10%" >
+											
+									<h:outputText value	=	"#{item.visualizada ? 'Sim' : 'Não'}" />
 									
+								</p:column>
+								
 							</p:dataTable>
                         		
 						</p:panelGrid>

@@ -148,7 +148,7 @@ public class VariaveisClpMB extends AbstractBaseMB implements Serializable {
 	}
 	
 	public boolean getTipoInteiroEdicao(){
-		return variaveisClp.getTipoValor() == ETipoValorVariaveis.INTEGER;
+		return variaveisClpEdit.getTipoValor() == ETipoValorVariaveis.INTEGER;
 	}
 
 	private void selectCLP(Object object) {
@@ -339,22 +339,22 @@ public class VariaveisClpMB extends AbstractBaseMB implements Serializable {
 	
 	private boolean validateEdit() {
 		
-		if (variaveisClp.getVariavel() == null || variaveisClp.getVariavel().isEmpty()) {
+		if (variaveisClpEdit.getVariavel() == null || variaveisClpEdit.getVariavel().isEmpty()) {
 			addErrorMessage("Variável requerida!");
 			return false;
 		}
 
-		if (variaveisClp.getTipoValor() == null) {
+		if (variaveisClpEdit.getTipoValor() == null) {
 			addErrorMessage("Tipo Valor requerido!");
 			return false;
 		}
 		
-		if (variaveisClp.getDescricao() == null || variaveisClp.getDescricao().isEmpty()) {
+		if (variaveisClpEdit.getDescricao() == null || variaveisClpEdit.getDescricao().isEmpty()) {
 			addErrorMessage("Descrição requerida!");
 			return false;
 		}
 		
-		if (variaveisClp.getValor() == null || variaveisClp.getValor().isEmpty()) {
+		if (variaveisClpEdit.getValor() == null || variaveisClpEdit.getValor().isEmpty()) {
 			addErrorMessage("Descrição requerida!");
 			return false;
 		}
@@ -394,7 +394,15 @@ public class VariaveisClpMB extends AbstractBaseMB implements Serializable {
 	}
 
 	public void setVariaveisClpEdit(VariaveisClp variaveisClpEdit) {
-		this.variaveisClpEdit = variaveisClpEdit;
+		this.variaveisClpEdit = new VariaveisClp();
+		this.variaveisClpEdit.setDataRegistro(variaveisClpEdit.getDataRegistro());
+		this.variaveisClpEdit.setDescricao(variaveisClpEdit.getDescricao());
+		this.variaveisClpEdit.setEquipamento(variaveisClpEdit.getEquipamento());
+		this.variaveisClpEdit.setIdVariaveisCLP(variaveisClpEdit.getIdVariaveisCLP());
+		this.variaveisClpEdit.setMaquina(variaveisClpEdit.getMaquina());
+		this.variaveisClpEdit.setTipoValor(variaveisClpEdit.getTipoValor());
+		this.variaveisClpEdit.setValor(variaveisClpEdit.getValor());
+		this.variaveisClpEdit.setVariavel(variaveisClpEdit.getVariavel());
 	}
 
 }

@@ -38,6 +38,8 @@ public class MBNotificacaoConsulta extends AbstractBaseMB {
 
 	private List<Notificacao>	notificacoes;
 	
+	private Notificacao			notificacao;
+	
 	@PostConstruct
 	public void init() {
 		setFiltros		(new NotificacaoFiltros());
@@ -72,6 +74,16 @@ public class MBNotificacaoConsulta extends AbstractBaseMB {
 		return null;
 	}
 	
+	public void atualizaVisualizacao() throws Exception{
+		
+		notificacao.setVisualizada(true);
+		notificacao = ejbNotificacao.save(notificacao);
+		
+		String visualizado = notificacao.getVisualizada() ? "visualizada." : " não visualizada.";
+		
+		addInfoMessage("Atualizada notificação para " + visualizado);
+	}
+	
 	public List<PapelView> getPapeis(){
 		return ejbNotificacao.getPapeisSistema("IEM");
 	}
@@ -98,5 +110,13 @@ public class MBNotificacaoConsulta extends AbstractBaseMB {
 
 	public void setMaquinas(List<Maquina> maquinas) {
 		this.maquinas = maquinas;
+	}
+
+	public Notificacao getNotificacao() {
+		return notificacao;
+	}
+
+	public void setNotificacao(Notificacao notificacao) {
+		this.notificacao = notificacao;
 	}
 }

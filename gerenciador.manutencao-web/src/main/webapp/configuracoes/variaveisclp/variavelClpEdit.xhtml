@@ -82,13 +82,13 @@
 						<h:panelGroup	id	=	"paValor">
 	                      	
 	                      	<p:outputLabel 	value			=	"Valor" 		
-											for				=	"#{variaveisClpMB.tipoInteiro ? 'valorInput' : 'valorSelect'}"/>
+											for				=	"#{variaveisClpMB.tipoInteiroEdicao ? 'valorInput' : 'valorSelect'}"/>
 							
 							<p:inputText 	requiredMessage	=	"Valor requerido"
 											value			=	"#{variaveisClpMB.variaveisClpEdit.valor}"
 											id				=	"valorInput" 
-											rendered		=	"#{variaveisClpMB.tipoInteiro}"
-											required		=	"#{variaveisClpMB.tipoInteiro}"
+											rendered		=	"#{variaveisClpMB.tipoInteiroEdicao}"
+											required		=	"#{variaveisClpMB.tipoInteiroEdicao}"
 											maxlength		=	"5"
 											styleClass		=	"TexAlRight">
 							
@@ -98,7 +98,7 @@
 	
 							<p:selectOneMenu 	id				=	"valorSelect"
 												value			=	"#{variaveisClpMB.variaveisClpEdit.valor}"
-												rendered		=	"#{!variaveisClpMB.tipoInteiro}">
+												rendered		=	"#{!variaveisClpMB.tipoInteiroEdicao}">
 												
 								<f:selectItem itemLabel="True" itemValue="true"/>
 	
@@ -125,7 +125,7 @@
 			<p:commandButton id				=	"btnSalvar"
 							 value			=	"Salvar" 
 							 icon			=	"fa fa-save"
-							 onclick		=	"save();"
+							 onclick		=	"salvar();"
 							 process		=	"variavelClpEditForm"
 							 style			=	"margin-right: 5px; width: 110px"
 							 styleClass		=	"PurpleButton RaisedButton"/>
@@ -140,9 +140,6 @@
 		
 		</f:facet>
 		
-		
-		<p:ajax event	=	"close" 
-				listener=	"#{mbConfiguracoesGerais.clearConfig}" />
 		
 	</p:dialog>
     
