@@ -78,7 +78,9 @@
 															 converter			=	"equipamentoConverter"
 															 required			=	"true"
 															 requiredMessage	=	"Equipamento requerido"
-															 disabled			=	"#{receitaMB.maquina == null}">
+															 disabled			=	"#{receitaMB.maquina == null}"
+															 filter				=	"true"
+															 filterMatchMode	=	"contains">
 								            
 									            <f:selectItem itemLabel			=	"Selecione o equipamento" 
 									            			  itemValue			=	"" />

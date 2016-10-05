@@ -140,7 +140,9 @@
 															for				=	"unidade"/>
 															
 											<p:selectOneMenu id					=	"unidade" 
-															 value				=	"#{subprodutoMB.entityBean.unidade}">
+															 value				=	"#{subprodutoMB.entityBean.unidade}"
+															 filter				=	"true"
+															 filterMatchMode	=	"contains">
 									            
 									            <f:selectItem itemLabel			=	"Selecione a unidade" 
 									            			  itemValue			=	"" />

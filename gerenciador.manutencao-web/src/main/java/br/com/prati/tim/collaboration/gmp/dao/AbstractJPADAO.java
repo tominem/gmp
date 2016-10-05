@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.FetchType;
 import javax.persistence.PersistenceException;
+import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.exception.ConstraintViolationException;
@@ -53,6 +54,7 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 	}
 	
 	@Override
+	@Transactional
 	public void delete(T item) throws PersistenceException {
 		
 		try {

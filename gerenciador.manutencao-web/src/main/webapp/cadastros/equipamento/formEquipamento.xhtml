@@ -186,7 +186,9 @@
 											<p:selectOneMenu 	id				=	"tipoEquipamentos"
 																value			=	"#{equipamentoMB.entityBean.tipoEquipamento}"
 																required		=	"true"
-																requiredMessage	=	"Tipo de equipamento requerido">
+																requiredMessage	=	"Tipo de equipamento requerido"
+																filter			=	"true"
+															 	filterMatchMode	=	"contains">
 																
 												<p:ajax event		=	"change"
 														listener	=	"#{equipamentoMB.checkIfIsCLP()}" 

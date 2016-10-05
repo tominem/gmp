@@ -33,36 +33,35 @@ public class MaquinaCrudMB extends AbstractCrudMB<Maquina, Long>	implements Seri
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6966525816419190286L;
+	private static final long			serialVersionUID			= -6966525816419190286L;
 
-	private final String INPUT_EQUIPAMENTO_ID = "formCad:equipamento";
+	private final String				INPUT_EQUIPAMENTO_ID		= "formCad:equipamento";
 
-	private final String INPUT_TIPOCOMUNICACAO_ID = "formCad:tipoComunicacao";
+	private final String				INPUT_TIPOCOMUNICACAO_ID	= "formCad:tipoComunicacao";
 
-	private final String INPUT_DESCRICAO_ID = "formCad:descricao";
+	private final String				INPUT_DESCRICAO_ID			= "formCad:descricao";
 
-	private final String INPUT_TAG_ID = "formCad:tag";
-	
+	private final String				INPUT_TAG_ID				= "formCad:tag";
 
 	@Inject
-	private MaquinaEJB ejb;
-	
+	private MaquinaEJB					ejb;
+
 	@Inject
-	private TimeZone defaultTimeZone;
-	
-	private Equipamento equipamentoSelected;
+	private TimeZone					defaultTimeZone;
 
-	private TipoInspecao tipoInspecaoSelected;
+	private Equipamento					equipamentoSelected;
 
-	private TipoComunicacao tipoComunicacaoSelected;
+	private TipoInspecao				tipoInspecaoSelected;
+
+	private TipoComunicacao				tipoComunicacaoSelected;
+
+	private List<EquipamentoMaquina>	equipamentoMaquinas;
+
+	private List<EquipamentoMaquina>	selectedEquipamentoMaquinas;
 	
-	private List<EquipamentoMaquina> equipamentoMaquinas;
-	
-	private List<EquipamentoMaquina> selectedEquipamentoMaquinas;
-	
-	private EquipamentoMaquina equipamentoMaquinaSelected;
-	
-	//================ METHODS ========================//
+	private List<EquipamentoMaquina>	equipamentoMaquinasRemove;
+
+	private EquipamentoMaquina			equipamentoMaquinaSelected;
 	
 	@PostConstruct
 	@Override
@@ -92,6 +91,7 @@ public class MaquinaCrudMB extends AbstractCrudMB<Maquina, Long>	implements Seri
 		entityBean.setSala(new Sala());
 		
 		equipamentoMaquinas = new ArrayList<EquipamentoMaquina>();
+		equipamentoMaquinasRemove = new ArrayList<EquipamentoMaquina>();
 
 		cleanEquipamentoForm();
 		
@@ -229,6 +229,7 @@ public class MaquinaCrudMB extends AbstractCrudMB<Maquina, Long>	implements Seri
 	
 	public void removeEquipamento(EquipamentoMaquina em){
 		equipamentoMaquinas.remove(em);
+		equipamentoMaquinasRemove.add(em);
 	}
 
 	private void cleanEquipamentoForm() {
@@ -258,6 +259,11 @@ public class MaquinaCrudMB extends AbstractCrudMB<Maquina, Long>	implements Seri
 	
 	@Override
 	public void save() {
+		
+		for (EquipamentoMaquina equipamentoMaquina : equipamentoMaquinasRemove) {
+			ejb.getEquipamentoMaquinaDAO().delete(equipamentoMaquina);
+		}
+		equipamentoMaquinasRemove.clear();
 		
 		entityBean.setEquipamentoMaquinas(new ArrayList<EquipamentoMaquina>());
 		entityBean.setEquipamentoMaquinas(equipamentoMaquinas);
@@ -312,6 +318,14 @@ public class MaquinaCrudMB extends AbstractCrudMB<Maquina, Long>	implements Seri
 
 	public void setEquipamentoMaquinaSelected(EquipamentoMaquina equipamentoMaquinaSelected) {
 		this.equipamentoMaquinaSelected = equipamentoMaquinaSelected;
+	}
+
+	public List<EquipamentoMaquina> getEquipamentoMaquinasRemove() {
+		return equipamentoMaquinasRemove;
+	}
+
+	public void setEquipamentoMaquinasRemove(List<EquipamentoMaquina> equipamentoMaquinasRemove) {
+		this.equipamentoMaquinasRemove = equipamentoMaquinasRemove;
 	}
 
 }

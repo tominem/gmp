@@ -241,12 +241,15 @@ public class MBConfigReceita extends AbstractBaseMB implements Serializable {
 				List<Subproduto> subprodutosDoProduto = new ArrayList<>();
 				
 				try {
-					List<ProdutoSubproduto> subprodutoProduto = ejbProduto.findProdutoSubproduto(produto);
+					
+					List<ProdutoSubproduto> subprodutoProduto 	= ejbProduto.findProdutoSubproduto(produto);
+					
 					for (ProdutoSubproduto produtoSubproduto : subprodutoProduto) {
 						if (!subprodutosDoProduto.contains(subprodutoProduto)){
 							subprodutosDoProduto.add(produtoSubproduto.getSubproduto());
 						}
 					}
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -256,7 +259,8 @@ public class MBConfigReceita extends AbstractBaseMB implements Serializable {
 				for (SubprodTipoInsp subprodTipoInsp : subprodTipoInsps) {
 					
 					if (!subprodutosReceita.contains(subprodTipoInsp.getSubproduto()) &&
-							subprodutosDoProduto.contains(subprodTipoInsp.getSubproduto())){
+							subprodutosDoProduto.contains(subprodTipoInsp.getSubproduto()) &&
+							subprodTipoInsp.getTipoInspecao().getIdTipoInspecao() == getTipoInspecao().getIdTipoInspecao()){
 						subprodutosReceita.add(subprodTipoInsp.getSubproduto());
 					}
 				}

@@ -93,7 +93,9 @@
 										<p:selectOneMenu id					=	"tabelas" 
 														 value				=	"#{mbAuditoria.tabelaSelecionada}"
 														 required			=	"true"
-														 requiredMessage	=	"A tabela deve ser informada.">
+														 requiredMessage	=	"A tabela deve ser informada."
+														 filter				=	"true"
+														 filterMatchMode	=	"contains">
 								            
 								            <f:selectItem itemLabel			=	"Selecione a tabela" 
 								            			  itemValue			=	"" />

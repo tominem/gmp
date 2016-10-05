@@ -52,4 +52,9 @@ public class MaquinaEJBImpl extends AbstractCrudEJB<Maquina> implements MaquinaE
 		return equipamentoMaquinaDAO.findByMaquina(maquina);
 	}
 
+	@Override
+	public GenericDAO<EquipamentoMaquina> getEquipamentoMaquinaDAO() {
+		return equipamentoMaquinaDAO;
+	}
+
 }

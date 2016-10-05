@@ -80,7 +80,9 @@
 														 value				=	"#{itemConfigMB.tipoComponenteSelected}"
 														 converter			=	"tipoComponenteConverter"
 														 required			=	"true"
-														 requiredMessage	=	"Tipo de componente requerido">
+														 requiredMessage	=	"Tipo de componente requerido"
+														 filter				=	"true"
+														 filterMatchMode	=	"contains">
 								            
 								            <f:selectItem 	itemLabel		=	"Selecione o tipo de componente" 
 								            			  	itemValue		=	"" />
@@ -119,7 +121,9 @@
 										
 										<p:selectOneMenu id					=	"conversor" 
 														 value				=	"#{itemConfigMB.entityBean.converter}"
-														 converter			=	"eComponenteConverter">
+														 converter			=	"eComponenteConverter"
+														 filter				=	"true"
+														 filterMatchMode	=	"contains">
 								            
 								            <f:selectItem itemLabel			=	"Selecione o tipo de conversor" 
 								            			  itemValue			=	"" />

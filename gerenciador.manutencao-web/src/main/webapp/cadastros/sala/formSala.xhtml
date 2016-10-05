@@ -55,7 +55,9 @@
 										<p:selectOneMenu 	 id					=	"setor" 
 															 value				=	"#{salaMB.entityBean.setor}"
 															 required			=	"true"
-															 requiredMessage	=	"Setor requerido">
+															 requiredMessage	=	"Setor requerido"
+															 filter				=	"true"
+															 filterMatchMode	=	"contains">
 							            
 												<f:selectItem itemLabel			=	"Selecione o setor" 
 									            			  itemValue			=	"" />

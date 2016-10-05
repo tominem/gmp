@@ -251,13 +251,13 @@ public class AuditoriaHelper implements Serializable{
         String 				dataFinalStr 	= formatas.format(dataFinal);
 		
 		sql.append("	select ").append(colunasTabela); 
-		sql.append("           to_char('1970-01-01 00:00:00 GMT'::timestamp AT TIME ZONE 'UTC' + ((revinfo.revtstmp/1000)::text)::interval , 'DD/MM/YYYY HH24:MI:SS') as \"").append(COLUNA_TIMESTAMP).append("\" , "); 
+		sql.append("           TO_CHAR(TO_TIMESTAMP(revtstmp / 1000), 'DD/MM/YYYY HH24:MI:SS')::timestamp as \"").append(COLUNA_TIMESTAMP).append("\" , "); 
 		sql.append("           revinfo.usuario as \"").append(COLUNA_USUARIO).append("\"  ");
 		sql.append("      from audit.").append(tabela).append("_aud entidade, "); 
 		sql.append("       	   audit.revinfo revinfo "); 
 		sql.append("     where entidade.rev = revinfo.rev ");
 		sql.append("       and entidade.").append(idTabela).append(" = ").append(idEntidate);
-		sql.append("       and to_char('1970-01-01 00:00:00 GMT'::timestamp AT TIME ZONE 'UTC' + ((revinfo.revtstmp/1000)::text)::interval, 'YYYY-MM-DD HH24:MI:SS') ");
+		sql.append("       and TO_CHAR(TO_TIMESTAMP(revtstmp / 1000), 'DD/MM/YYYY HH24:MI:SS')::timestamp ");
 		sql.append("           between ('").append(dataInicialStr).append("') and ('").append(dataFinalStr).append("') ");
 		sql.append("     order by revinfo.rev desc");
 				
@@ -344,7 +344,7 @@ public class AuditoriaHelper implements Serializable{
 		sql.append("     where ").append(id).append(" in (select distinct ").append(id); 
 		sql.append("       	      from audit.").append(tabela).append("_aud entidade_aud, audit.revinfo revinfo "); 
 		sql.append("             where entidade_aud.rev = revinfo.rev ");
-		sql.append("       and to_char('1970-01-01 00:00:00 GMT'::timestamp AT TIME ZONE 'UTC-02:00' + ((revinfo.revtstmp/1000)::text)::interval, 'YYYY-MM-DD HH24:MM:SS') ");
+		sql.append("       and TO_CHAR(TO_TIMESTAMP(revtstmp / 1000), 'DD/MM/YYYY HH24:MI:SS')::timestamp ");
 		sql.append("           between ('").append(dataInicialStr).append("') and ('").append(dataFinalStr).append("')) ");
 		
 		sql.append("     UNION ");
@@ -359,7 +359,7 @@ public class AuditoriaHelper implements Serializable{
 		sql.append("        					  limit 1) ");
 		sql.append("       	      from audit.").append(tabela).append("_aud entidade_aud, audit.revinfo revinfo "); 
 		sql.append("             where entidade_aud.rev = revinfo.rev ");
-		sql.append("       and to_char('1970-01-01 00:00:00 GMT'::timestamp AT TIME ZONE 'UTC-02:00' + ((revinfo.revtstmp/1000)::text)::interval, 'YYYY-MM-DD HH24:MM:SS') ");
+		sql.append("       and TO_CHAR(TO_TIMESTAMP(revtstmp / 1000), 'DD/MM/YYYY HH24:MI:SS')::timestamp ");
 		sql.append("           between ('").append(dataInicialStr).append("') and ('").append(dataFinalStr).append("') ");
 		sql.append(" 	   and entidade_aud.revtype = 2 ) ");
 		
