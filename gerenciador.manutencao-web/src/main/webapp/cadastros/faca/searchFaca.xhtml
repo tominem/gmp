@@ -1,0 +1,130 @@
+<html 	xmlns	="http://www.w3.org/1999/xhtml"
+		xmlns:h	="http://java.sun.com/jsf/html"
+		xmlns:f	="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:c= "http://java.sun.com/jsp/jstl/core"
+		xmlns:p	="http://primefaces.org/ui">
+
+    <h:head>
+
+        <f:facet name="first">
+    		<meta charset	=	"UTF-8" />
+        </f:facet>
+        
+        <title>#{searchFacaMB.title}</title>
+    </h:head>
+    
+     
+    <h:body>
+
+	    <style type="text/css">
+	    
+	    	.nt		{ color: red; font-style: italic; }
+	    	.center { text-align: center;}
+	    	.left 	{ text-align: left;}
+	    	
+	    	.ui-panelgrid .ui-panelgrid-cell.rem-padding {
+				padding: 3px;   	
+	    	}
+	    
+	    </style>
+
+		
+        <h:form id	=	"#{searchFacaMB.formName}">
+			
+			<p:focus context	=	"panelGridBusca" />
+						
+			
+			<p:panelGrid 	columns			=	"2"
+							id				= 	"panelGridBusca"
+							styleClass		=	"ui-panelgrid-blank ui-fluid"
+							layout			=	"grid"
+							columnClasses	=	"ui-grid-col-9 rem-padding, ui-grid-col-3 rem-padding">
+				
+				<!-- Coluna 1 -->
+				<h:panelGroup>
+				
+					<p:outputLabel	for				=	"criterioBusca" 
+									value			=	"Informe a nome para consultar o #{searchFacaMB.entityName} desejado"/>
+		
+					<p:inputText 	id				=	"criterioBusca"
+									value			=	"#{searchFacaMB.pattern}"
+									required		=	"false"
+									maxlength		=	"255">
+						
+						<p:ajax		event			=	"keyup" 
+									update			=	"panelGridTable" 
+									listener		=	"#{searchFacaMB.search()}">
+						</p:ajax>
+						
+					</p:inputText>
+	
+				</h:panelGroup>
+				
+				<!-- Coluna 2 -->
+				<h:panelGroup>
+				
+					<p:outputLabel 	for				=	"selOneSituacao" 
+									value			=	"Situação"/>
+					
+					<p:selectOneMenu 	id			=	"selOneSituacao" 
+										required	=	"true"
+										value		=	"#{searchFacaMB.intSituacao}"
+										disabled	=	"#{param.onlyActives != null}">
+						
+						<p:ajax 		update 		=	"panelGridTable"
+										listener	=	"#{searchFacaMB.search()}"
+										immediate	=	"true">
+						</p:ajax>
+						
+						<f:selectItems value	=	"#{searchFacaMB.itemSituacao}" />
+										
+					</p:selectOneMenu>
+					
+				</h:panelGroup>
+							
+			</p:panelGrid>
+			
+			<!-- Painel Datatable -->
+        	<h:panelGrid id="panelGridTable">
+        		
+        		 <p:dataTable 	var					=	"item" 
+        		 				value				=	"#{searchFacaMB.objectList}" 
+        		 			  	id					=	"tablePesquisa"
+        		 			  	emptyMessage		=	"Nenhum registro"
+        		 			  	paginator			=	"true"
+        		 			  	rows				=	"10"
+        		 			  	selectionMode		=	"single"
+        		 			  	rowKey				=	"#{item.idFaca}"
+        		 			  	selection			=	"#{searchFacaMB.objectSelected}"
+        		 			  	paginatorPosition	=	"bottom"
+								scrollable			=	"true"
+	   		 			  		scrollHeight		=	"250"
+        		 			  	>
+	
+					<p:ajax event		=	"rowSelect"
+							listener	=	"#{searchFacaMB.setSelectedObject()}"/>
+					
+					<c:forEach var="filter" items="#{searchFacaMB.filterParams}">
+					
+	                	<p:column headerText	=	"#{filter.name}">
+	                    	<h:outputText value	=	"#{item[filter.fieldName]}" />
+	                	</p:column>
+	                	
+					</c:forEach>
+	                
+	                <p:column 	headerText	=	"Situação" 
+                				width		=	"12%"
+                			  	styleClass	=	"center">
+                    	<h:outputText value	=	"#{item.status ? 'Ativo' : 'Inativo'}" />
+                	</p:column>		
+                	
+                </p:dataTable>
+                
+        	</h:panelGrid>
+        		
+        </h:form>
+        
+	</h:body>
+	
+</html>

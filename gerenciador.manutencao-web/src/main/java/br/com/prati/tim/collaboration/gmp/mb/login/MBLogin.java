@@ -80,7 +80,7 @@ public class MBLogin implements Serializable{
 			RetornoAutenticacao autenticarUsuario = usuarioWS.autenticarUsuario(parametros);
 			
 			this.nomeUsuario = autenticarUsuario.getCadUsuario().getNome();
-			this.acessosUsuario = autenticarUsuario.getCadUsuario().getAcessoList();
+			this.acessosUsuario = autenticarUsuario.getAcessoList();
 			
 			HttpSession session = SessionUtil.getSession();
 			session.setAttribute("acessosUsuario", acessosUsuario);

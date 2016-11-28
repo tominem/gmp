@@ -23,6 +23,7 @@ public class PaginaSistemaUtil {
 		paginas.add(new PaginaSistema("cadastros/tipoinspecao/formTipoInspecao.xhtml", 			"CADASTRO_TIPO_INSPECAO"));
 		paginas.add(new PaginaSistema("cadastros/tipocomunicacao/formTipoComunicacao.xhtml", 	"CADASTRO_TIPO_COMUNICACAO"));
 		paginas.add(new PaginaSistema("cadastros/receita/formReceita.xhtml", 					"CADASTRO_RECEITA"));
+		paginas.add(new PaginaSistema("cadastros/receita/formFaca.xhtml", 					    "CADASTRO_FACA"));
 		paginas.add(new PaginaSistema("cadastros/setor/formSetor.xhtml", 						"CADASTRO_SETOR"));
 		paginas.add(new PaginaSistema("cadastros/sala/formSala.xhtml", 							"CADASTRO_SALA"));
 		paginas.add(new PaginaSistema("cadastros/linha/formLinha.xhtml", 						"CADASTRO_LINHA"));

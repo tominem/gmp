@@ -41,7 +41,7 @@ public class ProgramacaoMaquinaEJBImpl extends AbstractCrudEJB<ProgramacaoMaquin
 		try {
 			configServicos = configuracaoEJB.getByChave(DefConfiguracaoGeralKeys.SERVICOS_MANUTENCAO.toString());
 		} catch (Exception e1) {
-			e1.printStackTrace();
+//			e1.printStackTrace();
 			return new ArrayList<ProgramacaoMaquina>();
 		}
 		

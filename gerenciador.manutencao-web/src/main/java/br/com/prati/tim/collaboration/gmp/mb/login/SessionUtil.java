@@ -43,13 +43,11 @@ public class SessionUtil implements Serializable{
 		return null;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static boolean temPermissaoGUM(ETipoAcessoGUM tipoAcesso){
 		
     	List<PaginaSistema> 	paginas 	= PaginaSistemaUtil.getPaginasSistema();
     	HttpServletRequest 		request 	= getRequest();
     	String 					url 		= request.getRequestURL().toString();
-    	HttpSession 			session 	= request.getSession(false);
         PaginaSistema			pagina		= null;
     	
         for (PaginaSistema paginaSistema : paginas) {
@@ -63,38 +61,45 @@ public class SessionUtil implements Serializable{
         	return true;
         }else{
         	
-        	List<ViewAcesso> acessosUsuario = (List<ViewAcesso>) session.getAttribute("acessosUsuario");
-			
-            for (ViewAcesso viewAcesso : acessosUsuario) {
-            	if (viewAcesso.getNomeFuncao().equals(pagina.getFuncaoGUM())&& viewAcesso.getNomeSistema().equals("GMP") ){
-            		if (viewAcesso.getTipoAcesso().equals(tipoAcesso.getTipoAcesso())){
-            			return true;
-            		}
-            	}
-			}
+        	return checkAcesso(tipoAcesso, pagina.getFuncaoGUM());
         }
     	
-    	return false;
     }
 	
+	/**
+	 * Valida as opções de menu que devem aparecer no menu lateral
+	 * conforme o acesso do perfil do usuário
+	 * 
+	 * @param url
+	 * @return
+	 */
+	public static boolean temPermissaoGum(String url)
+	{
+		return checkAcesso(ETipoAcessoGUM.CONSULTA, url);
+	}
+
+	
 	@SuppressWarnings("unchecked")
-	public static boolean temPermissaoGUM(String funcao, ETipoAcessoGUM tipoAcesso){
+	private static boolean checkAcesso(ETipoAcessoGUM tipoAcesso, String funcao) {
 		
-		HttpServletRequest 		request 	= getRequest();
-    	HttpSession 			session 	= request.getSession(false);
-    	
+		HttpSession 			session 	= getRequest().getSession(false);
+		
 		List<ViewAcesso> acessosUsuario = (List<ViewAcesso>) session.getAttribute("acessosUsuario");
 		
-        for (ViewAcesso viewAcesso : acessosUsuario) {
-        	if (viewAcesso.getNomeFuncao().equals(funcao)&& viewAcesso.getNomeSistema().equals("GMP") ){
-        		if (viewAcesso.getTipoAcesso().equals(tipoAcesso.getTipoAcesso())){
-        			return true;
-        		}
-        	}
+		for (ViewAcesso viewAcesso : acessosUsuario) {
+			if (viewAcesso.getNomeFuncao().equals(funcao)&& viewAcesso.getNomeSistema().equals("GMP") ){	
+				if (viewAcesso.getTipoAcesso().equals(tipoAcesso.getTipoAcesso())){
+					return true;
+				}
+			}
 		}
-        
-        return false;
 		
+		return false;
+	}
+	
+	
+	public static boolean temPermissaoGUM(String funcao, ETipoAcessoGUM tipoAcesso){
+    	return checkAcesso(tipoAcesso, funcao);
 	}
     
 }

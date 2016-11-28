@@ -49,8 +49,8 @@ public class FilterSecurity implements Filter{
             }
         }
         
-        autorizado = true;
-        permissaoGUM = true;
+//        autorizado = false;
+//        permissaoGUM = false;
         
         if (autorizado) {
         	

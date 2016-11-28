@@ -1,0 +1,185 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:pe="http://primefaces.org/ui/extensions"
+				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		
+		<h:form id	=	"formCad" >        
+	       
+	       <p:growl />
+	       
+	       <p:focus context		=	"#{facaMB.contentPane}" />
+	       
+	        <div class="Container100">
+	          
+	            <div class="ContainerIndent">
+	                
+	                <p:panel styleClass="Card ShadowEffect" id	=	"contentPane">
+	                    
+	                    <div class="Container">
+	                    
+	                    	<div class="ContainerIndent">
+		                    	
+		                    	<div class="Container60 Responsive100">
+		                        
+		                            <div class="BigTopic Fs18">
+										<i class="fa fa-cutlery"/> Cadastro de Faca
+									</div>
+									
+									<div class="Separator"></div>
+									
+									<!-- register a PostValidateEvent -->
+									<f:event listener="#{facaMB.validate}" type="postValidate" />
+									
+									<p:panelGrid 	columns				=	"2" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
+		                            			 	columnClasses		=	"ui-grid-col-2, ui-grid-col-10">
+										
+										<p:outputLabel 	value			=	"Nome" 		
+														for				=	"nome"/>
+										
+										<p:inputText 	required		=	"true" 
+														requiredMessage	=	"Nome requerido."
+														value			=	"#{facaMB.entityBean.descricao}"
+														maxlength		=	"15"
+														id				=	"nome">
+														
+											<f:attribute name =	"descricaoAnterior" value	=	"#{facaMB.entityBean.descricao}" ></f:attribute>
+											
+										</p:inputText>
+										
+		                            </p:panelGrid>
+		                                          
+		                            <p:panelGrid 	columns			=	"4" 
+		                            				layout			=	"grid" 
+		                            			 	styleClass		=	"ui-panelgrid-blank ui-fluid"
+		                            			 	columnClasses	=	"ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4">
+		
+		                            	
+		                            	<p:outputLabel 	value			=	"Curso MM"
+		                            		 			for				=	"cursoMM"/>		 	
+		                                
+		                                <p:inputText 	required		=	"true"
+		                                				requiredMessage	=	"Curso MM requerido."
+		                                				value			=	"#{facaMB.entityBean.cursoMm}" 
+		                                				id				=	"cursoMM"
+		                                				maxlength       =    "15">
+		                                
+		                                	<pe:keyFilter regEx="/[0-9.,]/i" />
+		                                	
+		                                </p:inputText>
+		                                
+										<p:outputLabel 	value			=	"Comprimento" 		for			=	"comprimento"/>
+		                                
+		                                <p:inputText 	required		=	"true"
+		                                				requiredMessage	=	"Comprimento requerido."
+		                                				value			=	"#{facaMB.entityBean.comprimento}"	
+		                                				id				=	"comprimento"
+		                                				maxlength       =    "15">
+		                                
+		                                	<pe:keyFilter regEx="/[0-9.,]/i" />
+		                                	
+		                                </p:inputText>
+										
+										<p:outputLabel 	value			=	"Faixas" 			
+														for				=	"faixas"/>                                
+		                                
+		                                <p:inputText 	required		=	"true"
+		                                				requiredMessage	=	"Faixas requerida."
+		                                				value			=	"#{facaMB.entityBean.faixas}"	
+		                                				id				=	"faixas"
+		                                				maxlength       =   "15">
+		                                
+		                                	<pe:keyFilter regEx="/[0-9]/i" />
+		                                	
+		                                </p:inputText>
+		                            	
+		                            	<p:outputLabel 	value			=	"Largura" 			
+		                            					for				=	"largura"/>
+		                            					
+		                                <p:inputText 	required		=	"true"
+		                                				requiredMessage	=	"Largura requerida."
+		                                				value			=	"#{facaMB.entityBean.largura}"	
+		                                				id				=	"largura"
+		                                				maxlength       =    "15">
+		                                
+		                                	<pe:keyFilter regEx="/[0-9.,]/i" />
+		                                	
+		                                </p:inputText>
+		                                
+		                                <p:outputLabel 	value			=	"Largura PVC" 		
+		                                				for				=	"larguraPVC"/>
+		                                
+		                                <p:inputText 	required		=	"true"
+		                                				requiredMessage	=	"Largura PVC requerida."
+		                                				value			=	"#{facaMB.entityBean.larguraPvc}"	
+		                                				id				=	"larguraPVC"
+		                                				maxlength       =    "15">
+		                                
+		                                	<pe:keyFilter regEx="/[0-9.,]/i" />
+		                                	
+		                                </p:inputText>
+		                                				
+		                                
+		                                <p:outputLabel 	value			=	"Largura alumínio" 	
+		                                				for				=	"larguraAluminio"/>
+		                                				
+		                                <p:inputText 	required		=	"true"
+		                                				requiredMessage	=	"Largura ado aluínio requerida."
+		                                				value			=	"#{facaMB.entityBean.larguraAluminio}"	
+		                                				id				=	"larguraAluminio"
+		                                				maxlength       =    "15">
+		                                
+		                                	<pe:keyFilter regEx="/[0-9.,]/i" />
+		                                	
+		                                </p:inputText>
+		                                
+		                                <p:outputLabel 	value			=	"Cortes" 			
+		                                				for				=	"cortes"/>
+		                                
+		                                <p:inputText 	value			=	"#{facaMB.entityBean.cortes}"	
+		                                				id				=	"cortes"
+		                                				maxlength       =    "2">
+		                                
+		                                	<pe:keyFilter regEx="/[0-9]/i" />
+		                                	
+		                                </p:inputText>
+		                                
+		                                <p:outputLabel 	value			=	"Quantidade" 
+		                                				for				=	"quantidade"/>
+		                                
+		                                <p:inputText 	id				=	"quantidade"
+		                                				required		=	"true"
+		                                				requiredMessage	=	"Quantidade requerida."
+		                                				value			=	"#{facaMB.entityBean.quantidade}"
+		                                				maxlength       =    "15">
+		                                
+		                                	<pe:keyFilter regEx="/[0-9]/i" />
+		                                	
+		                                </p:inputText>
+		                                
+		                            </p:panelGrid>
+											                        
+		                    	</div>
+		                 	</div>
+		                    
+	                    	<ui:include src="/cadastros/templatefooter.xhtml">
+	                    		<ui:param name="nomeFormulario" value="#{facaMB.formName}" />
+	                    		<ui:param name="crudBean" value="#{facaMB}" />
+	                    	</ui:include>
+		                    
+	                    </div>
+	                    
+	                </p:panel>
+	                
+	            </div>
+	            
+	        </div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

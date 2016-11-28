@@ -77,7 +77,8 @@ public class ReceitaEJBImpl extends AbstractCrudEJB<Receita> implements ReceitaE
 		
 		validatePermission(tipoAcesso);
 		
-		if (entityBean.getIdReceita() == null) {
+		if (entityBean.getIdReceita() == null) 
+		{
 			entityBean.setDataRegistro(Calendar.getInstance(defaultTimeZone).getTime());
 		}
 		

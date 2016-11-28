@@ -205,7 +205,7 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Dependências do GPM -->
+		<!-- Dependências do GMP -->
 		<dependency>
 			<groupId>br.prati.tim.collaboration.mod</groupId>
 			<artifactId>gestao-producao-jpa</artifactId>

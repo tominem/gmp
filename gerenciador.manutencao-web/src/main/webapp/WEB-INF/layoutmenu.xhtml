@@ -5,7 +5,8 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
     xmlns:pr="http://primefaces.org/rio"
-    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:per="http://collaboration.gmp/permit">
 
     <div class="Animated05" id="layout-menu-cover">
         
@@ -43,23 +44,24 @@
 				
 	        	<p:submenu id	=	"sm_menu_cadastros" label	="Cadastros" 			icon="icon-folder215">
 
-	                <p:menuitem id="tipoComponente"		value="Tipo Componente"			icon="fa fa-tag"					outcome="/cadastros/tipocomponente/formTipoComponente.xhtml"	/>
-	                <p:menuitem id="menuconfig"			value="Menus de Configuração"	icon="fa fa-th-large"				outcome="/cadastros/menuconfig/formMenuConfig.xhtml"			/>
-	                <p:menuitem id="itensConfig"		value="Itens de Configuração"	icon="fa fa-th-list"				outcome="/cadastros/itemconfig/formItemConfig.xhtml"			/>
-	                <p:menuitem id="fabricanteConfig"	value="Fabricantes"				icon="fa fa-truck"					outcome="/cadastros/fabricante/formFabricante.xhtml"			/>
-	                <p:menuitem id="tipoCodigo"			value="Tipo de Código"			icon="fa fa-barcode"				outcome="/cadastros/tipocodigo/formTipoCodigo.xhtml"			/>
-	                <p:menuitem id="equipamento"		value="Equipamento"				icon="fa fa-hdd-o"					outcome="/cadastros/equipamento/formEquipamento.xhtml"			/>
-	                <p:menuitem id="tipoInspecao"		value="Tipo de Inspeção"		icon="fa fa-video-camera"			outcome="/cadastros/tipoinspecao/formTipoInspecao.xhtml"		/>
-	                <p:menuitem id="tipoComunicacao"	value="Tipo de Comunicação"		icon="fa fa-globe"					outcome="/cadastros/tipocomunicacao/formTipoComunicacao.xhtml"	/>
-	                <p:menuitem id="receita"			value="Receita"					icon="fa fa-book"					outcome="/cadastros/receita/formReceita.xhtml"					/>
-	                <p:menuitem id="setor"				value="Setor"					icon="fa fa-map-marker"				outcome="/cadastros/setor/formSetor.xhtml"						/>
-	                <p:menuitem id="sala"				value="Sala"					icon="fa fa-bookmark-o"				outcome="/cadastros/sala/formSala.xhtml"						/>
-	                <p:menuitem id="linha"				value="Linha de produção"		icon="fa fa-link"					outcome="/cadastros/linha/formLinha.xhtml"						/>
-	                <p:menuitem id="maquina"			value="Máquina"					icon="fa fa-cog"					outcome="/cadastros/maquina/formMaquina.xhtml"					/>
-	                <p:menuitem id="categoriaAlarme"	value="Categoria de Alarme"		icon="fa fa-bookmark"				outcome="/cadastros/categoriaalarme/formCategoriaAlarme.xhtml"	/>
-	                <p:menuitem id="alarme"				value="Alarme"					icon="fa fa-exclamation-triangle"	outcome="/cadastros/alarme/formAlarme.xhtml"					/>
-	                <p:menuitem id="produto"			value="Produto"					icon="fa fa-square"					outcome="/cadastros/produto/formProduto.xhtml"					/>
-	                <p:menuitem id="subproduto"			value="Subproduto"				icon="fa fa-sitemap"				outcome="/cadastros/subproduto/formSubproduto.xhtml"			/>
+	                <p:menuitem id="tipoComponente"		value="Tipo Componente"			icon="fa fa-tag"					outcome="/cadastros/tipocomponente/formTipoComponente.xhtml"	rendered="#{per:permit('CADASTRO_TIPO_COMPONENTE')}"/>   
+	                <p:menuitem id="menuconfig"			value="Menus de Configuração"	icon="fa fa-th-large"				outcome="/cadastros/menuconfig/formMenuConfig.xhtml"			rendered="#{per:permit('CADASTRO_MENUS_CONFIGURACAO')}"/> 
+	                <p:menuitem id="itensConfig"		value="Itens de Configuração"	icon="fa fa-th-list"				outcome="/cadastros/itemconfig/formItemConfig.xhtml"			rendered="#{per:permit('CADASTRO_ITEM_CONFIGURACAO')}"/> 
+	                <p:menuitem id="fabricanteConfig"	value="Fabricantes"				icon="fa fa-truck"					outcome="/cadastros/fabricante/formFabricante.xhtml"			rendered="#{per:permit('CADASTRO_FABRICANTE')}"/>         
+	                <p:menuitem id="tipoCodigo"			value="Tipo de Código"			icon="fa fa-barcode"				outcome="/cadastros/tipocodigo/formTipoCodigo.xhtml"			rendered="#{per:permit('CADASTRO_TIPO_CODIGO')}"/>        
+	                <p:menuitem id="equipamento"		value="Equipamento"				icon="fa fa-hdd-o"					outcome="/cadastros/equipamento/formEquipamento.xhtml"			rendered="#{per:permit('CADASTRO_EQUIPAMENTO')}"/>        
+	                <p:menuitem id="tipoInspecao"		value="Tipo de Inspeção"		icon="fa fa-video-camera"			outcome="/cadastros/tipoinspecao/formTipoInspecao.xhtml"		rendered="#{per:permit('CADASTRO_TIPO_INSPECAO')}"/>      
+	                <p:menuitem id="tipoComunicacao"	value="Tipo de Comunicação"		icon="fa fa-globe"					outcome="/cadastros/tipocomunicacao/formTipoComunicacao.xhtml"	rendered="#{per:permit('CADASTRO_TIPO_COMUNICACAO')}"/>   
+	                <p:menuitem id="receita"			value="Receita"					icon="fa fa-book"					outcome="/cadastros/receita/formReceita.xhtml"					rendered="#{per:permit('CADASTRO_RECEITA')}"/>            
+	                <p:menuitem id="faca"			    value="Faca"					icon="fa fa-cutlery"     			outcome="/cadastros/faca/formFaca.xhtml" 					    rendered="#{per:permit('CADASTRO_FACA')}"/>			   
+	                <p:menuitem id="setor"				value="Setor"					icon="fa fa-map-marker"				outcome="/cadastros/setor/formSetor.xhtml"						rendered="#{per:permit('CADASTRO_SETOR')}"/>              
+	                <p:menuitem id="sala"				value="Sala"					icon="fa fa-bookmark-o"				outcome="/cadastros/sala/formSala.xhtml"						rendered="#{per:permit('CADASTRO_SALA')}"/>               
+	                <p:menuitem id="linha"				value="Linha de produção"		icon="fa fa-link"					outcome="/cadastros/linha/formLinha.xhtml"						rendered="#{per:permit('CADASTRO_LINHA')}"/>              
+	                <p:menuitem id="maquina"			value="Máquina"					icon="fa fa-cog"					outcome="/cadastros/maquina/formMaquina.xhtml"					rendered="#{per:permit('CADASTRO_MAQUINA')}"/>            
+	                <p:menuitem id="categoriaAlarme"	value="Categoria de Alarme"		icon="fa fa-bookmark"				outcome="/cadastros/categoriaalarme/formCategoriaAlarme.xhtml"	rendered="#{per:permit('CADASTRO_CATEGORIA_ALARME')}"/>   
+	                <p:menuitem id="alarme"				value="Alarme"					icon="fa fa-exclamation-triangle"	outcome="/cadastros/alarme/formAlarme.xhtml"					rendered="#{per:permit('CADASTRO_ALARME')}"/>             
+	                <p:menuitem id="produto"			value="Produto"					icon="fa fa-square"					outcome="/cadastros/produto/formProduto.xhtml"					rendered="#{per:permit('CADASTRO_PRODUTO')}"/>            
+	                <p:menuitem id="subproduto"			value="Subproduto"				icon="fa fa-sitemap"				outcome="/cadastros/subproduto/formSubproduto.xhtml"			rendered="#{per:permit('CADASTRO_SUBPRODUTO')}"/>         
 	                
 	            </p:submenu>
 

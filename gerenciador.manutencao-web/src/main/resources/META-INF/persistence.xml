@@ -40,6 +40,7 @@
 		<class>br.prati.tim.collaboration.gp.jpa.Notificacao</class>
 		<class>br.prati.tim.collaboration.gp.jpa.Parada</class>
 		<class>br.prati.tim.collaboration.gp.jpa.Produto</class>
+		<class>br.prati.tim.collaboration.gp.jpa.ProdutoSa</class>
 		<class>br.prati.tim.collaboration.gp.jpa.ProdutoMaquina</class>
 		<class>br.prati.tim.collaboration.gp.jpa.ProdutoSubproduto</class>
 		<class>br.prati.tim.collaboration.gp.jpa.ProgProdutoMaquina</class>
@@ -67,7 +68,6 @@
 		<class>br.prati.tim.collaboration.gp.jpa.VariaveisClp</class>
 		<class>br.prati.tim.collaboration.gp.jpa.converters.AcaoConverter</class>
 		<class>br.prati.tim.collaboration.gp.jpa.converters.CategoriaProdutoConverter</class>
-		<class>br.prati.tim.collaboration.gp.jpa.converters.ComponentConverter</class>
 		<class>br.prati.tim.collaboration.gp.jpa.converters.DiasSemanaConverter</class>
 		<class>br.prati.tim.collaboration.gp.jpa.converters.StatusLoteConverter</class>
 		<class>br.prati.tim.collaboration.gp.jpa.converters.StatusMaquinaConverter</class>
@@ -78,10 +78,15 @@
 		<class>br.prati.tim.collaboration.gp.jpa.converters.TipoCalculoFatorConverter</class>
 		<class>br.prati.tim.collaboration.gp.jpa.converters.TipoEquipamentoConverter</class>
 		<class>br.prati.tim.collaboration.gp.jpa.converters.TipoIoEquipamentoConverter</class>
+		<class>br.prati.tim.collaboration.gp.jpa.converters.TipoSalaConverter</class>
 		<class>br.prati.tim.collaboration.gp.jpa.converters.TipoLoteConverter</class>
 		<class>br.prati.tim.collaboration.gp.jpa.converters.TipoLoteFicConverter</class>
 		<class>br.prati.tim.collaboration.gp.jpa.converters.TipoNotificacaoAlarmeConverter</class>
 		<class>br.prati.tim.collaboration.gp.jpa.converters.TipoValorVariaveisClpConverter</class>
+		<class>br.prati.tim.collaboration.gp.jpa.converters.ComponentConverter</class>
+		<class>br.prati.tim.collaboration.gp.jpa.CameraSala</class>
+		<class>br.prati.tim.collaboration.gp.jpa.ReceitaFaca</class>
+		<class>br.prati.tim.collaboration.gp.jpa.ValorReceitaFaca</class>
 		<properties>
 			<property name="hibernate.dialect" 							value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.enable_lazy_load_no_trans" 		value="true" />
