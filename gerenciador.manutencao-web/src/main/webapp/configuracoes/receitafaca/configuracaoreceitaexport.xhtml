@@ -1,0 +1,64 @@
+<ui:composition 
+    xmlns		=	"http://www.w3.org/1999/xhtml"
+    xmlns:h		=	"http://java.sun.com/jsf/html"
+	xmlns:f		=	"http://java.sun.com/jsf/core"
+	xmlns:p		=	"http://primefaces.org/ui"
+    xmlns:ui	=	"http://java.sun.com/jsf/facelets">
+    
+    <style type="text/css">
+    	
+    	.ui-tree {
+	    	border: solid 1px #ffffff !important;
+	    }
+	    
+	    .ui-widget .ui-icon.fa, 
+		.ui-icon.fa {
+		    background-image: none;
+		    text-indent: 0px;
+		    background-repeat: no-repeat;
+		    display: inline-block;
+		}
+		
+		.old {
+		    background-color: #fca752 !important;
+		    background-image: none !important;
+		    color: #000000 !important;
+		}
+    	
+    </style>
+    
+    
+	<p:dialog widgetVar		=	"exportDialog" 
+			  modal			=	"true" 
+			  closable		=	"false" 
+			  resizable		=	"false"
+			  draggable		=	"false"
+			  hideEffect	=	"fade"
+			  showEffect	=	"fade"
+			  appendTo		=	"@(body)"
+			  width			=	"800" 
+			  header		=	"Exportar Receita para Outros Produtos"
+			  id			=	"exportDialog">
+		
+		
+		
+		
+		
+		<f:facet name	=	"footer">
+			
+			
+		
+		
+			<p:commandButton value			=	"Sair" 
+							 icon			=	"fa fa-times-circle"
+							 onclick		=	"PF('exportDialog').hide()"
+							 style			=	"margin-right: 5px; width: 110px"
+							 styleClass		=	"PurpleButton RaisedButton"/>
+		
+		</f:facet>
+		
+		
+	</p:dialog>
+		
+    
+</ui:composition>

@@ -1,0 +1,215 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:pe="http://primefaces.org/ui/extensions"
+				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	
+	
+
+	<ui:define name="content">
+		
+		<h:form id	=	"formCad" prependId="false">        
+	       
+	       <p:growl autoUpdate="true" />
+	       
+	       <p:focus context		=	"#{receitaFacaMB.contentPane}" />
+	       
+	        <div class="Container100">
+	          
+	            <div class="ContainerIndent">
+	                
+	                <p:panel styleClass="Card ShadowEffect" id	=	"contentPane">
+	                    
+	                    <div class="Container ui-fluid">
+	                    
+	                    	<div class="ContainerIndent">
+		                    	
+		                    	<!-- Responsividade 60 -->
+		                    	<div class="Container60 Responsive100">
+		                        
+		                            <div class="BigTopic Fs18">
+										<i class="fa fa-book"/> Cadastro de Receita Faca
+									</div>
+									
+									<div class="Separator"></div>
+									
+	                            	<!-- register a PostValidateEvent -->
+									<f:event listener="#{receitaFacaMB.validate}" type="postValidate" />
+									
+									<p:panelGrid 	columns				=	"3" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-6, ui-grid-col-6">
+		                            			 	
+										
+										<h:panelGroup id="paMaquina">
+											
+											<p:outputLabel 	value			=	"Máquina" 		
+															for				=	"maquina"/>
+										
+											<p:inputText 	requiredMessage	=	"Maquina requerida"
+															value			=	"#{receitaFacaMB.maquina.descricao}"
+															id				=	"maquina" 
+															required		=	"true"
+															readonly		=	"true"/>
+											
+											<p:commandButton	icon				=	"fa fa-search"
+																styleClass			=	"PurpleButton ButtonPesquisar"
+																actionListener		=	"#{receitaFacaMB.openDialog('/cadastros/maquina/searchMaquina.xhtml', true)}"
+																immediate			=	"true"
+																process				=	"@this paMaquina paEquipamento paFaca">
+													
+													<p:ajax 	event		=	"dialogReturn"
+																listener	=	"#{receitaFacaMB.selectMaquina}"
+																update		=	"paMaquina paEquipamento paFaca"/>
+											
+											</p:commandButton>
+															
+										</h:panelGroup>
+										
+										<h:panelGroup id="paEquipamento">
+											
+											<p:outputLabel 	value			=	"Equipamento" 		
+															for				=	"equipamento"/>
+										
+											<p:selectOneMenu id					=	"equipamento" 
+															 value				=	"#{receitaFacaMB.equipamento}"
+															 converter			=	"equipamentoConverter"
+															 required			=	"true"
+															 requiredMessage	=	"Equipamento requerido"
+															 disabled			=	"#{receitaFacaMB.maquina == null}"
+															 filter				=	"true"
+															 filterMatchMode	=	"contains">
+								            
+									            <f:selectItem itemLabel			=	"Selecione o equipamento" 
+									            			  itemValue			=	"" />
+									            			  
+									            <p:ajax			event			=   "change"
+									            				process			= 	"@this paMaquina paEquipamento"
+									            				listener		=	"#{receitaFacaMB.onChangeEquipamento}" 	
+								            				  	update			=	"paMaquina paEquipamento paFaca paTableReceita"/>
+									            
+									            <f:selectItems 	value			=	"#{receitaFacaMB.equipamentos}" 
+									            				var				=	"item"
+									            				itemValue		=	"#{item}"
+									            				itemLabel		=	"#{item.nome}"/>
+								            
+								        	</p:selectOneMenu>
+											
+										</h:panelGroup>
+										
+		                            </p:panelGrid>
+		                            
+		                            
+									<p:panelGrid 	columns				=	"1" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-6">
+		                            			 	
+			                            <h:panelGroup id="paFaca">
+			                            	
+			                            	<p:outputLabel 		value			=	"Faca" 		
+																for				=	"faca"/>
+																
+											<p:selectOneMenu id					=	"faca" 
+															 value				=	"#{receitaFacaMB.faca}"
+															 converter          =   "facaConverter"
+															 required			=	"true"
+															 requiredMessage	=	"Faca requerida"
+															 disabled			=	"#{receitaFacaMB.faca == null}">
+								            
+									            <f:selectItem itemLabel			=	"Selecione a faca" 
+									            			  itemValue			=	"" />
+									            			  
+									            <p:ajax			event			=   "change"
+									            				process			= 	"@this paMaquina paEquipamento paFaca"
+									            				listener		=	"#{receitaFacaMB.onChangeFaca}" 	
+								            				  	update			=	"paMaquina paEquipamento paFaca paTableReceita"/>
+									            
+									            <f:selectItems 	value			=	"#{receitaFacaMB.facas}" 
+									            				var				=	"item"
+									            				itemValue		=	"#{item}"
+									            				itemLabel		=	"#{item.descricao}"/>
+								            
+								        	</p:selectOneMenu>
+											
+			                            </h:panelGroup>
+			                        
+			                        </p:panelGrid>
+			                            
+		                    	</div>
+		                    	<!-- Fim Responsividade 60 -->
+		                    	
+		                 	</div>
+		                    
+		                    <div class="Container60 Responsive100 ContainerIndent">
+		                    
+	                    		<h:panelGroup id="paTableReceita" styleClass="ui-panelgrid-cell ui-grid-col-12">
+	                            	
+	                            		<p:dataTable 		id					=	"tableReceita"
+															var					=	"item"
+															value				=	"#{receitaFacaMB.receitas}" 
+															emptyMessage		=	"Nenhum registro"
+															rows				= 	"1000"
+															rowKey				=	"#{item.configEquipamento.funcaoConfig.idFuncaoConfig}"
+															paginator			=	"false"
+															scrollable			=	"true"
+															scrollHeight		=	"430"
+															rowSelectMode		=	"checkbox"
+															reflow				=	"true"
+															selection			=	"#{receitaFacaMB.selectedReceitas}"
+															disabledSelection	=	"#{receitaFacaMB.faca == null}">
+												
+											<f:facet name	=	"header">
+												Receita
+											</f:facet>
+											
+											<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+	
+											<p:column headerText="Descrição">
+											
+													<h:outputText value="#{item.configEquipamento.funcaoConfig.descricao}" />
+											
+											</p:column>
+											
+											<p:column headerText="Ordem" width="80">
+													
+													<p:inputText value		=	"#{item.ordem}"
+																 styleClass	=	"TexAlCenter"
+																 maxlength	=	"6">
+														
+														<pe:keyFilter regEx="/[0-9]/i" />
+														
+													</p:inputText>
+											
+											</p:column>
+											
+											<p:ajax event		=	"toggleSelect"	
+													listener	=	"#{receitaFacaMB.onToggleSelect}" />
+													
+											<p:ajax event		=	"rowSelectCheckbox"	
+													listener	=	"#{receitaFacaMB.onRowSelectReceita}" />
+													
+        									<p:ajax event		=	"rowUnselectCheckbox" 
+        											listener	=	"#{receitaFacaMB.onRowUnselectReceita}" />
+
+									</p:dataTable>
+	                            	
+	                            </h:panelGroup>
+		                    		
+		                    </div>	
+		                    	
+	                    	<ui:include src="/cadastros/receitafaca/footerReceitaFaca.xhtml" />
+		                    
+	                    </div>
+	                    
+	                </p:panel>
+	                
+	            </div>
+	            
+	        </div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

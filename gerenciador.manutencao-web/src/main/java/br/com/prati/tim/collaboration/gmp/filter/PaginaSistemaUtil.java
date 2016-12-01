@@ -23,6 +23,7 @@ public class PaginaSistemaUtil {
 		paginas.add(new PaginaSistema("cadastros/tipoinspecao/formTipoInspecao.xhtml", 			"CADASTRO_TIPO_INSPECAO"));
 		paginas.add(new PaginaSistema("cadastros/tipocomunicacao/formTipoComunicacao.xhtml", 	"CADASTRO_TIPO_COMUNICACAO"));
 		paginas.add(new PaginaSistema("cadastros/receita/formReceita.xhtml", 					"CADASTRO_RECEITA"));
+		paginas.add(new PaginaSistema("cadastros/receitafaca/formReceitaFaca.xhtml",			"CADASTRO_RECEITA_FACA"));
 		paginas.add(new PaginaSistema("cadastros/receita/formFaca.xhtml", 					    "CADASTRO_FACA"));
 		paginas.add(new PaginaSistema("cadastros/setor/formSetor.xhtml", 						"CADASTRO_SETOR"));
 		paginas.add(new PaginaSistema("cadastros/sala/formSala.xhtml", 							"CADASTRO_SALA"));
@@ -49,6 +50,7 @@ public class PaginaSistemaUtil {
 		// Configurações
 		paginas.add(new PaginaSistema("configuracoes/variaveisclp/formVariaveisCLP.xhtml", 		"CONFIGURACAO_VARIAVEIS_CLP"));
 		paginas.add(new PaginaSistema("configuracoes/receita/configuracaoreceita.xhtml", 		"CONFIGURACAO_VALOR_RECEITA"));
+		paginas.add(new PaginaSistema("configuracoes/receitafaca/configuracaoreceitafaca.xhtml","CONFIGURACAO_VALOR_RECEITA_FACA"));
 		paginas.add(new PaginaSistema("configuracoes/equipamento/configuracaoequipamento.xhtml","CONFIGURACAO_EQUIPAMENTO"));
 		paginas.add(new PaginaSistema("configuracoes/geral/configuracao.xhtml",					"CONFIGURACAO_GERAL"));
 		

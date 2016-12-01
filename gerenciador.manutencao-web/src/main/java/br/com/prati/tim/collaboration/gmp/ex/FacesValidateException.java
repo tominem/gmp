@@ -8,7 +8,7 @@ import java.util.Arrays;
 import javax.faces.component.UIInput;
 
 
-public class FacesValidateException extends Exception {
+public class FacesValidateException extends RuntimeException {
 
 	/**
 	 * 

@@ -18,6 +18,7 @@ public class EquipamentoMaquinaDAOImpl extends AbstractJPADAO<EquipamentoMaquina
 	public List<EquipamentoMaquina> findByMaquina(Maquina maquina) {
 		
 		return createQueryCriteria(getEntityManager(), getEntityClass())
+					.leftJoinFetch("equipamento")
 					.leftJoinFetch("maquina")
 					.leftJoinFetch("tipoInspecao")
 					.leftJoinFetch("tipoComunicacao")
@@ -25,6 +26,20 @@ public class EquipamentoMaquinaDAOImpl extends AbstractJPADAO<EquipamentoMaquina
 					.andEquals("maquina", maquina)
 					
 					.getResultList();
+	}
+
+	@Override
+	public List<EquipamentoMaquina> findByMaquinaFetchConfigEquipamentoAndReceitaFaca(Maquina maquina) {
+
+		return createQueryCriteria(getEntityManager(), getEntityClass())
+				.leftJoinFetch("maquina")
+				.leftJoinFetch("tipoInspecao")
+				.leftJoinFetch("equipamento.configEquipamentos")
+				.leftJoinFetch("tipoComunicacao")
+				
+				.andEquals("maquina", maquina)
+				
+				.getResultList();
 	}
 
 }

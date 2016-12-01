@@ -70,33 +70,9 @@ public class FacaCrudMB extends AbstractCrudMB<Faca, Long>	implements Serializab
 		};
 	}
 	
-//	private boolean validatePerform() throws FacesValidateException {
-//
-//		if (entityBean.getDescricao() == null){
-//			throw new FacesValidateException("Tipo de código requerido!", "formCad:tipoCodigo");
-//		}
-//		
-//		return false;
-//	}
-	
 	@Override
 	public boolean validate(ComponentSystemEvent event) {
-		
-//		try {
-			
-//			if( validatePerform() ){
-				
-				return super.validate(event);
-//			}
-			
-//		} catch (FacesValidateException e) {
-			
-//			addErrorMessage(e.getMessage());
-			
-//		}
-		
-//		return false;
+		return super.validate(event);
 	}
-
 
 }

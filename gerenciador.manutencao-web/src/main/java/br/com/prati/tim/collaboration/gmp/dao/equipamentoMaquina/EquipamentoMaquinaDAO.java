@@ -9,5 +9,7 @@ import br.prati.tim.collaboration.gp.jpa.Maquina;
 public interface EquipamentoMaquinaDAO extends GenericDAO<EquipamentoMaquina>{
 
 	List<EquipamentoMaquina> findByMaquina(Maquina maquina);
+	
+	List<EquipamentoMaquina> findByMaquinaFetchConfigEquipamentoAndReceitaFaca(Maquina maquina);
 
 }
