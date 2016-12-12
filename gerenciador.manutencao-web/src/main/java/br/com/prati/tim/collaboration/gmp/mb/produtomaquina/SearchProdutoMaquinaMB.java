@@ -1,4 +1,4 @@
-package br.com.prati.tim.collaboration.gmp.mb.produto;
+package br.com.prati.tim.collaboration.gmp.mb.produtomaquina;
 
 import static br.com.prati.tim.collaboration.gmp.dao.FilterCriteria.BOTH_LIKE;
 import static br.com.prati.tim.collaboration.gmp.dao.FilterCriteria.EQUAL;
@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,12 +19,13 @@ import br.com.prati.tim.collaboration.gmp.dao.FilterType;
 import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.produto.ProdutoEJB;
 import br.com.prati.tim.collaboration.gmp.mb.SearchableMB;
+import br.prati.tim.collaboration.gp.jpa.Maquina;
 import br.prati.tim.collaboration.gp.jpa.Produto;
 import br.prati.tim.collaboration.gp.jpa.enumerator.ECategoriaProduto;
 
-@Named("searchProdutoMB")
+@Named("searchProdutoMaquinaMB")
 @ViewScoped
-public class SearchProdutoMB extends SearchableMB<Produto> implements Serializable{
+public class SearchProdutoMaquinaMB extends SearchableMB<Produto> implements Serializable{
 
 	/**
 	 * 
@@ -32,6 +34,16 @@ public class SearchProdutoMB extends SearchableMB<Produto> implements Serializab
 
 	@Inject
 	private ProdutoEJB ejb;
+	
+	private Maquina maquina;
+	
+	@Override
+	@PostConstruct
+	public void init() {
+		
+//		handleParameters();
+		
+	}
 	
 	@Override
 	public String getTitle() {
@@ -51,6 +63,23 @@ public class SearchProdutoMB extends SearchableMB<Produto> implements Serializab
 	@Override
 	public CrudEJB<Produto> getCrudEJB() {
 		return ejb;
+	}
+	
+	@Override
+	public void search() {
+		
+		List<Produto> objectList;
+
+		if (getPattern() == null || getPattern().trim().isEmpty()) {
+			objectList = ejb.findByMaquinaWithLimit(MAX_RESULTS, Optional.ofNullable(getStatusSituation()), getFilterParams(), getMaquina());
+
+		} else {
+
+			objectList = getCrudEJB().findLikeOrNotLikeWithLimit(getPattern(), Optional.ofNullable(getMaxResults()), Optional.ofNullable(getStatusSituation()), getFilterParams());
+		}
+
+		setObjectList(objectList);
+		
 	}
 
 	@Override
@@ -77,6 +106,14 @@ public class SearchProdutoMB extends SearchableMB<Produto> implements Serializab
 			}
 			
 		};
+	}
+
+	public Maquina getMaquina() {
+		return maquina;
+	}
+
+	public void setMaquina(Maquina maquina) {
+		this.maquina = maquina;
 	}
 
 }

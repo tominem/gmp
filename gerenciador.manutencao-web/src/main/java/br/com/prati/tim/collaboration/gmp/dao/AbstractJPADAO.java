@@ -27,6 +27,12 @@ import br.com.prati.tim.collaboration.gmp.utis.FacesUtis;
 
 import com.uaihebert.uaicriteria.UaiCriteria;
 
+/**
+ * 
+ * @author ewerton.costa
+ *
+ * @param <T>
+ */
 public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 
 	@Inject
@@ -208,8 +214,7 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 		return resultList;
 	}
 
-
-	private void ordenate(List<FilterParam<?>> filters, UaiCriteria<T> criteria) {
+	protected void ordenate(List<FilterParam<?>> filters, UaiCriteria<T> criteria) {
 		
 		List<FilterParam<?>> ordernates = filters.stream().filter(f -> f.getOrder() != FilterOrder.NONE).collect(Collectors.toList());
 		

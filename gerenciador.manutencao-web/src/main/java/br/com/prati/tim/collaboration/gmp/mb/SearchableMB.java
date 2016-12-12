@@ -17,14 +17,15 @@ import br.com.prati.tim.collaboration.gmp.ejb.CrudEJB;
 
 public abstract class SearchableMB<T extends Serializable> implements Serializable {
 
+	public  static final int	MAX_RESULTS			= 20;
+
 	private static final long	serialVersionUID	= 201119042011L;
-	private static final int	MAX_RESULTS			= 20;
 
 	private T					objectSelected;
 
 	private List<T>				objectList;
 	
-	private Integer				intSituacao	= null;
+	protected Integer			intSituacao	= null;
 	
 	private String				pattern;
 	
@@ -38,7 +39,7 @@ public abstract class SearchableMB<T extends Serializable> implements Serializab
 		search();
 	}
 	
-	private void handleParameters() {
+	protected void handleParameters() {
 		
 		Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		String onlyActives = params.get("onlyActives");

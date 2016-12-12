@@ -3,9 +3,15 @@ package br.com.prati.tim.collaboration.gmp.dao.produto;
 import static com.uaihebert.uaicriteria.UaiCriteriaFactory.createQueryCriteria;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import com.uaihebert.uaicriteria.UaiCriteria;
 
 import br.com.prati.tim.collaboration.gmp.dao.AbstractJPADAO;
+import br.com.prati.tim.collaboration.gmp.dao.FilterParam;
 import br.prati.tim.collaboration.gp.jpa.Maquina;
 import br.prati.tim.collaboration.gp.jpa.Produto;
 import br.prati.tim.collaboration.gp.jpa.ProdutoMaquina;
@@ -25,13 +31,9 @@ public class ProdutoDAOImpl extends AbstractJPADAO<Produto> implements ProdutoDA
 				.innerJoinFetch("maquina")
 				.getResultList();
 		
-		List<Produto> produtos = new ArrayList<Produto>();
+		List<Produto> produtos = resultList.stream().map(ProdutoMaquina::getProduto).collect(Collectors.toList());
 		
-		for (ProdutoMaquina produtoMaquina : resultList) {
-			produtos.add(produtoMaquina.getProduto());
-		}
-		
-		return produtos;
+		return produtos != null ? produtos : new ArrayList<Produto>();
 	}
 
 	@Override
@@ -43,6 +45,47 @@ public class ProdutoDAOImpl extends AbstractJPADAO<Produto> implements ProdutoDA
 				.innerJoinFetch("subproduto")
 				.getResultList();
 		
+		
+		return resultList;
+	}
+
+	@Override
+	public List<Produto> findByMaquinaFetchProdutoMaquina(Maquina maquina) throws Exception {
+		
+		List<Produto> resultList = createQueryCriteria(getEntityManager(), Produto.class)
+				.setDistinctTrue()
+				.innerJoinFetch("produtoMaquinas")
+				.andEquals("produtoMaquinas.maquina", maquina)
+				.getResultList();
+		
+		return resultList;
+	}
+
+	@Override
+	public List<Produto> findByMaquinaWithLimit(
+			int limit,
+			Optional<Boolean> statusValue, 
+			FilterParam<?>[] filterParams,
+			Maquina maquina) {
+
+		UaiCriteria<Produto> criteria = createQueryCriteria(getEntityManager(), getEntityClass());
+		criteria.innerJoin("produtoMaquinas");
+		
+		if (filterParams != null) {
+			Arrays.asList(filterParams).forEach(fp -> {
+				
+				handleJoinClause(criteria, fp);
+				
+			});
+		}
+
+		criteria.andEquals("produtoMaquinas.maquina", maquina);
+				
+		statusValue.ifPresent( sv -> criteria.andEquals(getStatusAttrName(), sv) );
+		
+		ordenate(Arrays.asList(filterParams), criteria);
+		
+		List<Produto> resultList = criteria.setMaxResults(limit).getResultList();
 		
 		return resultList;
 	}

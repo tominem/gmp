@@ -130,6 +130,7 @@ public class MBConfigReceitaFaca extends AbstractBaseMB implements Serializable 
 	}
 	
 	public void selectEquipamento(final AjaxBehaviorEvent event)  {
+		loadFacas();
 		loadReceitaFaca();
 	}
 	
@@ -152,7 +153,7 @@ public class MBConfigReceitaFaca extends AbstractBaseMB implements Serializable 
 	
 	private void loadFacas() {
 
-		
+		//TODO carregar as facas do facas prod máquina
 		
 	}
 

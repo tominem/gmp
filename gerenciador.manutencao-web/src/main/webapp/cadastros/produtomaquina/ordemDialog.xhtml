@@ -1,0 +1,113 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<h:form id	=	"#{searchProdutoMaquinaMB.formName}" prependId="false">
+	
+	    <p:dialog 			id			=		"buscaProdutoMaquinaDlg" 
+	    					header		=		"#{searchProdutoMaquinaMB.title}" 
+	    					widgetVar	=		"buscaProdutoMaquinaDlg" 
+	    					resizable	=		"false"
+	    					height      =       "480"
+	    					width       =       "780"
+	    					contentWidth  =     "738" 
+	    					responsive	=		"true" 
+	    					modal		=		"true">
+	    		
+        	<p:focus context	=	"panelGridBusca" />
+						
+			
+			<p:panelGrid 		columns			=	"2"
+								id				= 	"panelGridBusca"
+								layout          =   "grid"
+								styleClass		=	"ui-panelgrid-blank ui-fluid"
+								columnClasses   =   "ui-grid-col-9 criterio, ui-grid-col-3 situacao">
+				
+				<p:outputLabel	for				=	"criterioBusca" 
+								value			=	"Informe o nome para consultar o #{searchProdutoMaquinaMB.entityName} desejado"
+								style           =   "padding-left: 4px;">
+				</p:outputLabel>
+
+				<p:outputLabel 	for				=	"selOneSituacao" 
+								value			=	"Situação">
+				</p:outputLabel>
+				
+				<p:inputText 	id				=	"criterioBusca" 
+								value			=	"#{searchProdutoMaquinaMB.pattern}"
+								required		=	"false"
+								style           =   "padding-left: 4px;">
+					
+					<p:ajax		event			=	"keyup" 
+								update			=	"panelGridTable" 
+								listener		=	"#{searchProdutoMaquinaMB.search()}">
+					</p:ajax>
+					
+				</p:inputText>
+				
+				<p:selectOneMenu 	id			=	"selOneSituacao" 
+									required	=	"true"
+									value		=	"#{searchProdutoMaquinaMB.intSituacao}">
+					
+					<p:ajax 		event       =   "change"
+									update 		=	"panelGridTable"
+									listener	=	"#{searchProdutoMaquinaMB.search()}">
+					</p:ajax>
+					
+					<f:selectItems value	=	"#{searchProdutoMaquinaMB.itemSituacao}" ></f:selectItems>
+									
+				</p:selectOneMenu>
+							
+			</p:panelGrid>
+			
+        	<h:panelGrid id="panelGridTable">
+        		
+        		 <p:dataTable 	var					=	"item" 
+        		 				value				=	"#{searchProdutoMaquinaMB.objectList}" 
+        		 			  	id					=	"tablePesquisa"
+        		 			  	emptyMessage		=	"Nenhum registro"
+        		 			  	paginator			=	"true"
+        		 			  	rows				=	"10"
+        		 			  	selectionMode		=	"single"
+        		 			  	rowKey				=	"#{item.idProduto}"
+        		 			  	selection			=	"#{searchProdutoMaquinaMB.objectSelected}"
+        		 			  	paginatorPosition	=	"bottom"
+								scrollable			=	"true"
+	   		 			  		scrollHeight		=	"250"
+        		 			  	>
+	
+					<p:ajax event		=	"rowSelect"
+							listener	=	"#{facaMB.selectProduto(searchProdutoMaquinaMB.objectSelected)}"
+							oncomplete  =   "PF('buscaProdutoMaquinaDlg').hide();"
+							update      =   "paProduto pgInspecionar pgButton buscaProdutoMaquinaDlg" />
+					
+					
+	                	<p:column headerText	=	"Código SAP"   	width="15%">
+	                    	<h:outputText value	=	"#{item.codigoSap}" />
+	                	</p:column>
+
+	                	<p:column headerText	=	"Descrição"		width="40%">
+	                    	<h:outputText value	=	"#{item.descricao}" />
+	                	</p:column>
+
+	                	<p:column headerText	=	"Categoria"     width="32%">
+	                    	<h:outputText value	=	"#{item.categoriaProduto.desc}" />
+	                	</p:column>
+	                	
+	                	<p:column 	  headerText  =	"Situação" 
+                				      width		  =	"12%">
+                    	<h:outputText value	      =	"#{item.status ? 'Ativo' : 'Inativo'}" />
+                	</p:column>	
+                	
+                </p:dataTable>
+                
+        	</h:panelGrid>
+	        
+	    </p:dialog>
+	    
+	</h:form>
+	
+</ui:composition>

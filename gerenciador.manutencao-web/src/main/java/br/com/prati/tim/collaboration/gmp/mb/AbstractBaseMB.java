@@ -123,9 +123,9 @@ public abstract class AbstractBaseMB implements BaseMB, Serializable{
 	
 	protected void validatePermission(ETipoAcessoGUM tipoAcesso) throws Exception {
     	
-		if (!SessionUtil.temPermissaoGUM(tipoAcesso)){
-    		throw new Exception("Usuário sem permissão de " + tipoAcesso.getDescricao() + ".");
-    	}
+//		if (!SessionUtil.temPermissaoGUM(tipoAcesso)){
+//    		throw new Exception("Usuário sem permissão de " + tipoAcesso.getDescricao() + ".");
+//    	}
     }
 
 }

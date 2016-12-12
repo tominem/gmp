@@ -321,10 +321,10 @@ public abstract class AbstractCrudMB<T extends Serializable, P extends Serializa
     
     private boolean temAcesso(ETipoAcessoGUM tipoAcesso){
     	
-    	if (!SessionUtil.temPermissaoGUM(tipoAcesso)){
-    		UtilsMessage.addErrorMessage("Usuário sem permissão de " + tipoAcesso.getDescricao() + ".");
-    		return false;
-    	}
+//    	if (!SessionUtil.temPermissaoGUM(tipoAcesso)){
+//    		UtilsMessage.addErrorMessage("Usuário sem permissão de " + tipoAcesso.getDescricao() + ".");
+//    		return false;
+//    	}
     	
     	return true;
     }

@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import br.com.prati.tim.collaboration.gmp.dao.FilterParam;
 import br.com.prati.tim.collaboration.gmp.dao.GenericDAO;
 import br.com.prati.tim.collaboration.gmp.dao.produto.ProdutoDAO;
 import br.com.prati.tim.collaboration.gmp.dao.subproduto.SubprodutoDAO;
@@ -112,5 +113,16 @@ public class ProdutoEJBImpl extends AbstractCrudEJB<Produto> implements ProdutoE
 	public List<ProdutoSubproduto> findProdutoSubproduto(Produto produto) throws Exception {
 		return produtoDAO.findProdutoSubproduto(produto);
 	}
+
+	@Override
+	public List<Produto> findByMaquinaWithLimit(
+			int maxResults,
+			Optional<Boolean> optStatus, FilterParam<?>[] filterParams,
+			Maquina maquina) {
+		
+		return produtoDAO.findByMaquinaWithLimit(maxResults, optStatus, filterParams, maquina);
+	}
+
+	
 
 }

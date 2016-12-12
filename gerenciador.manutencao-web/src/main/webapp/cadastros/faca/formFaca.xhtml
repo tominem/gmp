@@ -4,10 +4,47 @@
 				xmlns:ui="http://java.sun.com/jsf/facelets"
 				xmlns:pe="http://primefaces.org/ui/extensions"
 				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+				
+	<ui:define name="head">
+		
+		<style type="text/css">
+		
+			@media (min-width: 641px) {
+
+				.PurpleTextButton.RaisedButton.AddButton {
+					float: right;
+				}
+				
+			}
+			
+			.ui-widget-header.ui-datatable-scrollable-header {
+				clear: both;
+			}
+			
+	    
+	    	.Wid10	{ width:10%;}
+	    	.Wid90	{ width:90%;}
+	    	
+	    	.nt		{ color: red; font-style: italic; }
+	    	.center { text-align: center;}
+	    	.left 	{ text-align: left;}
+	    	
+	    	.ui-grid-row .criterio {
+	    		padding-left: 4px;
+	    		padding-right: 4px;
+	    	}
+	    	
+	    	.ui-grid-row .situacao{
+	    		padding-right: 4px;
+	    	}
+	    
+		</style>		
+	
+	</ui:define>
 
 	<ui:define name="content">
 		
-		<h:form id	=	"formCad" >        
+		<h:form id	=	"formCad" prependId="false">        
 	       
 	       <p:growl />
 	       
@@ -34,7 +71,8 @@
 									<!-- register a PostValidateEvent -->
 									<f:event listener="#{facaMB.validate}" type="postValidate" />
 									
-									<p:panelGrid 	columns				=	"2" 
+									<p:panelGrid 	id					=   "pgNome"
+													columns				=	"2" 
 		                            				layout				=	"grid" 
 		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
 		                            			 	columnClasses		=	"ui-grid-col-2, ui-grid-col-10">
@@ -48,13 +86,12 @@
 														maxlength		=	"15"
 														id				=	"nome">
 														
-											<f:attribute name =	"descricaoAnterior" value	=	"#{facaMB.entityBean.descricao}" ></f:attribute>
-											
 										</p:inputText>
 										
 		                            </p:panelGrid>
 		                                          
-		                            <p:panelGrid 	columns			=	"4" 
+		                            <p:panelGrid 	id				=   "pgCurso"
+		                            				columns			=	"4" 
 		                            				layout			=	"grid" 
 		                            			 	styleClass		=	"ui-panelgrid-blank ui-fluid"
 		                            			 	columnClasses	=	"ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4">
@@ -143,6 +180,8 @@
 		                                
 		                                <p:inputText 	value			=	"#{facaMB.entityBean.cortes}"	
 		                                				id				=	"cortes"
+		                                				required	    =	"true"
+		                                				requiredMessage	=	"Número de cortes requerido."
 		                                				maxlength       =    "2">
 		                                
 		                                	<pe:keyFilter regEx="/[0-9]/i" />
@@ -163,6 +202,185 @@
 		                                </p:inputText>
 		                                
 		                            </p:panelGrid>
+		                            
+		                            
+		                             <div class="EmptyBox20"/>
+		                            
+		                            
+		                            <p:panelGrid layout="grid" columns="1" styleClass="ui-panelgrid-blank">
+		                           		
+		                           		 <div class="BigTopic Fs18">
+											<i class="fa fa-hdd-o"/> Vínculo com Produto e Máquina
+										</div>
+										
+										<div class="Separator"></div>
+										
+		                           	</p:panelGrid>
+		                            
+		                            <!-- Vínculo FacaxProdutoXMaquina -->
+		                            
+		                            <p:panelGrid 	columns				=	"1" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid SearchButtonGrid"
+		                            			 	columnClasses		=	"ui-grid-col-12">
+		                            			 	
+										
+										<h:panelGroup id="paMaquina" layout="block">
+											
+											<p:outputLabel 	value			=	"Máquina" 		
+															for				=	"maquina"/>
+										
+											<p:inputText 	requiredMessage	=	"Maquina requerida"
+															value			=	"#{facaMB.maquina.descricao}"
+															id				=	"maquina" 
+															required		=	"true"
+															readonly		=	"true"/>
+											
+											<p:commandButton	icon				=	"fa fa-search"
+																styleClass			=	"PurpleButton ButtonPesquisar"
+																action      		=	"#{facaMB.openDialog('/cadastros/maquina/searchMaquina.xhtml', true)}"
+																immediate			=	"true"
+																process				=	"@this paMaquina">
+
+													<p:ajax 	event		=	"dialogReturn"
+																listener	=	"#{facaMB.select}"
+																update		=	"paMaquina paProduto"/>
+																
+											</p:commandButton>
+															
+										</h:panelGroup>
+										
+									</p:panelGrid>
+									
+									<p:panelGrid 	columns				=	"1" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid SearchButtonGrid"
+		                            			 	columnClasses		=	"ui-grid-col-12">
+									
+										<h:panelGroup id="paProduto">
+											
+											<p:outputLabel 	value			=	"Produto" 		
+															for				=	"produto"/>
+										
+											<p:inputText 	requiredMessage	=	"Produto requerido"
+															value			=	"#{facaMB.produto.descricao}"
+															id				=	"produto" 
+															required		=	"true"
+															readonly		=	"true"/>
+											
+											<p:commandButton	icon				=	"fa fa-search"
+																styleClass			=	"PurpleButton ButtonPesquisar"
+																disabled            =   "#{facaMB.maquina.idMaquina == null}"
+																process				=	"@this paMaquina paProduto pgButton"
+																oncomplete          =   "PF('buscaProdutoMaquinaDlg').show();"
+																update              =   "buscaProdutoMaquinaDlg pgInspecionar pgButton">
+																
+													<f:setPropertyActionListener value="#{facaMB.maquina}" target="#{searchProdutoMaquinaMB.maquina}"/>
+																
+											</p:commandButton>
+											
+										</h:panelGroup>
+										
+									</p:panelGrid>
+									
+									<p:panelGrid 	columns				=	"2" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank ui-fluid"
+		                            			 	columnClasses       =   "ui-grid-col-8, ui-grid-col-4">
+		                            	
+		                            	<h:panelGroup	id	=	"pgInspecionar">
+		                            			 	
+											<p:selectBooleanCheckbox value="#{facaMB.inspecionar}" itemLabel="Inspecionar" style="margin-top: 25px;"/>
+
+		                            	</h:panelGroup>	
+										
+										<h:panelGroup	id	=	"pgButton">
+                           			 	
+                           			 		<p:outputLabel 	value			=	" "
+                           			 						style			=	"white-space: pre-wrap;"/>
+                           			 		
+			                            	<p:commandButton	icon				=	"fa fa-plus"
+																styleClass			=	"GreenButton RaisedButton"
+																actionListener		=	"#{facaMB.addVinculo()}"
+																process				=	"@form"
+																disabled            =   "#{facaMB.maquina.idMaquina == null or facaMB.produto.idProduto == null}"
+																validateClient      =   "true"
+																immediate           =   "false"
+																update				=	"formCad"
+																value				=	"Adicionar"/>
+										
+										</h:panelGroup>
+									
+									</p:panelGrid>								
+									
+									<!-- Tabela dos itens de vinculo -->
+									
+									<div class="EmptyBox10" />
+		                            
+		                            <p:panelGrid layout="grid" columns="1" style="border:none">
+		                            
+			                            <!-- Datatable Equipamentos -->
+			                            <h:panelGroup id	=	"paTableVinculos">
+			                            	
+			                            		<p:dataTable 	id					=	"tableVinculo"
+																var					=	"item"
+																value				=	"#{facaMB.facaProdMaquinas}" 
+																emptyMessage		=	"Nenhum registro" 
+																rows				=	"10"
+																rowKey				=	"#{item.hashCode()}"
+																selectionMode		=	"single" 
+																paginatorPosition	=	"bottom" 
+																scrollable			=	"true"
+																scrollHeight		=	"250"
+																reflow				=	"true"
+																resizableColumns	=	"true">
+													
+													<f:facet name	=	"header">
+														Facas X Produto X Máquina
+													</f:facet>
+													
+													<p:column headerText="Produto">
+													
+															<h:outputText value="#{item.produtoMaquina.produto.descricao}" />
+													
+													</p:column>
+		
+													<p:column headerText="Máquina">
+													
+														<div class	=	"TexAlCenter">
+															<h:outputText value="#{item.produtoMaquina.maquina.tag}" />
+														</div>
+													
+													</p:column>
+
+													<p:column headerText="Insp." width="20">
+													
+														<div class	=	"TexAlCenter">
+															<p:selectBooleanCheckbox value="#{item.inspecionar}" itemLabel="Inspecionar" style="margin-top: 10px;"/>
+														</div>
+													
+													</p:column>
+		
+													<p:column headerText="Excluir" width="45">
+														
+														<p:commandButton 	styleClass		=	"RedButton RaisedButton"
+																			icon			=	"fa fa-trash Fs16 White"
+																			style			=	"float:right;"
+																			actionListener	=	"#{facaMB.removeVinculo(item)}"
+																			immediate		=	"true"
+																			update			=	"paTableVinculos"
+																			process			=	"@this"/>
+													</p:column>
+												
+												</p:dataTable>
+			                            	
+			                            </h:panelGroup>
+		                            
+		                            </p:panelGrid>
+									
+									<!-- /Tabela dos itens de vinculo -->
+									
+		                            <!-- /Vínculo Faca-Produto-Maquina -->
 											                        
 		                    	</div>
 		                 	</div>
@@ -180,6 +398,11 @@
 	            
 	        </div>
 		</h:form>
+		
+		<ui:include src="/cadastros/produtomaquina/ordemDialog.xhtml">
+	   		<ui:param name="formPattern" 	value="formCad" 	/>
+      	</ui:include>
+		
 	</ui:define>
 
 </ui:composition>
