@@ -56,7 +56,7 @@
 		<jdk.version>1.8</jdk.version>
 
 		<!-- Prati WS Props -->
-		<ws.host-port>172.70.64.21:8080</ws.host-port>
+		<ws.host-port>172.70.64.22:8080</ws.host-port>
 		
 		<wsdl.url.autenticacao.usuario>
 			http://${ws.host-port}/gerenciador.usuario-ws/UsuarioService?wsdl
