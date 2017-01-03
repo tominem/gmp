@@ -28,7 +28,6 @@
 		<class>br.prati.tim.collaboration.gp.jpa.LogDesafio</class>
 		<class>br.prati.tim.collaboration.gp.jpa.LogEtapa</class>
 		<class>br.prati.tim.collaboration.gp.jpa.LogInspecao</class>
-		<class>br.prati.tim.collaboration.gp.jpa.LogLote</class>
 		<class>br.prati.tim.collaboration.gp.jpa.LogMaquina</class>
 		<class>br.prati.tim.collaboration.gp.jpa.LogServico</class>
 		<class>br.prati.tim.collaboration.gp.jpa.Lote</class>

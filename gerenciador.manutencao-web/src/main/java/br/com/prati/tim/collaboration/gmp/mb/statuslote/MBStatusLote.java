@@ -14,15 +14,12 @@ import javax.inject.Named;
 
 import org.primefaces.event.SelectEvent;
 
-import br.com.prati.tim.collaboration.gmp.ejb.lote.LogLoteEJB;
 import br.com.prati.tim.collaboration.gmp.ejb.lote.LoteEJB;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractBaseMB;
 import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
 import br.com.prati.tim.collaboration.gmp.mb.ValidateComponent;
 import br.com.prati.tim.collaboration.gmp.mb.login.SessionUtil;
-import br.prati.tim.collaboration.gp.jpa.LogLote;
 import br.prati.tim.collaboration.gp.jpa.Lote;
-import br.prati.tim.collaboration.gp.jpa.enumerator.EAcao;
 import br.prati.tim.collaboration.gp.jpa.enumerator.EStatusLote;
 import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
@@ -31,9 +28,6 @@ import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 public class MBStatusLote extends AbstractBaseMB implements Serializable {
 
 	private static final long	serialVersionUID	= 1L;
-
-	@Inject
-	private LogLoteEJB			ejbLogLote;
 	
 	@Inject
 	private LoteEJB				ejbLote;
@@ -69,24 +63,6 @@ public class MBStatusLote extends AbstractBaseMB implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 			addErrorMessage("[Lote] Erro ao salvar status: " + e.getMessage());
-			return;
-		}
-		
-		EAcao	acao	= EAcao.ALTEROU_STATUS_LOTE_MANUALMENTE;
-		
-		LogLote logLote = new LogLote();
-		logLote.setAcao			(acao);
-		logLote.setCracha		(crachaUsuario);
-		logLote.setDescricaoAcao(acao.getAcao());
-		logLote.setJustificativa(justificativa);
-		logLote.setStatusLote	(novoStatusLote);
-		logLote.setLote			(lote);
-		
-		try {
-			ejbLogLote.save(logLote);
-		} catch (Exception e) {
-			e.printStackTrace();
-			addErrorMessage("[LogLote]Erro ao salvar status: " + e.getMessage());
 			return;
 		}
 		
