@@ -37,7 +37,7 @@ public class SubprodutoCrudMB extends AbstractCrudMB<Subproduto, Long>	implement
 	private static final long serialVersionUID = -6966525816419190286L;
 
 
-	private final String INPUT_CODIGO_INSPECIONADO_ID = "formCad:codigoInspecionado";
+//	private final String INPUT_CODIGO_INSPECIONADO_ID = "formCad:codigoInspecionado";
 	
 	private final String INPUT_TIPOINSPECAO_ID = "formCad:tpInspecao";
 	

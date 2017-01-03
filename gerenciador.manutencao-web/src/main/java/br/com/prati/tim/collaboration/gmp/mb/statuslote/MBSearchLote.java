@@ -1,6 +1,5 @@
 package br.com.prati.tim.collaboration.gmp.mb.statuslote;
 
-import static br.com.prati.tim.collaboration.gmp.dao.FilterCriteria.BOTH_LIKE;
 import static br.com.prati.tim.collaboration.gmp.dao.FilterOrder.ASC;
 
 import java.io.Serializable;

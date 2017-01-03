@@ -19,5 +19,7 @@ public interface ProdutoEJB extends CrudEJB<Produto>{
 	List<ProdutoSubproduto> findProdutoSubproduto(Produto produto) throws Exception;
 
 	List<Produto> findByMaquinaWithLimit(int maxResults, Optional<Boolean> optStatus, FilterParam<?>[] filterParams, Maquina maquina);
+	
+	List<Produto> findLikeOrNotLikeWithLimit(String pattern, Optional<Integer> limit, Optional<Boolean> active, FilterParam<?>[] filterParams, Maquina maquina);
 
 }

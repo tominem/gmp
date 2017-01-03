@@ -268,7 +268,7 @@ public abstract class AbstractJPADAO<T> implements GenericDAO<T>{
 		return criteria.getResultList();
 	}
 
-	private UaiCriteria<T> handleWhereClause(String pattern, List<FilterParam<?>> filters) {
+	protected UaiCriteria<T> handleWhereClause(String pattern, List<FilterParam<?>> filters) {
 		
 		UaiCriteria<T> criteria = createQueryCriteria(em, getEntityClass());
 		

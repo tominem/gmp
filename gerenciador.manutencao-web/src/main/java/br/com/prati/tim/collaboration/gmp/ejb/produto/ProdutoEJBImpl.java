@@ -123,6 +123,12 @@ public class ProdutoEJBImpl extends AbstractCrudEJB<Produto> implements ProdutoE
 		return produtoDAO.findByMaquinaWithLimit(maxResults, optStatus, filterParams, maquina);
 	}
 
+	@Override
+	public List<Produto> findLikeOrNotLikeWithLimit(String pattern, Optional<Integer> limit, Optional<Boolean> active, FilterParam<?>[] filterParams, Maquina maquina) {
+		
+		return produtoDAO.findLikeOrNotLikeWithLimit(pattern, limit, active, filterParams, maquina);
+	}
+
 	
 
 }

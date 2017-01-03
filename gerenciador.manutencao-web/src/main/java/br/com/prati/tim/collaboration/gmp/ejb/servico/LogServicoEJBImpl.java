@@ -14,7 +14,6 @@ import br.com.prati.tim.collaboration.gmp.ejb.AbstractCrudEJB;
 import br.prati.tim.collaboration.gp.jpa.ConfiguracaoGeral;
 import br.prati.tim.collaboration.gp.jpa.LogServico;
 import br.prati.tim.collaboration.gp.jpa.Maquina;
-import br.prati.tim.collaboration.gp.jpa.ProgramacaoMaquina;
 import br.prati.tim.collaboration.gp.jpa.enumerator.DefConfiguracaoGeralKeys;
 
 @Stateless

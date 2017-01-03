@@ -89,6 +89,31 @@ public class ProdutoDAOImpl extends AbstractJPADAO<Produto> implements ProdutoDA
 		
 		return resultList;
 	}
+
+	@Override
+	public List<Produto> findLikeOrNotLikeWithLimit(
+			String pattern,
+			Optional<Integer> limit, 
+			Optional<Boolean> active,
+			FilterParam<?>[] filterParams, 
+			Maquina maquina) {
+		
+		List<FilterParam<?>> filters = Arrays.asList(filterParams);
+		
+		UaiCriteria<Produto> criteria = handleWhereClause(pattern, filters);
+		
+		criteria.innerJoin("produtoMaquinas");
+
+		criteria.andEquals("produtoMaquinas.maquina", maquina);
+		
+		active.ifPresent(b -> criteria.andEquals(getStatusAttrName(), b));
+		
+		limit.ifPresent(maxResults -> criteria.setMaxResults(maxResults));
+		
+		ordenate(filters, criteria);
+		
+		return criteria.getResultList();
+	}
 	
 	
 

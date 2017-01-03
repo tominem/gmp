@@ -41,7 +41,7 @@ public class SearchProdutoMaquinaMB extends SearchableMB<Produto> implements Ser
 	@PostConstruct
 	public void init() {
 		
-//		handleParameters();
+//		search();
 		
 	}
 	
@@ -68,17 +68,19 @@ public class SearchProdutoMaquinaMB extends SearchableMB<Produto> implements Ser
 	@Override
 	public void search() {
 		
-		List<Produto> objectList;
+		List<Produto> objectList = null;
 
 		if (getPattern() == null || getPattern().trim().isEmpty()) {
 			objectList = ejb.findByMaquinaWithLimit(MAX_RESULTS, Optional.ofNullable(getStatusSituation()), getFilterParams(), getMaquina());
 
-		} else {
+		} else if(getPattern() != null || getPattern().trim().length() > 0){
 
-			objectList = getCrudEJB().findLikeOrNotLikeWithLimit(getPattern(), Optional.ofNullable(getMaxResults()), Optional.ofNullable(getStatusSituation()), getFilterParams());
+			objectList = ejb.findLikeOrNotLikeWithLimit(getPattern(), Optional.ofNullable(getMaxResults()), Optional.ofNullable(getStatusSituation()), getFilterParams(), getMaquina());
 		}
 
-		setObjectList(objectList);
+		if (objectList != null) {
+			setObjectList(objectList);
+		}
 		
 	}
 
@@ -114,6 +116,7 @@ public class SearchProdutoMaquinaMB extends SearchableMB<Produto> implements Ser
 
 	public void setMaquina(Maquina maquina) {
 		this.maquina = maquina;
+		search();
 	}
 
 }

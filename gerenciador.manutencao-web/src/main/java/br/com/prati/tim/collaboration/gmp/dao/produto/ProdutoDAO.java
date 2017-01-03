@@ -23,4 +23,6 @@ public interface ProdutoDAO extends GenericDAO<Produto>{
 			FilterParam<?>[] filterParams,
 			Maquina maquina);
 
+	List<Produto> findLikeOrNotLikeWithLimit(String pattern, Optional<Integer> limit, Optional<Boolean> active, FilterParam<?>[] filterParams, Maquina maquina);
+
 }

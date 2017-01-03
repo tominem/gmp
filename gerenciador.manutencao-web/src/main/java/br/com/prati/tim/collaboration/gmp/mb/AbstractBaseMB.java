@@ -12,7 +12,6 @@ import javax.persistence.PersistenceException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.primefaces.context.RequestContext;
 
-import br.com.prati.tim.collaboration.gmp.mb.login.SessionUtil;
 import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 public abstract class AbstractBaseMB implements BaseMB, Serializable{
