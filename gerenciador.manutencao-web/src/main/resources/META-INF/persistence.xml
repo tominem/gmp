@@ -16,7 +16,6 @@
 		<class>br.prati.tim.collaboration.gp.jpa.Equipamento</class>
 		<class>br.prati.tim.collaboration.gp.jpa.EquipamentoMaquina</class>
 		<class>br.prati.tim.collaboration.gp.jpa.Etapa</class>
-		<class>br.prati.tim.collaboration.gp.jpa.EtapaMaquinaRota</class>
 		<class>br.prati.tim.collaboration.gp.jpa.EtapaProduto</class>
 		<class>br.prati.tim.collaboration.gp.jpa.EtapaRota</class>
 		<class>br.prati.tim.collaboration.gp.jpa.Fabricante</class>
