@@ -14,10 +14,10 @@
             <li>
                 <a class="menulink ripplelink">
                     <i class="icon-round58 Fs40"></i>
-                    <span class="Fs18">#{mbLogin.nomeUsuario}
+                    <span class="Fs18">#{mbMenu.nomeUsuario}
 <!--                     	<i class="icon-downwards Fright Fs20"/> -->
                     	<br/>
-                    	<span class="Fs12 FontRobotoLight">Crachá: #{mbLogin.cracha}</span>
+                    	<span class="Fs12 FontRobotoLight">Crachá: #{mbMenu.crachaUsuario}</span>
                     </span>
                 </a>
 <!--                 <ul>	 -->
@@ -70,10 +70,10 @@
 				
 				<p:submenu id	=	"sm_consultas" 	label	="Consultas" 			icon="icon-search100">
 				
-					<p:menuitem id="consultanotaspm"	value="Notas PM"				icon="fa fa-file-text"				outcome="/consultas/notas/notaspm.xhtml"/>
-					<p:menuitem id="consultamanuten"	value="Manutenções"				icon="fa fa-wrench"					outcome="/consultas/manutencao/manutencoes.xhtml"/>
-					<p:menuitem id="consulthistprod"	value="Histórico Produção"		icon="fa fa-history"				outcome="/consultas/historico/historicoproducao.xhtml"/>
-					<p:menuitem id="notificacoesenv"	value="Notificações Enviadas"	icon="fa fa-comments-o"				outcome="/consultas/notificacao/notificacaoconsulta.xhtml"/>
+					<p:menuitem id="consultanotaspm"	value="Notas PM"				icon="fa fa-file-text"				outcome="/consultas/notas/notaspm.xhtml"                        rendered="#{per:permit('CONSULTA_NOTAS_PM')}"/>
+					<p:menuitem id="consultamanuten"	value="Manutenções"				icon="fa fa-wrench"					outcome="/consultas/manutencao/manutencoes.xhtml"               rendered="#{per:permit('CONSULTA_MANUTENCOES')}"/>
+					<p:menuitem id="consulthistprod"	value="Histórico Produção"		icon="fa fa-history"				outcome="/consultas/historico/historicoproducao.xhtml"          rendered="#{per:permit('CONSULTA_HISTORICO_PRODUCAO')}"/>
+					<p:menuitem id="notificacoesenv"	value="Notificações Enviadas"	icon="fa fa-comments-o"				outcome="/consultas/notificacao/notificacaoconsulta.xhtml"      rendered="#{per:permit('CONSULTA_NOTIFICACOES_ENVIADAS')}"/>
 					
 				</p:submenu>
 				
@@ -81,7 +81,7 @@
 					
 				<p:submenu id	=	"sm_notificacoes" 	label	="Notificações" 			icon="icon-notifications">
 				
-					<p:menuitem id="enviarnotificacao"	value="Enviar Notificação"			icon="fa fa-send"				outcome="/notificacoes/notificacao.xhtml"/>
+					<p:menuitem id="enviarnotificacao"	value="Enviar Notificação"			icon="fa fa-send"				outcome="/notificacoes/notificacao.xhtml"                       rendered="#{per:permit('ENVIO_NOTIFICACAO')}"/>
 					
 				</p:submenu>
 				
@@ -89,8 +89,8 @@
 				
 				<p:submenu id	=	"sm_utilidades" 	label	="Utilidades" 			icon="icon-world96">
 				
-					<p:menuitem id="updatestatuslote"	value="Alterar Status Lote"		icon="fa fa-edit"					outcome="/utilidades/statuslote/statuslote.xhtml"/>
-					<p:menuitem id="imagemposselagem"	value="Imagem Pós Selagem"		icon="fa fa-image"					outcome="/utilidades/posselagem/imagens.xhtml"/>
+					<p:menuitem id="updatestatuslote"	value="Alterar Status Lote"		icon="fa fa-edit"					outcome="/utilidades/statuslote/statuslote.xhtml"               rendered="#{per:permit('ALTERAR_STATUS_LOTE')}"/>
+					<p:menuitem id="imagemposselagem"	value="Imagem Pós Selagem"		icon="fa fa-image"					outcome="/utilidades/posselagem/imagens.xhtml"                  rendered="#{per:permit('VISUALIZAR_IMAGEM_POSSELAGEM')}"/>
 				
 				</p:submenu>
 				
@@ -98,11 +98,11 @@
 				
 	        	<p:submenu id	=	"sm_menu_config" 	label	="Configurações" 		icon="icon-settings49">
 
-	                <p:menuitem id="variaveisclp"		value="Variáveis de CLP"		icon="fa fa-server"					outcome="/configuracoes/variaveisclp/formVariaveisCLP.xhtml"	/>
-	                <p:menuitem id="receitasConfig"		value="Valor Receita"			icon="fa fa fa-book"				outcome="/configuracoes/receita/configuracaoreceita.xhtml"		/>
-	                <p:menuitem id="receitasFacaConfig"	value="Valor Receita Faca"		icon="fa fa fa-book"				outcome="/configuracoes/receitafaca/configuracaoreceitafaca.xhtml"	/>
-	                <p:menuitem	id="configEquipamento"	value="Equipamento"				icon="fa fa-wrench"					outcome="/configuracoes/equipamento/configuracaoequipamento"	/>
-	                <p:menuitem	id="configGeral"		value="Configuração Geral"		icon="fa fa-gears"					outcome="/configuracoes/geral/configuracao.xhtml"	/>
+	                <p:menuitem id="variaveisclp"		value="Variáveis de CLP"		icon="fa fa-server"					outcome="/configuracoes/variaveisclp/formVariaveisCLP.xhtml"	    rendered="#{per:permit('CONFIGURACAO_VARIAVEIS_CLP')}"/>
+	                <p:menuitem id="receitasConfig"		value="Valor Receita"			icon="fa fa fa-book"				outcome="/configuracoes/receita/configuracaoreceita.xhtml"		    rendered="#{per:permit('CONFIGURACAO_VALOR_RECEITA')}"/>
+	                <p:menuitem id="receitasFacaConfig"	value="Valor Receita Faca"		icon="fa fa fa-book"				outcome="/configuracoes/receitafaca/configuracaoreceitafaca.xhtml"	rendered="#{per:permit('CONFIGURACAO_VALOR_RECEITA_FACA')}"/>
+	                <p:menuitem	id="configEquipamento"	value="Equipamento"				icon="fa fa-wrench"					outcome="/configuracoes/equipamento/configuracaoequipamento"	    rendered="#{per:permit('CONFIGURACAO_EQUIPAMENTO')}"/>
+	                <p:menuitem	id="configGeral"		value="Configuração Geral"		icon="fa fa-gears"					outcome="/configuracoes/geral/configuracao.xhtml"	                rendered="#{per:permit('CONFIGURACAO_GERAL')}"/>
 	                
 	            </p:submenu>
 	            
@@ -111,7 +111,8 @@
 				<p:menuitem id			=	"auditoria" 				
             				value		=	"Auditoria" 
             				icon		=	"fa fa-eye" 
-            				outcome		=	"/auditoria/auditoria.xhtml" />
+            				outcome		=	"/auditoria/auditoria.xhtml" 
+            				rendered    =   "#{per:permit('AUDITORIA')}"/>
 				
 				<p:separator />			
 				

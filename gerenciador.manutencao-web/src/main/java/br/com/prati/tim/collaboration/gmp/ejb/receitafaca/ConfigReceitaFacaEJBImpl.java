@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
@@ -19,6 +20,7 @@ import br.com.prati.tim.collaboration.gmp.converters.LectorFtpFieldConverter;
 import br.com.prati.tim.collaboration.gmp.converters.LectorHexFiedConverter;
 import br.com.prati.tim.collaboration.gmp.dao.equipamentoMaquina.EquipamentoMaquinaDAO;
 import br.com.prati.tim.collaboration.gmp.dao.faca.FacaDAO;
+import br.com.prati.tim.collaboration.gmp.dao.facasprodmaq.FacasProdMaqDAO;
 import br.com.prati.tim.collaboration.gmp.dao.receitafaca.ReceitaFacaDAO;
 import br.com.prati.tim.collaboration.gmp.dao.receitafaca.ValorReceitaFacaDAO;
 import br.com.prati.tim.collaboration.gmp.mb.receita.Region;
@@ -26,6 +28,7 @@ import br.prati.tim.collaboration.gp.jpa.ConfigEquipamento;
 import br.prati.tim.collaboration.gp.jpa.Equipamento;
 import br.prati.tim.collaboration.gp.jpa.EquipamentoMaquina;
 import br.prati.tim.collaboration.gp.jpa.Faca;
+import br.prati.tim.collaboration.gp.jpa.FacasProdMaq;
 import br.prati.tim.collaboration.gp.jpa.FuncaoConfig;
 import br.prati.tim.collaboration.gp.jpa.Maquina;
 import br.prati.tim.collaboration.gp.jpa.ProdutoSubproduto;
@@ -51,6 +54,9 @@ public class ConfigReceitaFacaEJBImpl implements ConfigReceitaFacaEJB {
 	
 	@Inject
 	private EquipamentoMaquinaDAO equipamentoMaquinaDAO;
+	
+	@Inject
+	private FacasProdMaqDAO facasProdMaqDAO;
 
 	
 	@Override
@@ -429,6 +435,23 @@ public class ConfigReceitaFacaEJBImpl implements ConfigReceitaFacaEJB {
 			List<EquipamentoMaquina> equipamentoMaquinas = opt.get();
 			
 			return equipamentoMaquinas.stream().map(EquipamentoMaquina::getEquipamento).collect(Collectors.toList());
+			
+		}
+		
+		return null;
+	}
+
+
+	@Override
+	public Set<Faca> findFacasByMaquinaAndEquipamento(Maquina maquina, Equipamento equipamento) {
+		
+		List<FacasProdMaq> facasProdMaq = facasProdMaqDAO.findByMaquinaAndEquipamento(maquina, equipamento);
+		
+		if( facasProdMaq != null && facasProdMaq.size() > 0 ){
+			
+			Set<Faca> facas = facasProdMaq.stream().map(FacasProdMaq::getFaca).collect(Collectors.toSet());
+			
+			return facas;
 			
 		}
 		

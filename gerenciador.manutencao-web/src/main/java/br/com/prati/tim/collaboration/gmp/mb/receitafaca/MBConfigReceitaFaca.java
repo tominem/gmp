@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -153,7 +154,12 @@ public class MBConfigReceitaFaca extends AbstractBaseMB implements Serializable 
 	
 	private void loadFacas() {
 
-		//TODO carregar as facas do facas prod máquina
+		if (getEquipamento() != null) {
+			
+			Set<Faca> facasR = ejbConfigReceitaFaca.findFacasByMaquinaAndEquipamento(getMaquina(), getEquipamento());
+			setFacas(new ArrayList<Faca>(facasR));
+			
+		}
 		
 	}
 
@@ -203,7 +209,6 @@ public class MBConfigReceitaFaca extends AbstractBaseMB implements Serializable 
 			MenuConfig menuConfigAnterior = valorReceitaFacaAnterior.getReceitaFaca().getConfigEquipamento().getFuncaoConfig().getMenuConfig();
 			
 			return !menuConfigAtual.equals(menuConfigAnterior) && menuConfigAtual.getStatus();
-			
 		}
 		
 		else{

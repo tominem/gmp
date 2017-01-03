@@ -2,6 +2,7 @@ package br.com.prati.tim.collaboration.gmp.ejb.receitafaca;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import br.com.prati.tim.collaboration.gmp.mb.receita.Region;
 import br.prati.tim.collaboration.gp.jpa.Equipamento;
@@ -33,4 +34,6 @@ public interface ConfigReceitaFacaEJB {
 	List<Equipamento> findEquipamentosByMaquina(Maquina maquina);
 
 	List<Faca> findAllFacas();
+	
+	Set<Faca> findFacasByMaquinaAndEquipamento(Maquina maquina, Equipamento equipamento);
 }

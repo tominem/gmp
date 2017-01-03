@@ -14,6 +14,9 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
             <meta name="apple-mobile-web-app-capable" content="yes" />
+			<meta name="theme-color" content="#8e24aa"/>
+			<meta name="msapplication-navbutton-color" content="#8e24aa"/>
+			<meta name="apple-mobile-web-app-status-bar-style" content="#8e24aa"/>
         </f:facet>
         <title>G.M.P. - Login</title>
         <ui:insert name="head" />
@@ -21,12 +24,20 @@
 
     <h:body styleClass="loginbodypurple">
         
+	<style type="text/css">
+        	.Wid95 {
+        		width: 95% !important;
+        	}
+        </style>
+		
         <div class="Wid90 DispBlock MarAuto MarTopPerc5 TexAlCenter">
             
             <div class="Wid40 MarAuto WidAutoOnMobile">
             
                 <h:graphicImage name	=	"images/logo_yellow.svg" 
                 				library	=	"gmp" 
+
+
                 				style	=	"width:40%; max-width:200px;"/>
                 				
                 <div class="EmptyBox30"/>
@@ -51,47 +62,53 @@
 							
 							<div class	=	"EmptyBox20" />
 							
-							<div class	=	"Wid100">
-							
+
+							<p:panelGrid 	columns			=	"1" 
+											columnClasses	=	"ui-grid-col-12" 
+											layout			=	"grid" 
+											styleClass		=	"ui-panelgrid-blank ui-fluid">
+										
+										
 								<p:inputText placeholder	=	"Crachá"
-											 styleClass		=	"Wid80 TexAlCenter Fs18"
+											 styleClass		=	"TexAlCenter Fs18 Wid95"
 											 value			=	"#{mbLogin.cracha}" 
 											 onkeypress		=	"return isNumberKey(event)"
 											 converter		=	"javax.faces.Integer"
 											 required		=	"true"
 				               				 requiredMessage=	"Informe o seu crachá"/>
-							</div>
+
 							
-							<div class	=	"EmptyBox10" />
-							
-							<div class	=	"Wid100">
-							
+
+
+
+
 								<p:inputText type			=	"password" 
 											 placeholder	=	"Senha"
-											 styleClass		=	"Wid80 TexAlCenter Fs18"
+											 styleClass		=	"TexAlCenter Fs18 Wid95"
 											 value			=	"#{mbLogin.senha}" 
 											 required		=	"true"
 											 requiredMessage=	"Informe a sua senha"/>
 								
-							</div>
+
+
+								<div class	=	"EmptyBox30" />
 				
-							<div class	=	"EmptyBox30" />
-				
-							<div class	=	"Wid100">
+
 								
 								<p:commandButton value			=	"Entrar" 
 										  		 icon			=	"fa fa-sign-in"
-										  		 styleClass		=	"PurpleButton Wid90 Fs18 White RaisedButton" 
+										  		 styleClass		=	"PurpleButton Fs18 White RaisedButton Wid95" 
 										  		 action			=	"#{mbLogin.autenticar()}"
-										  		 update			=	"formLogin"/>
-							</div>
+										  		 update			=	"formLogin"
+
+										  		 process		=	"@form"/>
 							
-							<div class	=	"EmptyBox5" />
+
 				
-							<div class	=	"Wid100">
+
 								
 								<p:commandButton value			=	"Esqueceu sua senha?" 
-										  		 styleClass		=	"RedButton Wid90 Fs18 White RaisedButton"
+										  		 styleClass		=	"RedButton Fs18 White RaisedButton Wid95"
 										  		 icon			=	"fa fa-lock"
 										  		 update			=	"#{mbLogin.panelsLogin}"
 										  		 immediate		=	"true" >
@@ -104,15 +121,16 @@
 																		 
 								</p:commandButton>
 								
-							</div>
-											
-							<div class	=	"EmptyBox5" />
-				
-							<div class	=	"Wid100">
-										  
+
+
+
+
+
+
 								<p:commandButton value			=	"Redefinir Senha" 
-										  		 styleClass		=	"OrangeButton Wid90 Fs18 White RaisedButton" 
+										  		 styleClass		=	"OrangeButton Fs18 White RaisedButton Wid95" 
 										  		 icon			=	"fa fa-refresh"
+										  		 process		=	"@this"
 										  		 update			=	"#{mbLogin.panelsLogin}" >
 									
 									<f:setPropertyActionListener value	=	"#{false}" 
@@ -123,8 +141,9 @@
 																		 
 								</p:commandButton>
 								
-							</div>
-											
+
+							</p:panelGrid>
+								
 							<div class	=	"EmptyBox20" />
 							
 						</div>
@@ -143,38 +162,55 @@
 							<div class	=	"Wid100 OvHidden BigTopic Fs30">
 								<i class	=	"fa fa-support Fs30"/> ESQUECI MINHA SENHA 
 							</div>
-				
-							<div class	=	"EmptyBox20" />
-											
-							<div class	=	"Wid100">
 							
+							
+							<div class	=	"EmptyBox20" />
+							
+
+							<p:panelGrid 	columns			=	"1" 
+											columnClasses	=	"ui-grid-col-12" 
+											layout			=	"grid" 
+											styleClass		=	"ui-panelgrid-blank ui-fluid">
+											
+								
 								<p:inputText placeholder	=	"Crachá"
-											 styleClass		=	"Wid80 TexAlCenter Fs18" 
+											 styleClass		=	"TexAlCenter Fs18 Wid95" 
 											 onkeypress		=	"return isNumberKey(event)"
 											 converter		=	"javax.faces.Integer"
 											 value			=	"#{mbLogin.crachaAjuda}"
 											 required		=	"true"
 				               				 requiredMessage=	"O crachá deve ser informado."/>
-							
-							</div>
-							
-							<div class	=	"EmptyBox30" />
-							
-							<div class	=	"Wid100">
 								
+
+								
+								<div class	=	"EmptyBox30" />
+								
+
+									
 								<p:commandButton value			=	"Enviar Código de Segurança" 
-										  		 styleClass		=	"PurpleButton Wid90 Fs18 White RaisedButton" 
+										  		 styleClass		=	"PurpleButton Fs18 White RaisedButton Wid95" 
 										  		 actionListener	=	"#{mbLogin.enviarCodigo()}"
 				               					 update			=	"#{mbLogin.panelsLogin}"/>
-										  
-							</div>
-							
-							<div class	=	"EmptyBox5" />
-							
-							<div class	=	"Wid100">
+											  
+
+								
+
 												
+
+								<p:commandButton value			=	"Já Tenho o Código" 
+										  		 styleClass		=	"PurpleButton Fs18 White RaisedButton Wid95" 
+										  		 update			=	"#{mbLogin.panelsLogin}" >
+									
+									<f:setPropertyActionListener value	=	"#{false}" 
+																 target	=	"#{mbLogin.showEsqueciSenha}" />
+									
+									<f:setPropertyActionListener value	=	"#{true}" 
+																 target	=	"#{mbLogin.showRedefinirSenhaCodigo}" />
+																		 
+								</p:commandButton>
+								
 								<p:commandButton value			=	"Voltar" 
-										  		 styleClass		=	"PurpleButton Wid45 Fs18 White RaisedButton"
+										  		 styleClass		=	"PurpleButton Fs18 White RaisedButton Wid95"
 										  		 update			=	"#{mbLogin.panelsLogin}" 
 										  		 immediate		=	"true">
 									
@@ -185,23 +221,24 @@
 																 target	=	"#{mbLogin.showEsqueciSenha}" />
 																		 
 								</p:commandButton>
-												
-												
-								<p:commandButton value			=	"Já Tenho o Código" 
-										  		 styleClass		=	"PurpleButton Wid45 Fs18 White RaisedButton" 
-										  		 update			=	"#{mbLogin.panelsLogin}" >
-									
-									<f:setPropertyActionListener value	=	"#{false}" 
-																 target	=	"#{mbLogin.showEsqueciSenha}" />
-									
-									<f:setPropertyActionListener value	=	"#{true}" 
-																 target	=	"#{mbLogin.showRedefinirSenhaCodigo}" />
-																		 
-								</p:commandButton>
-										  
-							</div>	
-											
-							<div class	=	"EmptyBox30" />
+								
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+							</p:panelGrid>
+								
+							<div class	=	"EmptyBox20" />
 							
 						</div>
 					                	
@@ -221,77 +258,83 @@
 							</div>
 							
 							<div class	=	"EmptyBox20" />
-				                	
-					        <div class	=	"Wid100">
-				           	
+							
+
+							
+							<p:panelGrid 	columns			=	"1" 
+											columnClasses	=	"ui-grid-col-12" 
+											layout			=	"grid" 
+											styleClass		=	"ui-panelgrid-blank ui-fluid">
+					           
 					           	<p:inputText value			=	"#{mbLogin.crachaAjuda}"
 								 			 id				=	"crachaRedefinir"
 					           				 placeholder	=	"Crachá" 
 					           				 onkeypress		=	"return isNumberKey(event)" 
 											 converter		=	"javax.faces.Integer"
-					           				 styleClass		=	"Wid80 TexAlCenter Fs18"
+					           				 styleClass		=	"TexAlCenter Fs18 Wid95"
 					           				 required		=	"true"
 					           				 requiredMessage=	"O crachá deve ser informado."/>
-				          	
-				          	</div>
 					        
-					        <div class="EmptyBox10"/>
-					        
-					        <div class	=	"Wid100">
-					        
+
+
+
+
+
+
 						        <p:password value			=	"#{mbLogin.senhaAjuda}"
 						        			id				= 	"senhaRedefnir" 
 						        			placeholder		=	"Senha Atual"
-											styleClass		=	"Wid80 TexAlCenter Fs18"
+											styleClass		=	"TexAlCenter Fs18 Wid95"
 											feedback		=	"false"
 											required		=	"true"
 											requiredMessage	=	"A senha atual deve ser informada."/>
-							</div>
-							
-							<div class="EmptyBox10"/>
-					        
-					        <div class	=	"Wid100">
+
+
+
+
+
 						    	
 						    	<p:password value			=	"#{mbLogin.novaSenha}"
 						    				id				= 	"novaSenhaRedefnir"
 						    				placeholder		=	"Nova Senha"
-						    				styleClass		=	"Wid80 TexAlCenter Fs18"
+						    				styleClass		=	"TexAlCenter Fs18 Wid95"
 						    				feedback		=	"false"
 						    				required		=	"true"
 						    				validator		=	"senhaValidator"
 						    				requiredMessage	=	"A nova senha deve ser informada."/>
-							</div>
+
+
+
+
+
 					        
-					        <div class="EmptyBox10"/>
-					        
-					        <div class	=	"Wid100">
-								
 								<p:password value			=	"#{mbLogin.confirmacaoNovaSenha}"
 						                	id				= 	"confirmacaoSenhaRedefnir"
 						                	placeholder		=	"Confirmar Senha"
-						                	styleClass		=	"Wid80 TexAlCenter Fs18"
+						                	styleClass		=	"TexAlCenter Fs18 Wid95"
 						                	feedback		=	"false"
 						                	required		=	"true"
 						                	requiredMessage	=	"A confirmação da senha deve ser informada."/>
-						    </div>
+
 					        
-					        <div class="EmptyBox20"/>
+					        	
+					        	<div class="EmptyBox20"/>
 							
-							<div class	=	"Wid100">
+
 								
 								<p:commandButton value				=	"Redefinir"
-							                	 styleClass			=	"PurpleButton Wid90 Fs18 White RaisedButton"
+							                	 styleClass			=	"PurpleButton Fs18 White RaisedButton Wid95"
 							                	 actionListener		=	"#{mbLogin.salvarRedefinicaoSenha()}"
 							                	 update				=	"#{mbLogin.panelsLogin}"/>
 							                	 
-							</div>
+
+
+
 							
-							<div class="EmptyBox10"/>
+
 							
-							<div class	=	"Wid100">
-					                	
 				               	<p:commandButton value				=	"Voltar"
-				               					 styleClass			=	"PurpleButton Wid90 Fs18 White RaisedButton"
+				               					 styleClass			=	"PurpleButton Fs18 White RaisedButton Wid95"
 				               					 update				=	"#{mbLogin.panelsLogin}"
 				               					 immediate			=	"true">
 					                		
@@ -303,7 +346,8 @@
 								
 								</p:commandButton>
 								
-							</div>
+
+							</p:panelGrid>
 					                	
 							<div class="EmptyBox20"/>
 				                	
@@ -315,90 +359,99 @@
 	               	<p:panel	id 			=	"panelRedefinirSenhaCodigo"
 			       			rendered	= 	"#{mbLogin.showRedefinirSenhaCodigo}"
 			       			style		=	"border:0px none;background:none">
-				                			
-			       	<div class	=	"Card ShadowEffect">
-			       	
-				       	<div class	=	"EmptyBox20" />
+			       			
+			       		
+			       		<div class	=	"Card ShadowEffect ui-fluid">
+
+							<p:panelGrid 	columns			=	"1" 
+											columnClasses	=	"ui-grid-col-12" 
+											layout			=	"grid" 
+											styleClass		=	"ui-panelgrid-blank">
 							
-						<div class	=	"Wid100 OvHidden BigTopic Fs30">
-							<i class	=	"fa fa-asterisk Fs30"/> REDEFINIR SENHA COM CÓDIGO
-						</div>
-							
-						<div class	=	"EmptyBox20" />
-				               	
-				        <div class	=	"Wid100">	
-				               			
-						       <p:inputText value			=	"#{mbLogin.codigoSeguranca}"
-										 id				=	"codigoSeguranca"
-										 placeholder	=	"Código de Segurança" 
-										 onkeypress		=	"return isNumberKey(event)" 
-										 converter		=	"javax.faces.Integer"
-										 styleClass		=	"Wid80 TexAlCenter Fs18"
-										 required		=	"true"
-										 requiredMessage=	"O código de segurança deve ser informado."/>		
-				               			
-						</div>			
-				               	
-				        <div class="EmptyBox10"/>
-				               	
-						<div class	=	"Wid100">
-				               	
-					        <p:password value			=	"#{mbLogin.novaSenha}"
-					        			id				= 	"novaSenhaRemember" 
-					        			placeholder		=	"Nova Senha" 
-					        			validator		=	"senhaValidator"
-					        			styleClass		=	"Wid80 TexAlCenter Fs18" 
-					        			feedback		=	"false"
-					        			required		=	"true"
-					        			requiredMessage	=	"A nova senha deve ser informada."/>
-				        </div>
-				        
-				        <div class="EmptyBox10"/>
-				        
-				        <div class	=	"Wid100">	
-				               	
-					        <p:password value			=	"#{mbLogin.confirmacaoNovaSenha}"
-					        			id				= 	"confirmarSenhaRemember" 
-					        			placeholder		=	"Confirmar Senha" 
-					        			styleClass		=	"Wid80 TexAlCenter Fs18" 
-					        			feedback		=	"false"
-					        			required		=	"true"
-					        			requiredMessage	=	"A confirmação da senha deve ser informada."/>
-				        
-				        </div>
-				        
-				        <div class="EmptyBox20"/>
-				        
-				        <div class	=	"Wid100">
-				               	
-					        <p:commandButton value				=	"Redefinir Senha"
-					        				 styleClass			=	"PurpleButton Wid90 Fs18 White RaisedButton"
-					        				 actionListener		=	"#{mbLogin.salvarRedefinicaoSenhaCodigo()}"
-					        				 update				=	"#{mbLogin.panelsLogin}"/>
-				        
-				        </div>
-				        
-				        <div class="EmptyBox5"/>
-				        
-				        <div class	=	"Wid100">
-				        
-				        <p:commandButton value				=	"Voltar"
-				        				 styleClass			=	"PurpleButton Wid90 Fs18 White RaisedButton"
-				        				 update				=	"#{mbLogin.panelsLogin}"
-				        				 immediate			=	"true">
-				        	<f:setPropertyActionListener value	=	"#{true}" 
-				        								 target	=	"#{mbLogin.showEsqueciSenha}" />
-				        	<f:setPropertyActionListener value	=	"#{false}" 
-				        								 target	=	"#{mbLogin.showRedefinirSenhaCodigo}" />
-						</p:commandButton>
-				        
-				        </div>	
-				        
-				        <div class="EmptyBox10"/>
+					       		<div class	=	"EmptyBox20" />
+								
+								<div class	=	"Wid100 OvHidden BigTopic Fs30">
+									<i class	=	"fa fa-asterisk Fs30"/> REDEFINIR SENHA COM CÓDIGO
+								</div>
+								
+								<div class	=	"EmptyBox20" />
+						       	
+
+
+						       	<p:inputText 	value			=	"#{mbLogin.codigoSeguranca}"
+										 		id				=	"codigoSeguranca"
+										 		placeholder		=	"Código de Segurança" 
+										 		onkeypress		=	"return isNumberKey(event)" 
+										 		converter		=	"javax.faces.Integer"
+										 		styleClass		=	"TexAlCenter Fs18 Wid95"
+										 		required		=	"true"
+										 		requiredMessage	=	"O código de segurança deve ser informado."/>		
+						               	
+
+
+
+
+
+
+						        <p:password value			=	"#{mbLogin.novaSenha}"
+						        			id				= 	"novaSenhaRemember" 
+						        			placeholder		=	"Nova Senha" 
+						        			validator		=	"senhaValidator"
+						        			styleClass		=	"TexAlCenter Fs18 Wid95" 
+						        			feedback		=	"false"
+						        			required		=	"true"
+						        			requiredMessage	=	"A nova senha deve ser informada."/>
+
+
+
+		
+
+							        
+						        <p:password value			=	"#{mbLogin.confirmacaoNovaSenha}"
+						        			id				= 	"confirmarSenhaRemember" 
+						        			placeholder		=	"Confirmar Senha" 
+						        			styleClass		=	"TexAlCenter Fs18 Wid95" 
+						        			feedback		=	"false"
+						        			required		=	"true"
+						        			requiredMessage	=	"A confirmação da senha deve ser informada."/>
+					        			
+
+
+
+
+
+						        <div class="EmptyBox10"/>
+					        
+						        <p:commandButton value				=	"Redefinir Senha"
+						        				 styleClass			=	"PurpleButton Fs18 White RaisedButton Wid95"
+						        				 actionListener		=	"#{mbLogin.salvarRedefinicaoSenhaCodigo()}"
+						        				 update				=	"#{mbLogin.panelsLogin}"/>
+	
+
+
+
+
+
+					        
+						        <p:commandButton value				=	"Voltar"
+						        				 styleClass			=	"PurpleButton Fs18 White RaisedButton Wid95"
+						        				 update				=	"#{mbLogin.panelsLogin}"
+						        				 immediate			=	"true">
+					        
+					        	<f:setPropertyActionListener value	=	"#{true}" 
+					        								 target	=	"#{mbLogin.showEsqueciSenha}" />
+					        	<f:setPropertyActionListener value	=	"#{false}" 
+					        								 target	=	"#{mbLogin.showRedefinirSenhaCodigo}" />
+								</p:commandButton>
+					        
+
+							</p:panelGrid>
+					        
+					        <div class="EmptyBox20"/>
 			        
-			        </div>
-			               	
-			   	</p:panel>
+			    		</div>
+			        	       	
+			   		</p:panel>
 					
 					<p:dialog id			=	"dlg"
 	                		  header		=	"Expiração de Senha" 
@@ -451,6 +504,8 @@
         <h:outputStylesheet name="css/font-awesome.css" 	library="rio-layout" />
         <h:outputStylesheet name="css/rio-layout.css" 		library="rio-layout" />
         <h:outputStylesheet name="css/gmp.css" 				library="gmp" />
+        <h:outputStylesheet name="css/font-awesome-animation.min.css" library="gmp" />
+
         
     </h:body>
 

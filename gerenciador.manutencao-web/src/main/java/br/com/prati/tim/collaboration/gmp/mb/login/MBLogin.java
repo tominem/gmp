@@ -3,13 +3,12 @@ package br.com.prati.tim.collaboration.gmp.mb.login;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
 
@@ -30,7 +29,7 @@ import br.prati.tim.gmp.ws.usuario.UsuarioWS;
 import br.prati.tim.gmp.ws.usuario.ViewAcesso;
 
 @Named("mbLogin")
-@SessionScoped
+@ViewScoped
 public class MBLogin implements Serializable{
 
 	private static final long		serialVersionUID			= 1L;
@@ -58,6 +57,9 @@ public class MBLogin implements Serializable{
 
 	private String					msgAlerta;
 
+	private RetornoAutenticacao     autenticarUsuario;
+
+
 	@Inject
 	private ConfiguracaoGeralEJB	configEJB;
 	
@@ -77,15 +79,16 @@ public class MBLogin implements Serializable{
 			
 			usuarioWS =  getUsuarioService();
 			
-			RetornoAutenticacao autenticarUsuario = usuarioWS.autenticarUsuario(parametros);
+			autenticarUsuario = usuarioWS.autenticarUsuario(parametros);
 			
 			this.nomeUsuario = autenticarUsuario.getCadUsuario().getNome();
-			this.acessosUsuario = autenticarUsuario.getAcessoList();
-			
-			HttpSession session = SessionUtil.getSession();
-			session.setAttribute("acessosUsuario", acessosUsuario);
-			
+						
 			if (autenticarUsuario.getStatusAutenticacao() == StatusAut.AUTORIZADO){
+
+				SessionUtil.getSession().setAttribute("cracha", 	 	cracha);
+				SessionUtil.getSession().setAttribute("nomeUsuario", 	nomeUsuario);
+				SessionUtil.getSession().setAttribute("acessosUsuario",  autenticarUsuario.getAcessoList());
+
 				return redirect();
 			} else if (autenticarUsuario.getStatusAutenticacao() == StatusAut.ALTERAR_SENHA_PROXIMO_LOGIN){
 				
@@ -185,6 +188,7 @@ public class MBLogin implements Serializable{
 			
 			addMessage("Redefinição de senha realizada com sucesso!", FacesMessage.SEVERITY_INFO);
 			
+			limparFields();
 			
 		} catch (Exception e) {
 			UtilsMessage.showMessageInDialog(e.getMessage(), FacesMessage.SEVERITY_ERROR);
@@ -233,6 +237,8 @@ public class MBLogin implements Serializable{
 			
 			addMessage("Senha alterada com sucesso!", FacesMessage.SEVERITY_INFO);
 			
+			limparFields();
+
 		} catch (Exception e) {
 			UtilsMessage.showMessageInDialog(e.getMessage(), FacesMessage.SEVERITY_ERROR);
 		} 
@@ -317,14 +323,19 @@ public class MBLogin implements Serializable{
 	}
 
 	public void setShowLogin(boolean showLogin) {
+
+		limparFields();
+
 		this.showLogin = showLogin;
 	}
+
 
 	public boolean isShowRedefinirSenha() {
 		return showRedefinirSenha;
 	}
 
 	public void setShowRedefinirSenha(boolean showRedefinirSenha) {
+		limparFields();
 		this.showRedefinirSenha = showRedefinirSenha;
 	}
 
@@ -354,10 +365,28 @@ public class MBLogin implements Serializable{
 
 	public List<ViewAcesso> getAcessosUsuario() {
 		return acessosUsuario;
+
+
 	}
 
 	public void setAcessosUsuario(List<ViewAcesso> acessosUsuario) {
 		this.acessosUsuario = acessosUsuario;
+		
 	}
 	
+	public RetornoAutenticacao getAutenticarUsuario() {
+		return autenticarUsuario;
+	}
+
+	public void setAutenticarUsuario(RetornoAutenticacao autenticarUsuario) {
+		this.autenticarUsuario = autenticarUsuario;
+	}
+
+	private void limparFields() {
+		cracha 			= null;
+		crachaAjuda		= null;
+		codigoSeguranca	= null;
+	}
+
 }
+
