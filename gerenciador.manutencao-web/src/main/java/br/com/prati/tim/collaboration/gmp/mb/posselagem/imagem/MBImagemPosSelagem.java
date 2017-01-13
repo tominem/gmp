@@ -1,10 +1,11 @@
 package br.com.prati.tim.collaboration.gmp.mb.posselagem.imagem;
 
+import static br.com.prati.tim.collaboration.gmp.ejb.posselagem.imagem.ImagemPosSelagemEJB.TEMP_SERVER;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,15 +19,17 @@ import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.xml.sax.SAXException;
 
 import br.com.prati.tim.collaboration.gmp.ejb.posselagem.imagem.ImagemPosSelagemEJB;
-import br.com.prati.tim.collaboration.gmp.ejb.posselagem.imagem.InspecaoBlister;
+import br.com.prati.tim.collaboration.gmp.ex.FacesValidateException;
 import br.com.prati.tim.collaboration.gmp.mb.AbstractBaseMB;
 import br.com.prati.tim.collaboration.gmp.mb.UtilsMessage;
 import br.com.prati.tim.collaboration.gmp.mb.ValidateComponent;
 import br.com.prati.tim.collaboration.gmp.mb.login.SessionUtil;
+import br.prati.tim.collaboration.gp.jpa.Maquina;
 import br.prati.tim.collaboration.gp.jpa.enumerator.ETipoAcessoGUM;
 
 @Named("mbImagemPosSelagem")
@@ -38,20 +41,24 @@ public class MBImagemPosSelagem extends AbstractBaseMB {
 	@Inject
 	private ImagemPosSelagemEJB		ejbImagem;
 
-	private List<InspecaoBlister>	inspecoesCamera1;
-	
-	private List<InspecaoBlister>	inspecoesCamera2;
+	private List<String>	        inspecoesCamera1;
+	                                
+	private List<String>	        inspecoesCamera2;
 	
 	private String					urlTargetImage;
 	
 	private String					lote;
 	
+	private String                  imgFie;
+	
+	private Maquina                 maquina;
+	
 	private InputStream				image;
 	
 	@PostConstruct
 	public void init(){
-		setInspecoesCamera1(new ArrayList<InspecaoBlister>());
-		setInspecoesCamera2(new ArrayList<InspecaoBlister>());
+		setInspecoesCamera1(new ArrayList<>());
+		setInspecoesCamera2(new ArrayList<>());
 	}
 
 	@Override
@@ -64,26 +71,37 @@ public class MBImagemPosSelagem extends AbstractBaseMB {
 		return null;
 	}
 	
-	public void find() throws SQLException{
+	public void find() {
 		
-		if (!SessionUtil.temPermissaoGUM(ETipoAcessoGUM.CONSULTA)){
-			UtilsMessage.addErrorMessage("Usuário sem permissão de " + ETipoAcessoGUM.CONSULTA.getDescricao() + ".");
-			return;
+		try {
+			
+			if (!SessionUtil.temPermissaoGUM(ETipoAcessoGUM.CONSULTA)){
+				UtilsMessage.addErrorMessage("Usuário sem permissão de " + ETipoAcessoGUM.CONSULTA.getDescricao() + ".");
+				return;
+			}
+			
+			inspecoesCamera1 = ejbImagem.getListFiles(getTagMaquina(), lote, 1);
+			inspecoesCamera2 = ejbImagem.getListFiles(getTagMaquina(), lote, 2);
+			
+		} catch (Exception e) {
+			
+			addErrorMessage("Não existem imagens para o lote e máquina informados");
+			
 		}
 		
-		inspecoesCamera1 = ejbImagem.getInspecaoBlisterList(lote, 1);
-		inspecoesCamera2 = ejbImagem.getInspecaoBlisterList(lote, 2);
-		
+	}
+
+	private String getTagMaquina() {
+		return getMaquina().getTag();
 	}
 	
-	@SuppressWarnings("static-access")
 	public void close() throws IOException{
 		
 		if (image != null){
 			image.close();
 		}
 		
-		File directory = new File(ejbImagem.TEMP_SERVER + "\\PosSelagem");
+		File directory = new File(TEMP_SERVER + "\\PosSelagem");
 		
 		deleteDirectory(directory);
 		
@@ -108,9 +126,9 @@ public class MBImagemPosSelagem extends AbstractBaseMB {
 	    return(directory.delete());
 	}
 	
-	public void openImageCamera(InspecaoBlister inspecaoCamera, int camera) {
+	public void openImageCamera(String imgFile, int camera) {
 		try {
-			openImage(inspecaoCamera.getCodigoLote(), inspecaoCamera.getIdInspecao(), camera);
+			openImage(imgFile, camera);
 		} catch (XPathExpressionException e) {
 			addErrorMessage("Erro[0]: " + e.getMessage());
 		} catch (IOException e) {
@@ -123,22 +141,44 @@ public class MBImagemPosSelagem extends AbstractBaseMB {
 			addErrorMessage("Erro[4]: " + e.getMessage());
 		}
 	}
+	
+	public void selectMaquina(SelectEvent event) {
 
-	public void openImage(String lote, Integer idInspecao, Integer camera) throws IOException, 
+		try {
+			
+			Object object = event.getObject();
+
+			if (object != null	&& object.getClass().getName().equals(Maquina.class.getName())) {
+				setMaquina((Maquina) object);
+				
+				UtilsMessage.addInfoMessage("Máquina informada com sucesso. Informe o lote.");
+			}
+			
+		} catch (FacesValidateException e) {
+			
+			addErrorMessage(e.getMessage());
+			
+		}
+
+	}
+
+	public void openImage(String imgFile, Integer camera) throws IOException, 
 																				  XPathExpressionException, 
 																				  SAXException, 
 																				  ParserConfigurationException, 
 																				  TransformerException {
 		setImage(null);
 		
-		String svg 			= ejbImagem.donwloadSource(lote, idInspecao, camera, "svg");
-		String jpg 			= ejbImagem.donwloadSource(lote, idInspecao, camera, "jpg");
+		String svg 			= ejbImagem.donwloadSource(imgFile, getTagMaquina(), lote, camera, "svg");
+		String jpg 			= ejbImagem.donwloadSource(imgFile, getTagMaquina(), lote, camera, "jpg");
 		String targetFile	= ejbImagem.getTargetFile(svg, jpg);
 		
 		
 		setUrlTargetImage(targetFile);
 		
 		setImage(getImageInspecao());
+		
+		setImgFie(imgFile);
 		
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("PF('imageDialogWidget').show();");
@@ -157,19 +197,19 @@ public class MBImagemPosSelagem extends AbstractBaseMB {
 		return null;
     }
 
-	public List<InspecaoBlister> getInspecoesCamera1() {
+	public List<String> getInspecoesCamera1() {
 		return inspecoesCamera1;
 	}
 
-	public void setInspecoesCamera1(List<InspecaoBlister> inspecoesCamera1) {
+	public void setInspecoesCamera1(List<String> inspecoesCamera1) {
 		this.inspecoesCamera1 = inspecoesCamera1;
 	}
 
-	public List<InspecaoBlister> getInspecoesCamera2() {
+	public List<String> getInspecoesCamera2() {
 		return inspecoesCamera2;
 	}
 
-	public void setInspecoesCamera2(List<InspecaoBlister> inspecoesCamera2) {
+	public void setInspecoesCamera2(List<String> inspecoesCamera2) {
 		this.inspecoesCamera2 = inspecoesCamera2;
 	}
 
@@ -195,6 +235,22 @@ public class MBImagemPosSelagem extends AbstractBaseMB {
 
 	public void setImage(InputStream image) {
 		this.image = image;
+	}
+
+	public Maquina getMaquina() {
+		return maquina;
+	}
+
+	public void setMaquina(Maquina maquina) {
+		this.maquina = maquina;
+	}
+
+	public String getImgFie() {
+		return imgFie;
+	}
+
+	public void setImgFie(String imgFie) {
+		this.imgFie = imgFie;
 	}	
 	
 }

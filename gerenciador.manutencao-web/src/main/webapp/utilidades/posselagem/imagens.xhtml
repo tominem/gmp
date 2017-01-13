@@ -32,6 +32,39 @@
 									
 									<div class="Separator"></div>
 									
+									<p:panelGrid 	columns				=	"3" 
+		                            				layout				=	"grid" 
+		                            			 	styleClass			=	"ui-panelgrid-blank"
+		                            			 	columnClasses		=	"ui-grid-col-6, ui-grid-col-6">
+		                           		
+		                           		<h:panelGroup id="paMaquina">
+											
+											<p:outputLabel 	value			=	"Máquina" 		
+															for				=	"maquina"/>
+										
+											<p:inputText 	requiredMessage	=	"Maquina requerida"
+															value			=	"#{mbImagemPosSelagem.maquina.descricao}"
+															id				=	"maquina" 
+															required		=	"true"
+															readonly		=	"true"/>
+											
+											<p:commandButton	icon				=	"fa fa-search"
+																styleClass			=	"PurpleButton ButtonPesquisar"
+																actionListener		=	"#{receitaMB.openDialog('/cadastros/maquina/searchMaquina.xhtml', true)}"
+																immediate			=	"true"
+																process				=	"@this paMaquina pnlGrpLote pnlGrpPesquisar">
+													
+													<p:ajax 	event		=	"dialogReturn"
+																listener	=	"#{mbImagemPosSelagem.selectMaquina}"
+																update		=	"paMaquina pnlGrpLote pnlGrpPesquisar"/>
+											
+											</p:commandButton>
+															
+										</h:panelGroup>
+		                           		
+		                           		
+		                           	</p:panelGrid>
+									
 									<p:panelGrid 	columns				=	"2" 
 			                           				layout				=	"grid" 
 			                           			 	styleClass			=	"ui-panelgrid-blank"
@@ -45,7 +78,8 @@
 											<p:inputText		value			= 	"#{mbImagemPosSelagem.lote}"
 		                  										id				=	"lote"
 		                  										required		=	"true"
-		                  										requiredMessage	=	"O lote é requerido. "/>
+		                  										requiredMessage	=	"O lote é requerido. "
+		                  										disabled        =   "#{mbImagemPosSelagem.maquina == null}"/>
 										
 										</h:panelGroup>
 										
@@ -60,7 +94,8 @@
 				                           						actionListener	=	"#{mbImagemPosSelagem.find()}"
 				                           						process			=	"@this pnlGrpLote"
 			                           							update			=	"formCad"
-			                           							value			=	"Pesquisar" />
+			                           							value			=	"Pesquisar" 
+			                           							disabled        =   "#{mbImagemPosSelagem.maquina == null}"/>
 		                           							
 										</h:panelGroup>
 										
@@ -77,27 +112,33 @@
 														var					=	"item"
 														value				=	"#{mbImagemPosSelagem.inspecoesCamera1}" 
 														emptyMessage		=	"Nenhum registro" 
-														rows				=	"10"
-														rowKey				=	"#{item.idInspecao}"
+														rows				=	"100"
+														rowKey				=	"#{item.hashCode()}"
 														selectionMode		=	"single"
 														scrollable			=	"true"
 														scrollHeight		=	"400"
 														reflow				=	"true"
-														resizableColumns	=	"true">
+														resizableColumns	=	"true"
+														paginator			=	"true"
+														paginatorPosition	=	"bottom">
 											
 											<f:facet name	=	"header">
 												Câmera 01
 											</f:facet>
 										
-											<p:column 	headerText	=	"Data/Hora" styleClass	=	"TexAlCenter">
-												<h:outputText value		=	"#{item.dataHoraRegistro}" >
-													<f:convertDateTime type="both" pattern="dd/MM/yyyy HH:mm:ss"/>
-												</h:outputText>
+											
+											<p:column 	headerText	=	"Data/Hora - Nome Arquivo" styleClass	=	"TexAlCenter">
+												<h:outputText value		=	"#{item}" />
 											</p:column>
+											
+											
+											<!-- 
 											
 											<p:column 	headerText	=	"Retorno" styleClass	=	"TexAlCenter">
 												<p:outputLabel value	=	"#{item.retorno}" />
 											</p:column>
+
+											 -->
 											
 											<p:column 	headerText	=	"Visualizar" width="50">
 											
@@ -121,31 +162,34 @@
 														var					=	"item"
 														value				=	"#{mbImagemPosSelagem.inspecoesCamera2}" 
 														emptyMessage		=	"Nenhum registro" 
-														rows				=	"10"
-														rowKey				=	"#{item.idInspecao}"
+														rowKey				=	"#{item.hashCode()}"
 														selectionMode		=	"single"
 														scrollable			=	"true"
+														rows                =   "100"
 														scrollHeight		=	"400"
 														reflow				=	"true"
-														resizableColumns	=	"true" >
+														resizableColumns	=	"true" 
+														paginator			=	"true"
+														paginatorPosition	=	"bottom">
 											
 											<f:facet name	=	"header">
 												Câmera 02
 											</f:facet>
 											
-											<p:column 	headerText	=	"Data/Hora" styleClass	=	"TexAlCenter">
+											
+											<p:column 	headerText	=	"Data/Hora - Nome Arquivo" styleClass	=	"TexAlCenter">
 												
-												<h:outputText value		=	"#{item.dataHoraRegistro}" >
+												<h:outputText value		=	"#{item}" />
 									
-													<f:convertDateTime type="both" pattern="dd/MM/yyyy HH:mm:ss"/>
-													  
-												</h:outputText>
-												
 											</p:column>
 											
+											<!--
+											 
 											<p:column 	headerText	=	"Retorno" styleClass	=	"TexAlCenter">
 												<p:outputLabel value	=	"#{item.retorno}" />
 											</p:column>
+
+											 -->
 											
 											<p:column 	headerText	=	"Visualizar" width="50">
 											

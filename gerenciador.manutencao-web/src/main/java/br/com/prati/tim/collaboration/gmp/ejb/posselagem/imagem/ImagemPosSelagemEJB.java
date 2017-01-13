@@ -7,11 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -27,6 +23,11 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import jcifs.smb.NtlmPasswordAuthentication;
+import jcifs.smb.SmbException;
+import jcifs.smb.SmbFile;
+import jcifs.util.Base64;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -34,12 +35,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.google.common.io.ByteStreams;
-
-import br.com.prati.tim.collaboration.gmp.utis.ConnectionUtil;
-import jcifs.smb.NtlmPasswordAuthentication;
-import jcifs.smb.SmbException;
-import jcifs.smb.SmbFile;
-import jcifs.util.Base64;
 
 @Stateless
 public class ImagemPosSelagemEJB implements Serializable{
@@ -49,6 +44,7 @@ public class ImagemPosSelagemEJB implements Serializable{
 	private static String		USER				= 	"desenvolvimento";
 	private static String		PASS				= 	"BO2014des";
 	private static String		SHARED_FOLDER		= 	"IMAGENS";
+	private static String       SYSTEM_TAG          =   "IBL";
 	public static Object		TEMP_SERVER			= 	System.getProperties().get("jboss.server.temp.dir");
 	
 	public ImagemPosSelagemEJB() {
@@ -56,65 +52,41 @@ public class ImagemPosSelagemEJB implements Serializable{
         jcifs.Config.setProperty("resolveOrder",    "DNS");
 	}
 	
-	public List<InspecaoBlister> getInspecaoBlisterList(String lote, int camera) throws SQLException {
+	public List<String> getListFiles(String tagMaquina, String lote, int camera) throws Exception {
 		
-		StringBuffer  sb = new StringBuffer();
-		sb.append("SELECT id_inspecao, ");
-		sb.append("       data_hora, ");
-		sb.append("       retorno").append(camera);
-		sb.append("  FROM inspecao_blisteres_cam").append(camera);
-		sb.append(" WHERE codigo_lote 	= '").append(lote).append("' ");
-		sb.append("   AND retorno").append(camera).append(" LIKE '%2%'");
-		sb.append(" ORDER BY data_hora  ASC");
-		
-		Connection      connection          = 	ConnectionUtil.getJNDIConnectionPosSelagem();
-		
-		PreparedStatement 		ps 			= 	null;
-        ResultSet         	  	rs 			= 	null;
-        List<InspecaoBlister> 	inspecoes 	=	new ArrayList<InspecaoBlister>();
-        
-        try {
-            
-        	ps = connection.prepareStatement(sb.toString());
-            rs = ps.executeQuery();
-            
-            while(rs.next()) {
-            	
-            	InspecaoBlister inspecao = new InspecaoBlister();
-            	
-            	inspecao.setCodigoLote		(lote);
-            	inspecao.setDataHoraRegistro(rs.getTimestamp("data_hora"));
-            	inspecao.setIdInspecao		(rs.getInt	 	("id_inspecao"));
-            	inspecao.setRetorno			(rs.getString	("retorno" + camera));
-            	
-            	inspecoes.add(inspecao);
-            }
-
-        } finally {
-
-            if (rs != null) {
-                rs.close();
-            }
-
-            if (ps != null) {
-                ps.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
-        }
-
-        return inspecoes;
-	}
-	
-	public String donwloadSource(String lote, Integer idInspecao, Integer camera, String extensao) throws IOException {
-
 		NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(DOMAIN, USER, PASS);
 		
 		String	raiz			= "smb://" + DOMAIN + "/" + SHARED_FOLDER;
-		String  imagePath 		= lote + "/0" + camera + "/";
-		String  imageName		= idInspecao + "_imagem" + camera + "0." + extensao;
-		String	completePath 	= raiz + "/" + imagePath + imageName; 
+		String  imagePath 		= SYSTEM_TAG + "/" + tagMaquina + "/" + lote  + "/0" + camera + "/";
+		String	completePath 	= raiz + "/" + imagePath;
+		
+		List<String> files = null;
+		
+		SmbFile pathCam 	    = new SmbFile(completePath, auth);
+		
+		String[] listFiles = pathCam.list((dir, name) -> name.endsWith(".svg"));
+		
+		
+		if (listFiles != null && listFiles.length > 0) {
+			
+			files = Arrays.asList(listFiles);
+			files.sort((s1, s2) -> s1.compareTo(s2));
+		}
+		
+		return files;
+	}
+	
+	public String donwloadSource(String imgFile, String tagMaquina, String lote, Integer camera, String extensao) throws IOException {
+
+		NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(DOMAIN, USER, PASS);
+		
+		if (extensao.equals("jpg")) {
+			imgFile = imgFile.replace(".svg", ".jpg");
+		}
+		
+		String	raiz			= "smb://" + DOMAIN + "/" + SHARED_FOLDER;
+		String  imagePath 		= SYSTEM_TAG + "/" + tagMaquina + "/" + lote  + "/0" + camera + "/";
+		String	completePath 	= raiz + "/" + imagePath + "/" + imgFile;
 
 		SmbFile file 			= new SmbFile(completePath, auth);
 		
@@ -122,7 +94,7 @@ public class ImagemPosSelagemEJB implements Serializable{
 		
 		new File (targetFolder).mkdirs();
 		
-		File 	filteToCreate 	= new File(targetFolder += imageName);
+		File 	filteToCreate 	= new File(targetFolder += imgFile);
 		
 		try {
 			
