@@ -199,9 +199,9 @@ public class MBConfigEquipamento extends AbstractBaseMB implements Serializable{
 				String valorBoolean = null;
 				
 				if (valor.equals(Boolean.TRUE.toString()) || valor.equals("1")){
-					valorBoolean = isToDisplay ? Boolean.TRUE.toString()  : "1";
+					valorBoolean = Boolean.TRUE.toString();
 				} else{
-					valorBoolean = isToDisplay ? Boolean.FALSE.toString() : "0";
+					valorBoolean = Boolean.FALSE.toString();
 				}
 				
 				configEquipamento.getValorConfigEquip().setValor(valorBoolean);

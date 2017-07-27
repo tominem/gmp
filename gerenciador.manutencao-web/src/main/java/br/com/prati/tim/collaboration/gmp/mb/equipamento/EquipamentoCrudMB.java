@@ -340,6 +340,9 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 				return Integer.compare(x1.getOrdem(), x2.getOrdem());
 			}
 			
+			else if(x1.getOrdem() == null && x2.getOrdem() == null)
+				return 0;
+			
 			else if(x2.getOrdem() == null) 
 				return -1;
 
@@ -354,11 +357,12 @@ public class EquipamentoCrudMB extends AbstractCrudMB<Equipamento, Long> impleme
 	}
 	
 	private void ordenaItensConfigPorSelecao() {
+		
 		Collections.sort(itensConfigEquipamento, (x1, x2) -> {
 			
-			if (x1.getIdConfigEquipamento() != null && x2.getIdConfigEquipamento() != null) 
+			if(x1.getIdConfigEquipamento() != null && x2.getIdConfigEquipamento() != null)
 				return 0;
-			else if (x1.getIdConfigEquipamento() != null)
+			if(x1.getEquipamento() != null && x2.getEquipamento() == null)
 				return -1;
 			else
 				return 1;
