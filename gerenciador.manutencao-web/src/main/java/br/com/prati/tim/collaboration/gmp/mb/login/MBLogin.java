@@ -45,6 +45,7 @@ public class MBLogin implements Serializable{
 
 	// Utilizado no panel Redefinicao/Esqueci senha
 	private Integer					crachaAjuda;
+
 	private String					senhaAjuda;
 
 	private String					novaSenha;
@@ -85,9 +86,7 @@ public class MBLogin implements Serializable{
 						
 			if (autenticarUsuario.getStatusAutenticacao() == StatusAut.AUTORIZADO){
 
-				SessionUtil.getSession().setAttribute("cracha", 	 	cracha);
-				SessionUtil.getSession().setAttribute("nomeUsuario", 	nomeUsuario);
-				SessionUtil.getSession().setAttribute("acessosUsuario",  autenticarUsuario.getAcessoList());
+				salvaDadosUsuarioNaSessao();
 
 				return redirect();
 			} else if (autenticarUsuario.getStatusAutenticacao() == StatusAut.ALTERAR_SENHA_PROXIMO_LOGIN){
@@ -100,6 +99,8 @@ public class MBLogin implements Serializable{
 				RequestContext.getCurrentInstance().execute("PF('dlgRedefinicaoSenha').show();");
 				
 			} else if (autenticarUsuario.getStatusAutenticacao() == StatusAut.ALERTA_EXPIRAR_SENHA){
+				
+				salvaDadosUsuarioNaSessao();
 				
 				msgAlerta = autenticarUsuario.getMensagem();
 				
@@ -120,6 +121,12 @@ public class MBLogin implements Serializable{
 		}
 		
 		return null;
+	}
+
+	private void salvaDadosUsuarioNaSessao() {
+		SessionUtil.getSession().setAttribute("cracha", 	 	cracha);
+		SessionUtil.getSession().setAttribute("nomeUsuario", 	nomeUsuario);
+		SessionUtil.getSession().setAttribute("acessosUsuario",  autenticarUsuario.getAcessoList());
 	}
 
 	public String redirect(){
