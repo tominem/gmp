@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+
 import br.com.prati.tim.collaboration.gmp.dao.AbstractJPADAO;
 import br.com.prati.tim.collaboration.gmp.dao.FilterParam;
 import br.prati.tim.collaboration.gp.jpa.Equipamento;
@@ -32,4 +34,8 @@ public class EquipamentoDAOImpl extends AbstractJPADAO<Equipamento> implements E
 		return filterByTipo != null && filterByTipo.size() > 0 ? equipamentos : equipamentos;
 	}
 
+	@Override
+	public EntityManager getEntityManager() {
+		return super.getEntityManager();
+	}
 }

@@ -56,7 +56,7 @@
 		<jdk.version>1.8</jdk.version>
 
 		<!-- Prati WS Props -->
-		<ws.host-port>172.70.64.22:8080</ws.host-port>
+		<ws.host-port>172.70.64.21:8080</ws.host-port>
 		
 		<wsdl.url.autenticacao.usuario>
 			http://${ws.host-port}/gerenciador.usuario-ws/UsuarioService?wsdl
@@ -69,6 +69,7 @@
 		<srcBinding>src/main/bindings</srcBinding>
 		<bindingDirectory>${basedir}/${srcBinding}</bindingDirectory>
 
+		<javaee6.web.spec.version>2.0.0.Final</javaee6.web.spec.version>
 	</properties>
 
 	<developers>
@@ -108,6 +109,21 @@
 				<version>${version.jboss.bom}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.spec</groupId>
+				<artifactId>jboss-javaee-web-6.0</artifactId>
+				<version>${javaee6.web.spec.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.spec</groupId>
+				<artifactId>jboss-javaee-web-6.0</artifactId>
+				<version>${javaee6.web.spec.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+				<optional>false</optional>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -306,6 +322,17 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.jboss.spec.javax.faces</groupId>
+			<artifactId>jboss-jsf-api_2.0_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.faces</groupId>
+			<artifactId>jboss-jsf-api_2.0_spec</artifactId>
+			<scope>provided</scope>
+			<optional>false</optional>
+		</dependency>
 	</dependencies>
 
 	<build>

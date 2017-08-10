@@ -7,6 +7,9 @@ import java.util.TimeZone;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import com.uaihebert.uaicriteria.UaiCriteria;
+import com.uaihebert.uaicriteria.UaiCriteriaFactory;
+
 import br.com.prati.tim.collaboration.gmp.dao.GenericDAO;
 import br.com.prati.tim.collaboration.gmp.dao.equipamentoMaquina.EquipamentoMaquinaDAO;
 import br.com.prati.tim.collaboration.gmp.dao.maquina.MaquinaDAO;
@@ -56,5 +59,24 @@ public class MaquinaEJBImpl extends AbstractCrudEJB<Maquina> implements MaquinaE
 	public GenericDAO<EquipamentoMaquina> getEquipamentoMaquinaDAO() {
 		return equipamentoMaquinaDAO;
 	}
+
+	public List<Maquina> getWithQueryLike(String descQuery, Boolean status) {
+		
+		UaiCriteria<Maquina> criteria = UaiCriteriaFactory.createQueryCriteria(equipamentoMaquinaDAO.getEntityManager(),
+				Maquina.class);
+
+		if (status != null) {
+			criteria.andEquals	("status", status);
+		}
+
+		criteria.innerJoin		("sala");
+		criteria.orStringLike	(true, "tag", 		"%" + descQuery + "%");
+		criteria.orStringLike	(true, "descricao", "%" + descQuery + "%");
+		
+		criteria.orderByAsc		("descricao");
+		criteria.setDistinctTrue();
+		return criteria.getResultList();
+	}
+
 
 }

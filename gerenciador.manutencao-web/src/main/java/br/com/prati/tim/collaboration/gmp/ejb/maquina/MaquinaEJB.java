@@ -12,4 +12,6 @@ public interface MaquinaEJB extends CrudEJB<Maquina>{
 	List<EquipamentoMaquina> findEquipamentoMaquinaByMaquina(Maquina entityBean);
 
 	GenericDAO<EquipamentoMaquina> getEquipamentoMaquinaDAO();
+
+	List<Maquina> getWithQueryLike(String maquina, Boolean b);
 }

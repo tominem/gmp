@@ -7,6 +7,9 @@ import java.util.TimeZone;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import com.uaihebert.uaicriteria.UaiCriteria;
+import com.uaihebert.uaicriteria.UaiCriteriaFactory;
+
 import br.com.prati.tim.collaboration.gmp.dao.GenericDAO;
 import br.com.prati.tim.collaboration.gmp.dao.equipamento.EquipamentoDAO;
 import br.com.prati.tim.collaboration.gmp.dao.itemconfig.FuncaoConfigDAO;
@@ -50,6 +53,26 @@ public class EquipamentoEJBImpl extends AbstractCrudEJB<Equipamento> implements 
 	@Override
 	public List<FuncaoConfig> findAllFuncaoConfig() {
 		return funcaoConfigDAO.findAll();
+	}
+
+	@Override
+	public List<Equipamento> getWithQueryLike(String descQuery, Boolean status) {
+
+		UaiCriteria<Equipamento> criteria = UaiCriteriaFactory.createQueryCriteria(equipamentoDAO.getEntityManager(),
+				Equipamento.class);
+
+		if (status != null) {
+			criteria.andEquals("status", status);
+		}
+
+		criteria.orStringLike(true, "tag", "%" + descQuery + "%");
+		criteria.orStringLike(true, "nome", "%" + descQuery + "%");
+
+		criteria.orderByAsc("descricao");
+		criteria.setDistinctTrue();
+
+		return criteria.getResultList();
+
 	}
 
 }
