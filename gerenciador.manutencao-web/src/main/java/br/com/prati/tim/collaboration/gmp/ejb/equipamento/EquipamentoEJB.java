@@ -9,6 +9,8 @@ import br.prati.tim.collaboration.gp.jpa.FuncaoConfig;
 public interface EquipamentoEJB extends CrudEJB<Equipamento>{
 
 	List<FuncaoConfig> findAllFuncaoConfig();
+	
+	List<Equipamento> getWithQueryLike(String maquina, Boolean situacao);
 
 
 }

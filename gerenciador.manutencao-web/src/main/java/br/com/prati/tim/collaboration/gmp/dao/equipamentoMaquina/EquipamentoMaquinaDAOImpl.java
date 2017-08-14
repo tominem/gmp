@@ -4,6 +4,8 @@ import static com.uaihebert.uaicriteria.UaiCriteriaFactory.createQueryCriteria;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import br.com.prati.tim.collaboration.gmp.dao.AbstractJPADAO;
 import br.prati.tim.collaboration.gp.jpa.EquipamentoMaquina;
 import br.prati.tim.collaboration.gp.jpa.Maquina;
@@ -40,6 +42,11 @@ public class EquipamentoMaquinaDAOImpl extends AbstractJPADAO<EquipamentoMaquina
 				.andEquals("maquina", maquina)
 				
 				.getResultList();
+	}
+	
+	@Override
+	public EntityManager getEntityManager() {
+		return super.getEntityManager();
 	}
 
 }

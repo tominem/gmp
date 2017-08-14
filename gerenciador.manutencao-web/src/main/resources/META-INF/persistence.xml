@@ -16,8 +16,8 @@
 		<class>br.prati.tim.collaboration.gp.jpa.Equipamento</class>
 		<class>br.prati.tim.collaboration.gp.jpa.EquipamentoMaquina</class>
 		<class>br.prati.tim.collaboration.gp.jpa.Etapa</class>
-		<class>br.prati.tim.collaboration.gp.jpa.EtapaProduto</class>
 		<class>br.prati.tim.collaboration.gp.jpa.EtapaRota</class>
+		<class>br.prati.tim.collaboration.gp.jpa.EtapaProduto</class>
 		<class>br.prati.tim.collaboration.gp.jpa.Fabricante</class>
 		<class>br.prati.tim.collaboration.gp.jpa.Faca</class>
 		<class>br.prati.tim.collaboration.gp.jpa.FacasProdMaq</class>
@@ -25,13 +25,16 @@
 		<class>br.prati.tim.collaboration.gp.jpa.IoEquipamento</class>
 		<class>br.prati.tim.collaboration.gp.jpa.Linhaproducao</class>
 		<class>br.prati.tim.collaboration.gp.jpa.LogDesafio</class>
+		<class>br.prati.tim.collaboration.gp.jpa.LoteMaquina</class>
 		<class>br.prati.tim.collaboration.gp.jpa.LogEtapa</class>
 		<class>br.prati.tim.collaboration.gp.jpa.LogInspecao</class>
+		<class>br.prati.tim.collaboration.gp.jpa.LogLote</class>
 		<class>br.prati.tim.collaboration.gp.jpa.LogMaquina</class>
 		<class>br.prati.tim.collaboration.gp.jpa.LogServico</class>
 		<class>br.prati.tim.collaboration.gp.jpa.Lote</class>
 		<class>br.prati.tim.collaboration.gp.jpa.LoteInspecao</class>
-		<class>br.prati.tim.collaboration.gp.jpa.LoteMaquina</class>
+		<class>br.prati.tim.collaboration.gp.jpa.Matriz</class>
+		<class>br.prati.tim.collaboration.gp.jpa.MatrizFacaProd</class>
 		<class>br.prati.tim.collaboration.gp.jpa.Maquina</class>
 		<class>br.prati.tim.collaboration.gp.jpa.MaquinaEtapa</class>
 		<class>br.prati.tim.collaboration.gp.jpa.MenuConfig</class>
@@ -83,10 +86,16 @@
 		<class>br.prati.tim.collaboration.gp.jpa.converters.TipoLoteFicConverter</class>
 		<class>br.prati.tim.collaboration.gp.jpa.converters.TipoNotificacaoAlarmeConverter</class>
 		<class>br.prati.tim.collaboration.gp.jpa.converters.TipoValorVariaveisClpConverter</class>
-		<class>br.prati.tim.collaboration.gp.jpa.converters.ComponentConverter</class>
 		<class>br.prati.tim.collaboration.gp.jpa.CameraSala</class>
+		<class>br.prati.tim.collaboration.gp.jpa.PgrExcecao</class>
+		<class>br.prati.tim.collaboration.gp.jpa.PgrExcecaoMaquina</class>
+		<class>br.prati.tim.collaboration.gp.jpa.ServicoEntreProdutos</class>
+		<class>br.prati.tim.collaboration.gp.jpa.LogControleQuarentena</class>
 		<class>br.prati.tim.collaboration.gp.jpa.ReceitaFaca</class>
 		<class>br.prati.tim.collaboration.gp.jpa.ValorReceitaFaca</class>
+		<class>br.prati.tim.collaboration.gp.jpa.HistManutencao</class>
+		<class>br.prati.tim.collaboration.gp.jpa.HistManutencaoDetail</class>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="hibernate.dialect" 							value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.enable_lazy_load_no_trans" 		value="true" />

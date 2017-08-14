@@ -86,6 +86,10 @@ public class SessionUtil implements Serializable{
 		
 		List<ViewAcesso> acessosUsuario = (List<ViewAcesso>) session.getAttribute("acessosUsuario");
 		
+		if (acessosUsuario == null) {
+			return false;
+		}
+		
 		for (ViewAcesso viewAcesso : acessosUsuario) {
 			if (viewAcesso.getNomeFuncao().equals(funcao)&& viewAcesso.getNomeSistema().equals("GMP") ){	
 				if (viewAcesso.getTipoAcesso().equals(tipoAcesso.getTipoAcesso())){
