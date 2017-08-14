@@ -13,7 +13,7 @@
 
 			/* (1280x1024) SXGA Display */
 			@media  screen and (max-width: 1440px) {
-			    .Container70 {
+			    .Container80 {
 			    	width: 100%
 			    }
 			}
@@ -159,9 +159,7 @@
 	
 											<p:inputText id="historicoSolucao" required="true"
 												requiredMessage="Histórico da solução requerido."
-												value="#{historicoManutencaoBean.histManutencaoDetail.descricao}"
-												disabled="#{historicoManutencaoBean.histManutencao.status != null  and
-				                           				  	historicoManutencaoBean.histManutencao.status == 2}"/>
+												value="#{historicoManutencaoBean.histManutencaoDetail.descricao}"/>
 												
 											
 											<p:commandButton	icon			=	"fa fa-plus Fs16 White" 
@@ -179,9 +177,7 @@
 				                           											 pgDataInicial 
 				                           											 pgDataFinal 
 				                           											 pgDescricao 
-				                           											 pgHistoricoSolucao"
-				                           						disabled		=	"#{historicoManutencaoBean.histManutencao.status != null  and
-				                           											  historicoManutencaoBean.histManutencao.status == 2}">
+				                           											 pgHistoricoSolucao">
 												
 				                           	</p:commandButton>
 				                           	
@@ -190,7 +186,7 @@
 
 										<h:panelGroup id="pgTableHistoricoSolucao">
 										
-											<p:outputLabel value="Histórico da Solução"/>
+											<p:outputLabel value="Listagem de históricos"/>
 											
 											 <p:dataTable 	id				=	"dtHistorico" 
 											 				rowKey			=	"#{historico.hashCode()}"
@@ -202,7 +198,8 @@
 											 				selection		=	"#{historicoManutencaoBean.histManutencaoDetail}"
 											 				scrollable		=	"true"
 											 				scrollHeight	=	"400"
-											 				emptyMessage	=	"Nenhum registro">
+											 				emptyMessage	=	"Nenhum registro"
+											 				reflow			=	"true">
 											 				
 												
 												<p:column headerText="Data" width="150">
@@ -227,6 +224,17 @@
 												
 												<p:column style="width:64px">
            											<p:rowEditor />
+       											</p:column>
+       											
+       											<p:column style="width:40px">
+													
+													<p:commandButton icon			=	"fa fa-trash white" 
+																	 actionListener	=	"#{historicoManutencaoBean.excluirItem(historico)}"
+																	 update			=	"historicForm:pgTableHistoricoSolucao"
+																	 process		=	"@this"
+																	 styleClass		=	"RedButton">
+													</p:commandButton>
+													
        											</p:column>
        											
 											</p:dataTable>
@@ -254,8 +262,7 @@
 															pattern				=	"dd/MM/yyyy HH:mm"
 															locale				=	"pt_BR"
 															showOn				=	"button"
-															showButtonPanel		=	"true"
-															disabled			=	"#{historicoManutencaoBean.histManutencao.datahoraFim != null}">
+															showButtonPanel		=	"true">
 												<p:ajax event	=	"dateSelect"  update="dataFinal" />
 												
 												<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
@@ -297,7 +304,7 @@
 							
 						</div>
 						
-						<f:facet name="footer">
+						<f:facet name	=	"footer">
 							
 							<p:commandButton 	actionListener	=	"#{historicoManutencaoBean.limpar()}"
 												update			=	"historicForm"
@@ -330,6 +337,12 @@
 												style			=	"width: 185px;"
 												styleClass		=	"PurpleButton RaisedButton MarRight5" 
 						 						icon			=	"fa fa-search white">
+							
+								<p:ajax event					=	"dialogReturn" 	
+							 			listener				=	"#{historicoManutencaoBean.selectObjectAfterSearch}" 
+							 			update					=	"historicForm" 
+								/>
+			
 							</p:commandButton>
 							
 							

@@ -1,0 +1,259 @@
+<html 	xmlns	="http://www.w3.org/1999/xhtml"
+		xmlns:h	="http://java.sun.com/jsf/html"
+		xmlns:f	="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:c= "http://java.sun.com/jsp/jstl/core"
+		xmlns:p	="http://primefaces.org/ui">
+
+    <h:head>
+
+        <f:facet name="first">
+    		<meta charset	=	"UTF-8" />
+        </f:facet>
+        
+        <title>Pesquisar histórico de Manutenção</title>
+
+		<h:outputScript name="js/traducao.js" library="gmp" />
+		
+		<h:outputStylesheet name="css/font-awesome.css" library="rio-layout" />
+	
+	</h:head>
+    
+     
+    <h:body>
+		
+		<style type="text/css">
+			/* Botão pesquisar */
+			.ui-fluid .ButtonPesquisar {
+				margin: 0px 0px 0px -41px !important;
+				border-radius: 0px !important;
+				-webkit-border-radius: 0px !important;
+				-moz-border-radius: 0px !important;
+				min-width: 41px !important;
+			}
+		</style>
+			
+        <h:form id	=	"searchHistorico">
+			
+			
+			<p:focus context	=	"pnlGrpMqn" />
+			
+			<div class="Container ui-fluid">
+			
+				<div class="Container100 Responsive100">
+									
+														
+					<p:panelGrid 	columns			=	"3" 
+									columnClasses	=	"ui-grid-col-3, ui-grid-col-6, ui-grid-col-3" 
+									layout			=	"grid" 
+									styleClass		=	"ui-panelgrid-blank">
+					
+					
+						<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpMqn">
+							
+							<p:outputLabel 		value		=	"Máquina"	for =	"maquina" />
+							
+							<p:autoComplete 	id					=	"maquina" 
+	             					 			value				=	"#{pesquisarHistoricoManutencaoBean.maquina}" 
+	             					 			completeMethod		=   "#{pesquisarHistoricoManutencaoBean.maquinaComplete}" 
+	             								maxResults  		=   "5"
+	             								minQueryLength		=	"3"
+											    var					=	"maq" 
+											    converter			=	"maquinaConverter" 
+						                        itemLabel			=	"#{maq.tag}"
+						                        itemValue			=	"#{maq}"
+						                        tabindex         	=   "1"
+						                        forceSelection		=	"true">
+		
+					            <p:column style	=	"width:35%">
+					                <h:outputText value="#{maq.tag}" />
+					            </p:column>
+					 
+					            <p:column>
+					                <h:outputText value="#{maq.descricao}" />
+					            </p:column>
+					            
+					            <p:ajax event			=	"itemSelect" 	
+					 					listener		=	"#{pesquisarHistoricoManutencaoBean.processarPesquisaMaquina}" />
+					            
+					        </p:autoComplete>
+						
+						</h:panelGroup>
+		
+						<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpEquipamento">
+	
+							<p:outputLabel value="Equipamento" for="equipamento" />
+		
+							<p:autoComplete 		id					=	"equipamento" 
+			                 					 	value				=	"#{pesquisarHistoricoManutencaoBean.equipamento}" 
+			                 					 	completeMethod		=   "#{pesquisarHistoricoManutencaoBean.equipamentoComplete}" 
+			                 						maxResults  		=   "5"
+			                 						minQueryLength		=	"3"
+												    var					=	"equipamento"
+												    forceSelection		=	"true" 
+												    converter			=	"equipamentoConverter" 
+							                        itemLabel			=	"#{equipamento.tag}"
+							                        itemValue			=	"#{equipamento}"
+							                        tabindex         	=   "1">
+			
+					            <p:column style	=	"width:35%">
+					                <h:outputText value="#{equipamento.tag}" />
+					            </p:column>
+					 
+					            <p:column>
+					                <h:outputText value="#{equipamento.nome}" />
+					            </p:column>
+					            
+					            <p:ajax 	 	event			=	"itemSelect" 	
+					 							listener		=	"#{pesquisarHistoricoManutencaoBean.processarPesquisaEquipamento}" />
+						            
+						    </p:autoComplete>
+						
+						</h:panelGroup>
+		
+						<h:panelGroup id="pgNotaPm">
+						
+							<p:outputLabel value="Nota PM" for="notaPm" />
+	
+							<p:inputText id="notaPm" required="false"
+								value="#{pesquisarHistoricoManutencaoBean.notaPm}" maxlength="12" />
+	
+						</h:panelGroup>
+		
+					</p:panelGrid>
+					
+					<p:panelGrid 	columns			=	"3" 
+									columnClasses	=	"ui-grid-col-3, ui-grid-col-3, ui-grid-col-6" 
+									layout			=	"grid" 
+									styleClass		=	"ui-panelgrid-blank">
+									
+					
+						<h:panelGroup id="pgDataInicial">
+							
+							<p:outputLabel 	value	=	"Inicio" for="dataInicial"/>
+							
+							<p:calendar 	id					=	"dataInicial"
+											value				=	"#{pesquisarHistoricoManutencaoBean.datahoraInicio}" 
+											mask				=	"99/99/9999 99:99"
+											pattern				=	"dd/MM/yyyy HH:mm"
+											locale				=	"pt_BR"
+											showOn				=	"button"
+											showButtonPanel		=	"true">
+
+								<p:ajax event	=	"dateSelect"  update="dataFinal" />
+								
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+									timeZone="America/Sao_Paulo" />
+									
+							</p:calendar>
+							
+						</h:panelGroup>
+
+						<h:panelGroup id="pgDataFinal">
+							
+							<p:outputLabel 	value	=	"Fim" for="dataFinal"/>
+							
+							<p:calendar 	id					=	"dataFinal"
+											value				=	"#{pesquisarHistoricoManutencaoBean.datahoraFim}" 
+											pattern				=	"dd/MM/yyyy HH:mm"
+											locale				=	"pt_BR"
+											mask				=	"99/99/9999 99:99"
+											showOn				=	"button"
+											showButtonPanel		=	"true"
+											mindate				=	"#{pesquisarHistoricoManutencaoBean.datahoraInicio}"
+											validator			=	"dateRangeValidator">
+
+								<f:attribute name="startDate"
+									value="#{pesquisarHistoricoManutencaoBean.datahoraInicio}"></f:attribute>
+									
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+									timeZone="America/Sao_Paulo" />
+
+							</p:calendar>
+							
+						</h:panelGroup>
+						
+						<h:panelGroup id="pgDescricao">
+							<p:outputLabel 	value	=	"Breve descrição do problema" for="dataFinal"/>
+							<p:inputText id="descricao" value	=	"#{pesquisarHistoricoManutencaoBean.descricao}"/>
+							<p:commandButton	icon			=	"fa fa-search Fs16 White" 
+				                           		styleClass		=	"ButtonPesquisar PurpleButton"
+				                           		title			=	"Pesquisar"
+				                           		actionListener	=	"#{pesquisarHistoricoManutencaoBean.pesquisar}"
+				                           		update			=	"searchHistorico">
+				            </p:commandButton>
+						</h:panelGroup>
+						
+						
+					</p:panelGrid>
+					
+					
+					
+					<h:panelGroup id="pgTableHistoricoSolucao">
+						
+						<p:panelGrid 	columns			=	"1" 
+										columnClasses	=	"ui-grid-col-12"
+										styleClass		=	"ui-panelgrid-blank">
+										
+							<p:outputLabel value="Listagem de históricos"/>
+							
+							 <p:dataTable 	id					=	"dtHistorico" 
+							 				rowKey				=	"#{historico.idHistManutencao}"
+							 				var					=	"historico" 
+							 				value				=	"#{pesquisarHistoricoManutencaoBean.histManutencaoList}" 
+							 				selectionMode		=	"single"
+							 				selection			=	"#{pesquisarHistoricoManutencaoBean.histManutencao}"
+							 				scrollable			=	"true"
+							 				scrollHeight		=	"400"
+							 				emptyMessage		=	"Nenhum registro"
+							 				paginatorPosition	=	"bottom"
+							 				paginator			=	"true"
+							 				rows				=	"20">
+							 				
+								
+								<p:ajax event	=	"rowSelect"
+									listener	=	"#{pesquisarHistoricoManutencaoBean.setarObjetoSelecionado()}" 
+								/>
+					
+								<p:column headerText="Data Inicio" width="135">
+									
+									<p:outputLabel value	=	"#{historico.datahoraInicio}" >
+										<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Sao_Paulo"/>
+									</p:outputLabel>
+	
+									
+								</p:column>
+	
+								<p:column headerText="Data Fim" width="135">
+									<p:outputLabel value	=	"#{historico.datahoraFim}" >
+										<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Sao_Paulo"/>
+									</p:outputLabel>
+								</p:column>
+								
+								<p:column headerText="Nota PM" width="100">
+									<p:outputLabel value	=	"#{historico.notaPm}" />
+								</p:column>
+	
+								<p:column headerText="Equipamento" width="150">
+									<p:outputLabel value	=	"#{historico.equipamento != null ? historico.equipamento.tag : ''}" />
+								</p:column>
+								
+								<p:column headerText="Descrição">
+									<p:outputLabel value	=	"#{historico.descricao}" />
+								</p:column>
+								
+							</p:dataTable>
+							
+						</p:panelGrid>
+						
+					</h:panelGroup>
+						
+				</div>
+				
+			</div>
+						
+		</h:form>
+		
+	</h:body>
+	
+</html>

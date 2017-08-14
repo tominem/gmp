@@ -15,17 +15,10 @@
                 <a class="menulink ripplelink">
                     <i class="icon-round58 Fs40"></i>
                     <span class="Fs18">#{mbMenu.nomeUsuario}
-<!--                     	<i class="icon-downwards Fright Fs20"/> -->
-                    	<br/>
-                    	<span class="Fs12 FontRobotoLight">Crachá: #{mbMenu.crachaUsuario}</span>
+                    <br/>
+                    <span class="Fs12 FontRobotoLight">Crachá: #{mbMenu.crachaUsuario}</span>
                     </span>
                 </a>
-<!--                 <ul>	 -->
-<!--                     <li><a href="#" class="menulink ripplelink"><i class="fa fa-star Fs16 Yellow"></i> Favorito 1</a></li> -->
-<!--                     <li><a href="#" class="menulink ripplelink"><i class="fa fa-star Fs16 Yellow"></i> Favorito 2</a></li> -->
-<!--                     <li><a href="#" class="menulink ripplelink"><i class="fa fa-star Fs16 Yellow"></i> Favorito 3</a></li> -->
-<!--                     <li><a href="#" class="menulink ripplelink"><i class="fa fa-star Fs16 Yellow"></i> Favorito 4</a></li> -->
-<!--                 </ul> -->
             </li>
         </ul>
         
@@ -91,7 +84,7 @@
 				
 					<p:menuitem id="updatestatuslote"		value="Alterar Status Lote"			icon="fa fa-edit"			outcome="/utilidades/statuslote/statuslote.xhtml"   rendered="#{userAccess.permit('ALTERAR_STATUS_LOTE')}"/>
 					<p:menuitem id="imagemposselagem"		value="Imagem Pós Selagem"			icon="fa fa-image"			outcome="/utilidades/posselagem/imagens.xhtml"		rendered="#{userAccess.permit('VISUALIZAR_IMAGEM_POSSELAGEM')}"/>
-					<p:menuitem id="historicoManutencao"	value="Registro de Atendimento"		icon="fa fa-file-text-o" 	outcome="/historico/atendimento/lancamento.xhtml"   rendered="#{userAccess.permit('REGISTRO_HISTORICO_ATENDIMENTO')}"/>
+					<p:menuitem id="historicoManutencao"	value="Registro de Atendimento"		icon="fa fa-file-text-o" 	outcome="/historico/atendimento/lancamento.xhtml"   rendered="#{userAccess.permit('REGISTRO_HISTORICO_MANUTENCAO')}"/>
 				
 				</p:submenu>
 				

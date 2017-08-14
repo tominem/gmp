@@ -1,13 +1,16 @@
 package br.com.prati.tim.collaboration.gmp.mb.historico.manutencao;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
 import br.com.prati.tim.collaboration.gmp.dao.historico.manutencao.HistoricoManutencaoEjb;
@@ -50,20 +53,27 @@ public class HistoricoManutencaoBean implements Serializable {
 
 	@PostConstruct
 	public void initObjects() {
-		limpar();
-	}
-
-	public void limpar() {
 		this.histManutencao = new HistManutencao();
 		this.histManutencaoDetail = new HistManutencaoDetail();
 	}
 
-	public void selectObjectAfterSearch(SelectEvent event) {
+	public void limpar() {
+		initObjects();
+		
+		RequestContext.getCurrentInstance().reset("historicForm");
+	}
 
+	public void selectObjectAfterSearch(SelectEvent event) {
+		
+		this.histManutencao = (HistManutencao) event.getObject();
+		
+		updateOrdemItems();
+		
+		UtilsMessage.addInfoMessage("Consulta realizada com sucesso.");
 	}
 
 	public String getResourceDialogPath() {
-		return "/historico/atendimento/searchhistoricomanutencao.xhtml";
+		return "/historico/atendimento/pesquisarhistorico.xhtml";
 	}
 
 	public void save() {
@@ -75,11 +85,7 @@ public class HistoricoManutencaoBean implements Serializable {
 		}
 		
 		histManutencao = historicoManutencaoEjb.salvar(histManutencao);
-		UtilsMessage.showMessageInDialog("Histórico salvo com sucesso.");
-	}
-
-	public void clear() {
-
+		UtilsMessage.addInfoMessage("Histórico salvo com sucesso.");
 	}
 
 	public List<Maquina> maquinaComplete(String maquina) {
@@ -112,6 +118,24 @@ public class HistoricoManutencaoBean implements Serializable {
 	
 	public void pesquisar() {
 		
+		limpar();
+		
+		RequestContext.getCurrentInstance().openDialog(getResourceDialogPath(), getParamsDialogPesquisa(), null);
+	}
+	
+	public Map<String, Object> getParamsDialogPesquisa() {
+		
+		Map<String,Object> options = new HashMap<String, Object>();
+
+        options.put("modal"			,  	true);
+        options.put("resizable"		,  	false);
+        options.put("width"			,	1024);
+        options.put("contentWidth"	, 	984);
+        options.put("responsive"	, 	true);
+        options.put("height"		, 	"700");
+        
+		return options;
+		
 	}
 	
 	public void addHistorico() {
@@ -121,9 +145,31 @@ public class HistoricoManutencaoBean implements Serializable {
 		this.histManutencaoDetail.setHistManutencao(histManutencao);
 
 		this.histManutencao.getHistManutencaoDetailList().add(histManutencaoDetail);
+		this.histManutencaoDetail.setOrdem(this.histManutencao.getHistManutencaoDetailList().size());
 
 		this.histManutencaoDetail = new HistManutencaoDetail();
 
+	}
+	
+	public void excluirItem(HistManutencaoDetail item) {
+		
+		this.getHistManutencaoDetailList().removeIf(hist -> hist.getOrdem() == item.getOrdem());
+
+		item.setHistManutencao(null);
+		
+		updateOrdemItems();
+	}
+
+	private void updateOrdemItems() {
+
+		int ordem = 0;
+
+		List<HistManutencaoDetail> histManutencaoDetailList = histManutencao.getHistManutencaoDetailList();
+		
+		for (HistManutencaoDetail detail : histManutencaoDetailList) {
+			detail.setOrdem(ordem++);
+		}
+		
 	}
 
 	public List<Equipamento> equipamentoComplete(String tag) {
