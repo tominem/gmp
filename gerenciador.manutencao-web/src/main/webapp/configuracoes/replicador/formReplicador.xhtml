@@ -1,0 +1,126 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:pe="http://primefaces.org/ui/extensions"
+				xmlns:c="http://java.sun.com/jsp/jstl/core"
+				xmlns:o="http://omnifaces.org/ui"
+				xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	
+	<ui:define name="head">
+	
+		<style type="text/css">
+			
+		</style>
+		
+	</ui:define>
+
+	<ui:define name="content">
+		
+		<h:form id			=	"formCad" 
+				prependId	=	"false">      
+	       
+	       <p:growl id="messages" autoUpdate="true"/>
+	       
+	       <p:focus context		=	"contentPane" />
+	       
+	        <div class="Container100">
+	          
+	            <div class="ContainerIndent">
+	                
+	                <p:panel styleClass="Card ShadowEffect" id	=	"contentPane">
+	                    
+	                    <div class="Container ui-fluid">
+	                    
+	                    	<div class="ContainerIndent">
+		                    	
+		                    	<div class="Container60 Responsive100">
+		                        
+		                            <div class="BigTopic Fs18">
+										<i class="fa fa-refresh"/> Configuração Replicador de Dados
+									</div>
+		                    	</div>
+		                    	
+								<p:separator styleClass="Wid100" />
+								
+								<div class="EmptyBox20" />
+								
+								<p:growl id="messageConfig" autoUpdate="true"/>
+								
+								<p:treeTable id="tree"
+											 value="#{replicatorMB.root}" 
+											 editable="true" 
+											 editMode="cell" 
+											 var="prop" 
+											 style="margin-bottom:20px" 
+											 selectionMode="single" 
+											 selection="#{replicatorMB.selectedNode}">
+											 
+							        <f:facet name="header">
+							            Configurações
+							        </f:facet>
+							 
+<!-- 							        <p:ajax event="rowEdit" listener="#{ttEditView.onRowEdit}" update=":form:msgs" /> -->
+<!-- 							        <p:ajax event="rowEditCancel" listener="#{ttEditView.onRowCancel}" update=":form:msgs" /> -->
+							 
+							        <p:column headerText="Key">
+                						<h:outputText value="#{prop.key}" />
+							        </p:column>
+							        
+   							        <p:column headerText="Valor">
+   							        
+										<p:cellEditor rendered="#{(prop.value ne '-') and (prop.key eq 'columnType')}">
+										
+               								<f:facet name="output"><h:outputText value="#{prop.value}" /></f:facet>
+           									<f:facet name="input">
+            									
+              									<p:selectOneMenu value="#{prop.value}" style="width:200px">
+									        		<f:selectItem  itemLabel="Tipo da coluna" itemValue="" />
+									        		<f:selectItems value="#{replicatorMB.columnTypes}"/>
+									        		
+									        		<p:ajax event="change" process="@this"/>
+									        	</p:selectOneMenu>
+	              								
+								    		</f:facet>
+               								
+       	 								</p:cellEditor>
+
+										<p:cellEditor rendered="#{not (prop.key eq 'columnType') and not (prop.value eq '-')}">
+               								<f:facet name="output"><h:outputText value="#{prop.value}"/></f:facet>
+               								
+           									<f:facet name="input">
+              									<p:inputText value="#{prop.value}" style="width:100%"/>
+								    		</f:facet>
+               								
+       	 								</p:cellEditor>
+            							
+           								<h:outputText value="#{prop.value}" rendered="#{prop.value eq '-'}"/>
+   							        
+							        </p:column>
+							    </p:treeTable>
+							    
+							    <p:contextMenu for="tree" nodeType="type2">
+							        <p:menuitem value="Adicionar" actionListener="#{replicatorMB.addNode}" update="tree" icon="ui-icon-plus"/>
+							    </p:contextMenu>
+
+							    <p:contextMenu for="tree" nodeType="type3">
+							        <p:menuitem value="Delete" actionListener="#{replicatorMB.deleteNode}" update="tree" icon="ui-icon-close"/>
+							    </p:contextMenu>
+
+								
+		                 	</div>
+		                    
+	                    	<ui:include src="/configuracoes/replicador/footerconfigreplicador.xhtml"/>
+
+	                    </div>
+	                    
+	                </p:panel>
+	                
+	            </div>
+	            
+	        </div>
+		</h:form>
+		
+	</ui:define>
+
+</ui:composition>

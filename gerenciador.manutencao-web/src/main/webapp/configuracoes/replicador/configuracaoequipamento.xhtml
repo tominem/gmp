@@ -1,0 +1,184 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:pe="http://primefaces.org/ui/extensions"
+				xmlns:o="http://omnifaces.org/ui"
+				xmlns:c="http://java.sun.com/jsp/jstl/core"
+				xmlns:p="http://primefaces.org/ui" 
+				template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		
+		<o:importConstants type="br.prati.tim.collaboration.gp.jpa.TipoComponente.ETipoComponente" />
+		
+		<h:form id			=	"formCad"  
+				prependId	=	"false">      
+	       
+	       <p:growl autoUpdate	=	"true"/>
+	       
+	       <p:focus context		=	"contentPane" />
+	       
+            <div class="Container100">
+	          
+	            <div class="ContainerIndent">
+	                
+	                <p:panel styleClass	=	"Card ShadowEffect" 
+	                		 id			=	"contentPane">
+	                    
+	                    <div class="Container ui-fluid">
+	                    
+	                    	<div class="ContainerIndent">
+		                    	
+		                    	<div class="BigTopic Fs18">
+									<i class="fa fa-wrench"/> Configurar Equipamento
+								</div>
+								
+								<p:separator styleClass="Wid100" />
+		                    	
+		                        <div class="Container60 Responsive100">
+		                        	
+									<p:panelGrid 	columns				=	"1" 
+			                           				layout				=	"grid" 
+			                           			 	styleClass			=	"ui-panelgrid-blank"
+			                           			 	style				=	"border:0px none;background:none"
+			                           			 	columnClasses		=	"ui-grid-col-10">
+			                           	
+										<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpEquipamento">
+												
+											<p:outputLabel 		value		=	"Equipamento"	for =	"equipamento" />
+											
+											<p:inputText		value		= 	"#{mbConfigEquipamento.equipamento.nome}"
+		                  										id			=	"equipamento"
+		                  										required	=	"true"
+		                  										immediate	=	"true"
+		                  										readonly	=	"true"/>
+			                    					
+	                    					<p:commandButton	icon			=	"fa fa-search Fs16 White" 
+				                           						styleClass		=	"ButtonPesquisar PurpleButton"
+				                           						title			=	"Pesquisar Equipamento"
+				                           						actionListener	=	"#{mbConfigEquipamento.openDialog('/cadastros/equipamento/searchEquipamento.xhtml', true)}"
+				                           						immediate		=	"true"
+				                           						process			=	"@this pnlGrpEquipamento"
+			                           							update			=	"formCad">
+				                           						
+				                           		<p:ajax 	event		=	"dialogReturn"
+															listener	=	"#{mbConfigEquipamento.select}"
+															update		=	"formCad" />
+					
+			                           		</p:commandButton>
+										
+										</h:panelGroup>
+										
+										<div class="EmptyBox10"/>
+										
+										<h:panelGroup styleClass	=	"Wid100" id	= 	"pnlGrpConfigEquipamento">
+										
+											<div class="BigTopic Fs18">
+												<i class="fa fa-gear"/> Itens de Configuração
+											</div>
+											
+											<p:separator styleClass="Wid100" />	
+											
+											
+											<div class="BigTopic Fs18 Gray #{mbConfigEquipamento.configEquipamentoList.size() > 0 ? 'hide' : 'show'}" >
+												<i class="fa fa-exclamation-triangle Yellow"/> 
+												<p:outputLabel styleClass="Gray Fs18" style="white-space: pre-wrap;" value="  Selecione um equipamento com itens de configuração"/> 
+											</div>
+											
+											
+											<p:outputPanel id="panelComponentes">
+											
+												<c:forEach	items	=	"#{mbConfigEquipamento.configEquipamentoList}" 
+															var		=	"configEquipamento">
+													
+													<ui:fragment rendered = "#{configEquipamento.funcaoConfig.tipoComponente.nomeComponente == ETipoComponente.TEXTFIELD.value}">
+														
+														<p:outputLabel	value	=	"#{configEquipamento.funcaoConfig.descricao}"/>
+														<p:inputText 	value	=	"#{configEquipamento.valorConfigEquip.valor}"/>
+														
+													</ui:fragment>
+													
+													<ui:fragment rendered = "#{configEquipamento.funcaoConfig.tipoComponente.nomeComponente == ETipoComponente.SPINNER.value}" >
+														
+														<p:outputLabel	value		=	"#{configEquipamento.funcaoConfig.descricao}"/>
+														<p:spinner 		max			=	"#{configEquipamento.funcaoConfig.valorMaximo}"
+																		min			=	"#{configEquipamento.funcaoConfig.valorMinimo}"
+																		value		=	"#{configEquipamento.valorConfigEquip.valor == null ? configEquipamento.funcaoConfig.valorMinimo : configEquipamento.valorConfigEquip.valor}"
+																		stepFactor	=	"#{configEquipamento.funcaoConfig.escala}"/>
+														
+													</ui:fragment>
+													
+													<ui:fragment rendered = "#{configEquipamento.funcaoConfig.tipoComponente.nomeComponente == ETipoComponente.CHECKBOX.value}">
+														
+														<div class	=	"EmptyBox10"/>
+														
+														<p:selectBooleanCheckbox value	=	"#{configEquipamento.valorConfigEquip.valor}" />
+														
+														<p:outputLabel			 value	=	"#{configEquipamento.funcaoConfig.descricao}"/> 
+														
+														<div class	=	"EmptyBox10"/>
+														
+													</ui:fragment>
+													
+													<ui:fragment rendered = "#{configEquipamento.funcaoConfig.tipoComponente.nomeComponente == ETipoComponente.COMBOBOX.value}">
+														
+														<p:outputLabel	value	=	"#{configEquipamento.funcaoConfig.descricao}"/>
+														
+														<p:selectOneMenu value				=	"#{configEquipamento.valorConfigEquip.valor}">
+												            
+												            <f:selectItems 	value			=	"#{configEquipamento.funcaoConfig.valoresFuncaos}" 
+												            				var				=	"item"
+												            				itemValue		=	"#{item.identificador}"
+												            				itemLabel		=	"#{item.valor}"/>
+												            
+												        </p:selectOneMenu>
+														
+													</ui:fragment>
+													
+													
+													<ui:fragment rendered = "#{configEquipamento.funcaoConfig.tipoComponente.nomeComponente == ETipoComponente.SLIDER.value}">
+														
+														<p:outputLabel	id		=	"output-#{configEquipamento.idConfigEquipamento}" 
+																		value	=	"#{configEquipamento.funcaoConfig.descricao} : #{configEquipamento.valorConfigEquip.valor}"/>
+														
+														<h:inputHidden 	id		=	"text-#{configEquipamento.idConfigEquipamento}" 
+																		value	=	"#{configEquipamento.valorConfigEquip.valor}" />
+					
+														<p:slider 		for				=	"text-#{configEquipamento.idConfigEquipamento}" 
+																		display			=	"output-#{configEquipamento.idConfigEquipamento}" 
+																		displayTemplate	=	"#{configEquipamento.funcaoConfig.descricao} : {value}" 
+																		minValue		=	"#{configEquipamento.funcaoConfig.valorMinimo}"
+																		maxValue		=	"#{configEquipamento.funcaoConfig.valorMaximo}"/>
+														
+													</ui:fragment>
+													
+													<div class="EmptyBox5"/>
+													
+												</c:forEach>
+											
+											</p:outputPanel>
+											
+										</h:panelGroup>
+										
+									</p:panelGrid>
+								
+								</div>
+								
+							</div>
+							
+							<ui:include src="/configuracoes/equipamento/footerconfigreplicador.xhtml" />
+							
+						</div>
+
+	                </p:panel>
+	            
+                </div>
+                
+            </div>
+	            
+		</h:form>
+		
+	</ui:define>
+
+</ui:composition>

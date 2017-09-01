@@ -96,6 +96,7 @@
 	                <p:menuitem id="receitasConfig"		value="Valor Receita"			icon="fa fa fa-book"				outcome="/configuracoes/receita/configuracaoreceita.xhtml"		    rendered="#{userAccess.permit('CONFIGURACAO_VALOR_RECEITA')}"/>
 	                <p:menuitem id="receitasFacaConfig"	value="Valor Receita Faca"		icon="fa fa fa-book"				outcome="/configuracoes/receitafaca/configuracaoreceitafaca.xhtml"	rendered="#{userAccess.permit('CONFIGURACAO_VALOR_RECEITA_FACA')}"/>
 	                <p:menuitem	id="configEquipamento"	value="Equipamento"				icon="fa fa-wrench"					outcome="/configuracoes/equipamento/configuracaoequipamento"	    rendered="#{userAccess.permit('CONFIGURACAO_EQUIPAMENTO')}"/>
+	                <p:menuitem	id="replicador"		    value="Replicador"				icon="fa fa-refresh"				outcome="/configuracoes/replicador/formReplicador.xhtml"	        />
 	                <p:menuitem	id="configGeral"		value="Configuração Geral"		icon="fa fa-gears"					outcome="/configuracoes/geral/configuracao.xhtml"	                rendered="#{userAccess.permit('CONFIGURACAO_GERAL')}"/>
 	                
 	            </p:submenu>

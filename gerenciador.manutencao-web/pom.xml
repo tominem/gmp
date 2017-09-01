@@ -57,15 +57,15 @@
 
 		<!-- Prati WS Props -->
 		<ws.host-port>172.20.64.241:8080</ws.host-port>
-		
+
 		<wsdl.url.autenticacao.usuario>
-			http://${ws.host-port}/gerenciador.usuario-ws/UsuarioService?wsdl
+			http://172.70.64.21:8080/gerenciador.usuario-ws/UsuarioService?wsdl
 		</wsdl.url.autenticacao.usuario>
 
 		<wsdl.url.integracaosap.ordemproducaows>
 			http://${ws.host-port}/IntegracaoSAPWS/OrdemProducaoService?wsdl
 		</wsdl.url.integracaosap.ordemproducaows>
-		
+
 		<srcBinding>src/main/bindings</srcBinding>
 		<bindingDirectory>${basedir}/${srcBinding}</bindingDirectory>
 
@@ -113,6 +113,14 @@
 	</dependencyManagement>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+			<scope>provided</scope>
+		</dependency>
+
 
 		<!-- First declare the APIs we depend on and need for compilation. All 
 			of them are provided by JBoss WildFly -->
@@ -276,14 +284,14 @@
 			<artifactId>jcifs</artifactId>
 			<version>1.3.3</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>com.google.guava</groupId>
-		    <artifactId>guava</artifactId>
-		    <version>19.0</version>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>19.0</version>
 		</dependency>
-				
-		
+
+
 		<!-- Needed for running tests (you may also use TestNG) -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -327,7 +335,14 @@
 				<groupId>org.wildfly.plugins</groupId>
 				<artifactId>wildfly-maven-plugin</artifactId>
 				<version>${version.wildfly.maven.plugin}</version>
+				<configuration>
+					<hostname>localhost</hostname>
+					<port>9990</port>
+					<username>ewerton.costa</username>
+					<password>prati123</password>
+				</configuration>
 			</plugin>
+			
 		</plugins>
 	</build>
 
@@ -450,7 +465,7 @@
 									<sourceDestDir>${basedir}/src/main/srcws</sourceDestDir>
 								</configuration>
 							</execution>
-							
+
 							<!-- Geração de artefatos do Web Service Ordem de produção -->
 							<execution>
 								<id>op.importacao</id>
