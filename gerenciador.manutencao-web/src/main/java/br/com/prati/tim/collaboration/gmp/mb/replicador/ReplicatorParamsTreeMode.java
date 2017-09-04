@@ -31,21 +31,15 @@ public class ReplicatorParamsTreeMode {
 	
 	public ReplicatorParamsTreeMode() {
 
-//		List<NodeBuilder> addedNodes = Arrays.asList
-//		(
-//			new ExcludeTablesNodeBuilder(),
-//			new LogTablesNodeBuilder(),
-//			new IgnoreTablesNodeBuilder(),
-//			new UniqueIndexesNodeBuilder(),
-//			new FilterNodeNuilder(),
-//			new ColumnIgnoreNodeBuilder()
-//		);
-//		
-		
 		List<NodeHandler<?>> addedNodes = Arrays.asList
 		(
 			new ExcludeTablesNodeHandle(),
-			new LogTablesNodeBuilder()
+			new LogTablesNodeHandler(),
+			new IgnoreTablesNodehandler(),
+			new UniqueIndexesNodeHandler(),
+			new FilterNodeHandler(),
+			new ColumnIgnoreNodeHandler(),
+			new ColumnListHandler()
 		);
 			
 		
@@ -59,7 +53,7 @@ public class ReplicatorParamsTreeMode {
 		
 		List<Field> fields = getDeclaredFields(params);
 		
-		loadTreeNodes(params, root, fields);
+		loadTreeNodes(1, params, root, fields);
 		
         return root;
 	}
@@ -74,7 +68,7 @@ public class ReplicatorParamsTreeMode {
 	}
 
 
-	private void loadTreeNodes(Object target, TreeNode root, List<Field> fields) {
+	private void loadTreeNodes(int level, Object target, TreeNode root, List<Field> fields) {
 		
 		sortFields(fields);
 		
@@ -96,7 +90,7 @@ public class ReplicatorParamsTreeMode {
 						String wrapperName = xmlElementWrapper.name();
 						String elementName = xmlElement.name();
 						
-						DefaultTreeNode wrapper = new DefaultTreeNode("type2", new ReplicatorProp(wrapperName, "-"), root);
+						DefaultTreeNode wrapper = new DefaultTreeNode("type" + (level+1), new ReplicatorProp(wrapperName, "-"), root);
 						
 						addChildrenTreeNode(wrapper, elementName, fieldValue, target);
 						
@@ -105,7 +99,7 @@ public class ReplicatorParamsTreeMode {
 						
 						String elementName = xmlElementWrapper.name();
 						
-						DefaultTreeNode wrapper = new DefaultTreeNode("type2", new ReplicatorProp(elementName, "-"), root);
+						DefaultTreeNode wrapper = new DefaultTreeNode("type" + (level+1), new ReplicatorProp(elementName, "-", fieldValue), root);
 						
 						addChildrenTreeNode(wrapper, elementName, fieldValue, target);
 						
@@ -113,16 +107,16 @@ public class ReplicatorParamsTreeMode {
 						
 						String elementName = f.getName();
 						
-						DefaultTreeNode wrapper = new DefaultTreeNode("type2", new ReplicatorProp(elementName, "-"), root);
+						DefaultTreeNode wrapper = new DefaultTreeNode("type" + (level+1), new ReplicatorProp(elementName, "-", fieldValue), root);
 						
 						addChildrenTreeNode(wrapper, elementName, fieldValue, target);
 						
 					} else if(fieldValue instanceof ColumnType) {
 						
-						Consumer<String> consumer = s->{
+						Consumer<ReplicatorProp> consumer = s->{
 							
 							try {
-								ColumnType selected = ColumnType.valueOf(s);
+								ColumnType selected = ColumnType.valueOf(s.getValue());
 								PropertyUtils.setProperty(target, f.getName(), selected);
 							} catch (Exception e) {
 								throw new RuntimeException(e);
@@ -130,12 +124,12 @@ public class ReplicatorParamsTreeMode {
 							
 						};
 						
-						new DefaultTreeNode(new ReplicatorProp(f.getName(), fieldValue.toString(), target, consumer), root);
+						new DefaultTreeNode("type" + level, new ReplicatorProp(f.getName(), fieldValue.toString(), target, consumer), root);
 						
 						
 					} else {
 						
-						new DefaultTreeNode(new ReplicatorProp(f.getName(), fieldValue.toString(), target), root);
+						new DefaultTreeNode("type" + level, new ReplicatorProp(f.getName(), fieldValue.toString(), target), root);
 						
 					}
 					
@@ -186,7 +180,7 @@ public class ReplicatorParamsTreeMode {
 					elementName, 
 					item.toString(), 
 					target, 
-					newValue ->
+					obj ->
 					{
 						
 						Collection<String> sourceColl = (Collection<String>) target;
@@ -194,7 +188,7 @@ public class ReplicatorParamsTreeMode {
 						
 						if (list.size() > 0) {
 							
-							list.set(index, newValue);
+							list.set(obj.getIndex(), obj.getValue());
 							sourceColl.clear();
 							sourceColl.addAll(list);
 								
@@ -211,18 +205,18 @@ public class ReplicatorParamsTreeMode {
 		
 		else {
 
-			loadChildren("type3", wrapper, elementName, item);
+			loadChildren("type3", wrapper, elementName, item, index);
 			
 		}
 		
 		
 	}
 	
-	private void loadChildren(String type, TreeNode wrapper, String elementName, Object item) {
+	private void loadChildren(String type, TreeNode wrapper, String elementName, Object item, int index) {
 		
-		DefaultTreeNode element = new DefaultTreeNode(type, new ReplicatorProp(elementName, "-"), wrapper);
+		DefaultTreeNode element = new DefaultTreeNode(type, new ReplicatorProp(elementName, "-", index), wrapper);
 		
-		loadTreeNodes(item, element, getDeclaredFields(item));
+		loadTreeNodes(4, item, element, getDeclaredFields(item));
 		
 	}
 
@@ -258,7 +252,7 @@ public class ReplicatorParamsTreeMode {
 				
 				addChild
 				(
-					selectedNode, 
+					selectedNode,
 					(String) addNode.get("elementName"), 
 					(Object) addNode.get("item"), 
 					(Object) addNode.get("target"), 
@@ -278,6 +272,19 @@ public class ReplicatorParamsTreeMode {
 			nodeBuilder.removeNode(selectedNode, index, params);
 		}
 		
+		List<TreeNode> children = selectedNode.getParent().getChildren();
+		
+		List<TreeNode> brothers = children.stream()
+			.filter(n -> !n.equals(selectedNode))
+			.collect(Collectors.toList());
+		
+		if (brothers != null) {
+			for (int i = 0; i < brothers.size(); i++) {
+				ReplicatorProp prop = (ReplicatorProp) brothers.get(i).getData();
+				prop.setIndex(i);
+			}
+		}
+		
 	}
 
 	private int getIndexFromNode(TreeNode selectedNode) {
@@ -291,5 +298,5 @@ public class ReplicatorParamsTreeMode {
 		
 		return -1;
 	}
-	
+
 }

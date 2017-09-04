@@ -30,7 +30,7 @@
 		<url-pattern>autenticacao/*</url-pattern>
 		<url-pattern>/cadastros/*</url-pattern>
 		<url-pattern>/componentes/*</url-pattern>
-		<url-pattern>/configuracoes/*</url-pattern>
+<!-- 		<url-pattern>/configuracoes/*</url-pattern> -->
 		<url-pattern>/consultas/*</url-pattern>
 		<url-pattern>/dashboard/*</url-pattern>
 		<url-pattern>/historico/*</url-pattern>

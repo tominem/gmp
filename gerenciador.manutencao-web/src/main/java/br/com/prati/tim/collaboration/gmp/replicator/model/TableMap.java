@@ -14,7 +14,7 @@ public class TableMap {
 	@XmlAttribute(name="tableName")
 	private String table;
 	
-	private ColumnList columns;
+	private ColumnList columns = new ColumnList();
 	
 	public TableMap() {
 	}

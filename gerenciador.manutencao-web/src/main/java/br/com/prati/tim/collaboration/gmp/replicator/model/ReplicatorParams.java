@@ -2,6 +2,7 @@ package br.com.prati.tim.collaboration.gmp.replicator.model;
 
 import java.io.InputStream;
 import java.io.Serializable;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.List;
 
@@ -229,7 +230,7 @@ public class ReplicatorParams implements Serializable{
 	}
 
 	public void ListIgnoreImportTables(List<String> ignoreImportTables) {
-		this.ignoreImportTables = ignoreImportTables;
+		this.setIgnoreImportTables(ignoreImportTables);
 	}
 
 	public String getIgnoreImportTablesRegex() {
@@ -344,24 +345,24 @@ public class ReplicatorParams implements Serializable{
 		}
 
 	}
-//
-//	public static ReplicatorParams loadFromXML(String xmlString) {
-//		
-//		try {
-//			
-//			JAXBContext jc = JAXBContext.newInstance(ReplicatorParams.class);
-//			Unmarshaller unmarshaller = jc.createUnmarshaller();
-//			
-//			StringReader reader = new StringReader(xmlString);
-//			ReplicatorParams params = (ReplicatorParams) unmarshaller.unmarshal(reader);
-//			
-//			return params;
-//			
-//		} catch (Exception e) {
-//			throw new RuntimeException(e);
-//		}
-//		
-//	}
+
+	public static ReplicatorParams loadFromXML(String xmlString) {
+		
+		try {
+			
+			JAXBContext jc = JAXBContext.newInstance(ReplicatorParams.class);
+			Unmarshaller unmarshaller = jc.createUnmarshaller();
+			
+			StringReader reader = new StringReader(xmlString);
+			ReplicatorParams params = (ReplicatorParams) unmarshaller.unmarshal(reader);
+			
+			return params;
+			
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+	}
 //	
 //	public void storeXML() throws Exception {
 //		storeXML(null);
@@ -394,6 +395,10 @@ public class ReplicatorParams implements Serializable{
 		marshaller.marshal(this, sw);
 			
 		return sw.toString();
+	}
+
+	public void setIgnoreImportTables(List<String> ignoreImportTables) {
+		this.ignoreImportTables = ignoreImportTables;
 	}
 	
 }

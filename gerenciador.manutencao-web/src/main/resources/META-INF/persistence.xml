@@ -95,13 +95,14 @@
 		<class>br.prati.tim.collaboration.gp.jpa.ValorReceitaFaca</class>
 		<class>br.prati.tim.collaboration.gp.jpa.HistManutencao</class>
 		<class>br.prati.tim.collaboration.gp.jpa.HistManutencaoDetail</class>
+		<class>br.prati.tim.collaboration.gp.jpa.ReplicatorParamsEntity</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="hibernate.dialect" 							value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.enable_lazy_load_no_trans" 		value="true" />
 			<property name="hibernate.show_sql" 						value="false" />
 			<property name="hibernate.format_sql" 						value="true" />
-			<!-- <property name="hibernate.hbm2ddl.auto"           	   		value="update" /> -->
+<!-- 			<property name="hibernate.hbm2ddl.auto"           	   		value="update" /> -->
 			<property name="org.hibernate.envers.audit_table_suffix"	value="_aud" />
 			<property name="org.hibernate.envers.default_schema" 		value="audit"/>
 			<property name="org.hibernate.envers.revision_field_name"	value="rev" />

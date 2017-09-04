@@ -15,10 +15,12 @@ public class ReplicatorProp implements Serializable{
 	private String key;
 	private String value;
 
-	private Consumer<String> consumer;
+	private Consumer<ReplicatorProp> consumer;
 	
 	private int index;
-	
+
+	private Object target;
+
 	public ReplicatorProp() {}
 	
 	public ReplicatorProp(String key, String value) {
@@ -29,43 +31,46 @@ public class ReplicatorProp implements Serializable{
 	public ReplicatorProp(String key, String value, Object target) {
 		this.key = key;
 		this.value = value;
-		this.consumer = getDynamicConsumer(target);
+		this.target = target;
+		this.setConsumer(getDynamicConsumer(target));
 	}
 
-	public ReplicatorProp(String key, String value, Object target, Consumer<String> consumer) {
+	public ReplicatorProp(String key, String value, Object target, Consumer<ReplicatorProp> consumer) {
 		this.key = key;
 		this.value = value;
-		this.consumer = consumer;
+		this.target = target;
+		this.setConsumer(consumer);
 	}
 
-	public ReplicatorProp(String key, String value, Object target, Consumer<String> consumer, int index) {
+	public ReplicatorProp(String key, String value, Object target, Consumer<ReplicatorProp> consumer, int index) {
 		this.key = key;
 		this.value = value;
-		this.consumer = consumer;
+		this.target = target;
+		this.setConsumer(consumer);
 		this.index = index;
 	}
 	
-	private Consumer<String> getDynamicConsumer(Object target) {
+	private Consumer<ReplicatorProp> getDynamicConsumer(Object target) {
 		return s -> {
 			
 			try {
 				
-				Object property = PropertyUtils.getProperty(target, key);
+				Object property = PropertyUtils.getProperty(target, s.getKey());
 				Object value    = null;
 				
 				if (property instanceof Integer) {
 					
-					value = Integer.parseInt(s);
+					value = Integer.parseInt(s.getValue());
 					
 				}
 				
 				else {
 					
-					value = s;
+					value = s.getValue();
 					
 				}
 				
-				PropertyUtils.setProperty(target, key, value);
+				PropertyUtils.setProperty(s.getTarget(), s.getKey(), value);
 				
 			} catch (Exception e) {
 				throw new RuntimeException(e);
@@ -74,10 +79,10 @@ public class ReplicatorProp implements Serializable{
 		};
 	}
 
-	public ReplicatorProp(String key, String value, Consumer<String> consumer) {
+	public ReplicatorProp(String key, String value, Consumer<ReplicatorProp> consumer) {
 		this.key = key;
 		this.value = value;
-		this.consumer = consumer;
+		this.setConsumer(consumer);
 	}
 
 	public String getKey() {
@@ -91,18 +96,23 @@ public class ReplicatorProp implements Serializable{
 	}
 	public void setValue(String value) {
 		this.value = value;
-		if (consumer != null) {
-			consumer.accept(value);
+		if (getConsumer() != null) {
+			getConsumer().accept(this);
 		}
 	}
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + index;
 		result = prime * result + ((key == null) ? 0 : key.hashCode());
+		result = prime * result + ((target == null) ? 0 : target.hashCode());
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -112,10 +122,17 @@ public class ReplicatorProp implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		ReplicatorProp other = (ReplicatorProp) obj;
+		if (index != other.index)
+			return false;
 		if (key == null) {
 			if (other.key != null)
 				return false;
 		} else if (!key.equals(other.key))
+			return false;
+		if (target == null) {
+			if (other.target != null)
+				return false;
+		} else if (!target.equals(other.target))
 			return false;
 		if (value == null) {
 			if (other.value != null)
@@ -124,7 +141,7 @@ public class ReplicatorProp implements Serializable{
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		return key;
@@ -136,6 +153,22 @@ public class ReplicatorProp implements Serializable{
 
 	public void setIndex(int index) {
 		this.index = index;
+	}
+
+	public Object getTarget() {
+		return target;
+	}
+
+	public void setTarget(Object target) {
+		this.target = target;
+	}
+
+	public Consumer<ReplicatorProp> getConsumer() {
+		return consumer;
+	}
+
+	public void setConsumer(Consumer<ReplicatorProp> consumer) {
+		this.consumer = consumer;
 	}
 
 }

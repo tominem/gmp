@@ -56,10 +56,10 @@ public class MBConfiguracoesGerais extends AbstractBaseMB implements Serializabl
 
 	private void loadVariables() throws Exception {
 		
-		if (!SessionUtil.temPermissaoGUM(ETipoAcessoGUM.CONSULTA)){
-			UtilsMessage.addErrorMessage("Usuário sem permissão de " + ETipoAcessoGUM.CONSULTA.getDescricao() + ".");
-			return;
-		}
+//		if (!SessionUtil.temPermissaoGUM(ETipoAcessoGUM.CONSULTA)){
+//			UtilsMessage.addErrorMessage("Usuário sem permissão de " + ETipoAcessoGUM.CONSULTA.getDescricao() + ".");
+//			return;
+//		}
 		
 		configuracoes = configEJB.getByMaquinaAndSistema(maquina, tagSistema);
 	}

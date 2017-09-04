@@ -7,8 +7,9 @@ import java.util.Map;
 import org.primefaces.model.TreeNode;
 
 import br.com.prati.tim.collaboration.gmp.replicator.model.ReplicatorParams;
+import br.com.prati.tim.collaboration.gmp.replicator.model.TableMap;
 
-public class LogTablesNodeBuilder implements NodeHandler<String>{
+public class ColumnIgnoreNodeHandler implements NodeHandler<TableMap>{
 
 	@Override
 	public Map<String, Object> addNode(TreeNode selectedNode, ReplicatorParams params) {
@@ -16,24 +17,27 @@ public class LogTablesNodeBuilder implements NodeHandler<String>{
 		ReplicatorProp parentProp = (ReplicatorProp) selectedNode.getData();
 		String identity			  = parentProp.getKey();
 		
-		if (identity.equals("logTables")) {
+		if (identity.equals("columnsIgnore")) {
 			
-			List<String> logTables = params.getLogTables();
-			logTables.add("");
+			List<TableMap> columnsIgnore = params.getColumnsIgnore();
+			
+			TableMap tableMap = new TableMap("", "");
+			
+			columnsIgnore.add(tableMap);
 			
 			HashMap<String, Object> hashMap = new HashMap<>();
 
-			hashMap.put("elementName", "table"              );
-			hashMap.put("item" 		 , ""         		    );
-			hashMap.put("target"     , logTables         );
-			hashMap.put("index"      , logTables.size()-1);
+			hashMap.put("elementName", "tableMap"      		 );
+			hashMap.put("item" 		 , tableMap	   			 );
+			hashMap.put("target"     , columnsIgnore         );
+			hashMap.put("index"      , columnsIgnore.size()-1);
 			
 			return hashMap;
 		}
 		
 		return null;
 	}
-	
+
 	@Override
 	public void removeNode(TreeNode selectedNode, int index, ReplicatorParams params) {
 		
@@ -41,13 +45,13 @@ public class LogTablesNodeBuilder implements NodeHandler<String>{
 		ReplicatorProp parentProp 		= (ReplicatorProp) parent.getData();
 		ReplicatorProp selectedProp 	= (ReplicatorProp) selectedNode.getData();
 		
-		String parentKey 	= parentProp.getKey();
-		String selectedKey 	= selectedProp.getKey();
+		String parentKey 				= parentProp.getKey();
+		String selectedKey 				= selectedProp.getKey();
 		
-		if (parentKey.equals("logTables") && selectedKey.equals("table")) {
+		if (parentKey.equals("columnsIgnore") && selectedKey.equals("tableMap")) {
 			
-			List<String> logTables = params.getLogTables();
-			logTables.remove(index);
+			List<TableMap> columnsIgnore = params.getColumnsIgnore();
+			columnsIgnore.remove(index);
 			
 		}
 		

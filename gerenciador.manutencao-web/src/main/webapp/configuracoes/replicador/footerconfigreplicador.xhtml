@@ -30,7 +30,9 @@
 				
 					<ui:insert name="contentSalvar">
 						
-						<p:commandButton 	value			=	"Salvar" 
+						<p:commandButton 	id				=   "btSalvar"
+											disabled		=	"#{replicatorMB.root == null}"
+											value			=	"Salvar" 
 											icon			=	"fa fa-floppy-o white" 
 											actionListener	=	"#{replicatorMB.save()}"
 											validateClient	=	"true"

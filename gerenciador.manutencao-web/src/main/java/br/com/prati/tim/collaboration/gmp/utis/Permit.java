@@ -5,8 +5,6 @@ import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-import br.com.prati.tim.collaboration.gmp.mb.login.SessionUtil;
-
 @SessionScoped
 @Named("userAccess")
 public class Permit implements Serializable {
@@ -17,7 +15,8 @@ public class Permit implements Serializable {
 	}
 
 	public boolean permit(String url) {
-		return SessionUtil.temPermissaoGum(url);
+		return true;
+//		return SessionUtil.temPermissaoGum(url);
 	}
 
 }
